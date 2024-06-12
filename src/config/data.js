@@ -69,19 +69,26 @@ export const sortFiltersData = [
 ];
 
 export const walletBannerData = [
-  {id: 1, image: require('../assets/images/wallet_a.png')},
-  {id: 2, image: require('../assets/images/wallet_b.png')},
-  {id: 3, image: require('../assets/images/wallet_c.png')},
+  { id: 1, image: require('../assets/images/wallet_a.png') },
+  { id: 2, image: require('../assets/images/wallet_b.png') },
+  { id: 3, image: require('../assets/images/wallet_c.png') },
 ];
 
 export const priceData = [
-  {id: 1, price: '50'},
-  {id: 2, price: '100'},
-  {id: 3, price: '200'},
-  {id: 4, price: '500'},
-  {id: 5, price: '1000'},
-  {id: 6, price: '2000'},
-  {id: 7, price: '5000'},
-  {id: 8, price: '10000'},
-  {id: 9, price: '25000'},
+  { id: 1, price: '50' },
+  { id: 2, price: '100' },
+  { id: 3, price: '200' },
+  { id: 4, price: '500' },
+  { id: 5, price: '1000' },
+  { id: 6, price: '2000' },
+  { id: 7, price: '5000' },
+  { id: 8, price: '10000' },
+  { id: 9, price: '25000' },
 ];
+
+export const eCommerce = [
+  { id: 1, title: "Pooja Kit", image: require('../assets/images/astro.jpg'), redirect_to: "poojakit" },
+  { id: 2, title: "Book a Pooja", image: require('../assets/images/astro.jpg'), redirect_to: "bookpooja" },
+  { id: 3, title: "Gemstone", image: require('../assets/images/astro.jpg'), redirect_to: "gemstone" },
+  { id: 4, title: "Spell", image: require('../assets/images/astro.jpg'), redirect_to: "spell" },
+]

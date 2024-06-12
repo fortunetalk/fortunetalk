@@ -1,27 +1,28 @@
-import { View, Text, TouchableOpacity, FlatList, Image, StyleSheet } from 'react-native'
 import React from 'react'
+import { eCommerce } from '../../../config/data';
+import { navigate } from '../../../utils/navigationServices';
 import { SCREEN_WIDTH, Fonts, Colors, Sizes } from '../../../assets/styles';
+import { View, Text, TouchableOpacity, FlatList, Image, StyleSheet } from 'react-native'
 
 const ECommerce = () => {
   const renderItem = ({ item, index }) => {
     return (
       <TouchableOpacity
         activeOpacity={1}
-        // onPress={() => navigate_to(item?.name.toLowerCase(), item)}
+        onPress={() => navigate(item.redirect_to)}
         style={{
           width: SCREEN_WIDTH * 0.4,
           marginLeft: Sizes.fixPadding * 1.5,
           borderRadius: Sizes.fixPadding,
           overflow: 'hidden',
           marginBottom: Sizes.fixPadding * 1.5,
-          // shadowColor: Colors.black,
           padding: Sizes.fixPadding * 0.5,
           justifyContent: 'center',
           alignItems: 'center',
           paddingBottom: Sizes.fixPadding * 2,
         }}>
         <Image
-          source={require('../../../assets/images/astro.jpg')}
+          source={item.image}
           style={{
             width: '90%',
             height: SCREEN_WIDTH * 0.4,
@@ -46,7 +47,7 @@ const ECommerce = () => {
             shadowColor: Colors.blackLight,
           }}>
           <Text style={{ ...Fonts.black14InterMedium, textAlign: 'center' }}>
-            Fortune Store
+            {item.title}
           </Text>
         </View>
       </TouchableOpacity>
@@ -61,16 +62,16 @@ const ECommerce = () => {
           paddingHorizontal: Sizes.fixPadding * 1.5,
           paddingVertical: Sizes.fixPadding,
         }}>
-        <Text style={{ ...Fonts.black16RobotoMedium }}>Fortune Store</Text>
+        <Text style={{ ...Fonts.black16RobotoMedium }}>E-Commerce</Text>
         <TouchableOpacity
-          disabled
           activeOpacity={0.8}
-          onPress={() => navigation.navigate('eCommerce')}>
+          onPress={() => navigate("eCommerce")}
+        >
           <Text style={{ ...Fonts.primaryLight15RobotoRegular }}>View all</Text>
         </TouchableOpacity>
       </View>
       <FlatList
-        data={Array.from({ length: 5 })}
+        data={eCommerce}
         renderItem={renderItem}
         horizontal
         contentContainerStyle={{ paddingRight: Sizes.fixPadding * 1.5 }}

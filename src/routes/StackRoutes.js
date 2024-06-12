@@ -1,4 +1,3 @@
-import { View, Text } from 'react-native'
 import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Splash from '../screens/Splash';
@@ -13,6 +12,8 @@ import ImageView from '../screens/ImageView';
 import Profile from '../screens/customer/Profile';
 import Wallet from '../screens/payments/Wallet';
 import { ZegoUIKitPrebuiltCallWaitingScreen, ZegoUIKitPrebuiltCallInCallScreen } from '@zegocloud/zego-uikit-prebuilt-call-rn';
+import ECommerce from '../screens/eCommerce/ECommerce';
+import Spell from '../screens/eCommerce/Spell';
 
 const Stack = createNativeStackNavigator();
 
@@ -36,6 +37,10 @@ const StackRoutes = () => {
             <Stack.Screen name='wallet' component={Wallet} />
             <Stack.Screen name="ZegoUIKitPrebuiltCallWaitingScreen" component={ZegoUIKitPrebuiltCallWaitingScreen} />
             <Stack.Screen name="ZegoUIKitPrebuiltCallInCallScreen" component={ZegoUIKitPrebuiltCallInCallScreen} />
+
+            <Stack.Screen name="eCommerce" component={ECommerce} />
+            <Stack.Screen name="spell" component={Spell} />
+
         </Stack.Navigator>
     )
 }

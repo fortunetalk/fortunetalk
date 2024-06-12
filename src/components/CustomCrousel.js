@@ -1,10 +1,10 @@
-import { View, Image } from 'react-native'
 import React from 'react'
-import { Colors, SCREEN_WIDTH, Sizes } from '../../../assets/styles';
+import { View, Image } from 'react-native'
 import Carousel from 'react-native-reanimated-carousel';
+import { Colors, SCREEN_WIDTH, Sizes } from '../assets/styles';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-const HomeBanner = () => {
+const CustomCrousel = () => {
   const baseOptions = {
     vertical: false,
     width: SCREEN_WIDTH,
@@ -22,7 +22,7 @@ const HomeBanner = () => {
           padding: Sizes.fixPadding * 0.5,
         }}>
         <Image
-          source={require('../../../assets/images/astro.jpg')}
+          source={require('../assets/images/astro.jpg')}
           resizeMode="cover"
           style={{
             width: '100%',
@@ -43,8 +43,6 @@ const HomeBanner = () => {
         testID={'xxx'}
         style={{
           width: '100%',
-          borderBottomWidth: 1,
-          borderBottomColor: Colors.grayLight,
           marginTop: Sizes.fixPadding * 0.5,
           paddingHorizontal: Sizes.fixPadding,
         }}
@@ -63,4 +61,4 @@ const HomeBanner = () => {
   );
 }
 
-export default HomeBanner
+export default CustomCrousel

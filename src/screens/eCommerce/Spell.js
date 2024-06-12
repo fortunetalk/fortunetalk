@@ -136,7 +136,7 @@ const Spell = ({ navigation }) => {
                     }
                     contentContainerStyle={{ paddingVertical: Sizes.fixPadding }}
                 />
-                
+
                 <Filter
                     filterVisible={filterVisible}
                     updateState={updateState}

@@ -10,6 +10,7 @@ import React, { useState } from 'react';
 import { RadioButton } from 'react-native-paper';
 import LinearGradient from 'react-native-linear-gradient';
 import { Colors, Fonts, SCREEN_HEIGHT, SCREEN_WIDTH, Sizes } from '../assets/styles';
+import AntDesign from 'react-native-vector-icons/AntDesign'
 
 const filtersTypes = [
   { id: 1, name: 'Sort & Filter', value: 'sort' },
@@ -450,49 +451,67 @@ const Filter = ({
         justifyContent: 'flex-start',
         alignItems: 'flex-start',
       }}>
-      <TouchableWithoutFeedback
-        onPress={() => updateState({ filterVisible: false })}>
+
+      <View
+        style={{
+          position: "absolute",
+          width: SCREEN_WIDTH * 0.08,
+          height: SCREEN_HEIGHT * 0.04,
+          top: 90,
+          left: 30,
+        }}
+      >
+        <AntDesign
+          style={{
+            backgroundColor: 'rgba(0, 0, 0, 0.35)',
+            borderRadius: 100,
+            padding: 2
+          }}
+          name='close'
+          size={24}
+          onPress={() => updateState({ filterVisible: false })}
+        />
+      </View>
+      <View
+        style={{
+          position: "absolute",
+          width: SCREEN_WIDTH * 0.85,
+          height: SCREEN_HEIGHT * 0.7,
+          backgroundColor: Colors.white,
+          top: Sizes.fixPadding * 12,
+          right: Sizes.fixPadding * 2,
+          borderRadius: Sizes.fixPadding,
+          elevation: 5,
+          shadowOffset: {
+            width: 0,
+            height: 1,
+          },
+          shadowOpacity: 0.2,
+          shadowColor: Colors.blackLight,
+        }}>
         <View
           style={{
-            position: 'absolute',
-            width: SCREEN_WIDTH * 0.85,
-            height: SCREEN_HEIGHT * 0.7,
-            backgroundColor: Colors.white,
-            top: Sizes.fixPadding * 5,
-            right: Sizes.fixPadding * 2,
-            borderRadius: Sizes.fixPadding,
-            elevation: 5,
-            shadowOffset: {
-              width: 0,
-              height: 1,
-            },
-            shadowOpacity: 0.2,
-            shadowColor: Colors.blackLight,
+            paddingVertical: Sizes.fixPadding,
+            borderBottomWidth: 1,
+            borderBottomColor: Colors.grayLight,
           }}>
+          <Text style={{ ...Fonts.black18RobotoRegular, textAlign: 'center' }}>
+            Sort & Filter
+          </Text>
+        </View>
+        <View style={{ flex: 1, flexDirection: 'row' }}>
           <View
             style={{
-              paddingVertical: Sizes.fixPadding,
-              borderBottomWidth: 1,
-              borderBottomColor: Colors.grayLight,
+              flex: 0.3,
+              borderRightWidth: 1,
+              borderRightColor: Colors.grayLight,
             }}>
-            <Text style={{ ...Fonts.black18RobotoRegular, textAlign: 'center' }}>
-              Sort & Filter
-            </Text>
+            {filtersInfo()}
           </View>
-          <View style={{ flex: 1, flexDirection: 'row' }}>
-            <View
-              style={{
-                flex: 0.3,
-                borderRightWidth: 1,
-                borderRightColor: Colors.grayLight,
-              }}>
-              {filtersInfo()}
-            </View>
-            <View style={{ flex: 0.7 }}>{active_filtes(selectedFilter)}</View>
-          </View>
-          {buttonsInfo()}
+          <View style={{ flex: 0.7 }}>{active_filtes(selectedFilter)}</View>
         </View>
-      </TouchableWithoutFeedback>
+        {buttonsInfo()}
+      </View>
     </Modal>
   );
 

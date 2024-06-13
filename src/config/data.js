@@ -88,7 +88,7 @@ export const priceData = [
 
 export const eCommerce = [
   { id: 1, title: "Pooja Kit", image: require('../assets/images/astro.jpg'), redirect_to: "poojakit" },
-  { id: 2, title: "Book a Pooja", image: require('../assets/images/astro.jpg'), redirect_to: "bookpooja" },
+  { id: 2, title: "Book a Pooja", image: require('../assets/images/astro.jpg'), redirect_to: "bookPooja" },
   { id: 3, title: "Gemstone", image: require('../assets/images/astro.jpg'), redirect_to: "gemstone" },
   { id: 4, title: "Spell", image: require('../assets/images/astro.jpg'), redirect_to: "spell" },
 ]

@@ -14,6 +14,7 @@ import Wallet from '../screens/payments/Wallet';
 import { ZegoUIKitPrebuiltCallWaitingScreen, ZegoUIKitPrebuiltCallInCallScreen } from '@zegocloud/zego-uikit-prebuilt-call-rn';
 import ECommerce from '../screens/eCommerce/ECommerce';
 import Spell from '../screens/eCommerce/Spell';
+import BookPooja from '../screens/eCommerce/BookPooja';
 
 const Stack = createNativeStackNavigator();
 
@@ -40,6 +41,7 @@ const StackRoutes = () => {
 
             <Stack.Screen name="eCommerce" component={ECommerce} />
             <Stack.Screen name="spell" component={Spell} />
+            <Stack.Screen name="bookPooja" component={BookPooja} />
 
         </Stack.Navigator>
     )

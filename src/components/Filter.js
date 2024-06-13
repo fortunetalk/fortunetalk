@@ -457,8 +457,8 @@ const Filter = ({
           position: "absolute",
           width: SCREEN_WIDTH * 0.08,
           height: SCREEN_HEIGHT * 0.04,
-          top: 90,
-          left: 30,
+          top: 100,
+          left: 15,
         }}
       >
         <AntDesign
@@ -476,9 +476,9 @@ const Filter = ({
         style={{
           position: "absolute",
           width: SCREEN_WIDTH * 0.85,
-          height: SCREEN_HEIGHT * 0.7,
+          height: SCREEN_HEIGHT * 0.6,
           backgroundColor: Colors.white,
-          top: Sizes.fixPadding * 12,
+          top: Sizes.fixPadding * 13,
           right: Sizes.fixPadding * 2,
           borderRadius: Sizes.fixPadding,
           elevation: 5,

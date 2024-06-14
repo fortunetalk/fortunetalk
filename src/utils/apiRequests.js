@@ -1,7 +1,5 @@
 import axios from 'axios'
-import moment from 'moment'
 import RNFetchBlob from 'rn-fetch-blob'
-
 
 export const postRequest = async ({ url = null, data = null, header = 'json' }) => {
     try {

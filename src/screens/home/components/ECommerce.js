@@ -1,11 +1,23 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { connect } from 'react-redux';
 import { eCommerce } from '../../../config/data';
 import { navigate } from '../../../utils/navigationServices';
 import { SCREEN_WIDTH, Fonts, Colors, Sizes } from '../../../assets/styles';
 import { View, Text, TouchableOpacity, FlatList, Image, StyleSheet } from 'react-native'
+import * as EcommerceActions from '../../../redux/actions/eCommerceActions'
 
-const ECommerce = () => {
+const ECommerce = ({ dispatch, categoryList }) => {
+  const [isError, setIsError] = useState(false);
+
+  useEffect(() => {
+    dispatch(EcommerceActions.getEcommerceCategoryList({ type: "Get_ECOMMERCE_CATEGORY_DATA" }))
+  }, [dispatch])
+
+  console.log("categoryList===>>>", categoryList)
+
   const renderItem = ({ item, index }) => {
+
+    console.log("item ====>>>>>>>>>>", item.image)
     return (
       <TouchableOpacity
         activeOpacity={1}
@@ -22,13 +34,16 @@ const ECommerce = () => {
           paddingBottom: Sizes.fixPadding * 2,
         }}>
         <Image
-          source={item.image}
+          source={{ uri: item.image }}
+          onError={() => setIsError(true)}
+          onLoad={() => setIsError(false)}
           style={{
             width: '90%',
             height: SCREEN_WIDTH * 0.4,
             borderTopLeftRadius: Sizes.fixPadding,
             borderTopRightRadius: Sizes.fixPadding,
           }}
+          defaultSource={require('../../../assets/images/transparent_logo.png')}
         />
         <View
           style={{
@@ -70,17 +85,29 @@ const ECommerce = () => {
           <Text style={{ ...Fonts.primaryLight15RobotoRegular }}>View all</Text>
         </TouchableOpacity>
       </View>
-      <FlatList
-        data={eCommerce}
-        renderItem={renderItem}
-        horizontal
-        contentContainerStyle={{ paddingRight: Sizes.fixPadding * 1.5 }}
-      />
+
+      {categoryList && (
+        <FlatList
+          data={categoryList}
+          renderItem={renderItem}
+          horizontal
+          contentContainerStyle={{ paddingRight: Sizes.fixPadding * 1.5 }}
+        />
+      )
+      }
     </View>
   );
 }
 
-export default ECommerce
+
+const mapStateToProps = state => ({
+  categoryList: state.eCommerce.categoryList,
+  isLoading: state.settings.isLoading,
+})
+
+const mapDispatchToProps = dispatch => ({ dispatch })
+
+export default connect(mapStateToProps, mapDispatchToProps)(ECommerce)
 
 const styles = StyleSheet.create({
   row: {

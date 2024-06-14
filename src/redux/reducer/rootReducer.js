@@ -2,11 +2,13 @@ import { combineReducers } from 'redux';
 import settings from './settingsReducer';
 import customer from './customerReducer';
 import astrologer from './astrologerReducer';
+import eCommerce from './eCommerceReducer';
 
 const rootReducer = combineReducers({
   settings,
   customer,
-  astrologer
+  astrologer,
+  eCommerce
 });
 
 const appReducer = (state, action) => {

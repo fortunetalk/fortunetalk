@@ -1,5 +1,6 @@
 export const base_url = 'http://97.74.83.200:4000/'
-export const app_api_url = 'http://97.74.83.200:4000/api/app/customers/'
+// export const app_api_url = 'http://97.74.83.200:4000/api/app/customers/'
+export const app_api_url = 'https://node-backend-jcdp.onrender.com/api/app/'
 
 export const customer_login = 'customer_login'
 export const customer_otp_verify = 'customer_otp_verify'
@@ -9,6 +10,8 @@ export const customer_registration = 'customer_registration'
 export const get_splash = 'get_splash'
 export const get_astrologer_list_for_chat_call = 'get_astrologer_list_for_chat_call'
 export const get_astrologer_details = 'get_astrologer_details'
+
+export const get_ecommerce_category = "ecommerce/product/category"
 
 
 export const google_map_key = 'AIzaSyBrLGLJ9fU5yVR_YLtW3Z_aHP9VnSw4NKg';

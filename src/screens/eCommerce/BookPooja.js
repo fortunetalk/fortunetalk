@@ -21,7 +21,7 @@ import { SCREEN_WIDTH, Colors, Fonts, Sizes } from '../../assets/styles';
 const BookPooja = ({ navigation, route }) => {
   const [state, setState] = useState({
     categoryData: route.params?.categoryData,
-    screeType: route.params?.categoryData?.name,
+    screeType: "Book a Pooja",
     poojaData: null,
     isLoading: false,
     baseData: null,
@@ -152,7 +152,7 @@ const BookPooja = ({ navigation, route }) => {
         <TouchableOpacity
           activeOpacity={1}
           onPress={() =>
-            navigation.navigate('poojaAstrologer', { pooja_id: item.id })
+            navigation.navigate('astrologerlist', { pooja_id: item.id })
           }
           style={{
             height: SCREEN_WIDTH * 0.5,
@@ -176,13 +176,13 @@ const BookPooja = ({ navigation, route }) => {
                 justifyContent: 'flex-end',
               }}
               locations={[0.7, 1]}>
-              <View 
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}>
+              <View
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}>
                 <View>
                   <Text style={{ ...Fonts.white18RobotMedium, fontSize: 14 }}>{item?.title}</Text>
                   <Text style={{ ...Fonts.white14RobotoMedium, fontSize: 10 }}>

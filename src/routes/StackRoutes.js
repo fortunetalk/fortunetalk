@@ -15,6 +15,15 @@ import { ZegoUIKitPrebuiltCallWaitingScreen, ZegoUIKitPrebuiltCallInCallScreen }
 import ECommerce from '../screens/eCommerce/ECommerce';
 import Spell from '../screens/eCommerce/Spell';
 import BookPooja from '../screens/eCommerce/BookPooja';
+import Gemstone from '../screens/eCommerce/Gemstone';
+import PoojaAstrologerList from '../screens/eCommerce/PoojaAstrologerList';
+import PoojaDetails from '../screens/eCommerce/PoojaDetails';
+import BookingDetails from '../screens/eCommerce/BookingDetails';
+import SuccessfullyBooked from '../screens/eCommerce/SuccessfullyBooked';
+import ProductDetails from '../screens/eCommerce/ProductDetails';
+import Cart from '../screens/eCommerce/Cart';
+import PersonalDetails from '../screens/eCommerce/PersonalDetails';
+import ProductSuccessBooking from '../screens/eCommerce/ProductSuccessBooking';
 
 const Stack = createNativeStackNavigator();
 
@@ -42,6 +51,15 @@ const StackRoutes = () => {
             <Stack.Screen name="eCommerce" component={ECommerce} />
             <Stack.Screen name="spell" component={Spell} />
             <Stack.Screen name="bookPooja" component={BookPooja} />
+            <Stack.Screen name="gemstone" component={Gemstone} />
+            <Stack.Screen name="astrologerlist" component={PoojaAstrologerList} />
+            <Stack.Screen name="poojadetails" component={PoojaDetails} />
+            <Stack.Screen name="bookingdetails" component={BookingDetails} />
+            <Stack.Screen name="successfulybooked" component={SuccessfullyBooked} />
+            <Stack.Screen name="productdetails" component={ProductDetails} />
+            <Stack.Screen name="cart" component={Cart} />
+            <Stack.Screen name="personalDetails" component={PersonalDetails} />
+            <Stack.Screen name="productSuccessBooking" component={ProductSuccessBooking} />
 
         </Stack.Navigator>
     )

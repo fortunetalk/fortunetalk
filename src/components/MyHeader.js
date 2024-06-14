@@ -2,7 +2,7 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import React from 'react';
 import { useNavigation } from '@react-navigation/native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import { Colors, Sizes, Fonts, SCREEN_WIDTH } from '../assets/styles';
+import { Colors, Sizes, Fonts } from '../assets/styles';
 
 const MyHeader = ({ title }) => {
   const navigation = useNavigation();

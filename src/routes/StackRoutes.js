@@ -24,6 +24,8 @@ import ProductDetails from '../screens/eCommerce/ProductDetails';
 import Cart from '../screens/eCommerce/Cart';
 import PersonalDetails from '../screens/eCommerce/PersonalDetails';
 import ProductSuccessBooking from '../screens/eCommerce/ProductSuccessBooking';
+import ProductTracking from '../screens/eCommerce/ProductTracking';
+import RateProduct from '../screens/eCommerce/RateProduct';
 
 const Stack = createNativeStackNavigator();
 
@@ -60,6 +62,8 @@ const StackRoutes = () => {
             <Stack.Screen name="cart" component={Cart} />
             <Stack.Screen name="personalDetails" component={PersonalDetails} />
             <Stack.Screen name="productSuccessBooking" component={ProductSuccessBooking} />
+            <Stack.Screen name="productTracking" component={ProductTracking} />
+            <Stack.Screen name="rateProduct" component={RateProduct} />
 
         </Stack.Navigator>
     )

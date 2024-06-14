@@ -59,7 +59,7 @@ const ProductSuccessBooking = ({ navigation }) => {
           alignSelf: 'center',
           backgroundColor: Colors.whiteDark,
           paddingVertical: Sizes.fixPadding * 0.5,
-          paddingHorizontal: Sizes.fixPadding * 2,
+          paddingHorizontal: Sizes.fixPadding * 3,
           borderRadius: 1000,
         }}>
         <Text style={{ ...Fonts.primaryDark16RobotoMedium }}>

@@ -92,3 +92,12 @@ export const eCommerce = [
   { id: 3, title: "Gemstone", image: require('../assets/images/astro.jpg'), redirect_to: "gemstone" },
   { id: 4, title: "Spell", image: require('../assets/images/astro.jpg'), redirect_to: "spell" },
 ]
+
+
+export const labels = [
+  { id: 1, title: "Order Confirmed Tue, 22nd Aug '23Your Order has been placed.", date: "Tue, 22nd Aug '23-5:28pm", sub_title: 'Item waiting to be picked up by courier partner.', sub_date: "Wed, 23rd Aug '23-4:00pm" },
+  { id: 2, title: 'Shipped Expected By Thu 24th Aug', date: 'Item yet to be shipped. Expected by Thu, 24th Aug', sub_title: 'Item yet to reach hub nearest to you.', sub_date: null, },
+  { id: 3, title: 'Out For Delivery', date: 'Item yet to be delivered.', sub_title: null, sub_date: null, },
+  { id: 4, title: 'Delivery Expected By Fri 25th Aug', date: 'Item yet to be delivered.', sub_title: 'Expected by Fri, 25th Aug', sub_date: null },
+  { id: 5, title: 'Share the OTP to the delivery boy', date: null, sub_title: null, sub_date: null },
+];

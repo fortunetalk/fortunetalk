@@ -4,59 +4,16 @@ import {
   StyleSheet,
   FlatList,
   TouchableOpacity,
-  TextInput
 } from 'react-native';
-import {connect} from 'react-redux';
-import React, { useState} from 'react';
-import Stars from 'react-native-stars';
-import {BottomSheet} from '@rneui/themed';
-import {Colors, Fonts, Sizes} from '../../assets/style';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import MyStatusBar from '../../components/MyStatusBar';
-import LinearGradient from 'react-native-linear-gradient';
-import StepIndicator from 'react-native-step-indicator';
+import React, { useState } from 'react';
 import Loader from '../../components/Loader';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import MyHeader from '../../components/MyHeader';
+import MyStatusBar from '../../components/MyStatusBar';
+import StepIndicator from 'react-native-step-indicator';
+import { labels } from '../../config/data';
+import { Colors, Fonts, Sizes } from '../../assets/styles';
 
-const labels = [
-  {
-    id: 1,
-    title: "Order Confirmed Tue, 22nd Aug '23Your Order has been placed.",
-    date: "Tue, 22nd Aug '23-5:28pm",
-    sub_title: 'Item waiting to be picked up by courier partner.',
-    sub_date: "Wed, 23rd Aug '23-4:00pm",
-  },
-  {
-    id: 2,
-    title: 'Shipped Expected By Thu 24th Aug',
-    date: 'Item yet to be shipped. Expected by Thu, 24th Aug',
-    sub_title: 'Item yet to reach hub nearest to you.',
-    sub_date: null,
-  },
-  {
-    id: 3,
-    title: 'Out For Delivery',
-    date: 'Item yet to be delivered.',
-    sub_title: null,
-    sub_date: null,
-  },
-  {
-    id: 4,
-    title: 'Delivery Expected By Fri 25th Aug',
-    date: 'Item yet to be delivered.',
-    sub_title: 'Expected by Fri, 25th Aug',
-    sub_date: null,
-  },
-  {
-    id: 5,
-    title: 'Share the OTP to the delivery boy',
-    date: null,
-    sub_title: null,
-    sub_date: null,
-  },
-];
-
-const ProductTracking = ({navigation, route, userData}) => {
+const ProductTracking = ({ navigation }) => {
   const [state, setState] = useState({
     reviewModalVisible: false,
     productData: [],
@@ -66,35 +23,27 @@ const ProductTracking = ({navigation, route, userData}) => {
     statusData: null,
   });
 
-  const add_review = async () => {
-    
-  };
-
   const updateState = data => {
     setState(prevState => {
-      const newData = {...prevState, ...data};
+      const newData = { ...prevState, ...data };
       return newData;
     });
   };
 
   const {
-    reviewModalVisible,
     isLoading,
-    ratingStar,
-    productData,
-    reviewMessage,
     statusData
   } = state;
 
   return (
-    <View style={{flex: 1, backgroundColor: Colors.bodyColor}}>
+    <View style={{ flex: 1, backgroundColor: Colors.bodyColor }}>
       <MyStatusBar
         backgroundColor={Colors.primaryLight}
         barStyle={'light-content'}
       />
       <Loader visible={isLoading} />
-      <View style={{flex: 1}}>
-        {header()}
+      <View style={{ flex: 1 }}>
+        <MyHeader title={"Tracker order"} />
         <FlatList
           ListHeaderComponent={
             <>
@@ -103,124 +52,17 @@ const ProductTracking = ({navigation, route, userData}) => {
               {ratingInfo()}
             </>
           }
-          contentContainerStyle={{paddingVertical: Sizes.fixPadding}}
+          contentContainerStyle={{ paddingVertical: Sizes.fixPadding }}
         />
       </View>
-      {reviewInfo()}
     </View>
   );
-
-  function reviewInfo() {
-    return (
-      <BottomSheet
-        isVisible={reviewModalVisible}
-        onBackdropPress={() => updateState({reviewModalVisible: false})}>
-        <View
-          style={{
-            backgroundColor: Colors.white,
-            marginHorizontal: Sizes.fixPadding * 1.5,
-            elevation: 8,
-            shadowOffset: {
-              width: 0,
-              height: 1,
-            },
-            shadowOpacity: 0.2,
-            borderTopLeftRadius: Sizes.fixPadding * 3,
-          }}>
-          <Text
-            style={{
-              ...Fonts.gray18RobotoRegular,
-              color: Colors.blackLight,
-              textAlign: 'center',
-              marginVertical: Sizes.fixPadding * 1.5,
-              marginTop: Sizes.fixPadding * 2,
-            }}>
-            How was your{'\n'}experience on this product?
-          </Text>
-          <View style={{alignItems: 'center'}}>
-            <Text style={{...Fonts.primaryLight18RobotoMedium}}>
-              {/* {productData?.owner_name} */}
-            </Text>
-            <Text style={{...Fonts.gray14RobotoMedium}}>
-              {/* {productData?.mainexperties} */}
-            </Text>
-            <View style={{marginVertical: Sizes.fixPadding * 1.5}}>
-              <Stars
-                default={ratingStar}
-                count={5}
-                half={true}
-                starSize={32}
-                update={val => updateState({ratingStar: val})}
-                fullStar={
-                  <Ionicons
-                    name={'star'}
-                    size={32}
-                    color={Colors.primaryLight}
-                  />
-                }
-                emptyStar={
-                  <Ionicons
-                    name={'star-outline'}
-                    size={32}
-                    color={Colors.primaryLight}
-                  />
-                }
-                halfStar={
-                  <Ionicons
-                    name={'star-half'}
-                    size={32}
-                    color={Colors.primaryLight}
-                  />
-                }
-              />
-            </View>
-            <Text style={{...Fonts.gray16RobotoMedium}}>Give Ratings</Text>
-            <TextInput
-              value={reviewMessage}
-              placeholder="Tap to start typing"
-              placeholderTextColor={Colors.gray}
-              onChangeText={text => updateState({reviewMessage: text})}
-              multiline
-              style={{
-                width: '90%',
-                padding: Sizes.fixPadding,
-                backgroundColor: Colors.grayLight,
-                marginVertical: Sizes.fixPadding * 1.5,
-                ...Fonts.black14InterMedium,
-                height: 150,
-                textAlignVertical: 'top',
-                borderRadius: Sizes.fixPadding,
-              }}
-            />
-            <TouchableOpacity
-              activeOpacity={0.8}
-              style={{width: '80%'}}
-              onPress={add_review}>
-              <LinearGradient
-                colors={[Colors.primaryLight, Colors.primaryDark]}
-                style={{
-                  width: '100%',
-                  paddingVertical: Sizes.fixPadding,
-                  borderRadius: 1000,
-                  marginVertical: Sizes.fixPadding * 2,
-                }}>
-                <Text
-                  style={{...Fonts.white16RobotoMedium, textAlign: 'center'}}>
-                  Submit
-                </Text>
-              </LinearGradient>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </BottomSheet>
-    );
-  }
 
   function ratingInfo() {
     return (
       <TouchableOpacity
         activeOpacity={0.8}
-        onPress={() => updateState({reviewModalVisible: true})}
+        onPress={() => navigation.navigate("rateProduct")}
         style={{
           alignSelf: 'center',
           backgroundColor: Colors.whiteDark,
@@ -229,7 +71,7 @@ const ProductTracking = ({navigation, route, userData}) => {
           borderRadius: 1000,
           marginVertical: Sizes.fixPadding * 1.5,
         }}>
-        <Text style={{...Fonts.primaryDark16RobotoMedium}}>
+        <Text style={{ ...Fonts.primaryDark16RobotoMedium }}>
           Rate this product now
         </Text>
       </TouchableOpacity>
@@ -238,34 +80,34 @@ const ProductTracking = ({navigation, route, userData}) => {
 
   function messageInfo() {
     return (
-      <Text style={{...Fonts.primaryDark16RobotoMedium, textAlign: 'center'}}>
+      <Text style={{ ...Fonts.primaryDark16RobotoMedium, textAlign: 'center' }}>
         Hope you like our Product !!
       </Text>
     );
   }
 
   function trackingInfo() {
-    const renderLabel = ({position, stepStatus, label, currentPosition}) => {
+    const renderLabel = ({ position, stepStatus, label, currentPosition }) => {
       return (
         <View
           style={{
             flex: 0,
             width: '98%',
           }}>
-          <Text style={{...Fonts.gray14RobotoMedium, color: Colors.blackLight}}>
+          <Text style={{ ...Fonts.gray14RobotoMedium, color: Colors.blackLight }}>
             {label.title}
           </Text>
           {label.date && (
-            <Text style={{...Fonts.gray12RobotoMedium}}>{label.date}</Text>
+            <Text style={{ ...Fonts.gray12RobotoMedium }}>{label.date}</Text>
           )}
           {label.sub_title && (
             <Text
-              style={{...Fonts.gray12RobotoMedium, color: Colors.blackLight}}>
+              style={{ ...Fonts.gray12RobotoMedium, color: Colors.blackLight }}>
               {label.sub_title}
             </Text>
           )}
           {label.sub_date && (
-            <Text style={{...Fonts.black12RobotoRegular}}>
+            <Text style={{ ...Fonts.black12RobotoRegular }}>
               {label.sub_date}
             </Text>
           )}
@@ -276,7 +118,7 @@ const ProductTracking = ({navigation, route, userData}) => {
       <View
         style={{
           margin: Sizes.fixPadding * 2,
-          backgroundColor: Colors.white,
+          backgroundColor: Colors.grayD,
           elevation: 8,
           shadowOffset: {
             width: 0,
@@ -298,45 +140,9 @@ const ProductTracking = ({navigation, route, userData}) => {
       </View>
     );
   }
-
-  function header() {
-    return (
-      <View
-        style={{
-          padding: Sizes.fixPadding * 1.5,
-          ...styles.row,
-          justifyContent: 'space-between',
-          borderBottomWidth: 1,
-          borderBottomColor: Colors.grayLight,
-        }}>
-        <TouchableOpacity
-          onPress={() => navigation.goBack()}
-          style={{position: 'absolute', zIndex: 99, padding: Sizes.fixPadding * 1.5}}>
-          <AntDesign
-            name="leftcircleo"
-            color={Colors.primaryLight}
-            size={Sizes.fixPadding * 2.2}
-          />
-        </TouchableOpacity>
-        <Text
-          style={{
-            ...Fonts.primaryLight15RobotoMedium,
-            textAlign: 'center',
-            flex: 1,
-          }}>
-          Track order
-        </Text>
-      </View>
-    );
-  }
 };
 
-const mapStateToProps = state => ({
-  userData: state.user.userData,
-  wallet: state.user.wallet,
-});
-
-export default connect(mapStateToProps, null)(ProductTracking);
+export default ProductTracking;
 
 const styles = StyleSheet.create({
   row: {

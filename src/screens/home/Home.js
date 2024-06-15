@@ -1,6 +1,7 @@
-import { View, Text, FlatList, Animated, LayoutAnimation, SafeAreaView, TouchableOpacity } from 'react-native'
-import React, { useRef, useState } from 'react'
-import { Colors, SCREEN_WIDTH, Sizes } from '../../assets/styles'
+import { connect } from 'react-redux'
+import { View, FlatList, Animated, LayoutAnimation, SafeAreaView, TouchableOpacity } from 'react-native'
+import React, { useRef } from 'react'
+import { Colors } from '../../assets/styles'
 import MyStatusBar from '../../components/MyStatusBar'
 import HomeHeader from './components/HomeHeader'
 import Search from './components/Search'
@@ -13,12 +14,12 @@ import TrendingAstrologers from './components/TrendingAstrologers'
 import OnlineAstrologers from './components/OnlineAstrologers'
 import RecentAstrologers from './components/RecentAstrologers'
 import LearningSections from './components/LearningSections'
-import ECommerce from './components/ECommerce'
 import LatestBlogs from './components/LatestBlogs'
 import ClientTestimonials from './components/ClientTestimonials'
-import { connect } from 'react-redux'
 import * as SettingActions from '../../redux/actions/settingActions'
 import CustomCrousel from '../../components/CustomCrousel'
+import PoojaCategory from './components/PoojaCategory'
+import ProductCategory from './components/ProductCategory'
 
 const Home = ({ dispatch, tabVisible }) => {
   const scrollY = useRef(new Animated.Value(0)).current;
@@ -59,7 +60,8 @@ const Home = ({ dispatch, tabVisible }) => {
             <RecentAstrologers />
             {learningBanner()}
             <LearningSections />
-            <ECommerce />
+            <PoojaCategory />
+            <ProductCategory />
             <LatestBlogs />
             <ClientTestimonials />
           </>}

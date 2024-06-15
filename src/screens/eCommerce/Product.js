@@ -1,15 +1,21 @@
-import { useState } from "react";
+import { connect } from "react-redux";
+import { useEffect, useState } from "react";
 import Loader from "../../components/Loader";
 import Filter from "../../components/Filter";
 import SearchInfo from "./components/SearchInfo";
 import MyStatusBar from "../../components/MyStatusBar";
 import LinearGradient from "react-native-linear-gradient";
+import CustomCrousel from "../../components/CustomCrousel";
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import { Colors, SCREEN_WIDTH, Sizes, Fonts } from "../../assets/styles";
+import * as EcommerceActions from '../../redux/actions/eCommerceActions'
 import { FlatList, Image, ImageBackground, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import CustomCrousel from "../../components/CustomCrousel";
 
-const Gemstone = ({ navigation }) => {
+const Product = ({ dispatch, navigation, route, ProductCategoryWaiseList }) => {
+
+    console.log("ProductCategoryWaiseList===>>" , ProductCategoryWaiseList?.products)
+
+    const id = route.params.categoryId
     const [state, setState] = useState({
         isLoading: false,
         searchText: '',
@@ -21,8 +27,8 @@ const Gemstone = ({ navigation }) => {
         selectedSortFilters: [],
         selectedGenderFilters: [],
         activeFilter: 3,
-        screeType: "Gemstone",
-        categoryData: ""
+        screenType: route.params.screenType,
+        categoryData: ProductCategoryWaiseList?.products
     })
 
     const updateState = data => {
@@ -36,28 +42,10 @@ const Gemstone = ({ navigation }) => {
 
     }
 
-    const data = [
-        {
-            id: 1,
-            title: 'Gemstone 1',
-            price: '₹ 501/-',
-        },
-        {
-            id: 2,
-            title: 'Gemstone 2',
-            price: '₹ 702/-',
-        },
-        {
-            id: 3,
-            title: 'Gemstone 3',
-            price: '₹ 803/-',
-        },
-        {
-            id: 4,
-            title: 'Gemstone 3',
-            price: '₹ 803/-',
-        },
-    ];
+
+    useEffect(() => {
+        dispatch(EcommerceActions.getProductCategoryWaiseList({ id }))
+    }, [id])
 
     const search_product = () => {
 
@@ -74,7 +62,7 @@ const Gemstone = ({ navigation }) => {
         selectedSortFilters,
         selectedGenderFilters,
         activeFilter,
-        screeType,
+        screenType,
         categoryData,
     } = state
 
@@ -187,7 +175,7 @@ const Gemstone = ({ navigation }) => {
                     paddingTop: Sizes.fixPadding * 1
                 }}>
                 <FlatList
-                    data={data}
+                    data={categoryData}
                     renderItem={renderItem}
                     keyExtractor={item => item.id}
                     numColumns={2}
@@ -224,7 +212,7 @@ const Gemstone = ({ navigation }) => {
                         ...Fonts.primaryLight15RobotoMedium,
                         textAlign: 'center',
                     }}>
-                    {screeType}
+                    {screenType}
                 </Text>
                 <TouchableOpacity>
                     <Image
@@ -237,7 +225,16 @@ const Gemstone = ({ navigation }) => {
     }
 }
 
-export default Gemstone
+// export default BookPooja;
+const mapStateToProps = state => ({
+    ProductCategoryWaiseList: state.eCommerce.ProductCategoryWaiseList,
+    isLoading: state.settings.isLoading,
+})
+
+const mapDispatchToProps = dispatch => ({ dispatch })
+
+export default connect(mapStateToProps, mapDispatchToProps)(Product)
+
 
 const styles = StyleSheet.create({
     row: {

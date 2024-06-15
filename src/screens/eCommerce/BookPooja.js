@@ -6,7 +6,7 @@ import {
   Image,
   ImageBackground,
 } from 'react-native';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FlatList } from 'react-native';
 import Loader from '../../components/Loader';
 import Filter from '../../components/Filter';
@@ -16,12 +16,14 @@ import LinearGradient from 'react-native-linear-gradient';
 import CustomCrousel from '../../components/CustomCrousel';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { SCREEN_WIDTH, Colors, Fonts, Sizes } from '../../assets/styles';
+import * as EcommerceActions from '../../redux/actions/eCommerceActions'
+import { connect } from 'react-redux';
 
-
-const BookPooja = ({ navigation, route }) => {
+const BookPooja = ({ dispatch, navigation, route, PoojaCategoryWaiseList }) => {
+  const id = route.params.categoryId
   const [state, setState] = useState({
-    categoryData: route.params?.categoryData,
-    screeType: "Book a Pooja",
+    categoryData: PoojaCategoryWaiseList?.pooja,
+    screenType: route.params.screenType,
     poojaData: null,
     isLoading: false,
     baseData: null,
@@ -36,27 +38,9 @@ const BookPooja = ({ navigation, route }) => {
     activeFilter: 3,
   });
 
-  const poojaDummyData = [
-    {
-      id: 1,
-      title: 'Attract Love & Get Married',
-      sub_title: 'with Vivah Badha Dosh Nivaran Pooja',
-      price: '₹ 6750',
-    },
-    {
-      id: 2,
-      title: 'Gain Power and Confidence',
-      sub_title: 'with Asht Bhairav Pooja',
-      price: '₹ 6750',
-    },
-    {
-      id: 3,
-      title: 'Attract Love & Get Married',
-      sub_title: 'with Vivah Badha Dosh Nivaran Pooja',
-      price: '₹ 6750',
-    },
-  ];
-
+  useEffect(() => {
+    dispatch(EcommerceActions.getPoojaCategoryWaiseList({ id }))
+  }, [])
 
   const search_product = text => {
     if (text) {
@@ -90,7 +74,7 @@ const BookPooja = ({ navigation, route }) => {
 
   const {
     categoryData,
-    screeType,
+    screenType,
     poojaData,
     isLoading,
     baseData,
@@ -148,6 +132,9 @@ const BookPooja = ({ navigation, route }) => {
 
   function bookAPoojaInfo() {
     const renderItem = ({ item, index }) => {
+
+      console.log("item=>>>>>>", item)
+
       return (
         <TouchableOpacity
           activeOpacity={1}
@@ -161,7 +148,7 @@ const BookPooja = ({ navigation, route }) => {
             marginBottom: Sizes.fixPadding * 1.5,
           }}>
           <ImageBackground
-            source={require("../../assets/images/astro.jpg")}
+            source={{ uri: item?.image }}
             style={{
               width: '100%',
               height: '100%',
@@ -199,7 +186,7 @@ const BookPooja = ({ navigation, route }) => {
     return (
       <View style={{ marginHorizontal: Sizes.fixPadding }}>
         <FlatList
-          data={poojaDummyData}
+          data={categoryData}
           renderItem={renderItem}
           keyExtractor={item => item.id}
         />
@@ -233,7 +220,7 @@ const BookPooja = ({ navigation, route }) => {
             ...Fonts.primaryLight15RobotoMedium,
             textAlign: 'center',
           }}>
-          {screeType}
+          {screenType}
         </Text>
         <TouchableOpacity>
           <Image
@@ -246,7 +233,16 @@ const BookPooja = ({ navigation, route }) => {
   }
 };
 
-export default BookPooja;
+// export default BookPooja;
+const mapStateToProps = state => ({
+  PoojaCategoryWaiseList: state.eCommerce.PoojaCategoryWaiseList,
+  isLoading: state.settings.isLoading,
+})
+
+const mapDispatchToProps = dispatch => ({ dispatch })
+
+export default connect(mapStateToProps, mapDispatchToProps)(BookPooja)
+
 
 const styles = StyleSheet.create({
   row: {

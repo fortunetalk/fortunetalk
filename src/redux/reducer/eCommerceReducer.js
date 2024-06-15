@@ -1,16 +1,37 @@
 import * as actionTypes from '../actionTypes'
 
 const initialState = {
-    categoryList: null,
+    PoojaCategoryList: null,
+    PoojaCategoryWaiseList: null,
+    ProductCategoryList: null,
+    ProductCategoryWaiseList: null,
 }
 
 const eCommerce = (state = initialState, actions) => {
     const { type, payload } = actions
     switch (type) {
-        case actionTypes.Get_ECOMMERCE_CATEGORY_DATA: {
+        case actionTypes.GET_POOJA_CATEGORY_DATA: {
             return {
                 ...state,
-                categoryList: payload
+                PoojaCategoryList: payload
+            }
+        }
+        case actionTypes.GET_PRODUCT_CATEGORY_DATA: {
+            return {
+                ...state,
+                ProductCategoryList: payload
+            }
+        }
+        case actionTypes.GET_CATEGORY_WAISE_POOJA_DATA: {
+            return {
+                ...state,
+                PoojaCategoryWaiseList: payload
+            }
+        }
+        case actionTypes.GET_CATEGORY_WAISE_PRODUCT_DATA: {
+            return {
+                ...state,
+                ProductCategoryWaiseList: payload
             }
         }
         default: {

@@ -1,27 +1,20 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { connect } from 'react-redux';
-import { eCommerce } from '../../../config/data';
 import { navigate } from '../../../utils/navigationServices';
 import { SCREEN_WIDTH, Fonts, Colors, Sizes } from '../../../assets/styles';
-import { View, Text, TouchableOpacity, FlatList, Image, StyleSheet } from 'react-native'
 import * as EcommerceActions from '../../../redux/actions/eCommerceActions'
+import { View, Text, TouchableOpacity, FlatList, Image, StyleSheet } from 'react-native'
 
-const ECommerce = ({ dispatch, categoryList }) => {
-  const [isError, setIsError] = useState(false);
-
+const ProductCategory = ({ dispatch, ProductCategoryList }) => {
   useEffect(() => {
-    dispatch(EcommerceActions.getEcommerceCategoryList({ type: "Get_ECOMMERCE_CATEGORY_DATA" }))
+    dispatch(EcommerceActions.getProductCategoryList())
   }, [dispatch])
-
-  console.log("categoryList===>>>", categoryList)
-
+ 
   const renderItem = ({ item, index }) => {
-
-    console.log("item ====>>>>>>>>>>", item.image)
     return (
       <TouchableOpacity
         activeOpacity={1}
-        onPress={() => navigate(item.redirect_to)}
+        onPress={() => navigate("product", { screenType: item.title, categoryId: item._id })}
         style={{
           width: SCREEN_WIDTH * 0.4,
           marginLeft: Sizes.fixPadding * 1.5,
@@ -35,15 +28,12 @@ const ECommerce = ({ dispatch, categoryList }) => {
         }}>
         <Image
           source={{ uri: item.image }}
-          onError={() => setIsError(true)}
-          onLoad={() => setIsError(false)}
           style={{
-            width: '90%',
+            width: '95%',
             height: SCREEN_WIDTH * 0.4,
             borderTopLeftRadius: Sizes.fixPadding,
             borderTopRightRadius: Sizes.fixPadding,
           }}
-          defaultSource={require('../../../assets/images/transparent_logo.png')}
         />
         <View
           style={{
@@ -77,7 +67,7 @@ const ECommerce = ({ dispatch, categoryList }) => {
           paddingHorizontal: Sizes.fixPadding * 1.5,
           paddingVertical: Sizes.fixPadding,
         }}>
-        <Text style={{ ...Fonts.black16RobotoMedium }}>E-Commerce</Text>
+        <Text style={{ ...Fonts.black16RobotoMedium }}>Product Section</Text>
         <TouchableOpacity
           activeOpacity={0.8}
           onPress={() => navigate("eCommerce")}
@@ -86,9 +76,9 @@ const ECommerce = ({ dispatch, categoryList }) => {
         </TouchableOpacity>
       </View>
 
-      {categoryList && (
+      {ProductCategoryList && (
         <FlatList
-          data={categoryList}
+          data={ProductCategoryList}
           renderItem={renderItem}
           horizontal
           contentContainerStyle={{ paddingRight: Sizes.fixPadding * 1.5 }}
@@ -101,13 +91,13 @@ const ECommerce = ({ dispatch, categoryList }) => {
 
 
 const mapStateToProps = state => ({
-  categoryList: state.eCommerce.categoryList,
+  ProductCategoryList: state.eCommerce.ProductCategoryList,
   isLoading: state.settings.isLoading,
 })
 
 const mapDispatchToProps = dispatch => ({ dispatch })
 
-export default connect(mapStateToProps, mapDispatchToProps)(ECommerce)
+export default connect(mapStateToProps, mapDispatchToProps)(ProductCategory)
 
 const styles = StyleSheet.create({
   row: {

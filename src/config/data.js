@@ -86,14 +86,6 @@ export const priceData = [
   { id: 9, price: '25000' },
 ];
 
-export const eCommerce = [
-  { id: 1, title: "Pooja Kit", image: require('../assets/images/astro.jpg'), redirect_to: "poojakit" },
-  { id: 2, title: "Book a Pooja", image: require('../assets/images/astro.jpg'), redirect_to: "bookPooja" },
-  { id: 3, title: "Gemstone", image: require('../assets/images/astro.jpg'), redirect_to: "gemstone" },
-  { id: 4, title: "Spell", image: require('../assets/images/astro.jpg'), redirect_to: "spell" },
-]
-
-
 export const labels = [
   { id: 1, title: "Order Confirmed Tue, 22nd Aug '23Your Order has been placed.", date: "Tue, 22nd Aug '23-5:28pm", sub_title: 'Item waiting to be picked up by courier partner.', sub_date: "Wed, 23rd Aug '23-4:00pm" },
   { id: 2, title: 'Shipped Expected By Thu 24th Aug', date: 'Item yet to be shipped. Expected by Thu, 24th Aug', sub_title: 'Item yet to reach hub nearest to you.', sub_date: null, },

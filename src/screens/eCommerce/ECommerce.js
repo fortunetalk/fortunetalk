@@ -13,7 +13,7 @@ import { Colors, Fonts, SCREEN_WIDTH, Sizes } from '../../assets/styles';
 import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { navigate } from '../../utils/navigationServices';
 
-const ECommerce = ({ navigation, ProductCategoryList, dispatch }) => {
+const ECommerce = ({ navigation, ProductCategoryList, dispatch, productCategoryBanner }) => {
   const [data, setdata] = useState([{}, {}, {}, {}]);
   const [state, setState] = useState({
     isLoading: false,
@@ -25,6 +25,7 @@ const ECommerce = ({ navigation, ProductCategoryList, dispatch }) => {
   useFocusEffect(
     useCallback(() => {
       dispatch(EcommerceActions.getProductCategoryList())
+      dispatch(EcommerceActions.getProductCategoryBanner())
     }, [dispatch]))
 
   const { isLoading, selectedItem } = state;
@@ -132,8 +133,7 @@ const ECommerce = ({ navigation, ProductCategoryList, dispatch }) => {
   function bannerInfo() {
     return (
       <View>
-
-       {/* <CustomCrousel data={Array.from({ length: 5 })} /> */}
+        {productCategoryBanner && <CustomCrousel data={productCategoryBanner} />}
       </View>
     );
   }
@@ -179,6 +179,7 @@ const ECommerce = ({ navigation, ProductCategoryList, dispatch }) => {
 
 const mapStateToProps = state => ({
   ProductCategoryList: state.eCommerce.ProductCategoryList,
+  productCategoryBanner: state.eCommerce.productCategoryBanner,
   isLoading: state.settings.isLoading,
 })
 

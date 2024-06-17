@@ -12,8 +12,11 @@ import { Colors, SCREEN_WIDTH, Sizes, Fonts } from "../../assets/styles";
 import * as EcommerceActions from '../../redux/actions/eCommerceActions'
 import { FlatList, Image, ImageBackground, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
-const Product = ({ dispatch, navigation, route, productCategoryWaiseList }) => {
+const Product = ({ dispatch, navigation, route, productCategoryWaiseList, productDetailsBanner }) => {
     const id = route.params.categoryId
+
+    console.log("productDetailsBanner===>>>", productDetailsBanner)
+
     const [state, setState] = useState({
         isLoading: false,
         searchText: '',
@@ -47,6 +50,7 @@ const Product = ({ dispatch, navigation, route, productCategoryWaiseList }) => {
 
     useEffect(() => {
         dispatch(EcommerceActions.getProductCategoryWaiseList({ id }))
+        dispatch(EcommerceActions.getProductDetailsBanner())
     }, [id])
 
     const search_product = () => {
@@ -92,7 +96,9 @@ const Product = ({ dispatch, navigation, route, productCategoryWaiseList }) => {
                                     borderBottomWidth: 1,
                                     borderColor: Colors.gray + '30',
                                 }}>
-                                {/* <CustomCrousel data={Array.from({ length: 5 })} /> */}
+                                {productDetailsBanner &&
+                                    <CustomCrousel data={productDetailsBanner} />
+                                }
                             </View>
                             {GemstoneInfo()}
                         </>
@@ -230,6 +236,7 @@ const Product = ({ dispatch, navigation, route, productCategoryWaiseList }) => {
 // export default BookPooja;
 const mapStateToProps = state => ({
     productCategoryWaiseList: state.eCommerce.productCategoryWaiseList,
+    productDetailsBanner: state.eCommerce.productDetailsBanner,
     isLoading: state.settings.isLoading,
 })
 

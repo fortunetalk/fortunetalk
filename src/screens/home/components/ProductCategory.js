@@ -6,10 +6,13 @@ import * as EcommerceActions from '../../../redux/actions/eCommerceActions'
 import { View, Text, TouchableOpacity, FlatList, Image, StyleSheet } from 'react-native'
 
 const ProductCategory = ({ dispatch, ProductCategoryList }) => {
+  
   useEffect(() => {
     dispatch(EcommerceActions.getProductCategoryList())
   }, [dispatch])
  
+console.log("ProductCategoryList===>>>>", ProductCategoryList)
+
   const renderItem = ({ item, index }) => {
     return (
       <TouchableOpacity

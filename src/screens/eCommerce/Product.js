@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import { useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import Loader from "../../components/Loader";
 import Filter from "../../components/Filter";
 import SearchInfo from "./components/SearchInfo";
@@ -7,15 +7,15 @@ import MyStatusBar from "../../components/MyStatusBar";
 import LinearGradient from "react-native-linear-gradient";
 import CustomCrousel from "../../components/CustomCrousel";
 import AntDesign from 'react-native-vector-icons/AntDesign'
+import { useFocusEffect } from "@react-navigation/native";
 import { Colors, SCREEN_WIDTH, Sizes, Fonts } from "../../assets/styles";
 import * as EcommerceActions from '../../redux/actions/eCommerceActions'
 import { FlatList, Image, ImageBackground, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 const Product = ({ dispatch, navigation, route, ProductCategoryWaiseList }) => {
-
-    console.log("ProductCategoryWaiseList===>>" , ProductCategoryWaiseList?.products)
-
     const id = route.params.categoryId
+    console.log("ProductCategoryWaiseList===>>", ProductCategoryWaiseList)
+
     const [state, setState] = useState({
         isLoading: false,
         searchText: '',
@@ -42,10 +42,15 @@ const Product = ({ dispatch, navigation, route, ProductCategoryWaiseList }) => {
 
     }
 
+    useFocusEffect(
+        useCallback(() => {
+            updateState({ categoryData: ProductCategoryWaiseList?.products })
+        }, [ProductCategoryWaiseList]))
 
-    useEffect(() => {
-        dispatch(EcommerceActions.getProductCategoryWaiseList({ id }))
-    }, [id])
+    useFocusEffect(
+        useCallback(() => {
+            dispatch(EcommerceActions.getProductCategoryWaiseList({ id }))
+        }, [id]))
 
     const search_product = () => {
 
@@ -76,7 +81,7 @@ const Product = ({ dispatch, navigation, route, ProductCategoryWaiseList }) => {
             {header()}
             <SearchInfo
                 searchText={searchText}
-                categoryData={categoryData}
+                categoryData={route.params.screenType}
                 search_product={search_product}
                 updateState={updateState}
             />
@@ -128,7 +133,7 @@ const Product = ({ dispatch, navigation, route, ProductCategoryWaiseList }) => {
                         borderColor: Colors.primaryLight,
                     }}>
                     <ImageBackground
-                        source={require("../../assets/images/astro.jpg")}
+                        source={{ uri: item.image }}
                         resizeMode="cover"
                         style={{
                             width: '100%',
@@ -152,7 +157,7 @@ const Product = ({ dispatch, navigation, route, ProductCategoryWaiseList }) => {
                                 ]}>
                                 <Text
                                     style={{ ...Fonts.white11InterMedium, fontSize: 9, flex: 0.6 }}>
-                                    Love Honey Spell
+                                    {item?.title}
                                 </Text>
                                 <Text
                                     style={{
@@ -161,7 +166,7 @@ const Product = ({ dispatch, navigation, route, ProductCategoryWaiseList }) => {
                                         flex: 0.4,
                                         textAlign: 'right',
                                     }}>
-                                    ₹ 501/-
+                                    ₹ {item?.price}
                                 </Text>
                             </View>
                         </LinearGradient>
@@ -169,6 +174,9 @@ const Product = ({ dispatch, navigation, route, ProductCategoryWaiseList }) => {
                 </TouchableOpacity>
             );
         };
+
+        console.log("categoryData=====>>>>>", categoryData)
+
         return (
             <View
                 style={{
@@ -177,7 +185,7 @@ const Product = ({ dispatch, navigation, route, ProductCategoryWaiseList }) => {
                 <FlatList
                     data={categoryData}
                     renderItem={renderItem}
-                    keyExtractor={item => item.id}
+                    keyExtractor={item => item._id}
                     numColumns={2}
                     contentContainerStyle={{}}
                     columnWrapperStyle={{ justifyContent: 'space-evenly' }}

@@ -13,7 +13,7 @@ const SearchInfo = ({ searchText, categoryData, search_product, updateState }) =
             }}>
             <Input
                 value={searchText}
-                placeholder={`Search for ${categoryData?.name}`}
+                placeholder={`Search for ${categoryData}`}
                 placeholderTextColor={Colors.gray}
                 onChangeText={text => search_product(text)}
                 inputStyle={{ ...Fonts.black14InterMedium }}

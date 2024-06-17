@@ -1,39 +1,31 @@
-import React, { useState } from 'react';
+import { connect } from 'react-redux';
 import { FlatList } from 'react-native';
 import Loader from '../../components/Loader';
+import React, { useCallback, useState } from 'react';
 import MyStatusBar from '../../components/MyStatusBar';
 import NoDataFound from '../../components/NoDataFound';
 import LinearGradient from 'react-native-linear-gradient';
+import { useFocusEffect } from '@react-navigation/native';
+import CustomCrousel from '../../components/CustomCrousel';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import * as EcommerceActions from '../../redux/actions/eCommerceActions'
 import { Colors, Fonts, SCREEN_WIDTH, Sizes } from '../../assets/styles';
 import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
-import CustomCrousel from '../../components/CustomCrousel';
+import { navigate } from '../../utils/navigationServices';
 
-const ECommerce = ({ navigation }) => {
+const ECommerce = ({ navigation, ProductCategoryList, dispatch }) => {
   const [data, setdata] = useState([{}, {}, {}, {}]);
   const [state, setState] = useState({
     isLoading: false,
     selectedItem: null,
   });
 
-  const categoryData = [
-    {
-      id: 1,
-      name: 'Book a Pooja',
-    },
-    {
-      id: 2,
-      name: 'Spell',
-    },
-    {
-      id: 3,
-      name: 'Pooja Kit',
-    },
-    {
-      id: 3,
-      name: 'Gemstone',
-    },
-  ];
+  console.log("Fortune talks===????", ProductCategoryList)
+
+  useFocusEffect(
+    useCallback(() => {
+      dispatch(EcommerceActions.getProductCategoryList())
+    }, [dispatch]))
 
   const { isLoading, selectedItem } = state;
 
@@ -50,7 +42,7 @@ const ECommerce = ({ navigation }) => {
           ListHeaderComponent={
             <>
               {data && bannerInfo()}
-              {categoryData && eCommerceDataInfo()}
+              {ProductCategoryList && eCommerceDataInfo()}
             </>
           }
           contentContainerStyle={{ paddingVertical: Sizes.fixPadding }}
@@ -60,29 +52,11 @@ const ECommerce = ({ navigation }) => {
   );
 
   function eCommerceDataInfo() {
-    const navigate_to = (type, item) => {
-      switch (type) {
-        case 'Book a Pooja': {
-          navigation.navigate('bookPooja', { categoryData: item, type: 'book_a_pooja' })
-          break;
-        }
-        case 'Spell & Healings': {
-          navigation.navigate('bookPooja', { categoryData: item, type: 'spell' })
-          break;
-        }
-        default: {
-          navigation.navigate('products', { categoryData: item, type: 'products' })
-        }
-      }
-    }
-
     const renderItem = ({ item, index }) => {
       return (
         <TouchableOpacity
           activeOpacity={1}
-          onPress={() =>
-            navigate_to(item?.name, item)
-          }
+          onPress={() => navigate("product", { screenType: item.title, categoryId: item._id })}
           style={{
             width: SCREEN_WIDTH * 0.45,
             borderRadius: Sizes.fixPadding,
@@ -108,7 +82,7 @@ const ECommerce = ({ navigation }) => {
               overflow: 'hidden',
             }}>
             <Image
-              source={require('../../assets/images/astro.jpg')}
+              source={{ uri: item.image }}
               style={{
                 width: '100%',
                 height: '100%',
@@ -135,7 +109,7 @@ const ECommerce = ({ navigation }) => {
             }}>
             <Text
               style={[{ ...Fonts.black14InterMedium }, { textAlign: 'center' }]}>
-              {item.name}
+              {item.title}
             </Text>
           </LinearGradient>
         </TouchableOpacity>
@@ -144,9 +118,9 @@ const ECommerce = ({ navigation }) => {
     return (
       <View>
         <FlatList
-          data={categoryData}
+          data={ProductCategoryList}
           renderItem={renderItem}
-          keyExtractor={item => item.id}
+          keyExtractor={item => item._id}
           numColumns={2}
           columnWrapperStyle={{ justifyContent: 'space-evenly' }}
           ListEmptyComponent={<NoDataFound />}
@@ -200,7 +174,15 @@ const ECommerce = ({ navigation }) => {
   }
 };
 
-export default ECommerce;
+const mapStateToProps = state => ({
+  ProductCategoryList: state.eCommerce.ProductCategoryList,
+  isLoading: state.settings.isLoading,
+})
+
+const mapDispatchToProps = dispatch => ({ dispatch })
+
+export default connect(mapStateToProps, mapDispatchToProps)(ECommerce)
+
 
 const styles = StyleSheet.create({
   row: {

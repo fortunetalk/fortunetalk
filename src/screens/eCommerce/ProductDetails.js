@@ -10,11 +10,13 @@ import Stars from 'react-native-stars';
 import React, { useState } from 'react';
 import MyStatusBar from '../../components/MyStatusBar';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import LinearGradient from 'react-native-linear-gradient';
+import GlobalButton from '../../components/GlobalButton';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { SCREEN_WIDTH, Colors, Fonts, Sizes } from '../../assets/styles';
 
 const ProductDetails = ({ navigation, route }) => {
+  console.log("route.params.details===>>>", route.params.details)
+
   const [review, setreview] = useState([
     {
       id: '1',
@@ -31,9 +33,10 @@ const ProductDetails = ({ navigation, route }) => {
   ]);
 
   const [state, setState] = useState({
-    productData: [{}],
+    productData: route.params?.details,
     isLoading: false,
   });
+
 
   const updateState = data => {
     setState(prevState => {
@@ -69,29 +72,12 @@ const ProductDetails = ({ navigation, route }) => {
   );
 
   function bookNowButtonInfo() {
-
-    const add_product_to_cart = async item => {
-       navigation.navigate("cart")
-    };
-
+    const add_product_to_cart = () => {
+    }
     return (
-      <TouchableOpacity
-        activeOpacity={0.8}
-        onPress={() => add_product_to_cart(productData)}
-        style={{
-          marginHorizontal: Sizes.fixPadding * 3,
-          marginVertical: Sizes.fixPadding,
-          borderRadius: Sizes.fixPadding * 1.5,
-          overflow: 'hidden',
-        }}>
-        <LinearGradient
-          colors={[Colors.primaryLight, Colors.primaryDark]}
-          style={{ paddingVertical: Sizes.fixPadding }}>
-          <Text style={{ ...Fonts.white16RobotoMedium, textAlign: 'center' }}>
-            Book Now
-          </Text>
-        </LinearGradient>
-      </TouchableOpacity>
+      <View style={{ marginHorizontal: Sizes.fixPadding * 2}}>
+        <GlobalButton handlePress={() => add_product_to_cart()} ButtonName={"Book Now"} />
+      </View>
     );
   }
 
@@ -177,7 +163,7 @@ const ProductDetails = ({ navigation, route }) => {
         <FlatList
           data={review}
           renderItem={renderItem}
-          keyExtractor={item => review.id}
+          keyExtractor={item => item.id}
         />
       </View>
     );
@@ -198,10 +184,7 @@ const ProductDetails = ({ navigation, route }) => {
             ...Fonts.gray14RobotoMedium,
             fontSize: 13,
           }}>
-          Amethyst is believed to have positive effects on a wide range of professions, including surgeons, doctors, mechanical engineers, scientists, astrologers, writers, soldiers, archaeologists, politicians, lawyers, businessmen, dancers, actors, and people in the glamour industry. It is suggested to be worn on a Saturday.
-          {`\n\n`}
-          Benefits
-          When used as an alternative to Blue Sapphire, Amethyst is said to provide mental stability, tranquility, spiritual enlightenment, protection against various dangers, wealth, a good reputation
+          {productData?.description}
         </Text>
       </View>
     );
@@ -216,27 +199,35 @@ const ProductDetails = ({ navigation, route }) => {
           borderBottomColor: Colors.grayLight,
           borderBottomWidth: 1,
         }}>
-        <Text style={{ ...Fonts.primaryLight18RobotoMedium }}>
-          15 Ratti Amethyst
-        </Text>
+        <View style={{ display: "flex", justifyContent: "space-between", flexDirection: "row", alignItems: "center" }}>
+          <Text style={{ ...Fonts.primaryLight18RobotoMedium }}>
+            {productData?.title}
+          </Text>
+          <GlobalButton ButtonName={"Add to Cart"} />
+        </View>
+
         <Text style={{ ...Fonts.gray14RobotoMedium, fontSize: 13 }}>
-          Certified Natural Gemstone Quality
+          {productData?.shortDescription}
         </Text>
-        <Text style={{ ...Fonts.black16RobotoMedium }}>
-          ₹ 6896
+
+        <View style={{ display: "flex", justifyContent: "flex-start", flexDirection: "row", alignItems: "center", gap: 4 }}>
+          <Text style={{ ...Fonts.black16RobotoMedium }}>
+            ₹{productData.price - ((productData.price * productData.discount) / 100)}
+          </Text>
+
           <Text
             style={{
               ...Fonts.gray16RobotoMedium,
               textDecorationLine: 'line-through',
             }}>
+            ₹{productData?.price}
+          </Text>
 
-            ₹ 658
-          </Text>{' '}
           <Text style={{ ...Fonts.white14RobotoMedium, color: Colors.red_a }}>
-            10
+            {productData?.discount}
             % Off
           </Text>
-        </Text>
+        </View>
       </View>
     );
   }
@@ -251,7 +242,7 @@ const ProductDetails = ({ navigation, route }) => {
           overflow: 'hidden',
         }}>
         <Image
-          source={require("../../assets/images/astro.jpg")}
+          source={{ uri: productData?.image }}
           style={{
             width: '100%',
             height: SCREEN_WIDTH * 0.6,
@@ -297,8 +288,8 @@ const ProductDetails = ({ navigation, route }) => {
           onPress={() => on_cart_press()}
         >
           <Image
-              source={require("../../assets/images/astro.jpg")}
-              style={{ width: 22, height: 22 }}
+            source={require("../../assets/images/astro.jpg")}
+            style={{ width: 22, height: 22 }}
           />
         </TouchableOpacity>
       </View>

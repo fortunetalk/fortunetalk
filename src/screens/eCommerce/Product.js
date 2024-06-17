@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Loader from "../../components/Loader";
 import Filter from "../../components/Filter";
 import SearchInfo from "./components/SearchInfo";
@@ -47,10 +47,9 @@ const Product = ({ dispatch, navigation, route, ProductCategoryWaiseList }) => {
             updateState({ categoryData: ProductCategoryWaiseList?.products })
         }, [ProductCategoryWaiseList]))
 
-    useFocusEffect(
-        useCallback(() => {
-            dispatch(EcommerceActions.getProductCategoryWaiseList({ id }))
-        }, [id]))
+    useEffect(() => {
+        dispatch(EcommerceActions.getProductCategoryWaiseList({ id }))
+    }, [id])
 
     const search_product = () => {
 
@@ -123,7 +122,7 @@ const Product = ({ dispatch, navigation, route, ProductCategoryWaiseList }) => {
             return (
                 <TouchableOpacity
                     activeOpacity={1}
-                    onPress={() => navigation.navigate('productdetails')}
+                    onPress={() => navigation.navigate('productdetails', { details: item })}
                     style={{
                         width: SCREEN_WIDTH * 0.37,
                         height: SCREEN_WIDTH * 0.4,

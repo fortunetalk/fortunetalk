@@ -1,10 +1,10 @@
 import React from 'react'
 import {Image } from 'react-native'
 import Carousel from 'react-native-reanimated-carousel';
-import { TouchableWithoutFeedback } from 'react-native';
 import { navigate } from '../utils/navigationServices';
 import { Colors, SCREEN_WIDTH, Sizes } from '../assets/styles';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { TouchableOpacity } from 'react-native';
 
 const CustomCrousel = ({ data }) => {
   const baseOptions = {
@@ -15,7 +15,7 @@ const CustomCrousel = ({ data }) => {
 
   const renderItem = ({ item, index }) => {
     return (
-      <TouchableWithoutFeedback
+      <TouchableOpacity
        onPress={()=> navigate(item?.redirectionUrl)}
         style={{
           width: SCREEN_WIDTH * 0.95,
@@ -34,7 +34,7 @@ const CustomCrousel = ({ data }) => {
             borderRadius: Sizes.fixPadding,
           }}
         />
-      </TouchableWithoutFeedback>
+      </TouchableOpacity>
     );
   };
 

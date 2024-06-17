@@ -131,7 +131,10 @@ const ECommerce = ({ navigation, ProductCategoryList, dispatch }) => {
 
   function bannerInfo() {
     return (
-      <CustomCrousel />
+      <View>
+
+       {/* <CustomCrousel data={Array.from({ length: 5 })} /> */}
+      </View>
     );
   }
 

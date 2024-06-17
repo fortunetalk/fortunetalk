@@ -1,19 +1,22 @@
 import React from 'react'
-import { View, Image } from 'react-native'
+import {Image } from 'react-native'
 import Carousel from 'react-native-reanimated-carousel';
+import { TouchableWithoutFeedback } from 'react-native';
+import { navigate } from '../utils/navigationServices';
 import { Colors, SCREEN_WIDTH, Sizes } from '../assets/styles';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-const CustomCrousel = () => {
+const CustomCrousel = ({ data }) => {
   const baseOptions = {
     vertical: false,
     width: SCREEN_WIDTH,
     height: SCREEN_WIDTH * 0.4,
   };
 
-  const renderItem = ({index}) => {
+  const renderItem = ({ item, index }) => {
     return (
-      <View
+      <TouchableWithoutFeedback
+       onPress={()=> navigate(item?.redirectionUrl)}
         style={{
           width: SCREEN_WIDTH * 0.95,
           height: SCREEN_WIDTH * 0.35,
@@ -22,7 +25,7 @@ const CustomCrousel = () => {
           padding: Sizes.fixPadding * 0.5,
         }}>
         <Image
-          source={require('../assets/images/astro.jpg')}
+          source={{ uri: item?.image }}
           resizeMode="cover"
           style={{
             width: '100%',
@@ -31,12 +34,12 @@ const CustomCrousel = () => {
             borderRadius: Sizes.fixPadding,
           }}
         />
-      </View>
+      </TouchableWithoutFeedback>
     );
   };
 
   return (
-    <SafeAreaView edges={['bottom']} style={{flex: 1}}>
+    <SafeAreaView edges={['bottom']} style={{ flex: 1 }}>
       <Carousel
         {...baseOptions}
         loop
@@ -53,7 +56,7 @@ const CustomCrousel = () => {
           parallaxScrollingScale: 1,
           parallaxScrollingOffset: 0,
         }}
-        data={Array.from({length: 5})}
+        data={data}
         pagingEnabled={true}
         renderItem={renderItem}
       />

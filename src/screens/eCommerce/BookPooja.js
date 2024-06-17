@@ -107,7 +107,7 @@ const BookPooja = ({ dispatch, navigation, route, PoojaCategoryWaiseList }) => {
                 search_product={search_product}
                 updateState={updateState}
               />
-              <CustomCrousel />
+              {/* <CustomCrousel data={Array.from({ length: 5 })} /> */}
               {bookAPoojaInfo()}
             </>
           }

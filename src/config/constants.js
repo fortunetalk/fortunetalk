@@ -17,6 +17,8 @@ export const get_pooja_category_waise = "ecommerce/pooja/category/"
 export const get_product_category = "ecommerce/product/category"
 export const get_product_category_waise = "ecommerce/product/category/"
 
+export const get_course_banner = "banner/course-banner"
+
 export const google_map_key = 'AIzaSyBrLGLJ9fU5yVR_YLtW3Z_aHP9VnSw4NKg';
 
 export const zego_live_app_id = 587173410

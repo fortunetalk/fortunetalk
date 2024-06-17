@@ -4,7 +4,8 @@ import authSaga from './authSaga';
 import astrologerSaga from './astrologerSaga';
 import callSaga from './callSaga';
 import eCommerceSaga from './eCommerceSaga';
+import coursesSaga from './courseSaga';
 
 export default function* rootSaga() {
-  yield all([settingSaga(), authSaga(), astrologerSaga(), callSaga(), eCommerceSaga()]);
+  yield all([settingSaga(), authSaga(), astrologerSaga(), callSaga(), eCommerceSaga(), coursesSaga()]);
 }

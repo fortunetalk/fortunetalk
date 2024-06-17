@@ -12,10 +12,8 @@ import { Colors, SCREEN_WIDTH, Sizes, Fonts } from "../../assets/styles";
 import * as EcommerceActions from '../../redux/actions/eCommerceActions'
 import { FlatList, Image, ImageBackground, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
-const Product = ({ dispatch, navigation, route, ProductCategoryWaiseList }) => {
+const Product = ({ dispatch, navigation, route, productCategoryWaiseList }) => {
     const id = route.params.categoryId
-    console.log("ProductCategoryWaiseList===>>", ProductCategoryWaiseList)
-
     const [state, setState] = useState({
         isLoading: false,
         searchText: '',
@@ -28,7 +26,7 @@ const Product = ({ dispatch, navigation, route, ProductCategoryWaiseList }) => {
         selectedGenderFilters: [],
         activeFilter: 3,
         screenType: route.params.screenType,
-        categoryData: ProductCategoryWaiseList?.products
+        categoryData: productCategoryWaiseList?.products
     })
 
     const updateState = data => {
@@ -44,8 +42,8 @@ const Product = ({ dispatch, navigation, route, ProductCategoryWaiseList }) => {
 
     useFocusEffect(
         useCallback(() => {
-            updateState({ categoryData: ProductCategoryWaiseList?.products })
-        }, [ProductCategoryWaiseList]))
+            updateState({ categoryData: productCategoryWaiseList?.products })
+        }, [productCategoryWaiseList]))
 
     useEffect(() => {
         dispatch(EcommerceActions.getProductCategoryWaiseList({ id }))
@@ -94,7 +92,7 @@ const Product = ({ dispatch, navigation, route, ProductCategoryWaiseList }) => {
                                     borderBottomWidth: 1,
                                     borderColor: Colors.gray + '30',
                                 }}>
-                                <CustomCrousel />
+                                {/* <CustomCrousel data={Array.from({ length: 5 })} /> */}
                             </View>
                             {GemstoneInfo()}
                         </>
@@ -234,7 +232,7 @@ const Product = ({ dispatch, navigation, route, ProductCategoryWaiseList }) => {
 
 // export default BookPooja;
 const mapStateToProps = state => ({
-    ProductCategoryWaiseList: state.eCommerce.ProductCategoryWaiseList,
+    productCategoryWaiseList: state.eCommerce.productCategoryWaiseList,
     isLoading: state.settings.isLoading,
 })
 

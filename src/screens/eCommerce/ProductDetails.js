@@ -15,8 +15,6 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import { SCREEN_WIDTH, Colors, Fonts, Sizes } from '../../assets/styles';
 
 const ProductDetails = ({ navigation, route }) => {
-  console.log("route.params.details===>>>", route.params.details)
-
   const [review, setreview] = useState([
     {
       id: '1',

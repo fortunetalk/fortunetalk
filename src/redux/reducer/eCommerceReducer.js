@@ -4,7 +4,7 @@ const initialState = {
     PoojaCategoryList: null,
     PoojaCategoryWaiseList: null,
     ProductCategoryList: null,
-    ProductCategoryWaiseList: null,
+    productCategoryWaiseList: null,
 }
 
 const eCommerce = (state = initialState, actions) => {
@@ -31,7 +31,7 @@ const eCommerce = (state = initialState, actions) => {
         case actionTypes.GET_CATEGORY_WAISE_PRODUCT_DATA: {
             return {
                 ...state,
-                ProductCategoryWaiseList: payload
+                productCategoryWaiseList: payload
             }
         }
         default: {

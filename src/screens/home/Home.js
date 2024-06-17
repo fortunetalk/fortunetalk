@@ -7,7 +7,13 @@ import React, { useEffect, useRef } from 'react'
 import LatestBlogs from './components/LatestBlogs'
 import FreeInsights from './components/FreeInsights'
 import PoojaCategory from './components/PoojaCategory'
-import { View, FlatList, Animated, LayoutAnimation, SafeAreaView } from 'react-native'
+import {
+  View,
+  FlatList,
+  Animated,
+  LayoutAnimation,
+  SafeAreaView
+} from 'react-native'
 import MyStatusBar from '../../components/MyStatusBar'
 import LiveAstrologers from './components/LiveAstrologers'
 import RemedySuggestions from './components/RemedySuggestions'
@@ -76,7 +82,6 @@ const Home = ({ dispatch, tabVisible, courseBanner }) => {
       </View>
     </View>
   )
-
 
   function learningBanner() {
     return (

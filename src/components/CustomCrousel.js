@@ -1,10 +1,10 @@
 import React from 'react'
 import {Image } from 'react-native'
-import Carousel from 'react-native-reanimated-carousel';
-import { navigate } from '../utils/navigationServices';
-import { Colors, SCREEN_WIDTH, Sizes } from '../assets/styles';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { TouchableOpacity } from 'react-native';
+import { navigate } from '../utils/navigationServices';
+import Carousel from 'react-native-reanimated-carousel';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Colors, SCREEN_WIDTH, Sizes } from '../assets/styles';
 
 const CustomCrousel = ({ data }) => {
   const baseOptions = {

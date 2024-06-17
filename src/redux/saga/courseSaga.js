@@ -14,9 +14,6 @@ function* getCourseBanner() {
             url: app_api_url + get_course_banner,
         })
 
-        console.log("response===>>>>" , response)
-        console.log("app_api_url + get_course_banner===>>>>" , app_api_url + get_course_banner)
-
         if (response?.success) {
             yield put({ type: actionTypes.GET_COURSE_BANNER, payload: response?.data })
         }

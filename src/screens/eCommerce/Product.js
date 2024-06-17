@@ -171,9 +171,6 @@ const Product = ({ dispatch, navigation, route, productCategoryWaiseList }) => {
                 </TouchableOpacity>
             );
         };
-
-        console.log("categoryData=====>>>>>", categoryData)
-
         return (
             <View
                 style={{

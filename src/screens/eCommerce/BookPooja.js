@@ -19,10 +19,10 @@ import { SCREEN_WIDTH, Colors, Fonts, Sizes } from '../../assets/styles';
 import * as EcommerceActions from '../../redux/actions/eCommerceActions'
 import { connect } from 'react-redux';
 
-const BookPooja = ({ dispatch, navigation, route, PoojaCategoryWaiseList }) => {
+const BookPooja = ({ dispatch, navigation, route, poojaCategoryWaiseList }) => {
   const id = route.params.categoryId
   const [state, setState] = useState({
-    categoryData: PoojaCategoryWaiseList?.pooja,
+    categoryData: poojaCategoryWaiseList?.pooja,
     screenType: route.params.screenType,
     poojaData: null,
     isLoading: false,
@@ -235,7 +235,7 @@ const BookPooja = ({ dispatch, navigation, route, PoojaCategoryWaiseList }) => {
 
 // export default BookPooja;
 const mapStateToProps = state => ({
-  PoojaCategoryWaiseList: state.eCommerce.PoojaCategoryWaiseList,
+  poojaCategoryWaiseList: state.eCommerce.poojaCategoryWaiseList,
   isLoading: state.settings.isLoading,
 })
 

@@ -2,9 +2,11 @@ import * as actionTypes from '../actionTypes'
 
 const initialState = {
     PoojaCategoryList: null,
-    PoojaCategoryWaiseList: null,
+    poojaCategoryWaiseList: null,
     ProductCategoryList: null,
     productCategoryWaiseList: null,
+    productDetailsBanner: null,
+    productCategoryBanner: null,
 }
 
 const eCommerce = (state = initialState, actions) => {
@@ -25,13 +27,25 @@ const eCommerce = (state = initialState, actions) => {
         case actionTypes.GET_CATEGORY_WAISE_POOJA_DATA: {
             return {
                 ...state,
-                PoojaCategoryWaiseList: payload
+                poojaCategoryWaiseList: payload
             }
         }
         case actionTypes.GET_CATEGORY_WAISE_PRODUCT_DATA: {
             return {
                 ...state,
                 productCategoryWaiseList: payload
+            }
+        }
+        case actionTypes.GET_PRODUCT_DETAILS_BANNER: {
+            return {
+                ...state,
+                productDetailsBanner: payload
+            }
+        }
+        case actionTypes.GET_PRODUCT_CATEGORY_BANNER: {
+            return {
+                ...state,
+                productCategoryBanner: payload
             }
         }
         default: {

@@ -19,3 +19,14 @@ export const getProductCategoryWaiseList = payload => ({
     type: actionTypes.GET_CATEGORY_WAISE_PRODUCT_DATA,
     payload
 })
+
+export const getProductDetailsBanner = payload => ({
+    type: actionTypes.GET_PRODUCT_DETAILS_BANNER,
+    payload
+})
+
+export const getProductCategoryBanner = payload => ({
+    type: actionTypes.GET_PRODUCT_CATEGORY_BANNER,
+    payload
+})
+

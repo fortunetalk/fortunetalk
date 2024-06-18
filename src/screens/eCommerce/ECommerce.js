@@ -1,34 +1,29 @@
 import { connect } from 'react-redux';
 import { FlatList } from 'react-native';
 import Loader from '../../components/Loader';
-import React, { useCallback, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import MyStatusBar from '../../components/MyStatusBar';
 import NoDataFound from '../../components/NoDataFound';
+import { navigate } from '../../utils/navigationServices';
 import LinearGradient from 'react-native-linear-gradient';
-import { useFocusEffect } from '@react-navigation/native';
 import CustomCrousel from '../../components/CustomCrousel';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import * as EcommerceActions from '../../redux/actions/eCommerceActions'
 import { Colors, Fonts, SCREEN_WIDTH, Sizes } from '../../assets/styles';
 import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
-import { navigate } from '../../utils/navigationServices';
 
 const ECommerce = ({ navigation, ProductCategoryList, dispatch, productCategoryBanner }) => {
-  const [data, setdata] = useState([{}, {}, {}, {}]);
   const [state, setState] = useState({
     isLoading: false,
-    selectedItem: null,
   });
 
-  console.log("Fortune talks===????", ProductCategoryList)
-
-  useFocusEffect(
-    useCallback(() => {
+  useEffect(
+    () => {
       dispatch(EcommerceActions.getProductCategoryList())
       dispatch(EcommerceActions.getProductCategoryBanner())
-    }, [dispatch]))
+    }, [dispatch])
 
-  const { isLoading, selectedItem } = state;
+  const { isLoading } = state;
 
   return (
     <View style={{ flex: 1, backgroundColor: Colors.bodyColor }}>
@@ -42,7 +37,7 @@ const ECommerce = ({ navigation, ProductCategoryList, dispatch, productCategoryB
         <FlatList
           ListHeaderComponent={
             <>
-              {data && bannerInfo()}
+              {productCategoryBanner && <CustomCrousel data={productCategoryBanner} />}
               {ProductCategoryList && eCommerceDataInfo()}
             </>
           }
@@ -130,14 +125,6 @@ const ECommerce = ({ navigation, ProductCategoryList, dispatch, productCategoryB
     );
   }
 
-  function bannerInfo() {
-    return (
-      <View>
-        {productCategoryBanner && <CustomCrousel data={productCategoryBanner} />}
-      </View>
-    );
-  }
-
   function header() {
     return (
       <View
@@ -186,7 +173,6 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({ dispatch })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ECommerce)
-
 
 const styles = StyleSheet.create({
   row: {

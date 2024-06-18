@@ -22,6 +22,9 @@ export const get_course_banner = "banner/course-banner"
 export const get_product_details_banner = "banner/product-category-detail"
 export const get_product_category_banner = "banner/product-category"
 
+export const get_pooja_details_banner = "banner/pooja-category-detail"
+export const get_pooja_category_banner = "banner/pooja-category"
+
 export const google_map_key = 'AIzaSyBrLGLJ9fU5yVR_YLtW3Z_aHP9VnSw4NKg';
 
 export const zego_live_app_id = 587173410

@@ -8,7 +8,9 @@ import {
     get_pooja_category_waise,
     get_product_category_waise,
     get_product_details_banner,
-    get_product_category_banner
+    get_product_category_banner,
+    get_pooja_category_banner,
+    get_pooja_details_banner
 } from '../../config/constants'
 
 function* getPoojaCategoryList(actions) {
@@ -131,6 +133,44 @@ function* getProductCategoryBanner() {
     }
 }
 
+function* getPoojaDetailsBanner() {
+    try {
+        yield put({ type: actionTypes.SET_IS_LOADING, payload: true })
+
+        const response = yield getRequest({
+            url: app_api_url + get_pooja_details_banner,
+        })
+
+        if (response?.success) {
+            yield put({ type: actionTypes.GET_POOJA_DETAILS_BANNER, payload: response?.data })
+        }
+        yield put({ type: actionTypes.SET_IS_LOADING, payload: false })
+
+    } catch (error) {
+        yield put({ type: actionTypes.SET_IS_LOADING, payload: false })
+        console.log(e)
+    }
+}
+
+function* getPoojaCategoryBanner() {
+    try {
+        yield put({ type: actionTypes.SET_IS_LOADING, payload: true })
+
+        const response = yield getRequest({
+            url: app_api_url + get_pooja_category_banner,
+        })
+
+        if (response?.success) {
+            yield put({ type: actionTypes.GET_POOJA_CATEGORY_BANNER, payload: response?.data })
+        }
+        yield put({ type: actionTypes.SET_IS_LOADING, payload: false })
+
+    } catch (error) {
+        yield put({ type: actionTypes.SET_IS_LOADING, payload: false })
+        console.log(e)
+    }
+}
+
 
 export default function* eCommerceSaga() {
     yield takeLeading(actionTypes.GET_POOJA_CATEGORY_DATA, getPoojaCategoryList)
@@ -141,4 +181,7 @@ export default function* eCommerceSaga() {
 
     yield takeLeading(actionTypes.GET_PRODUCT_DETAILS_BANNER, getProductDetailsBanner)
     yield takeLeading(actionTypes.GET_PRODUCT_CATEGORY_BANNER, getProductCategoryBanner)
+
+    yield takeLeading(actionTypes.GET_POOJA_DETAILS_BANNER, getPoojaDetailsBanner)
+    yield takeLeading(actionTypes.GET_POOJA_CATEGORY_BANNER, getPoojaCategoryBanner)
 }

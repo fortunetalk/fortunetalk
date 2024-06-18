@@ -25,6 +25,11 @@ export const getProductDetailsBanner = payload => ({
     payload
 })
 
+export const getPoojaDetailsBanner = payload => ({
+    type: actionTypes.GET_POOJA_DETAILS_BANNER,
+    payload
+})
+
 export const getProductCategoryBanner = payload => ({
     type: actionTypes.GET_PRODUCT_CATEGORY_BANNER,
     payload

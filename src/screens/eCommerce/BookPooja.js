@@ -19,7 +19,7 @@ import { SCREEN_WIDTH, Colors, Fonts, Sizes } from '../../assets/styles';
 import * as EcommerceActions from '../../redux/actions/eCommerceActions'
 import { connect } from 'react-redux';
 
-const BookPooja = ({ dispatch, navigation, route, poojaCategoryWaiseList }) => {
+const BookPooja = ({ dispatch, navigation, route, poojaCategoryWaiseList, poojaDetailsBanner }) => {
   const id = route.params.categoryId
   const [state, setState] = useState({
     categoryData: poojaCategoryWaiseList?.pooja,
@@ -40,7 +40,10 @@ const BookPooja = ({ dispatch, navigation, route, poojaCategoryWaiseList }) => {
 
   useEffect(() => {
     dispatch(EcommerceActions.getPoojaCategoryWaiseList({ id }))
+    dispatch(EcommerceActions.getPoojaDetailsBanner())
   }, [])
+
+  console.log("poojaDetailsBanner===>>>>", poojaDetailsBanner)
 
   const search_product = text => {
     if (text) {
@@ -103,11 +106,11 @@ const BookPooja = ({ dispatch, navigation, route, poojaCategoryWaiseList }) => {
             <>
               <SearchInfo
                 searchText={searchText}
-                categoryData={categoryData}
+                categoryData={screenType}
                 search_product={search_product}
                 updateState={updateState}
               />
-              {/* <CustomCrousel data={Array.from({ length: 5 })} /> */}
+              {poojaDetailsBanner && <CustomCrousel data={poojaDetailsBanner} />}
               {bookAPoojaInfo()}
             </>
           }
@@ -132,9 +135,6 @@ const BookPooja = ({ dispatch, navigation, route, poojaCategoryWaiseList }) => {
 
   function bookAPoojaInfo() {
     const renderItem = ({ item, index }) => {
-
-      console.log("item=>>>>>>", item)
-
       return (
         <TouchableOpacity
           activeOpacity={1}
@@ -188,7 +188,7 @@ const BookPooja = ({ dispatch, navigation, route, poojaCategoryWaiseList }) => {
         <FlatList
           data={categoryData}
           renderItem={renderItem}
-          keyExtractor={item => item.id}
+          keyExtractor={item => item._id}
         />
       </View>
     );
@@ -236,6 +236,7 @@ const BookPooja = ({ dispatch, navigation, route, poojaCategoryWaiseList }) => {
 // export default BookPooja;
 const mapStateToProps = state => ({
   poojaCategoryWaiseList: state.eCommerce.poojaCategoryWaiseList,
+  poojaDetailsBanner: state.eCommerce.poojaDetailsBanner,
   isLoading: state.settings.isLoading,
 })
 

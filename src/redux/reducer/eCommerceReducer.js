@@ -7,6 +7,8 @@ const initialState = {
     productCategoryWaiseList: null,
     productDetailsBanner: null,
     productCategoryBanner: null,
+    poojaDetailsBanner: null,
+    poojaCategoryBanner: null
 }
 
 const eCommerce = (state = initialState, actions) => {
@@ -46,6 +48,18 @@ const eCommerce = (state = initialState, actions) => {
             return {
                 ...state,
                 productCategoryBanner: payload
+            }
+        }
+        case actionTypes.GET_POOJA_DETAILS_BANNER: {
+            return {
+                ...state,
+                poojaDetailsBanner: payload
+            }
+        }
+        case actionTypes.GET_POOJA_CATEGORY_BANNER: {
+            return {
+                ...state,
+                poojaCategoryBanner: payload
             }
         }
         default: {

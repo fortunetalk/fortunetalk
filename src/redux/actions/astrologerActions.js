@@ -24,3 +24,8 @@ export const setAstrologerDetails = payload => ({
     type: actionTypes.SET_ASTROLOGER_DETAILS,
     payload
 })
+
+export const setChatRequestModalData = payload => ({
+    type: actionTypes.SET_CHAT_REQUEST_MODAL_DATA,
+    payload
+})

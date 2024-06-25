@@ -13,6 +13,8 @@ import ImageView from '../screens/ImageView';
 import Profile from '../screens/customer/Profile';
 import Wallet from '../screens/payments/Wallet';
 import { ZegoUIKitPrebuiltCallWaitingScreen, ZegoUIKitPrebuiltCallInCallScreen } from '@zegocloud/zego-uikit-prebuilt-call-rn';
+import Payment from '../screens/payments/Payment';
+import ChatScreen from '../screens/chat/ChatScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -36,6 +38,8 @@ const StackRoutes = () => {
             <Stack.Screen name='wallet' component={Wallet} />
             <Stack.Screen name="ZegoUIKitPrebuiltCallWaitingScreen" component={ZegoUIKitPrebuiltCallWaitingScreen} />
             <Stack.Screen name="ZegoUIKitPrebuiltCallInCallScreen" component={ZegoUIKitPrebuiltCallInCallScreen} />
+            <Stack.Screen name="payment" component={Payment} options={{ animation: 'fade_from_bottom' }} />
+            <Stack.Screen name="chatScreen" component={ChatScreen} />
         </Stack.Navigator>
     )
 }

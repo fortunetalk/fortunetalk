@@ -16,12 +16,13 @@ import Gallary from './components/Gallary';
 import * as AstrologerActions from '../../redux/actions/astrologerActions'
 import { connect } from 'react-redux';
 import MyHeader from '../../components/MyHeader';
+import * as CallActions from '../../redux/actions/callActions'
 
 const AstrologerDetails = ({ navigation, dispatch, isLoading, route, astrologerData }) => {
 
     useEffect(() => {
         dispatch(AstrologerActions.getAstrologerDetails(route?.params?._id))
-        return ()=>{
+        return () => {
             dispatch(AstrologerActions.setAstrologerDetails(null))
         }
     }, [])
@@ -49,19 +50,8 @@ const AstrologerDetails = ({ navigation, dispatch, isLoading, route, astrologerD
             {bottomButtons()}
             {/*  {chatModalDetailesInfo()}
             {requestingModalInfo()} */}
-            {/* {imageViewInfo()} */}
         </View>
     );
-
-    function imageViewInfo() {
-        return (
-            <ImageView
-                imageVisible={imageVisible}
-                // updateState={updateState}
-                image={imageURI}
-            />
-        );
-    }
 
     function requestingModalInfo() {
         return (
@@ -469,6 +459,15 @@ const AstrologerDetails = ({ navigation, dispatch, isLoading, route, astrologerD
     }
 
     function bottomButtons() {
+        const on_call = () => {
+            const payload = {
+                navigation,
+                astrologerId: route?.params?._id,
+                astrologerName: astrologerData?.name,
+
+            }
+            dispatch(CallActions.sendCallRequest(payload))
+        }
         return (
             <View
                 style={[
@@ -505,7 +504,7 @@ const AstrologerDetails = ({ navigation, dispatch, isLoading, route, astrologerD
                     </LinearGradient>
                 </TouchableOpacity>
                 <TouchableOpacity
-                    // onPress={on_call}
+                    onPress={on_call}
                     style={[
                         styles.row,
                         styles.center,
@@ -592,7 +591,7 @@ const AstrologerDetails = ({ navigation, dispatch, isLoading, route, astrologerD
                             paddingVertical: Sizes.fixPadding * 0.5,
                             borderRadius: 1000,
                             marginVertical: Sizes.fixPadding,
-                            marginBottom: Sizes.fixPadding*2
+                            marginBottom: Sizes.fixPadding * 2
                         }}>
                         <Text style={{ ...Fonts.white14RobotoMedium }}>Follow</Text>
                     </LinearGradient>
@@ -604,7 +603,7 @@ const AstrologerDetails = ({ navigation, dispatch, isLoading, route, astrologerD
                         justifyContent: 'space-evenly',
                     }}>
                     <View style={[styles.boxContainer, styles.center]}>
-                        <Text style={{  ...Fonts._11RobotoMedium, color: Colors.grayC }}>({astrologerData?.rating ?? 1})</Text>
+                        <Text style={{ ...Fonts._11RobotoMedium, color: Colors.grayC }}>({astrologerData?.rating ?? 1})</Text>
                         <Stars
                             default={astrologerData?.avgRating ?? 1}
                             count={5}
@@ -624,10 +623,10 @@ const AstrologerDetails = ({ navigation, dispatch, isLoading, route, astrologerD
                         />
                     </View>
                     <View style={[styles.boxContainer, styles.center]}>
-                        <Text style={{ ...Fonts._15RobotMedium,  color: Colors.grayC }}>Ex. +{!astrologerData?.experience ?? 1} years</Text>
+                        <Text style={{ ...Fonts._15RobotMedium, color: Colors.grayC }}>Ex. +{!astrologerData?.experience ?? 1} years</Text>
                     </View>
                     <View style={[styles.boxContainer, styles.center]}>
-                        <Text style={{ ...Fonts._13RobotoMedium,  color: Colors.grayC }}>{astrologerData?.follower_count}</Text>
+                        <Text style={{ ...Fonts._13RobotoMedium, color: Colors.grayC }}>{astrologerData?.follower_count}</Text>
                         <Text style={{ ...Fonts._11RobotoMedium, color: Colors.grayC }}>Followers</Text>
                     </View>
                 </View>
@@ -661,7 +660,7 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.grayD,
         borderWidth: 1,
         borderColor: Colors.grayLight,
-        borderRadius: Sizes.fixPadding*1.5,
+        borderRadius: Sizes.fixPadding * 1.5,
         elevation: 2,
         shadowColor: Colors.blackLight
     },

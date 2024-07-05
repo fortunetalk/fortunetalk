@@ -25,6 +25,10 @@ export const get_product_category_waise = "ecommerce/product/category/"
 // courses
 export const get_course_banner = "banner/course-banner"
 export const get_course_list = "course/customer"
+export const get_demo_class_list = "course/customer/demo_cass_by_course_id"
+export const get_live_class_list = "course/customer/live_cass_by_course_id"
+export const get_workshop_list = "course/customer/workshop_by_course_id"
+export const get_teachers_list = "course/customer"
 
 export const get_product_details_banner = "banner/product-category-detail"
 export const get_product_category_banner = "banner/product-category"

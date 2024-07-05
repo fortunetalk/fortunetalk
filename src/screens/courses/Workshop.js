@@ -8,7 +8,7 @@ import { FlatList, TouchableOpacity } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { Colors, Fonts, SCREEN_WIDTH, Sizes } from '../../assets/styles';
 
-const TeachersList = ({ isLoading }) => {
+const Workshop = ({ isLoading }) => {
 
     const demoClassData = [
         {
@@ -177,4 +177,4 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({ dispatch })
 
-export default connect(mapStateToProps, mapDispatchToProps)(TeachersList)
+export default connect(mapStateToProps, mapDispatchToProps)(Workshop)

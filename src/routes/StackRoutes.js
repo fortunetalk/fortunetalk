@@ -29,7 +29,7 @@ import ChatScreen from '../screens/chat/ChatScreen';
 import ViewProduct from '../screens/eCommerce/ViewProduct';
 import ViewPooja from '../screens/eCommerce/ViewPooja';
 import Learn from '../screens/courses/Learn';
-import TeachersList from '../screens/courses/TeachersList';
+import Courses from '../screens/courses/Courses';
 
 const Stack = createNativeStackNavigator();
 
@@ -73,7 +73,7 @@ const StackRoutes = () => {
             <Stack.Screen name="payment" component={Payment} options={{ animation: 'fade_from_bottom' }} />
             <Stack.Screen name="chatScreen" component={ChatScreen} />
             <Stack.Screen name="learn" component={Learn} />
-            <Stack.Screen name="teacherslist" component={TeachersList} />
+            <Stack.Screen name="Courses" component={Courses} />
         </Stack.Navigator>
     )
 }

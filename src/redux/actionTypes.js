@@ -47,6 +47,10 @@ export const GET_POOJA_CATEGORY_BANNER = "GET_POOJA_CATEGORY_BANNER"
 // ************** Course **************************
 export const GET_COURSE_BANNER = "GET_COURSE_BANNER"
 export const GET_COURSES_LIST = "GET_COURSES_LIST"
+export const GET_LIVE_CLASS = "GET_LIVE_CLASS"
+export const GET_DEMO_CLASS = "GET_DEMO_CLASS"
+export const GET_WORKSHOP = "GET_WORKSHOP"
+export const GET_TEACHERS_LIST = "GET_TEACHERS_LIST"
 
 //Chat
 export const SEND_CHAT_REQUEST = 'SEND_CHAT_REQUEST';

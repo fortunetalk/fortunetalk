@@ -76,7 +76,7 @@ const Learn = ({
       return (
         <TouchableOpacity
           activeOpacity={1}
-          onPress={() => navigate("teacherslist", { course: item })}
+          onPress={() => navigate("Courses", { course: item })}
           style={{
             width: SCREEN_WIDTH * 0.45,
             borderRadius: Sizes.fixPadding,

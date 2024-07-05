@@ -10,9 +10,7 @@ const ProductCategory = ({ dispatch, ProductCategoryList }) => {
   useEffect(() => {
     dispatch(EcommerceActions.getProductCategoryList())
   }, [dispatch])
-
-  console.log("ProductCategoryList===>>>>", ProductCategoryList)
-
+  
   const renderItem = ({ item, index }) => {
     return (
       <TouchableOpacity

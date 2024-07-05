@@ -2,6 +2,7 @@ import * as actionTypes from '../actionTypes'
 
 const initialState = {
     courseBanner: null,
+    courseList:null
 }
 
 const courses = (state = initialState, actions) => {
@@ -11,6 +12,12 @@ const courses = (state = initialState, actions) => {
             return {
                 ...state,
                 courseBanner: payload
+            }
+        }
+        case actionTypes.GET_COURSES_LIST: {
+            return {
+                ...state,
+                courseList: payload
             }
         }
         default: {

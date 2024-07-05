@@ -4,7 +4,6 @@ import { useNavigation } from '@react-navigation/native'
 import { Sizes, Fonts, Colors } from '../../../assets/styles'
 
 const Search = () => {
-  const navigation = useNavigation()
   return (
     <View
       style={{

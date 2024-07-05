@@ -24,11 +24,17 @@ export const get_product_category_waise = "ecommerce/product/category/"
 
 // courses
 export const get_course_banner = "banner/course-banner"
+export const get_course_list = "course/customer"
+
 export const get_product_details_banner = "banner/product-category-detail"
 export const get_product_category_banner = "banner/product-category"
 
 export const get_pooja_details_banner = "banner/pooja-category-detail"
 export const get_pooja_category_banner = "banner/pooja-category"
+
+
+
+
 
 export const google_map_key = 'AIzaSyBjKP15Z_-tCf5EYm5PBbgZPe4yKaRqoFQ';
 

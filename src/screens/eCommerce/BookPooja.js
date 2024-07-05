@@ -43,8 +43,6 @@ const BookPooja = ({ dispatch, navigation, route, poojaCategoryWaiseList, poojaD
     dispatch(EcommerceActions.getPoojaDetailsBanner())
   }, [])
 
-  console.log("poojaDetailsBanner===>>>>", poojaDetailsBanner)
-
   const search_product = text => {
     if (text) {
       // Inserted text is not blank

@@ -26,6 +26,8 @@ import ProductSuccessBooking from '../screens/eCommerce/ProductSuccessBooking';
 import ProductTracking from '../screens/eCommerce/ProductTracking';
 import RateProduct from '../screens/eCommerce/RateProduct';
 import Product from '../screens/eCommerce/Product';
+import Payment from '../screens/payments/Payment';
+import ChatScreen from '../screens/chat/ChatScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -64,6 +66,8 @@ const StackRoutes = () => {
             <Stack.Screen name="productTracking" component={ProductTracking} />
             <Stack.Screen name="rateProduct" component={RateProduct} />
 
+            <Stack.Screen name="payment" component={Payment} options={{ animation: 'fade_from_bottom' }} />
+            <Stack.Screen name="chatScreen" component={ChatScreen} />
         </Stack.Navigator>
     )
 }

@@ -2,12 +2,14 @@ import { View, Text, FlatList, StyleSheet, TouchableOpacity, TextInput } from 'r
 import React, { useState } from 'react'
 import { Colors, Sizes, Fonts, SCREEN_WIDTH } from '../../assets/styles';
 import MyStatusBar from '../../components/MyStatusBar';
-import { priceData } from '../../config/data';
-import { showNumber } from '../../utils/services';
-import Carousel from 'react-native-reanimated-carousel';
+import { showNumber, showToastMessage } from '../../utils/services';
+import AntDesign from 'react-native-vector-icons/AntDesign'
+import WalletBanner from './components/WalletBanner';
+import { regex } from '../../config/data';
+import { connect } from 'react-redux';
 
-const Wallet = () => {
-    const [amount, setAmount] = useState('0')
+const Wallet = ({ navigation }) => {
+    const [amount, setAmount] = useState('')
     return (
         <View style={{ flex: 1, backgroundColor: Colors.bodyColor }}>
             <MyStatusBar
@@ -19,7 +21,7 @@ const Wallet = () => {
                 <FlatList
                     ListHeaderComponent={
                         <>
-                            {walletInfo()}
+                            <WalletBanner />
                             <View style={styles.boxContainer}>
                                 {titleInfo()}
                                 {inputFieldInfo()}
@@ -34,15 +36,24 @@ const Wallet = () => {
     );
 
     function proceedButtonInfo() {
+        const onPayment = () => {
+            if(amount.length == 0){
+                showToastMessage({message: 'Please enter an amount.'})
+                return
+            }else if(!regex.amount.test(amount)){
+                showToastMessage({message: 'Please enter a valid amount.'})
+                return
+            }
+            navigation.navigate('payment', { amount, type: 'wallet' })
+        }
         return (
             <TouchableOpacity
                 activeOpacity={0.8}
-                // disabled={amount.length == 0}
-                // onPress={on_payment}
+                onPress={onPayment}
                 style={{
                     backgroundColor: Colors.primaryLight,
                     paddingVertical: Sizes.fixPadding,
-                    borderRadius: Sizes.fixPadding * 2,
+                    borderRadius: Sizes.fixPadding * 1.5,
                 }}>
                 <Text style={{ ...Fonts.white16RobotoMedium, textAlign: 'center' }}>
                     Proceed for Payment
@@ -57,19 +68,19 @@ const Wallet = () => {
                 <TouchableOpacity
                     // onPress={() => setAmount(item.recharge_plan_amount)}
                     activeOpacity={0.8}
-                    style={[styles.priceBox, { backgroundColor: amount == item.recharge_plan_amount ? Colors.primaryLight : Colors.white }]}>
-                    <Text style={{ ...Fonts.gray14RobotoMedium, color: amount == item.recharge_plan_amount ? Colors.white : Colors.gray }}>₹ {parseFloat(item.recharge_plan_amount).toFixed(0)}</Text>
+                    style={[styles.priceBox, { backgroundColor: index == 1 ? Colors.primaryLight : Colors.grayF }]}>
+                    <Text style={{ ...Fonts._15RobotMedium, color: index == 1 ? Colors.white : Colors.gray }}>{showNumber(25 + index * 5)}</Text>
                 </TouchableOpacity>
             );
         };
         return (
-            <View style={{ marginVertical: Sizes.fixPadding * 2 }}>
+            <View style={{ marginVertical: Sizes.fixPadding * 2, marginBottom: Sizes.fixPadding * 3 }}>
                 <FlatList
-                    data={priceData}
+                    data={Array.from({ length: 12 })}
                     renderItem={renderItem}
-                    keyExtractor={item => item.recharge_plan_id}
                     numColumns={3}
                 />
+                <Text style={{ ...Fonts._11RobotoRegular, textAlign: 'center', color: Colors.primaryLight }}>Choose from available amount</Text>
             </View>
         );
     }
@@ -79,13 +90,16 @@ const Wallet = () => {
             <TextInput
                 value={amount}
                 placeholder="Enter amount"
+                maxLength={5}
                 placeholderTextColor={Colors.gray}
                 keyboardType="number-pad"
                 onChangeText={setAmount}
                 style={{
-                    ...Fonts.primaryLight15RobotoMedium,
+                    ...Fonts._15RobotMedium,
+                    color: Colors.primaryLight,
                     borderWidth: 1,
-                    padding: Sizes.fixPadding * 0.8,
+                    paddingVertical: Sizes.fixPadding * 0.8,
+                    paddingHorizontal: Sizes.fixPadding * 2,
                     width: '80%',
                     alignSelf: 'center',
                     marginVertical: Sizes.fixPadding * 2,
@@ -105,96 +119,9 @@ const Wallet = () => {
                 }}>
                 <Text
                     style={{ ...Fonts.primaryLight18RobotoMedium, textAlign: 'center' }}>
-                    Add Money to your wallet
+                    Add Money to your Wallet
                 </Text>
             </View>
-        );
-    }
-
-    function walletInfo() {
-        const baseOptions = {
-            vertical: false,
-            width: SCREEN_WIDTH * 0.4,
-            height: 158,
-        };
-
-        const renderItem = ({ index }) => {
-            return (
-                <View
-                    style={{
-                        width: SCREEN_WIDTH * 0.4,
-                        height: 150,
-                    }}>
-                    <Image
-                        source={walletBannerData[index].image}
-                        style={{
-                            width: '100%',
-                            height: '100%',
-                            resizeMode: 'contain',
-                        }}
-                    />
-                </View>
-            );
-        };
-
-        return (
-            <SafeAreaView edges={['bottom']} style={{ flex: 1 }}>
-                <LinearGradient
-                    colors={[Colors.primaryLight, Colors.primaryDark]}
-                    style={styles.walletContainer}>
-                    <View style={{ flex: 0.5 }}>
-                        <Text style={{ ...Fonts.white18RobotMedium, fontSize: 22 }}>
-                            Wallet Balance
-                        </Text>
-                        <Text
-                            style={{
-                                ...Fonts.white18RobotMedium,
-                                fontSize: 26,
-                                marginTop: Sizes.fixPadding,
-                            }}>
-                            {showNumber(100)}
-                        </Text>
-                    </View>
-                    <View style={{ flex: 0.4 }}>
-                        <Carousel
-                            {...baseOptions}
-                            loop
-                            testID={'xxx'}
-                            style={{
-                                width: '100%',
-                            }}
-                            autoPlay={true}
-                            autoPlayInterval={4000}
-                            onProgressChange={(_, absoluteProgress) => {
-                                progressValue.value = Math.ceil(absoluteProgress);
-                                // setPaginationIndex(Math.ceil(absoluteProgress));
-                            }}
-                            mode="parallax"
-                            modeConfig={{
-                                parallaxScrollingScale: 1,
-                                parallaxScrollingOffset: 0,
-                            }}
-                            data={walletBannerData}
-                            pagingEnabled={true}
-                            renderItem={renderItem}
-                        />
-                        <View style={{ ...styles.row, justifyContent: 'center' }}>
-                            {walletBannerData.map((_, index) => {
-                                // console.log(index)
-                                return (
-                                    <WalletPagination
-                                        animValue={progressValue}
-                                        index={index}
-                                        key={index}
-                                        length={walletBannerData.length}
-                                        isRotate={false}
-                                    />
-                                );
-                            })}
-                        </View>
-                    </View>
-                </LinearGradient>
-            </SafeAreaView>
         );
     }
 
@@ -216,12 +143,13 @@ const Wallet = () => {
                     <AntDesign
                         name="leftcircleo"
                         color={Colors.white}
-                        size={Sizes.fixPadding * 2.2}
+                        size={Sizes.fixPadding * 2}
                     />
                 </TouchableOpacity>
                 <Text
                     style={{
-                        ...Fonts.white16RobotoMedium,
+                        ...Fonts._15RobotMedium,
+                        color: Colors.white,
                         textAlign: 'center',
                         flex: 0.92,
                     }}>
@@ -232,7 +160,13 @@ const Wallet = () => {
     }
 }
 
-export default Wallet
+const mapStateToProps = state => ({
+
+})
+
+const mapDispatchToProps = dispatch =>({dispatch})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Wallet)
 
 const styles = StyleSheet.create({
     row: {
@@ -245,20 +179,12 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
 
-    walletContainer: {
-        flex: 0,
-        flexDirection: 'row',
-        alignItems: 'center',
-        paddingVertical: Sizes.fixPadding * 5,
-        justifyContent: 'space-around',
-    },
-
     boxContainer: {
         width: SCREEN_WIDTH * 0.85,
         backgroundColor: '#FBFBFB',
         top: -Sizes.fixPadding * 3,
         alignSelf: 'center',
-        elevation: 8,
+        elevation: 5,
         shadowOffset: {
             width: 0,
             height: 1,
@@ -266,20 +192,21 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.2,
         shadowColor: Colors.blackLight,
         borderRadius: Sizes.fixPadding * 2,
-        overflow: 'hidden',
+        overflow: 'visible',
+        marginBottom: Sizes.fixPadding,
     },
     priceBox: {
         width: SCREEN_WIDTH * 0.24,
         height: SCREEN_WIDTH * 0.15,
         marginLeft: SCREEN_WIDTH * 0.033,
         backgroundColor: '#FBFBFB',
-        elevation: 5,
+        elevation: 3,
         shadowOffset: {
             width: 0,
             height: 1,
         },
         shadowOpacity: 0.2,
-        shadowColor: Colors.gray,
+        shadowColor: Colors.blackLight,
         marginBottom: SCREEN_WIDTH * 0.033,
         justifyContent: 'center',
         alignItems: 'center',

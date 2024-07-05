@@ -1,5 +1,5 @@
 import { View, Text, Image } from 'react-native'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import MyStatusBar from '../components/MyStatusBar'
 import LinearGradient from 'react-native-linear-gradient'
 import { Colors, SCREEN_WIDTH } from '../assets/styles'
@@ -8,7 +8,6 @@ import * as SettingActions from '../redux/actions/settingActions'
 import LottieView from "lottie-react-native";
 
 const Splash = ({ dispatch }) => {
-
     useEffect(() => {
         setTimeout(() => {
             dispatch(SettingActions.getSplash())

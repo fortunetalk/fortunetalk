@@ -3,7 +3,11 @@ import * as actionTypes from '../actionTypes'
 const initialState = {
     astroChatList: null,
     astroCallList: null,
-    astrologerData: null
+    astrologerData: null,
+    chatRequestModalData: {
+        visible: false,
+        data: null
+    }
 }
 
 const astrologer = (state = initialState, actions) => {
@@ -25,6 +29,12 @@ const astrologer = (state = initialState, actions) => {
             return {
                 ...state,
                 astrologerData: payload
+            }
+        }
+        case actionTypes.SET_CHAT_REQUEST_MODAL_DATA: {
+            return {
+                ...state,
+                chatRequestModalData: payload
             }
         }
         default: {

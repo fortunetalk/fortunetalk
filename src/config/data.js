@@ -1,7 +1,7 @@
 export const genderData = [
-  { label: 'Male', value: 'male' },
-  { label: 'Female', value: 'female' },
-  { label: 'Other', value: 'other' },
+  { label: 'Male', value: 'Male' },
+  { label: 'Female', value: 'Female' },
+  { label: 'Other', value: 'Other' },
 ];
 
 export const occupationData = [
@@ -24,7 +24,8 @@ export const problemData = [
 
 export const regex = {
   phoneNumber: /^\d{10}$/,
-  name: /^[A-Z][a-z'-]*(?: [A-Z][a-z'-]*)*$/
+  name: /^[A-Z][a-z'-]*(?: [A-Z][a-z'-]*)*$/,
+  amount: /^(\d+)(\.\d+)?$/
 }
 
 export const freeInsightData = [

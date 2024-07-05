@@ -6,9 +6,16 @@ import ZegoUIKitPrebuiltCallService, {
   GROUP_VOICE_CALL_CONFIG,
   ONE_ON_ONE_VIDEO_CALL_CONFIG,
   ONE_ON_ONE_VOICE_CALL_CONFIG,
+  ZegoInvitationType,
+  ZegoMenuBarButtonName,
 } from '@zegocloud/zego-uikit-prebuilt-call-rn';
+import { ZegoLayoutMode } from '@zegocloud/zego-uikit-rn'
+import { View } from 'react-native';
+import { Colors, SCREEN_HEIGHT, SCREEN_WIDTH } from '../assets/styles';
+import MyForegroundView from '../screens/call/components/MyForegroundView';
+import { navigate, resetToScreen } from './navigationServices';
 
-export const onUserLogin = async (userID, userName, props) => {
+export const onUserLogin = async (userID, userName) => {
   return ZegoUIKitPrebuiltCallService.init(
     zego_call_app_id, // You can get it from ZEGOCLOUD's console
     zego_call_app_sign, // You can get it from ZEGOCLOUD's console
@@ -29,11 +36,33 @@ export const onUserLogin = async (userID, userName, props) => {
             : ZegoInvitationType.videoCall === data.type
               ? ONE_ON_ONE_VIDEO_CALL_CONFIG
               : ONE_ON_ONE_VOICE_CALL_CONFIG;
-        return callConfig;
-      },
-      androidNotificationConfig: {
-        channelID: 'ZegoUIKit',
-        channelName: 'ZegoUIKit',
+        return {
+          ...callConfig,
+          foregroundBuilder: () => {
+            return (<MyForegroundView />);
+          },
+          layout: {
+            mode: ZegoLayoutMode.pictureInPicture,
+            config: {
+              smallViewBackgroundColor: Colors.primaryLight,
+              largeViewBackgroundColor: Colors.black,
+              smallViewBackgroundImage: "your_server_image_url",
+              largeViewBackgroundImage: "http://97.74.83.200:4000/uploads/customerApp/call_backgroud.png",
+            }
+          },
+          onWindowMinimized: () => {
+            resetToScreen('home');
+          },
+          onWindowMaximized: () => {
+            // Navigate to the ZegoUIKitPrebuiltCallInCallScreen, but be sure to cannot include any parameters of the page.
+            navigate('ZegoUIKitPrebuiltCallInCallScreen');
+          },
+          topMenuBarConfig: {
+            buttons: [
+              ZegoMenuBarButtonName.minimizingButton,
+            ],
+          },
+        };
       },
       notifyWhenAppRunningInBackgroundOrQuit: true,
       isIOSSandboxEnvironment: true,
@@ -51,15 +80,15 @@ export const onUserLogin = async (userID, userName, props) => {
   });
 };
 
-export const sendCallInvitation = ({ navigation, callTo }) => {
+export const sendCallInvitation = ({ navigation, callTo, customData }) => {
   try {
     ZegoUIKitPrebuiltCallService.sendCallInvitation(callTo, false, navigation, {
       resourceID: 'fortunetalk_call',
-      timeout: 60,
-      callID: '123456789',
+      timeout: 10,
+      callID: customData,
       notificationTitle: 'Title',
       notificationMessage: 'Message',
-      customData: '',
+      customData
     });
   } catch (e) {
     console.log(e);

@@ -111,7 +111,7 @@ const inidanNumber = Intl.NumberFormat('en-IN', {
   style: 'currency',
   currency: 'INR',
   currencyDisplay: 'symbol',
-  minimumFractionDigits: 2,
+  minimumFractionDigits: 1,
 });
 
 export const showNumber = value => {

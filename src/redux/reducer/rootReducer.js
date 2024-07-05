@@ -4,6 +4,7 @@ import customer from './customerReducer';
 import astrologer from './astrologerReducer';
 import eCommerce from './eCommerceReducer';
 import courses from './courseReducer';
+import chat from './chatReducer';
 
 const rootReducer = combineReducers({
   settings,
@@ -11,6 +12,7 @@ const rootReducer = combineReducers({
   astrologer,
   eCommerce,
   courses,
+  chat
 });
 
 const appReducer = (state, action) => {

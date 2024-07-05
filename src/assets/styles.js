@@ -17,6 +17,10 @@ export const Colors = {
   grayB: '#969696',
   grayC: '#8F8F8F',
   grayD: '#F4F4F4',
+  grayE: '#BFBFBF',
+  grayF: '#F8F8F8',
+  grayG: '#F9F9F9',
+  grayI: '#F1F1F1',
   blackLight: '#717171',
   black: '#000000',
   greenLight: '#2B8600',
@@ -155,8 +159,18 @@ export const Fonts = {
     color: Colors.black,
     fontSize: 13,
   },
+  _13RobotoBold: {
+    fontFamily: 'Roboto-Bold',
+    color: Colors.black,
+    fontSize: 13,
+  },
   _15RobotoRegular: {
     fontFamily: 'Roboto-Regular',
+    color: Colors.black,
+    fontSize: 15,
+  },
+  _15RobotoBold: {
+    fontFamily: 'Roboto-Bold',
     color: Colors.black,
     fontSize: 15,
   },
@@ -188,6 +202,11 @@ export const Fonts = {
   },
   _18RobotoMedium: {
     fontFamily: 'Roboto-Medium',
+    color: Colors.black,
+    fontSize: 18,
+  },
+  _18RobotoBold: {
+    fontFamily: 'Roboto-Bold',
     color: Colors.black,
     fontSize: 18,
   },

@@ -4,6 +4,7 @@ import * as actionTypes from '../actionTypes.js'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { postRequest } from '../../utils/apiRequests.js'
 import { app_api_url, get_splash } from '../../config/constants.js'
+import { onUserLogin } from '../../utils/zegoCall.js'
 
 function* getSplash() {
     try {
@@ -19,6 +20,7 @@ function* getSplash() {
             if (response?.success) {
                 yield AsyncStorage.setItem('customerData', JSON.stringify(response?.data))
                 yield put({ type: actionTypes.SET_CUSTOMER_DATA, payload: response?.data })
+                yield onUserLogin("1", 'Ranjeet Kumar')
                 yield call(resetToScreen, 'home')
             }
         } else {

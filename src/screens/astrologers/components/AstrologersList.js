@@ -8,15 +8,22 @@ import { showNumber } from '../../../utils/services';
 import { navigate } from '../../../utils/navigationServices';
 import { connect } from 'react-redux';
 import * as CallActions from '../../../redux/actions/callActions'
+import * as ChatActions from '../../../redux/actions/chatActions'
 import { useNavigation } from '@react-navigation/native';
 
 const AstrologerItems = memo(({ item, index, type = 'chat', dispatch }) => {
     const navigation = useNavigation()
     const onSubmit = () => {
+        const payload = {
+            navigation,
+            astrologerId: item?._id,
+            astrologerName: item?.name,
+            astrologerImage: item?.profileImage,
+        }
         if (type === 'chat') {
-
+            dispatch(ChatActions.sendChatRequest(payload))
         } else {
-            dispatch(CallActions.sendCallRequest({ navigation }))
+            dispatch(CallActions.sendCallRequest(payload))
         }
     }
     return (

@@ -6,7 +6,7 @@ import * as EcommerceActions from '../../../redux/actions/eCommerceActions'
 import { View, Text, TouchableOpacity, FlatList, Image, StyleSheet } from 'react-native'
 
 const PoojaCategory = ({ dispatch, PoojaCategoryList }) => {
-
+    
     useEffect(() => {
         dispatch(EcommerceActions.getPoojaCategoryList())
     }, [dispatch])
@@ -71,7 +71,7 @@ const PoojaCategory = ({ dispatch, PoojaCategoryList }) => {
                 <Text style={{ ...Fonts.black16RobotoMedium }}>Pooja Section</Text>
                 <TouchableOpacity
                     activeOpacity={0.8}
-                    onPress={() => navigate("eCommerce")}
+                    onPress={() => navigate("viewPooja")}
                 >
                     <Text style={{ ...Fonts.primaryLight15RobotoRegular }}>View all</Text>
                 </TouchableOpacity>
@@ -92,8 +92,8 @@ const PoojaCategory = ({ dispatch, PoojaCategoryList }) => {
 
 
 const mapStateToProps = state => ({
-    PoojaCategoryList: state.eCommerce.PoojaCategoryList,
     isLoading: state.settings.isLoading,
+    PoojaCategoryList: state.eCommerce.PoojaCategoryList,
 })
 
 const mapDispatchToProps = dispatch => ({ dispatch })

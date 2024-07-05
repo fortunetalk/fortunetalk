@@ -15,7 +15,6 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import Notifications from '../../utils/notifiactionManager';
 import { Colors, Fonts, Sizes } from '../../assets/styles';
 
-
 const PersonalDetails = ({ navigation, route, userData }) => {
   const [state, setState] = useState({
     cartData: [],

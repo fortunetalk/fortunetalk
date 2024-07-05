@@ -1,6 +1,5 @@
 import { call, select, takeLeading } from "redux-saga/effects"
 import * as actionTypes from "../actionTypes"
-import { call, takeLeading } from "redux-saga/effects"
 import { sendCallInvitation } from "../../utils/zegoCall"
 import { postRequest } from "../../utils/apiRequests"
 import { app_api_url, initiate_zego_call } from "../../config/constants"

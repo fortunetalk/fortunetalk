@@ -1,29 +1,29 @@
 import { connect } from 'react-redux';
 import { FlatList } from 'react-native';
 import Loader from '../../components/Loader';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import MyStatusBar from '../../components/MyStatusBar';
 import NoDataFound from '../../components/NoDataFound';
 import { navigate } from '../../utils/navigationServices';
 import LinearGradient from 'react-native-linear-gradient';
-import CustomCrousel from '../../components/CustomCrousel';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import * as EcommerceActions from '../../redux/actions/eCommerceActions'
 import { Colors, Fonts, SCREEN_WIDTH, Sizes } from '../../assets/styles';
 import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import CustomCarousel from '../../components/CustomCrousel';
 
-const ECommerce = ({ navigation, ProductCategoryList, dispatch, productCategoryBanner }) => {
-  const [state, setState] = useState({
-    isLoading: false,
-  });
+const ViewPooja = ({
+  navigation,
+  PoojaCategoryList,
+  dispatch,
+  productCategoryBanner,
+  isLoading
+}) => {
 
   useEffect(
     () => {
-      dispatch(EcommerceActions.getProductCategoryList())
-      dispatch(EcommerceActions.getProductCategoryBanner())
+      dispatch(EcommerceActions.getPoojaCategoryList())
     }, [dispatch])
-
-  const { isLoading } = state;
 
   return (
     <View style={{ flex: 1, backgroundColor: Colors.bodyColor }}>
@@ -37,8 +37,8 @@ const ECommerce = ({ navigation, ProductCategoryList, dispatch, productCategoryB
         <FlatList
           ListHeaderComponent={
             <>
-              {productCategoryBanner && <CustomCrousel data={productCategoryBanner} />}
-              {ProductCategoryList && eCommerceDataInfo()}
+              {productCategoryBanner && <CustomCarousel data={productCategoryBanner} />}
+              {PoojaCategoryList && eCommerceDataInfo()}
             </>
           }
           contentContainerStyle={{ paddingVertical: Sizes.fixPadding }}
@@ -114,7 +114,7 @@ const ECommerce = ({ navigation, ProductCategoryList, dispatch, productCategoryB
     return (
       <View>
         <FlatList
-          data={ProductCategoryList}
+          data={PoojaCategoryList}
           renderItem={renderItem}
           keyExtractor={item => item._id}
           numColumns={2}
@@ -165,14 +165,14 @@ const ECommerce = ({ navigation, ProductCategoryList, dispatch, productCategoryB
 };
 
 const mapStateToProps = state => ({
-  ProductCategoryList: state.eCommerce.ProductCategoryList,
-  productCategoryBanner: state.eCommerce.productCategoryBanner,
   isLoading: state.settings.isLoading,
+  productCategoryBanner: state.eCommerce.productCategoryBanner,
+  PoojaCategoryList: state.eCommerce.PoojaCategoryList,
 })
 
 const mapDispatchToProps = dispatch => ({ dispatch })
 
-export default connect(mapStateToProps, mapDispatchToProps)(ECommerce)
+export default connect(mapStateToProps, mapDispatchToProps)(ViewPooja)
 
 const styles = StyleSheet.create({
   row: {
@@ -181,3 +181,4 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 });
+

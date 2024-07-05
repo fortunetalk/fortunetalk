@@ -11,7 +11,7 @@ const HomeBanner = () => {
     height: SCREEN_WIDTH * 0.4,
   };
 
-  const renderItem = ({index}) => {
+  const renderItem = () => {
     return (
       <View
         style={{

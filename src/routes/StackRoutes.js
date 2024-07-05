@@ -12,9 +12,7 @@ import ImageView from '../screens/ImageView';
 import Profile from '../screens/customer/Profile';
 import Wallet from '../screens/payments/Wallet';
 import { ZegoUIKitPrebuiltCallWaitingScreen, ZegoUIKitPrebuiltCallInCallScreen } from '@zegocloud/zego-uikit-prebuilt-call-rn';
-import ECommerce from '../screens/eCommerce/ECommerce';
 import BookPooja from '../screens/eCommerce/BookPooja';
-import Gemstone from '../screens/eCommerce/Product';
 import PoojaAstrologerList from '../screens/eCommerce/PoojaAstrologerList';
 import PoojaDetails from '../screens/eCommerce/PoojaDetails';
 import BookingDetails from '../screens/eCommerce/BookingDetails';
@@ -28,6 +26,8 @@ import RateProduct from '../screens/eCommerce/RateProduct';
 import Product from '../screens/eCommerce/Product';
 import Payment from '../screens/payments/Payment';
 import ChatScreen from '../screens/chat/ChatScreen';
+import ViewProduct from '../screens/eCommerce/ViewProduct';
+import ViewPooja from '../screens/eCommerce/ViewPooja';
 
 const Stack = createNativeStackNavigator();
 
@@ -52,7 +52,9 @@ const StackRoutes = () => {
             <Stack.Screen name="ZegoUIKitPrebuiltCallWaitingScreen" component={ZegoUIKitPrebuiltCallWaitingScreen} />
             <Stack.Screen name="ZegoUIKitPrebuiltCallInCallScreen" component={ZegoUIKitPrebuiltCallInCallScreen} />
 
-            <Stack.Screen name="eCommerce" component={ECommerce} />
+            <Stack.Screen name="viewProduct" component={ViewProduct} />
+            <Stack.Screen name="viewPooja" component={ViewPooja} />
+
             <Stack.Screen name="bookPooja" component={BookPooja} />
             <Stack.Screen name="product" component={Product} />
             <Stack.Screen name="astrologerlist" component={PoojaAstrologerList} />

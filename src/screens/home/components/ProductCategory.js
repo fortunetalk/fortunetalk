@@ -6,12 +6,12 @@ import * as EcommerceActions from '../../../redux/actions/eCommerceActions'
 import { View, Text, TouchableOpacity, FlatList, Image, StyleSheet } from 'react-native'
 
 const ProductCategory = ({ dispatch, ProductCategoryList }) => {
-  
+
   useEffect(() => {
     dispatch(EcommerceActions.getProductCategoryList())
   }, [dispatch])
- 
-console.log("ProductCategoryList===>>>>", ProductCategoryList)
+
+  console.log("ProductCategoryList===>>>>", ProductCategoryList)
 
   const renderItem = ({ item, index }) => {
     return (
@@ -73,7 +73,7 @@ console.log("ProductCategoryList===>>>>", ProductCategoryList)
         <Text style={{ ...Fonts.black16RobotoMedium }}>Product Section</Text>
         <TouchableOpacity
           activeOpacity={0.8}
-          onPress={() => navigate("eCommerce")}
+          onPress={() => navigate("viewProduct")}
         >
           <Text style={{ ...Fonts.primaryLight15RobotoRegular }}>View all</Text>
         </TouchableOpacity>
@@ -94,8 +94,8 @@ console.log("ProductCategoryList===>>>>", ProductCategoryList)
 
 
 const mapStateToProps = state => ({
-  ProductCategoryList: state.eCommerce.ProductCategoryList,
   isLoading: state.settings.isLoading,
+  ProductCategoryList: state.eCommerce.ProductCategoryList,
 })
 
 const mapDispatchToProps = dispatch => ({ dispatch })

@@ -30,6 +30,7 @@ import ViewProduct from '../screens/eCommerce/ViewProduct';
 import ViewPooja from '../screens/eCommerce/ViewPooja';
 import Learn from '../screens/courses/Learn';
 import Courses from '../screens/courses/Courses';
+import ClassDetails from '../screens/courses/CourseDetails';
 
 const Stack = createNativeStackNavigator();
 
@@ -74,6 +75,7 @@ const StackRoutes = () => {
             <Stack.Screen name="chatScreen" component={ChatScreen} />
             <Stack.Screen name="learn" component={Learn} />
             <Stack.Screen name="Courses" component={Courses} />
+            <Stack.Screen name="classDetails" component={ClassDetails} />
         </Stack.Navigator>
     )
 }

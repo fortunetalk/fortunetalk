@@ -9,7 +9,7 @@ const CourseCategory = ({
   updateState,
   activeFilter,
 }) => {
-  const renderItem = ({ item, index }) => {
+  const renderItem = ({ item}) => {
     return (
       <TouchableOpacity
         activeOpacity={0.8}

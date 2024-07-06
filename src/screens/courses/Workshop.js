@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { connect } from 'react-redux';
 import { Text, View } from 'react-native'
 import Loader from '../../components/Loader';
@@ -7,33 +7,28 @@ import NoDataFound from '../../components/NoDataFound';
 import { FlatList, TouchableOpacity } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { Colors, Fonts, SCREEN_WIDTH, Sizes } from '../../assets/styles';
+import * as Courses from '../../redux/actions/courseActions'
+import { classifyTime } from '../../utils/tools';
 
-const Workshop = ({ isLoading }) => {
+const Workshop = ({
+    isLoading,
+    workshop,
+    dispatch,
+    courseId
+}) => {
 
-    const demoClassData = [
-        {
-            id: 1,
-            course_name: 'Introduction to Tarot',
-            description: '05 September',
-        },
-        {
-            id: 2,
-            course_name: 'Advanced Tarot Techniques',
-            description: '05 September',
-        },
-        {
-            id: 3,
-            course_name: 'Advanced Tarot Techniques',
-            description: '05 September',
-        },
-    ];
+    useEffect(() => {
+        dispatch(Courses.getWorkshop({ courseId }))
+    }, [])
+
+    console.log("workshop===>>>>", workshop)
 
     return (
         <View style={{ flex: 1, backgroundColor: Colors.bodyColor }}>
             <Loader visible={isLoading} />
             <FlatList ListHeaderComponent={
                 <>{
-                    demoClassData && tarotTeachersInfo()
+                    workshop && tarotTeachersInfo()
                 }</>}
             />
         </View>
@@ -41,6 +36,7 @@ const Workshop = ({ isLoading }) => {
 
     function tarotTeachersInfo() {
         const renderItem = ({ item, index }) => {
+            console.log(item.workShopName)
             return (
                 <TouchableOpacity
                     activeOpacity={1}
@@ -58,7 +54,7 @@ const Workshop = ({ isLoading }) => {
                             borderTopRightRadius: Sizes.fixPadding,
                             overflow: 'hidden'
                         }}
-                        source={require("../../assets/images/banner_2.jpeg")}
+                        source={{ uri: item.image }}
                     >
                         <View
                             style={{
@@ -67,7 +63,7 @@ const Workshop = ({ isLoading }) => {
                                 justifyContent: "space-between",
                                 alignItems: "center",
                             }}>
-                            <Text style={{ color: Colors.white, paddingLeft: 10, flex: 1 }}>Master your Psichic Ability and Learn to Give Accurate</Text>
+                            <Text style={{ color: Colors.white, paddingLeft: 10, flex: 1 }}>{item.workShopName}</Text>
                             <LinearGradient
                                 colors={["#FFFFFF", "#D9D9D9"]}
                                 style={{
@@ -102,7 +98,7 @@ const Workshop = ({ isLoading }) => {
                                 backgroundColor: Colors.primaryLight,
                                 gap: 5
                             }}>
-                            <Image source={require("../../assets/images/user4.jpg")}
+                            <Image source={{ uri: item?.astrologerId?.profileImage }}
                                 style={{
                                     width: 50,
                                     height: 50,
@@ -111,7 +107,7 @@ const Workshop = ({ isLoading }) => {
                             />
                             <View>
                                 <Text numberOfLines={2} style={{ ...Fonts.black14InterMedium, color: Colors.white, fontSize: 12 }}>
-                                    {item?.course_name}
+                                    {item?.astrologerId?.displayName}
                                 </Text>
                                 <Text numberOfLines={4} style={{ ...Fonts.gray12RobotoRegular, marginBottom: Sizes.fixPadding, color: Colors.white }}>
                                     {item?.description}
@@ -127,7 +123,7 @@ const Workshop = ({ isLoading }) => {
                                 fontSize: 12,
                                 paddingBottom: 5
                             }}>
-                                7 pm (Evening)
+                                {item.time} {classifyTime(item.time)}
                             </Text>
                             <TouchableOpacity
                                 activeOpacity={0.8}
@@ -160,7 +156,7 @@ const Workshop = ({ isLoading }) => {
                     marginBottom: 100
                 }}>
                 <FlatList
-                    data={demoClassData}
+                    data={workshop}
                     renderItem={renderItem}
                     keyExtractor={item => item.id}
                     ListEmptyComponent={<NoDataFound />}
@@ -172,7 +168,7 @@ const Workshop = ({ isLoading }) => {
 
 const mapStateToProps = state => ({
     isLoading: state.settings.isLoading,
-    courseList: state.courses.courseList,
+    workshop: state.courses.workshop,
 })
 
 const mapDispatchToProps = dispatch => ({ dispatch })

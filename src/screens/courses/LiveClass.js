@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { connect } from 'react-redux';
 import { Text, View } from 'react-native'
 import Loader from '../../components/Loader';
@@ -6,40 +6,32 @@ import { Image, ImageBackground } from 'react-native';
 import NoDataFound from '../../components/NoDataFound';
 import { FlatList, TouchableOpacity } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import * as Courses from '../../redux/actions/courseActions'
 import { Colors, Fonts, SCREEN_WIDTH, Sizes } from '../../assets/styles';
+import { classifyTime } from '../../utils/tools';
 
-const LiveClass = ({ isLoading }) => {
-
-    const demoClassData = [
-        {
-            id: 1,
-            course_name: 'Introduction to Tarot',
-            description: '05 September',
-        },
-        {
-            id: 2,
-            course_name: 'Advanced Tarot Techniques',
-            description: '05 September',
-        },
-        {
-            id: 3,
-            course_name: 'Advanced Tarot Techniques',
-            description: '05 September',
-        },
-    ];
+const LiveClass = ({
+    isLoading,
+    liveClass,
+    dispatch,
+    courseId
+}) => {
+    useEffect(() => {
+            dispatch(Courses.getLiveClass({ courseId }))
+    }, [])
 
     return (
         <View style={{ flex: 1, backgroundColor: Colors.bodyColor }}>
             <Loader visible={isLoading} />
             <FlatList ListHeaderComponent={
                 <>{
-                    demoClassData && tarotTeachersInfo()
+                    liveClass && liveClassInfo()
                 }</>}
             />
         </View>
     )
 
-    function tarotTeachersInfo() {
+    function liveClassInfo() {
         const renderItem = ({ item, index }) => {
             return (
                 <TouchableOpacity
@@ -58,7 +50,7 @@ const LiveClass = ({ isLoading }) => {
                             borderTopRightRadius: Sizes.fixPadding,
                             overflow: 'hidden'
                         }}
-                        source={require("../../assets/images/banner_2.jpeg")}
+                        source={{ uri: item?.image }}
                     >
                         <View
                             style={{
@@ -67,7 +59,7 @@ const LiveClass = ({ isLoading }) => {
                                 justifyContent: "space-between",
                                 alignItems: "center",
                             }}>
-                            <Text style={{ color: Colors.white, paddingLeft: 10, flex: 1 }}>Master your Psichic Ability and Learn to Give Accurate</Text>
+                            <Text style={{ color: Colors.white, paddingLeft: 10, flex: 1 }}>{item?.className}</Text>
                             <LinearGradient
                                 colors={["#FFFFFF", "#D9D9D9"]}
                                 style={{
@@ -102,7 +94,7 @@ const LiveClass = ({ isLoading }) => {
                                 backgroundColor: Colors.primaryLight,
                                 gap: 5
                             }}>
-                            <Image source={require("../../assets/images/user4.jpg")}
+                            <Image source={{ uri: item?.astrologerId?.profileImage }}
                                 style={{
                                     width: 50,
                                     height: 50,
@@ -111,7 +103,7 @@ const LiveClass = ({ isLoading }) => {
                             />
                             <View>
                                 <Text numberOfLines={2} style={{ ...Fonts.black14InterMedium, color: Colors.white, fontSize: 12 }}>
-                                    {item?.course_name}
+                                    {item?.astrologerId?.displayName}
                                 </Text>
                                 <Text numberOfLines={4} style={{ ...Fonts.gray12RobotoRegular, marginBottom: Sizes.fixPadding, color: Colors.white }}>
                                     {item?.description}
@@ -127,7 +119,8 @@ const LiveClass = ({ isLoading }) => {
                                 fontSize: 12,
                                 paddingBottom: 5
                             }}>
-                                7 pm (Evening)
+                                {item.time} {classifyTime(item.time)}
+
                             </Text>
                             <TouchableOpacity
                                 activeOpacity={0.8}
@@ -160,7 +153,7 @@ const LiveClass = ({ isLoading }) => {
                     marginBottom: 100
                 }}>
                 <FlatList
-                    data={demoClassData}
+                    data={liveClass}
                     renderItem={renderItem}
                     keyExtractor={item => item.id}
                     ListEmptyComponent={<NoDataFound />}
@@ -172,7 +165,7 @@ const LiveClass = ({ isLoading }) => {
 
 const mapStateToProps = state => ({
     isLoading: state.settings.isLoading,
-    courseList: state.courses.courseList,
+    liveClass: state.courses.liveClass,
 })
 
 const mapDispatchToProps = dispatch => ({ dispatch })

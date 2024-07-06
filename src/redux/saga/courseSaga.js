@@ -49,27 +49,6 @@ function* getCourseList() {
     }
 }
 
-function* getDemoClassList(actions) {
-    try {
-        yield put({ type: actionTypes.SET_IS_LOADING, payload: true })
-        const { payload } = actions
-
-        const response = yield postRequest({
-            url: app_api_url + get_demo_class_list,
-            data: payload
-        })
-
-        if (response?.success) {
-            yield put({ type: actionTypes.GET_DEMO_CLASS, payload: response?.data })
-        }
-
-        yield put({ type: actionTypes.SET_IS_LOADING, payload: false })
-    } catch (e) {
-        yield put({ type: actionTypes.SET_IS_LOADING, payload: false })
-        console.log(e)
-    }
-}
-
 function* getLiveClassList(actions) {
     try {
         yield put({ type: actionTypes.SET_IS_LOADING, payload: true })
@@ -83,6 +62,27 @@ function* getLiveClassList(actions) {
 
         if (response?.success) {
             yield put({ type: actionTypes.GET_LIVE_CLASS, payload: response?.data })
+        }
+
+        yield put({ type: actionTypes.SET_IS_LOADING, payload: false })
+    } catch (e) {
+        yield put({ type: actionTypes.SET_IS_LOADING, payload: false })
+        console.log(e)
+    }
+}
+
+function* getDemoClassList(actions) {
+    try {
+        yield put({ type: actionTypes.SET_IS_LOADING, payload: true })
+        const { payload } = actions
+
+        const response = yield postRequest({
+            url: app_api_url + get_demo_class_list,
+            data: payload
+        })
+
+        if (response?.success) {
+            yield put({ type: actionTypes.GET_DEMO_CLASS, payload: response?.data })
         }
 
         yield put({ type: actionTypes.SET_IS_LOADING, payload: false })
@@ -142,5 +142,4 @@ export default function* coursesSaga() {
     yield takeLeading(actionTypes.GET_LIVE_CLASS, getLiveClassList)
     yield takeLeading(actionTypes.GET_WORKSHOP, getWorkshopsList)
     yield takeLeading(actionTypes.GET_TEACHERS_LIST, getTeachersList)
-
 }

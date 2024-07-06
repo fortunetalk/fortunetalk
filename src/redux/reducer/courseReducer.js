@@ -24,16 +24,16 @@ const courses = (state = initialState, actions) => {
                 courseList: payload
             }
         }
-        case actionTypes.GET_LIVE_CLASS: {
-            return {
-                ...state,
-                liveClass: payload
-            }
-        }
         case actionTypes.GET_DEMO_CLASS: {
             return {
                 ...state,
                 demoClass: payload
+            }
+        }
+        case actionTypes.GET_LIVE_CLASS: {
+            return {
+                ...state,
+                liveClass: payload
             }
         }
         case actionTypes.GET_WORKSHOP: {

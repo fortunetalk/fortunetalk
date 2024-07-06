@@ -11,14 +11,12 @@ import * as Courses from '../../redux/actions/courseActions'
 import { classifyTime } from '../../utils/tools';
 
 const TeachersList = ({ isLoading, demoClass, dispatch, courseId }) => {
-
     useEffect(() => {
         if (!demoClass) {
             dispatch(Courses.getDemoClass({ courseId }))
         }
     }, [])
 
-    console.log("demoClass=====>>>>>>", demoClass)
     return (
         <View style={{ flex: 1, backgroundColor: Colors.bodyColor }}>
             <Loader visible={isLoading} />
@@ -102,7 +100,7 @@ const TeachersList = ({ isLoading, demoClass, dispatch, courseId }) => {
                             />
                             <View>
                                 <Text numberOfLines={2} style={{ ...Fonts.black14InterMedium, color: Colors.white, fontSize: 12 }}>
-                                    {item?.className}
+                                    {item?.astrologerId?.displayName}
                                 </Text>
                                 <Text numberOfLines={4} style={{ ...Fonts.gray12RobotoRegular, marginBottom: Sizes.fixPadding, color: Colors.white }}>
                                     {item?.description}

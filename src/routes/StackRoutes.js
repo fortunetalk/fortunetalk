@@ -15,6 +15,15 @@ import Wallet from '../screens/payments/Wallet';
 import { ZegoUIKitPrebuiltCallWaitingScreen, ZegoUIKitPrebuiltCallInCallScreen } from '@zegocloud/zego-uikit-prebuilt-call-rn';
 import Payment from '../screens/payments/Payment';
 import ChatScreen from '../screens/chat/ChatScreen';
+import LiveScreen from '../screens/live/LiveScreen';
+import OrderHistory from '../screens/history/OrderHistory';
+import WalletHistory from '../screens/history/WalletHistory';
+import ChatHistory from '../screens/history/ChatHistory';
+import CallHistroy from '../screens/history/CallHistroy';
+import LiveCallHistory from '../screens/history/LiveCallHistory';
+import AstromallHistory from '../screens/history/AstromallHistory';
+import RemedyHistory from '../screens/history/RemedyHistory';
+import CoursesHistory from '../screens/history/CoursesHistory';
 
 const Stack = createNativeStackNavigator();
 
@@ -40,6 +49,20 @@ const StackRoutes = () => {
             <Stack.Screen name="ZegoUIKitPrebuiltCallInCallScreen" component={ZegoUIKitPrebuiltCallInCallScreen} />
             <Stack.Screen name="payment" component={Payment} options={{ animation: 'fade_from_bottom' }} />
             <Stack.Screen name="chatScreen" component={ChatScreen} />
+            <Stack.Screen name='liveScreen' component={LiveScreen} />
+            <Stack.Screen name='orderHistory' component={OrderHistory} />
+            <Stack.Group
+            screenOptions={{animation: 'flip'}}
+            >
+                <Stack.Screen name='walletHistory' component={WalletHistory} />
+                <Stack.Screen name='chatHistory' component={ChatHistory} />
+                <Stack.Screen name='callHistroy' component={CallHistroy} />
+                <Stack.Screen name='liveCallHistory' component={LiveCallHistory} />
+                <Stack.Screen name='astromallHistory' component={AstromallHistory} />
+                <Stack.Screen name='remedyHistory' component={RemedyHistory} /> 
+                <Stack.Screen name='coursesHistory' component={CoursesHistory} /> 
+            </Stack.Group>
+
         </Stack.Navigator>
     )
 }

@@ -32,6 +32,30 @@ function* getSplash() {
     }
 }
 
+function* getCustomerData() {
+    try {
+        const customer = yield AsyncStorage.getItem('customerData')
+        const customerData = JSON.parse(customer)
+        if (customerData) {
+            const response = yield postRequest({
+                url: app_api_url + get_splash,
+                data: {
+                    customerId: customerData?._id
+                }
+            })
+            if (response?.success) {
+                yield AsyncStorage.setItem('customerData', JSON.stringify(response?.data))
+                yield put({ type: actionTypes.SET_CUSTOMER_DATA, payload: response?.data })
+            }
+        }
+
+    } catch (e) {
+        console.log(e)
+    }
+}
+
+
 export default function* settingSaga() {
     yield takeLeading(actionTypes.GET_SPLASH, getSplash)
+    yield takeLeading(actionTypes.GET_CUSTOMER_DATA, getCustomerData)
 }

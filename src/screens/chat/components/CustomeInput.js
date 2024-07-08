@@ -1,11 +1,12 @@
 import { View, Text, TextInput, TouchableOpacity, Image } from 'react-native'
-import React, { useCallback, useState } from 'react'
+import React, { memo, useCallback, useState } from 'react'
 import { InputToolbar, Send } from 'react-native-gifted-chat'
 import { Colors, Sizes, Fonts } from '../../../assets/styles'
 import SendMic from './SendMic'
 import Attachments from './Attachments'
+import { connect } from 'react-redux'
 
-const CustomeInput = ({ sendButtonProps, sendProps }) => {
+const CustomeInput = ({ sendButtonProps, sendProps, attachments }) => {
     const [state, setState] = useState({
         message: '',
         isMicPressed: false,
@@ -23,7 +24,7 @@ const CustomeInput = ({ sendButtonProps, sendProps }) => {
 
     const renderComposer = useCallback(() => {
         const onChangeText = (text) => {
-            updateState({ isFocused: true, message: text })
+            updateState({message: text })
         }
         return (
             <>
@@ -31,6 +32,7 @@ const CustomeInput = ({ sendButtonProps, sendProps }) => {
                     isMicPressed ? <View style={{ flex: 1, height: 49, justifyContent: 'center' }}>
                         <Text style={{ ...Fonts._13InterMedium }}>{recordTime}</Text>
                     </View> : <TextInput
+                        value={message}
                         placeholder='Enter message...'
                         onChangeText={onChangeText}
                         style={{ ...Fonts._13InterMedium, flex: 1 }}
@@ -40,13 +42,13 @@ const CustomeInput = ({ sendButtonProps, sendProps }) => {
             </>
 
         )
-    }, [isMicPressed, recordTime])
+    }, [isMicPressed, recordTime, message])
 
     const renderSend = useCallback(() => {
         return (
-            <SendMic message={message} sendButtonProps={sendButtonProps} sendProps={sendProps} updateState={updateState} />
+            <SendMic message={message} sendButtonProps={sendButtonProps} sendProps={sendProps} updateState={updateState} isMicPressed={isMicPressed} />
         )
-    }, [message])
+    }, [message, sendButtonProps, sendProps])
 
     const renderActions = useCallback(() => {
         return (
@@ -65,4 +67,10 @@ const CustomeInput = ({ sendButtonProps, sendProps }) => {
     )
 }
 
-export default CustomeInput
+const mapStateToProps = state =>({
+    attachments: state.chat.attachments
+})
+
+const mapDispatchToProps = dispatch =>({dispatch})
+
+export default connect(mapStateToProps, mapDispatchToProps)(memo(CustomeInput))

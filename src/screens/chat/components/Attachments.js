@@ -1,4 +1,4 @@
-import { View, TouchableOpacity, Image, StyleSheet } from 'react-native'
+import { View, TouchableOpacity, Image, StyleSheet, Keyboard } from 'react-native'
 import React, { useState } from 'react'
 import { Colors, Sizes } from '../../../assets/styles'
 import { Divider } from '@rneui/themed'
@@ -6,17 +6,21 @@ import Tooltip from 'react-native-walkthrough-tooltip';
 import AttachmentBackground from '../../../assets/svg/chat_attachment.svg'
 import { onImagePicker } from '../../../utils/services';
 import DocumentPicker, { types } from 'react-native-document-picker';
+import * as ChatActions from '../../../redux/actions/chatActions'
+import { connect } from 'react-redux';
 
 const ICON_SIZE = 18;
 const ATTACHMENT_ICON_SIZE = 20;
 
 
-const Items = ({ setTooltipVisible }) => {
+const Items = ({ setTooltipVisible, dispatch }) => {
     const onCamera = async () => {
         setTooltipVisible(false)
         const response = await onImagePicker({ type: 'capture' })
         if (response) {
             console.log(response)
+            dispatch(ChatActions.setAttachmentData({visible: true, data: response[0]?.uri, type: 'image'}))
+
         }
     }
 
@@ -25,6 +29,7 @@ const Items = ({ setTooltipVisible }) => {
         const response = await onImagePicker({ type: 'gallary' })
         if (response) {
             console.log(response)
+            dispatch(ChatActions.setAttachmentData({visible: true, data: response[0]?.uri, type: 'image'}))
         }
     }
 
@@ -37,6 +42,7 @@ const Items = ({ setTooltipVisible }) => {
                 type: [types.pdf],
             });
             console.log(pickerResult);
+            dispatch(ChatActions.setAttachmentData({visible: true, data: {uri: pickerResult.fileCopyUri, name: pickerResult?.name, type: pickerResult?.type}, type: 'file'}))
         } catch (err) {
             if (DocumentPicker.isCancel(err)) {
                 console.log('User cancelled the picker');
@@ -65,21 +71,27 @@ const Items = ({ setTooltipVisible }) => {
 }
 
 
-const Attachments = () => {
+const Attachments = ({dispatch}) => {
     const [toolTipVisible, setTooltipVisible] = useState(false)
-
+    const onPress = ()=>{
+        Keyboard.dismiss()
+        setTimeout(()=>{
+            setTooltipVisible(true)
+        }, 500)
+   
+    }
     return (
         <View style={styles.container}>
             <Tooltip
                 isVisible={toolTipVisible}
                 backgroundColor='rgba(0,0,0,0.1)'
-                content={<Items setTooltipVisible={setTooltipVisible} />}
+                content={<Items setTooltipVisible={setTooltipVisible} dispatch={dispatch} />}
                 placement="top"
                 onClose={() => setTooltipVisible(false)}
                 contentStyle={styles.tooltipContent}
                 arrowSize={{ width: 0, height: 0 }}
             >
-                <TouchableOpacity activeOpacity={0.8} onPress={() => setTooltipVisible(true)} style={styles.attachmentButton}>
+                <TouchableOpacity activeOpacity={0.8} onPress={() => onPress()} style={styles.attachmentButton}>
                     <Image source={require('../../../assets/icons/attachment.png')} style={styles.attachmentIcon} />
                 </TouchableOpacity>
             </Tooltip>
@@ -89,7 +101,13 @@ const Attachments = () => {
     )
 }
 
-export default Attachments
+const mapStateToProps = state =>({
+
+})
+
+const mapDispatchToProps = dispatch =>({dispatch})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Attachments)
 
 const styles = StyleSheet.create({
     container: {

@@ -251,7 +251,7 @@ const CustomDrawerContent = ({ drawerProps, customerData }) => {
                 </TouchableOpacity>
                 <TouchableOpacity
                     activeOpacity={0.8}
-                    onPress={() => navigation.navigate('history')}
+                    onPress={() => navigation.navigate('orderHistory')}
                     style={{ ...styles.row, marginBottom: Sizes.fixPadding * 2 }}>
                     <Image
                         source={require('../../assets/icons/history.png')}

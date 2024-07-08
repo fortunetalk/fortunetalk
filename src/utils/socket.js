@@ -2,8 +2,7 @@ import { io } from 'socket.io-client';
 import { base_url } from '../config/constants';
 // import { resetToScreen } from '../navigations/NavigationServices';
 // import { showToastMessage } from './services';
-// import * as ChatActions from '../redux/actions/ChatActions'
-// const SOCKET_URL = 'http://localhost:4000/';
+import * as ChatActions from '../redux/actions/chatActions'
 const SOCKET_URL = base_url;
 
 class socketServices {
@@ -60,17 +59,17 @@ class socketServices {
 
 
       this.socket.on('updateChatTimer', data => {
-        // dispatch(ChatActions.setChatTimerCountdown(data));
+        dispatch(ChatActions.setChatTimerCountdown(data));
       });
 
       this.socket.on('timerStopped', data => {
         console.log('runne......................')
-        // dispatch(ChatActions.onCloseChat());
+        dispatch(ChatActions.onCloseChat());
       });
 
       this.socket.on('chatEnded', data => {
         console.log('not runne......................')
-        // dispatch(ChatActions.onCloseChat());
+        dispatch(ChatActions.onCloseChat());
       });
 
       this.socket.on('walletAlert', data => {

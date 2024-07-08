@@ -10,9 +10,12 @@ export const get_splash = 'customers/get_splash'
 export const get_astrologer_list_for_chat_call = 'customers/get_astrologer_list_for_chat_call'
 export const get_astrologer_details = 'customers/get_astrologer_details'
 export const customer_wallet_recharge = 'customers/customer_wallet_recharge'
+export const get_customer_wallet_history = 'customers/get_customer_wallet_history'
+export const get_customer_chat_history = 'customers/get_customer_chat_history'
 export const initiate_zego_call = 'call/initiate_zego_call'
 export const initiate_chat = 'chat/initiate_chat'
 export const get_chat_data = 'chat/get_chat_data'
+export const upload_chat_attachments = 'chat/upload_chat_attachments'
 
 
 export const google_map_key = 'AIzaSyBjKP15Z_-tCf5EYm5PBbgZPe4yKaRqoFQ';

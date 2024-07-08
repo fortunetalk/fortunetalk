@@ -5,14 +5,18 @@ import astrologerSaga from './astrologerSaga';
 import callSaga from './callSaga';
 import paymentSaga from './paymentSaga';
 import chatSaga from './chatSaga';
+import liveSaga from './liveSaga';
+import historySaga from './historySaga';
 
 export default function* rootSaga() {
   yield all([
     settingSaga(),
-    authSaga(),
+    authSaga(), 
     astrologerSaga(),
     callSaga(),
     paymentSaga(),
-    chatSaga()
+    chatSaga(),
+    liveSaga(),
+    historySaga()
   ]);
 }

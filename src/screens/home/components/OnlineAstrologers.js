@@ -50,12 +50,12 @@ const OnlineAstrologers = () => {
               zIndex: 2,
             }}
           />
-           <LottieView
-                    source={require('../../../assets/animations/online.json')}
-                    style={{ width: 15, height: 15, alignSelf: 'flex-end', margin: Sizes.fixPadding*0.5 }}
-                    autoPlay
-                    loop
-                />
+          <LottieView
+            source={require('../../../assets/animations/online.json')}
+            style={{ width: 15, height: 15, alignSelf: 'flex-end', margin: Sizes.fixPadding * 0.5 }}
+            autoPlay
+            loop
+          />
 
         </ImageBackground>
         <View

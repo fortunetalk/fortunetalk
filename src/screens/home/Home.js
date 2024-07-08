@@ -1,26 +1,39 @@
-import { View, Text, FlatList, Animated, LayoutAnimation } from 'react-native'
-import React, { useRef, useState } from 'react'
-import { Colors } from '../../assets/styles'
-import MyStatusBar from '../../components/MyStatusBar'
-import HomeHeader from './components/HomeHeader'
+import { connect } from 'react-redux'
 import Search from './components/Search'
+import { Colors } from '../../assets/styles'
+import HomeHeader from './components/HomeHeader'
 import HomeBanner from './components/HomeBanner'
-import LiveAstrologers from './components/LiveAstrologers'
+import React, { useEffect, useRef } from 'react'
+import LatestBlogs from './components/LatestBlogs'
 import FreeInsights from './components/FreeInsights'
+import PoojaCategory from './components/PoojaCategory'
+import {
+  View,
+  FlatList,
+  Animated,
+  LayoutAnimation,
+  SafeAreaView
+} from 'react-native'
+import MyStatusBar from '../../components/MyStatusBar'
+import LiveAstrologers from './components/LiveAstrologers'
 import RemedySuggestions from './components/RemedySuggestions'
 import OfferAstrologers from './components/OfferAstrologers'
 import TrendingAstrologers from './components/TrendingAstrologers'
 import OnlineAstrologers from './components/OnlineAstrologers'
 import RecentAstrologers from './components/RecentAstrologers'
 import LearningSections from './components/LearningSections'
-import ECommerce from './components/ECommerce'
-import LatestBlogs from './components/LatestBlogs'
 import ClientTestimonials from './components/ClientTestimonials'
-import { connect } from 'react-redux'
 import * as SettingActions from '../../redux/actions/settingActions'
+import CustomCrousel from '../../components/CustomCrousel'
+import ProductCategory from './components/ProductCategory'
+import * as CourseActions from '../../redux/actions/courseActions'
 
-const Home = ({ dispatch, tabVisible }) => {
-  // const [prevOffset, setPrevOffset] = useState(0);
+const Home = ({ dispatch, tabVisible, courseBanner }) => {
+
+  useEffect(() => {
+    dispatch(CourseActions.getCourseBanner())
+  }, [])
+
   const scrollY = useRef(new Animated.Value(0)).current;
 
   const onScroll = (event) => {
@@ -57,8 +70,10 @@ const Home = ({ dispatch, tabVisible }) => {
             <TrendingAstrologers />
             <OnlineAstrologers />
             <RecentAstrologers />
+            {learningBanner()}
             <LearningSections />
-            <ECommerce />
+            <PoojaCategory />
+            <ProductCategory />
             <LatestBlogs />
             <ClientTestimonials />
           </>}
@@ -67,10 +82,19 @@ const Home = ({ dispatch, tabVisible }) => {
       </View>
     </View>
   )
+
+  function learningBanner() {
+    return (
+      <SafeAreaView edges={['bottom']} style={{ flex: 1 }}>
+        {courseBanner && <CustomCrousel data={courseBanner} />}
+      </SafeAreaView>
+    );
+  }
 }
 
 const mapStateToProps = state => ({
-  tabVisible: state.settings.tabVisible
+  tabVisible: state.settings.tabVisible,
+  courseBanner: state.courses.courseBanner
 })
 
 const mapDispatchToProps = dispatch => ({ dispatch })

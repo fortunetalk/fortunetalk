@@ -1,8 +1,10 @@
-import {all} from 'redux-saga/effects';
+import { all } from 'redux-saga/effects';
 import settingSaga from './settingSaga';
 import authSaga from './authSaga';
 import astrologerSaga from './astrologerSaga';
 import callSaga from './callSaga';
+import eCommerceSaga from './eCommerceSaga';
+import coursesSaga from './courseSaga';
 import paymentSaga from './paymentSaga';
 import chatSaga from './chatSaga';
 import liveSaga from './liveSaga';
@@ -13,10 +15,12 @@ export default function* rootSaga() {
     settingSaga(),
     authSaga(), 
     astrologerSaga(),
-    callSaga(),
     paymentSaga(),
     chatSaga(),
     liveSaga(),
-    historySaga()
+    historySaga(),
+    callSaga(), 
+    eCommerceSaga(), 
+    coursesSaga()
   ]);
 }

@@ -8,7 +8,6 @@ import Banner from './components/Banner'
 import AstrologersList from './components/AstrologersList'
 import * as SettingActions from '../../redux/actions/settingActions'
 import { connect } from 'react-redux'
-import Filters from './components/Filters'
 import * as AstrologerActions from '../../redux/actions/astrologerActions'
 import Loader from '../../components/Loader'
 

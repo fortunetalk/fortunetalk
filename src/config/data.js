@@ -70,19 +70,27 @@ export const sortFiltersData = [
 ];
 
 export const walletBannerData = [
-  {id: 1, image: require('../assets/images/wallet_a.png')},
-  {id: 2, image: require('../assets/images/wallet_b.png')},
-  {id: 3, image: require('../assets/images/wallet_c.png')},
+  { id: 1, image: require('../assets/images/wallet_a.png') },
+  { id: 2, image: require('../assets/images/wallet_b.png') },
+  { id: 3, image: require('../assets/images/wallet_c.png') },
 ];
 
 export const priceData = [
-  {id: 1, price: '50'},
-  {id: 2, price: '100'},
-  {id: 3, price: '200'},
-  {id: 4, price: '500'},
-  {id: 5, price: '1000'},
-  {id: 6, price: '2000'},
-  {id: 7, price: '5000'},
-  {id: 8, price: '10000'},
-  {id: 9, price: '25000'},
+  { id: 1, price: '50' },
+  { id: 2, price: '100' },
+  { id: 3, price: '200' },
+  { id: 4, price: '500' },
+  { id: 5, price: '1000' },
+  { id: 6, price: '2000' },
+  { id: 7, price: '5000' },
+  { id: 8, price: '10000' },
+  { id: 9, price: '25000' },
+];
+
+export const labels = [
+  { id: 1, title: "Order Confirmed Tue, 22nd Aug '23Your Order has been placed.", date: "Tue, 22nd Aug '23-5:28pm", sub_title: 'Item waiting to be picked up by courier partner.', sub_date: "Wed, 23rd Aug '23-4:00pm" },
+  { id: 2, title: 'Shipped Expected By Thu 24th Aug', date: 'Item yet to be shipped. Expected by Thu, 24th Aug', sub_title: 'Item yet to reach hub nearest to you.', sub_date: null, },
+  { id: 3, title: 'Out For Delivery', date: 'Item yet to be delivered.', sub_title: null, sub_date: null, },
+  { id: 4, title: 'Delivery Expected By Fri 25th Aug', date: 'Item yet to be delivered.', sub_title: 'Expected by Fri, 25th Aug', sub_date: null },
+  { id: 5, title: 'Share the OTP to the delivery boy', date: null, sub_title: null, sub_date: null },
 ];

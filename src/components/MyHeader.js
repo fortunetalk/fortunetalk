@@ -2,7 +2,7 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import React from 'react';
 import { useNavigation } from '@react-navigation/native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import { Colors, Sizes, Fonts, SCREEN_WIDTH } from '../assets/styles';
+import { Colors, Sizes, Fonts } from '../assets/styles';
 
 const MyHeader = ({ title }) => {
   const navigation = useNavigation();
@@ -11,11 +11,11 @@ const MyHeader = ({ title }) => {
       <TouchableOpacity activeOpacity={0.8} onPress={() => navigation.goBack()} style={{position: 'absolute', zIndex: 99, left: Sizes.fixPadding*1.5}}>
         <AntDesign
           name="leftcircleo"
-          color={Colors.primaryDark}
+          color={Colors.primaryLight}
           size={Sizes.fixPadding * 2}
         />
       </TouchableOpacity>
-      <Text style={{ ...Fonts._15RobotMedium, color: Colors.orange, textAlign: 'center' }}>{title}</Text>
+      <Text style={{ ...Fonts._15RobotMedium, color: Colors.primaryLight, textAlign: 'center' }}>{title}</Text>
     </View>
   );
 };

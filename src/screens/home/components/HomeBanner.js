@@ -1,4 +1,4 @@
-import { View, Text, Image } from 'react-native'
+import { View, Image } from 'react-native'
 import React from 'react'
 import { Colors, SCREEN_WIDTH, Sizes } from '../../../assets/styles';
 import Carousel from 'react-native-reanimated-carousel';
@@ -11,7 +11,7 @@ const HomeBanner = () => {
     height: SCREEN_WIDTH * 0.4,
   };
 
-  const renderItem = ({index}) => {
+  const renderItem = () => {
     return (
       <View
         style={{
@@ -57,9 +57,6 @@ const HomeBanner = () => {
         }}
         data={Array.from({length: 5})}
         pagingEnabled={true}
-        onSnapToItem={index => {
-          // updateState({selectedBanner: bannerData[index]})
-        }}
         renderItem={renderItem}
       />
     </SafeAreaView>

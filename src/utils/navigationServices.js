@@ -1,6 +1,5 @@
 import {
   CommonActions,
-  NavigationActions,
   StackActions,
 } from '@react-navigation/native';
 

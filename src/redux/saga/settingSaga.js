@@ -24,7 +24,7 @@ function* getSplash() {
                 yield call(resetToScreen, 'home')
             }
         } else {
-            yield call(resetToScreen, 'login')
+            yield call(resetToScreen, 'home')
         }
 
     } catch (e) {

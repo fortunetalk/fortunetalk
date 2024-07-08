@@ -1,4 +1,3 @@
-import { View, Text } from 'react-native'
 import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Splash from '../screens/Splash';
@@ -13,8 +12,27 @@ import ImageView from '../screens/ImageView';
 import Profile from '../screens/customer/Profile';
 import Wallet from '../screens/payments/Wallet';
 import { ZegoUIKitPrebuiltCallWaitingScreen, ZegoUIKitPrebuiltCallInCallScreen } from '@zegocloud/zego-uikit-prebuilt-call-rn';
+import BookPooja from '../screens/eCommerce/BookPooja';
+import PoojaAstrologerList from '../screens/eCommerce/PoojaAstrologerList';
+import PoojaDetails from '../screens/eCommerce/PoojaDetails';
+import BookingDetails from '../screens/eCommerce/BookingDetails';
+import SuccessfullyBooked from '../screens/eCommerce/SuccessfullyBooked';
+import ProductDetails from '../screens/eCommerce/ProductDetails';
+import Cart from '../screens/eCommerce/Cart';
+import PersonalDetails from '../screens/eCommerce/PersonalDetails';
+import ProductSuccessBooking from '../screens/eCommerce/ProductSuccessBooking';
+import ProductTracking from '../screens/eCommerce/ProductTracking';
+import RateProduct from '../screens/eCommerce/RateProduct';
+import Product from '../screens/eCommerce/Product';
 import Payment from '../screens/payments/Payment';
 import ChatScreen from '../screens/chat/ChatScreen';
+import ViewProduct from '../screens/eCommerce/ViewProduct';
+import ViewPooja from '../screens/eCommerce/ViewPooja';
+import Learn from '../screens/courses/Learn';
+import Courses from '../screens/courses/Courses';
+import CourseDetails from '../screens/courses/CourseDetails';
+import ClassDetails from '../screens/courses/ClassDetails';
+import ClassOverview from '../screens/courses/ClassOverview';
 import LiveScreen from '../screens/live/LiveScreen';
 import OrderHistory from '../screens/history/OrderHistory';
 import WalletHistory from '../screens/history/WalletHistory';
@@ -47,8 +65,30 @@ const StackRoutes = () => {
             <Stack.Screen name='wallet' component={Wallet} />
             <Stack.Screen name="ZegoUIKitPrebuiltCallWaitingScreen" component={ZegoUIKitPrebuiltCallWaitingScreen} />
             <Stack.Screen name="ZegoUIKitPrebuiltCallInCallScreen" component={ZegoUIKitPrebuiltCallInCallScreen} />
+
+            <Stack.Screen name="viewProduct" component={ViewProduct} />
+            <Stack.Screen name="viewPooja" component={ViewPooja} />
+
+            <Stack.Screen name="bookPooja" component={BookPooja} />
+            <Stack.Screen name="product" component={Product} />
+            <Stack.Screen name="astrologerlist" component={PoojaAstrologerList} />
+            <Stack.Screen name="poojadetails" component={PoojaDetails} />
+            <Stack.Screen name="bookingdetails" component={BookingDetails} />
+            <Stack.Screen name="successfulybooked" component={SuccessfullyBooked} />
+            <Stack.Screen name="productdetails" component={ProductDetails} />
+            <Stack.Screen name="cart" component={Cart} />
+            <Stack.Screen name="personalDetails" component={PersonalDetails} />
+            <Stack.Screen name="productSuccessBooking" component={ProductSuccessBooking} />
+            <Stack.Screen name="productTracking" component={ProductTracking} />
+            <Stack.Screen name="rateProduct" component={RateProduct} />
+
             <Stack.Screen name="payment" component={Payment} options={{ animation: 'fade_from_bottom' }} />
             <Stack.Screen name="chatScreen" component={ChatScreen} />
+            <Stack.Screen name="learn" component={Learn} />
+            <Stack.Screen name="Courses" component={Courses} />
+            <Stack.Screen name="courseDetails" component={CourseDetails} />
+            <Stack.Screen name="classDetails" component={ClassDetails} />
+            <Stack.Screen name="classOverview" component={ClassOverview} />
             <Stack.Screen name='liveScreen' component={LiveScreen} />
             <Stack.Screen name='orderHistory' component={OrderHistory} />
             <Stack.Group

@@ -1,29 +1,36 @@
-import { View, Text, TouchableOpacity, FlatList, Image, StyleSheet } from 'react-native'
-import React from 'react'
+import React, { useEffect } from 'react'
+import { connect } from 'react-redux';
+import { navigate } from '../../../utils/navigationServices';
 import { SCREEN_WIDTH, Fonts, Colors, Sizes } from '../../../assets/styles';
+import * as EcommerceActions from '../../../redux/actions/eCommerceActions'
+import { View, Text, TouchableOpacity, FlatList, Image, StyleSheet } from 'react-native'
 
-const ECommerce = () => {
+const ProductCategory = ({ dispatch, ProductCategoryList }) => {
+
+  useEffect(() => {
+    dispatch(EcommerceActions.getProductCategoryList())
+  }, [dispatch])
+  
   const renderItem = ({ item, index }) => {
     return (
       <TouchableOpacity
         activeOpacity={1}
-        // onPress={() => navigate_to(item?.name.toLowerCase(), item)}
+        onPress={() => navigate("product", { screenType: item.title, categoryId: item._id })}
         style={{
           width: SCREEN_WIDTH * 0.4,
           marginLeft: Sizes.fixPadding * 1.5,
           borderRadius: Sizes.fixPadding,
           overflow: 'hidden',
           marginBottom: Sizes.fixPadding * 1.5,
-          // shadowColor: Colors.black,
           padding: Sizes.fixPadding * 0.5,
           justifyContent: 'center',
           alignItems: 'center',
           paddingBottom: Sizes.fixPadding * 2,
         }}>
         <Image
-          source={require('../../../assets/images/astro.jpg')}
+          source={{ uri: item.image }}
           style={{
-            width: '90%',
+            width: '95%',
             height: SCREEN_WIDTH * 0.4,
             borderTopLeftRadius: Sizes.fixPadding,
             borderTopRightRadius: Sizes.fixPadding,
@@ -46,7 +53,7 @@ const ECommerce = () => {
             shadowColor: Colors.blackLight,
           }}>
           <Text style={{ ...Fonts.black14InterMedium, textAlign: 'center' }}>
-            Fortune Store
+            {item.title}
           </Text>
         </View>
       </TouchableOpacity>
@@ -61,25 +68,37 @@ const ECommerce = () => {
           paddingHorizontal: Sizes.fixPadding * 1.5,
           paddingVertical: Sizes.fixPadding,
         }}>
-        <Text style={{ ...Fonts.black16RobotoMedium }}>Fortune Store</Text>
+        <Text style={{ ...Fonts.black16RobotoMedium }}>Product Section</Text>
         <TouchableOpacity
-          disabled
           activeOpacity={0.8}
-          onPress={() => navigation.navigate('eCommerce')}>
+          onPress={() => navigate("viewProduct")}
+        >
           <Text style={{ ...Fonts.primaryLight15RobotoRegular }}>View all</Text>
         </TouchableOpacity>
       </View>
-      <FlatList
-        data={Array.from({ length: 5 })}
-        renderItem={renderItem}
-        horizontal
-        contentContainerStyle={{ paddingRight: Sizes.fixPadding * 1.5 }}
-      />
+
+      {ProductCategoryList && (
+        <FlatList
+          data={ProductCategoryList}
+          renderItem={renderItem}
+          horizontal
+          contentContainerStyle={{ paddingRight: Sizes.fixPadding * 1.5 }}
+        />
+      )
+      }
     </View>
   );
 }
 
-export default ECommerce
+
+const mapStateToProps = state => ({
+  isLoading: state.settings.isLoading,
+  ProductCategoryList: state.eCommerce.ProductCategoryList,
+})
+
+const mapDispatchToProps = dispatch => ({ dispatch })
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProductCategory)
 
 const styles = StyleSheet.create({
   row: {

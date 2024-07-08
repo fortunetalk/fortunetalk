@@ -4,9 +4,9 @@ import {
     FlatList,
   } from 'react-native';
   import React from 'react';
-  import MyHeader from '../../components/MyHeader';
-  import Video from '../../components/Courses/Video';
-  import { Colors, Fonts, Sizes } from '../../assets/styles';
+  import MyHeader from '../../../components/MyHeader';
+  import Video from '../../../components/Courses/Video';
+  import { Colors, Fonts, Sizes } from '../../../assets/styles';
   
   const WorkshopDetails = ({ navigation, route }) => {
    

@@ -6,23 +6,14 @@ import {
   Linking,
 } from 'react-native';
 import React from 'react';
-import MyHeader from '../../components/MyHeader';
-import Video from '../../components/Courses/Video';
-import { Colors, Fonts, Sizes } from '../../assets/styles';
+import MyHeader from '../../../components/MyHeader';
+import Video from '../../../components/Courses/Video';
+import { Colors, Fonts, Sizes } from '../../../assets/styles';
 import LinearGradient from 'react-native-linear-gradient';
 
 const ClassDetails = ({ route }) => {
   const previousPagedata = route.params
   console.log("previousPagedata.class====>>>>>", previousPagedata.class)
-
-  const demoData = {
-    video: 'https://example.com/demo-video.mp4',
-    course_name: 'React Native Course',
-    description: 'This is a demo description of the React Native course. It covers the basics and advanced topics.',
-    course_content: 'Introduction to React Native, Components, State and Props, Navigation, Networking, and more.',
-    is_live: 1,
-  };
-
   return (
     <View style={{
       flex: 1,

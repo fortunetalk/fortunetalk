@@ -7,11 +7,11 @@ import {
 } from 'react-native';
 import React from 'react';
 import moment from 'moment';
-import MyHeader from '../../components/MyHeader';
-import Video from '../../components/Courses/Video';
-import { Colors, Fonts, Sizes } from '../../assets/styles';
-import { navigate } from '../../utils/navigationServices';
-import { classifyTimeNoon } from '../../utils/tools';
+import MyHeader from '../../../components/MyHeader';
+import Video from '../../../components/Courses/Video';
+import { Colors, Fonts, Sizes } from '../../../assets/styles';
+import { navigate } from '../../../utils/navigationServices';
+import { classifyTimeNoon } from '../../../utils/tools';
 
 const ClassOverview = ({ route }) => {
   const previousPagedata = route.params

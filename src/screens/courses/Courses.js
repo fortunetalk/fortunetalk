@@ -7,13 +7,14 @@ import MyStatusBar from '../../components/MyStatusBar';
 import Loader from '../../components/Loader';
 import MyHeader from '../../components/MyHeader';
 import CourseCategory from './CourseCategory';
-import DemoClass from './DemoClass';
-import LiveClass from './LiveClass';
-import Workshop from './Workshop';
+import DemoClass from './demo/DemoClass';
+import LiveClass from './live/LiveClass';
+import Workshop from './workshop/Workshop';
 import TeachersList from './TeachersList';
 
 const Courses = ({ isLoading, route }) => {
     const previousPagedata = route.params
+    console.log(previousPagedata.course)
 
     const [activeFilter, setActiveFilter] = useState(1);
     const filterData = [
@@ -34,7 +35,7 @@ const Courses = ({ isLoading, route }) => {
                 barStyle={'light-content'}
             />
             <Loader visible={isLoading} />
-            <MyHeader title={"Teachers List"} />
+            <MyHeader title={`${previousPagedata.course?.title}`} />
 
             <CourseCategory
                 filterData={filterData}

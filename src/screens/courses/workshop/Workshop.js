@@ -1,13 +1,13 @@
 import { connect } from 'react-redux';
-import Loader from '../../components/Loader';
-import { classifyTime } from '../../utils/tools';
+import Loader from '../../../components/Loader';
+import { classifyTime } from '../../../utils/tools';
 import React, { useEffect, useState } from 'react';
 import { Text, View, Image, ImageBackground, FlatList, TouchableOpacity } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import NoDataFound from '../../components/NoDataFound';
-import * as Courses from '../../redux/actions/courseActions';
-import { Colors, Fonts, SCREEN_WIDTH, Sizes } from '../../assets/styles';
-import { navigate } from '../../utils/navigationServices';
+import NoDataFound from '../../../components/NoDataFound';
+import * as Courses from '../../../redux/actions/courseActions';
+import { Colors, Fonts, SCREEN_WIDTH, Sizes } from '../../../assets/styles';
+import { navigate } from '../../../utils/navigationServices';
 
 const Workshop = ({ isLoading, dispatch, courseId, workshop }) => {
     useEffect(() => {

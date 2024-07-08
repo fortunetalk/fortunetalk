@@ -6,11 +6,11 @@ import {
     StyleSheet,
   } from 'react-native';
   import React from 'react';
-  import MyHeader from '../../components/MyHeader';
+  import MyHeader from '../../../components/MyHeader';
   import moment from 'moment';
-  import Video from '../../components/Courses/Video';
-  import { Colors, Fonts, Sizes } from '../../assets/styles';
-  import { navigate } from '../../utils/navigationServices';
+  import Video from '../../../components/Courses/Video';
+  import { Colors, Fonts, Sizes } from '../../../assets/styles';
+  import { navigate } from '../../../utils/navigationServices';
   
   const WorkshopOverview = ({ navigation, route }) => {
   

@@ -30,9 +30,9 @@ import ViewProduct from '../screens/eCommerce/ViewProduct';
 import ViewPooja from '../screens/eCommerce/ViewPooja';
 import Learn from '../screens/courses/Learn';
 import Courses from '../screens/courses/Courses';
+import ClassDetails from '../screens/courses/demo/ClassDetails';
 import CourseDetails from '../screens/courses/CourseDetails';
-import ClassDetails from '../screens/courses/ClassDetails';
-import ClassOverview from '../screens/courses/ClassOverview';
+import ClassOverview from '../screens/courses/demo/ClassOverview';
 
 const Stack = createNativeStackNavigator();
 

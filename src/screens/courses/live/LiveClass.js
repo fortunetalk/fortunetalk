@@ -1,22 +1,15 @@
 import { connect } from 'react-redux';
-import Loader from '../../components/Loader';
-import { classifyTime } from '../../utils/tools';
+import Loader from '../../../components/Loader';
+import { classifyTime } from '../../../utils/tools';
 import React, { useEffect, useState } from 'react';
-import LinearGradient from 'react-native-linear-gradient';
-import NoDataFound from '../../components/NoDataFound';
-import * as Courses from '../../redux/actions/courseActions';
-import { Colors, Fonts, SCREEN_WIDTH, Sizes } from '../../assets/styles';
-import { navigate } from '../../utils/navigationServices';
 import { Text, View, Image, ImageBackground, FlatList, TouchableOpacity } from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
+import NoDataFound from '../../../components/NoDataFound';
+import * as Courses from '../../../redux/actions/courseActions';
+import { Colors, Fonts, SCREEN_WIDTH, Sizes } from '../../../assets/styles';
+import { navigate } from '../../../utils/navigationServices';
 
-const DemoClass = ({
-    isLoading,
-    demoClass,
-    dispatch,
-    courseId,
-    courseData
-}) => {
-
+const LiveClass = ({ isLoading, liveClass, dispatch, courseId, courseData }) => {
     useEffect(() => {
         dispatch(Courses.getLiveClass({ courseId }));
     }, [courseId, dispatch]);
@@ -27,7 +20,7 @@ const DemoClass = ({
             <FlatList
                 ListHeaderComponent={
                     <>
-                        {demoClass && liveClassInfo()}
+                        {liveClass && liveClassInfo()}
                     </>
                 }
             />
@@ -36,14 +29,10 @@ const DemoClass = ({
 
     function liveClassInfo() {
         return (
-            <View style={{
-                marginHorizontal: Sizes.fixPadding * 1.5,
-                marginTop: Sizes.fixPadding,
-                marginBottom: 100
-            }}>
+            <View style={{ marginHorizontal: Sizes.fixPadding * 1.5, marginTop: Sizes.fixPadding, marginBottom: 100 }}>
                 <FlatList
-                    data={demoClass}
-                    renderItem={({ item, index }) => <DemoClassItem item={item} courseData={courseData} />}
+                    data={liveClass}
+                    renderItem={({ item, index }) => <LiveClassItem item={item} courseData={courseData} />}
                     keyExtractor={item => item.id}
                     ListEmptyComponent={<NoDataFound />}
                 />
@@ -52,7 +41,7 @@ const DemoClass = ({
     }
 };
 
-const DemoClassItem = ({ item, courseData }) => {
+const LiveClassItem = ({ item, courseData }) => {
     const [countdown, setCountdown] = useState(null);
     useEffect(() => {
         const calculateCountdown = () => {
@@ -90,11 +79,11 @@ const DemoClassItem = ({ item, courseData }) => {
     return (
         <TouchableOpacity
             activeOpacity={1}
-            onPress={() => navigate("courseDetails", {
+            onPress={() => navigate("courseDetails", { 
                 classdetails: item,
-                courseData,
-                title: "Demo"
-            })}
+                 courseData,
+                 title: "Live"
+                 })}
             style={{
                 borderRadius: Sizes.fixPadding,
                 backgroundColor: Colors.whiteDark,
@@ -138,12 +127,7 @@ const DemoClassItem = ({ item, courseData }) => {
                     paddingLeft: Sizes.fixPadding * 1,
                     borderTopLeftRadius: Sizes.fixPadding * 2
                 }}>
-                <Text
-                    style={{
-                        color: Colors.primaryLight,
-                        fontWeight: "700",
-                        fontSize: 14
-                    }}>{countdown}</Text>
+                <Text style={{ color: Colors.primaryLight, fontWeight: "700", fontSize: 14 }}>{countdown}</Text>
             </View>
 
             <View
@@ -198,9 +182,9 @@ const DemoClassItem = ({ item, courseData }) => {
 
 const mapStateToProps = state => ({
     isLoading: state.settings.isLoading,
-    demoClass: state.courses.demoClass
+    liveClass: state.courses.liveClass,
 });
 
 const mapDispatchToProps = dispatch => ({ dispatch });
 
-export default connect(mapStateToProps, mapDispatchToProps)(DemoClass);
+export default connect(mapStateToProps, mapDispatchToProps)(LiveClass);

@@ -2,7 +2,6 @@ import { connect } from 'react-redux';
 import { FlatList, StyleSheet } from 'react-native';
 import Loader from '../../components/Loader';
 import React, { useEffect } from 'react';
-import MyHeader from '../../components/MyHeader';
 import MyStatusBar from '../../components/MyStatusBar';
 import NoDataFound from '../../components/NoDataFound';
 import { navigate } from '../../utils/navigationServices';
@@ -10,6 +9,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import { View, Text, TouchableOpacity, Image } from 'react-native';
 import * as CourseActions from '../../redux/actions/courseActions'
 import { Colors, Fonts, SCREEN_WIDTH, Sizes } from '../../assets/styles';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
 const Learn = ({
   navigation,
@@ -31,8 +31,8 @@ const Learn = ({
         barStyle={'light-content'}
       />
       <Loader visible={isLoading} />
+      {header()}
       <View style={{ flex: 1 }}>
-        <MyHeader title={"Course"} />
         {myCoursesInfo()}
         <FlatList
           ListHeaderComponent={
@@ -46,6 +46,21 @@ const Learn = ({
     </View>
   );
 
+  function header() {
+    return (
+      <View style={styles.container}>
+        <TouchableOpacity activeOpacity={0.8} onPress={() => navigate("home")}
+          style={{ position: 'absolute', zIndex: 99, left: Sizes.fixPadding * 1.5 }}>
+          <AntDesign
+            name="leftcircleo"
+            color={Colors.primaryLight}
+            size={Sizes.fixPadding * 2}
+          />
+        </TouchableOpacity>
+        <Text style={{ ...Fonts._15RobotMedium, color: Colors.primaryLight, textAlign: 'center' }}>Courses</Text>
+      </View>
+    )
+  }
 
   function myCoursesInfo() {
     return (
@@ -171,4 +186,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
+  container: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: Sizes.fixPadding * 1.5,
+    paddingVertical: Sizes.fixPadding * 1.3,
+    borderBottomWidth: 2,
+    borderBlockColor: Colors.grayLight,
+  }
 });

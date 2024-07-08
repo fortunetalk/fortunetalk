@@ -1,19 +1,26 @@
+import { connect } from 'react-redux'
 import React, { useState } from 'react'
 import MyHeader from '../../components/MyHeader'
 import CourseRegistration from './CourseRegistration'
 import MyStatusBar from '../../components/MyStatusBar'
 import LinearGradient from 'react-native-linear-gradient'
-import { Colors, Sizes, Fonts } from '../../assets/styles'
-import { Text, TouchableOpacity, View, FlatList } from 'react-native'
 import { navigate } from '../../utils/navigationServices'
+import { Colors, Sizes, Fonts } from '../../assets/styles'
+import * as CourseActions from '../../redux/actions/courseActions'
+import { Text, TouchableOpacity, View, FlatList, Alert } from 'react-native'
 
-const CourseDetails = ({ route }) => {
+const CourseDetails = ({ route, isLoading, dispatch, customerData }) => {
     const previousPagedata = route.params
+    // console.log("route.params.courseData", route.params.courseData)
+    // console.log("route.params.classdetails", route.params.classdetails)
+
+    console.log("customerData=====>>>", customerData)
     const [state, setState] = useState({
         name: "",
         phoneNumber: "",
         modalVisible: false,
     })
+    const { name, phoneNumber, modalVisible } = state
 
     const handleNext = () => {
         updateState({ modalVisible: true })
@@ -27,17 +34,33 @@ const CourseDetails = ({ route }) => {
     };
 
     const handleRegistration = () => {
-        navigate("classOverview", {
-            classData: previousPagedata.classdetails,
-            title: previousPagedata.title
-        })
-        updateState({ modalVisible: false })
+        if (name.length < 1) {
+            Alert.alert("Name Required")
+        } else if (phoneNumber.length < 9) {
+            Alert.alert("Phone Number Required")
+        } else {
+            if (previousPagedata.title == "Demo") {
+                dispatch(CourseActions.bookdemoClass({
+                    customerName: name,
+                    mobileNumber: phoneNumber,
+                    astrologerId: previousPagedata.classdetails?.astrologerId?._id,
+                    demoClassId: previousPagedata.classdetails?._id,
+                    courseId: previousPagedata.courseData?._id,
+                    customerId: customerData?._id,
+                }))
+                navigate("classOverview", {
+                    classData: previousPagedata.classdetails,
+                    title: previousPagedata.title
+                })
+            } else if (previousPagedata.title == "Live") {
+                navigate("mycourse", {
+                    classData: previousPagedata.classdetails,
+                    title: previousPagedata.title
+                })
+            }
+            updateState({ modalVisible: false })
+        }
     };
-
-    console.log("route.params.courseData", route.params.courseData)
-    console.log("route.params.classdetails", route.params.classdetails)
-
-    const { name, phoneNumber, modalVisible } = state
 
     return (
         <View style={{ flex: 1, backgroundColor: Colors.bodyColor }}>
@@ -114,4 +137,11 @@ const CourseDetails = ({ route }) => {
     }
 }
 
-export default CourseDetails
+const mapStateToProps = state => ({
+    isLoading: state.settings.isLoading,
+    customerData: state.customer.customerData
+})
+
+const mapDispatchToProps = dispatch => ({ dispatch })
+
+export default connect(mapStateToProps, mapDispatchToProps)(CourseDetails)

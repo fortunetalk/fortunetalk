@@ -2,26 +2,56 @@ import {
   View,
   Text,
   FlatList,
-  Image,
-  ImageBackground,
   TouchableOpacity,
 } from 'react-native';
-import React, {useState} from 'react';
-import {Colors, Fonts, Sizes} from '../../assets/style';
-import {SCREEN_WIDTH} from '../../config/Screen';
+import moment from 'moment';
+import { connect } from 'react-redux';
+import React, { useState } from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import LinearGradient from 'react-native-linear-gradient';
-import Video from '../../components/Courses/Video';
-import {base_url} from '../../config/constants';
-import moment from 'moment';
-import { connect } from 'react-redux';
-import { MyMethods } from '../../methods/my_methods';
+import Video from '../../../components/Courses/Video';
+import { Colors, Fonts, Sizes } from '../../../assets/styles';
+import { check_current_day } from '../../../utils/tools';
 
-const CurrentCoursesDetails = ({navigation, route, userData}) => {
-  const [liveData] = useState(route?.params?.data);
+const CurrentCoursesDetails = ({ navigation, route, userData }) => {
+  
+  const [liveData] = useState({
+    "course_name": "React Native Development",
+    "description": "This course covers all aspects of React Native development.",
+    "video": "https://example.com/video.mp4",
+    "course_live_tbl": [
+      {
+        "start_date": "2024-07-08",
+        "start_time": "10:00 AM",
+        "class_name": "Introduction to React Native",
+        "description": "An introductory session to React Native.",
+        "time_session_duration": 60,
+        "status": 0,
+        "time": 45,
+        "is_live": 1,
+        "unique_id": "12345"
+      },
+      {
+        "start_date": "2024-07-09",
+        "start_time": "11:00 AM",
+        "class_name": "React Native Components",
+        "description": "A session on React Native components.",
+        "time_session_duration": 90,
+        "status": 1,
+        "time": 90,
+        "is_live": 0,
+        "unique_id": "12346"
+      }
+    ]
+  }
+  );
+
   return (
-    <View style={{flex: 1, backgroundColor: Colors.bodyColor}}>
+    <View style={{
+      flex: 1,
+      backgroundColor: Colors.bodyColor
+    }}>
       <FlatList
         ListHeaderComponent={
           <>
@@ -29,7 +59,6 @@ const CurrentCoursesDetails = ({navigation, route, userData}) => {
             {courseTitleInfo()}
             {courseDescriptionInfo()}
             {classInfo()}
-            {submitTestInfo()}
             {questionPaperDownloadInfo()}
           </>
         }
@@ -38,77 +67,37 @@ const CurrentCoursesDetails = ({navigation, route, userData}) => {
   );
 
   function questionPaperDownloadInfo() {
-    return (
-      <TouchableOpacity
-        style={{
-          margin: Sizes.fixPadding * 2,
-          padding: Sizes.fixPadding,
-          backgroundColor: Colors.white,
-          elevation: 5,
-          shadowColor: Colors.blackLight,
-          shadowOffset: {
-            width: 0,
-            height: 1,
-          },
-          shadowOpacity: 0.2,
-          justifyContent: 'center',
-          alignItems: 'center',
-          flexDirection: 'row',
-          borderRadius: Sizes.fixPadding,
-        }}>
-        <Image
-          source={require('../../assets/images/icons/download_question.png')}
-          style={{width: 25, height: 25, resizeMode: 'contain'}}
-        />
-        <Text
-          style={{...Fonts.gray14RobotoMedium, marginLeft: Sizes.fixPadding}}>
-          Download a Question Paper here
-        </Text>
-      </TouchableOpacity>
-    );
-  }
 
-  function submitTestInfo() {
+    const handleNext = ()=>{
+
+    }
+
     return (
-      <View
+      <LinearGradient
+        colors={[Colors.primaryLight, Colors.primaryDark]}
         style={{
-          paddingVertical: Sizes.fixPadding,
-          paddingHorizontal: Sizes.fixPadding * 2,
-          borderBottomWidth: 1,
-          borderBottomColor: Colors.grayLight,
+          width: '90%',
+          borderRadius: Sizes.fixPadding * 1.3,
+          alignSelf: 'center',
+          marginVertical: Sizes.fixPadding,
+          overflow: 'hidden',
         }}>
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-          }}>
-          <View style={{flex: 0.7, flexDirection: 'row', alignItems: 'center'}}>
-            <Image
-              source={require('../../assets/images/icons/document.png')}
-              style={{width: 30, height: 30}}
-            />
-            <Text
-              style={{
-                ...Fonts.black18RobotoRegular,
-                marginLeft: Sizes.fixPadding,
-              }}>
-              Submit your test given to here by 12 October
-            </Text>
-          </View>
-          <Image
-            source={require('../../assets/images/icons/upload_document.png')}
-            style={{width: 30, height: 30}}
-          />
-        </View>
-      </View>
+        <TouchableOpacity
+          onPress={() => handleNext()}
+          activeOpacity={0.8}
+          style={{ flex: 0, paddingVertical: Sizes.fixPadding * 0.8 }}>
+          <Text style={{ ...Fonts.white18RobotMedium, textAlign: 'center', fontSize:16 }}>
+            Download Certificate
+          </Text>
+        </TouchableOpacity>
+      </LinearGradient>
     );
   }
 
   function classInfo() {
-    const renderItem = ({item, index}) => {
+    const renderItem = ({ item, index }) => {
       console.log(item)
-      const isToday = MyMethods.check_current_day({date: item.start_date});
+      const isToday = check_current_day({ date: item.start_date });
       return (
         <>
           <View
@@ -125,20 +114,20 @@ const CurrentCoursesDetails = ({navigation, route, userData}) => {
                 justifyContent: 'space-between',
               }}>
               <View>
-                <Text style={{...Fonts.primaryLight14RobotoMedium}}>
+                <Text style={{ ...Fonts.primaryLight14RobotoMedium }}>
                   Class {index + 1}
                   {item.status != 1 && (
-                    <Text style={{...Fonts.gray12RobotoMedium}}>
+                    <Text style={{ ...Fonts.gray12RobotoMedium }}>
                       {'  '}({item.time_session_duration} min)
                     </Text>
                   )}
                 </Text>
-                <Text style={{...Fonts.gray16RobotoMedium, fontSize: 15}}>
+                <Text style={{ ...Fonts.gray16RobotoMedium, fontSize: 15 }}>
                   {item.class_name}
                 </Text>
               </View>
               {item.status == 1 ? (
-                <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                   <Text
                     style={{
                       ...Fonts.gray11RobotoRegular,
@@ -154,14 +143,14 @@ const CurrentCoursesDetails = ({navigation, route, userData}) => {
                 </View>
               ) : (
                 <TouchableOpacity
-                  style={{justifyContent: 'center', alignItems: 'center'}}>
+                  style={{ justifyContent: 'center', alignItems: 'center' }}>
                   <Ionicons
                     name="play-circle"
                     color={Colors.primaryLight}
                     size={22}
                   />
                   <Text
-                    style={{...Fonts.primaryLight14RobotoMedium, fontSize: 12}}>
+                    style={{ ...Fonts.primaryLight14RobotoMedium, fontSize: 12 }}>
                     Join
                   </Text>
                 </TouchableOpacity>
@@ -174,16 +163,16 @@ const CurrentCoursesDetails = ({navigation, route, userData}) => {
               }}>
               {item.description}
             </Text>
-            <View style={{alignSelf: 'flex-end'}}>
+            <View style={{ alignSelf: 'flex-end' }}>
               {item.status == 1 ? (
-                <Text style={{...Fonts.gray12RobotoRegular}}>
+                <Text style={{ ...Fonts.gray12RobotoRegular }}>
                   ({item.time} min Video){' '}
-                  <Text style={{color: Colors.primaryLight, fontSize: 11}}>
+                  <Text style={{ color: Colors.primaryLight, fontSize: 11 }}>
                     Watch Again <MaterialIcons name="refresh" />
                   </Text>
                 </Text>
               ) : (
-                <Text style={{...Fonts.primaryDark11InterMedium}}>
+                <Text style={{ ...Fonts.primaryDark11InterMedium }}>
                   Next Session at {moment(item?.start_date).format('DD MMMM')} ({moment(item?.start_time).format('hh A')})
                 </Text>
               )}
@@ -199,11 +188,11 @@ const CurrentCoursesDetails = ({navigation, route, userData}) => {
                 userName: userData?.username,
               })}>
               <LinearGradient
-                colors={item?.is_live == 0 ? [Colors.grayLight, Colors.gray]: [Colors.primaryLight, Colors.primaryDark]}
-                style={{paddingVertical: Sizes.fixPadding * 1.5}}>
+                colors={item?.is_live == 0 ? [Colors.grayLight, Colors.gray] : [Colors.primaryLight, Colors.primaryDark]}
+                style={{ paddingVertical: Sizes.fixPadding * 1.5 }}>
                 <Text
-                  style={{...Fonts.white18RobotMedium, textAlign: 'center'}}>
-                  Connect to Class {index+1} Now
+                  style={{ ...Fonts.white18RobotMedium, textAlign: 'center' }}>
+                  Connect to Class {index + 1} Now
                 </Text>
               </LinearGradient>
             </TouchableOpacity>
@@ -225,7 +214,7 @@ const CurrentCoursesDetails = ({navigation, route, userData}) => {
           borderBottomWidth: 1,
           borderBottomColor: Colors.grayLight,
         }}>
-        <Text style={{...Fonts.gray12RobotoRegular}}>
+        <Text style={{ ...Fonts.gray12RobotoRegular }}>
           {liveData?.description}
         </Text>
       </View>
@@ -239,7 +228,7 @@ const CurrentCoursesDetails = ({navigation, route, userData}) => {
           marginHorizontal: Sizes.fixPadding * 2,
           marginTop: Sizes.fixPadding * 2,
         }}>
-        <Text style={{...Fonts.primaryLight14RobotoRegular}}>
+        <Text style={{ ...Fonts.primaryLight14RobotoRegular }}>
           {liveData?.course_name}
         </Text>
       </View>
@@ -247,13 +236,13 @@ const CurrentCoursesDetails = ({navigation, route, userData}) => {
   }
 
   function liveVedioInfo() {
-    return <Video uri={base_url + liveData?.video[0]?.video} />;
+    return <Video uri={liveData?.video} />;
   }
 };
 
 const mapStateToProps = state => ({
-  userData: state.user.userData,
-  wallet: state.user.wallet,
+  // userData: state.user.userData,
+  // wallet: state.user.wallet,
 });
 
 export default connect(mapStateToProps, null)(CurrentCoursesDetails);

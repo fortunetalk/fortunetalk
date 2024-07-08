@@ -48,6 +48,12 @@ const courses = (state = initialState, actions) => {
                 teachersList: payload
             }
         }
+        case actionTypes.GET_TEACHERS_LIST: {
+            return {
+                ...state,
+                teachersList: payload
+            }
+        }
         default: {
             return state
         }

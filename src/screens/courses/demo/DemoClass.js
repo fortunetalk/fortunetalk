@@ -16,11 +16,9 @@ const DemoClass = ({
     courseId,
     courseData
 }) => {
-
     useEffect(() => {
-        dispatch(Courses.getLiveClass({ courseId }));
-    }, [courseId, dispatch]);
-
+        dispatch(Courses.getDemoClass({ courseId }));
+    }, [courseId, dispatch])
     return (
         <View style={{ flex: 1, backgroundColor: Colors.bodyColor }}>
             <Loader visible={isLoading} />

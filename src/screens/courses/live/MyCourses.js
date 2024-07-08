@@ -1,80 +1,57 @@
-import {View} from 'react-native';
-import React from 'react';
-import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import CurrentCourses from '../screens/Courses/CurrentCourses';
-import CompletedCourses from '../screens/Courses/CompletedCourses';
-import MyHeader from '../components/MyHeader';
-import CurrentCoursesDetails from '../screens/Courses/CurrentCoursesDetails';
-import CompletedCoursesDetails from '../screens/Courses/CompletedCoursesDetails';
+import React, { useState } from 'react'
+import { connect } from 'react-redux';
+import { Text, View } from 'react-native'
+import { FlatList } from 'react-native';
+import { Colors } from '../../../assets/styles';
 import MyStatusBar from '../../../components/MyStatusBar';
-import { Colors, Fonts } from '../../../assets/styles';
+import Loader from '../../../components/Loader';
+import MyHeader from '../../../components/MyHeader';
+import LiveClassCategory from './LiveClassCategory';
+import CurrentCoursesDetails from './CurrentCoursesDetails';
 
-const Tab = createMaterialTopTabNavigator();
-const Stack = createNativeStackNavigator();
+const MyCourses = ({ isLoading, route }) => {
+  const [activeFilter, setActiveFilter] = useState(1);
+  const previousPagedata = route.params
 
-const CurrentCoursesNav = () => {
+  const filterData = [
+    { id: 1, title: 'Current Course' },
+    { id: 2, title: 'Completed Course' },
+  ];
+
+  const updateState = (newState) => {
+    setActiveFilter(newState.activeFilter);
+  };
+
   return (
-    <Stack.Navigator
-      screenOptions={{
-        headerShown: false,
-      }}>
-      <Stack.Screen name="currentCourses" component={CurrentCourses} />
-      <Stack.Screen
-        name="currentCoursesDetails"
-        component={CurrentCoursesDetails}
+    <View style={{ flex: 1, backgroundColor: Colors.bodyColor }}>
+      <MyStatusBar
+        backgroundColor={Colors.primaryLight}
+        barStyle={'light-content'}
       />
-    </Stack.Navigator>
-  );
-};
+      <Loader visible={isLoading} />
+      <MyHeader title={`${previousPagedata.course?.title}`} />
 
-const CompletedCoursesNav = () => {
-  return (
-    <Stack.Navigator
-      screenOptions={{
-        headerShown: false,
-      }}>
-      <Stack.Screen name="completedCourses" component={CompletedCourses} />
-      <Stack.Screen
-        name="completedCoursesDetails"
-        component={CompletedCoursesDetails}
+      <LiveClassCategory
+        filterData={filterData}
+        updateState={updateState}
+        activeFilter={activeFilter}
       />
-    </Stack.Navigator>
-  );
-};
-
-const MyCourses = ({navigation}) => {
-  return (
-    <View style={{flex: 1}}>
-      <MyStatusBar backgroundColor={Colors.primaryLight} barStyle={'light-content'} />
-      {header()}
-      <Tab.Navigator
-        screenOptions={{
-          tabBarStyle: {backgroundColor: Colors.primaryLight},
-          tabBarLabelStyle: {...Fonts.white18RobotBold, fontSize: 12},
-          tabBarIndicatorStyle: {
-            backgroundColor: Colors.white,
-            height: 5,
-            borderTopLeftRadius: 1000,
-            borderTopRightRadius: 1000,
-          },
-        }}>
-        <Tab.Screen
-          name="currentCoursesNav"
-          component={CurrentCoursesNav}
-          options={{tabBarLabel: 'Current Courses'}}
-        />
-        <Tab.Screen
-          name="completedCoursesNav"
-          component={CompletedCoursesNav}
-          options={{tabBarLabel: 'Completed Courses'}}
-        />
-      </Tab.Navigator>
+      <FlatList ListHeaderComponent={
+        <>
+          {activeFilter == 1 && <CurrentCoursesDetails/>}
+          {activeFilter == 2 && <Text>durgeh</Text>}
+        </>
+      }
+      />
     </View>
-  );
-  function header() {
-    return <MyHeader title={'My Courses'} navigation={navigation} />;
-  }
-};
+  )
+}
 
-export default MyCourses;
+const mapStateToProps = state => ({
+  isLoading: state.settings.isLoading,
+  courseList: state.courses.courseList,
+})
+
+const mapDispatchToProps = dispatch => ({ dispatch })
+
+export default connect(mapStateToProps, mapDispatchToProps)(MyCourses)

@@ -8,7 +8,8 @@ const MyHeader = ({ title }) => {
   const navigation = useNavigation();
   return (
     <View style={styles.container}>
-      <TouchableOpacity activeOpacity={0.8} onPress={() => navigation.goBack()} style={{position: 'absolute', zIndex: 99, left: Sizes.fixPadding*1.5}}>
+      <TouchableOpacity activeOpacity={0.8} onPress={() => navigation.goBack()} 
+      style={{position: 'absolute', zIndex: 99, left: Sizes.fixPadding*1.5}}>
         <AntDesign
           name="leftcircleo"
           color={Colors.primaryLight}

@@ -1,8 +1,9 @@
-import { put, takeLeading } from 'redux-saga/effects'
+import { call, put, takeLeading } from 'redux-saga/effects'
 import * as actionTypes from '../actionTypes'
 import { getRequest, postRequest } from '../../utils/apiRequests'
 import {
     app_api_url,
+    book_demo_class,
     get_course_banner,
     get_course_list,
     get_demo_class_list,
@@ -10,6 +11,7 @@ import {
     get_teachers_list,
     get_workshop_list
 } from '../../config/constants'
+import { showToastMessage } from '../../utils/services'
 
 function* getCourseBanner() {
     try {
@@ -54,7 +56,7 @@ function* getLiveClassList(actions) {
         yield put({ type: actionTypes.SET_IS_LOADING, payload: true })
         const { payload } = actions
 
-        
+
         const response = yield postRequest({
             url: app_api_url + get_live_class_list,
             data: payload
@@ -134,12 +136,40 @@ function* getTeachersList(actions) {
     }
 }
 
+function* bookDemoClass(actions) {
+    try {
+        yield put({ type: actionTypes.SET_IS_LOADING, payload: true })
+        const { payload } = actions
+
+        console.log("payload====>>>>>>>" , payload)
+        console.log("app_api_url + book_demo_class====>>>>>>>" , app_api_url + book_demo_class)
+
+        const response = yield postRequest({
+            url: app_api_url + book_demo_class,
+            data: payload
+        })
+
+        console.log("response.data====>>>>" , response)
+        
+        if (response?.success) {
+            yield call(showToastMessage, { message: response?.message })
+        }
+
+        yield put({ type: actionTypes.SET_IS_LOADING, payload: false })
+    } catch (e) {
+        yield put({ type: actionTypes.SET_IS_LOADING, payload: false })
+        console.log(e)
+    }
+}
+
 export default function* coursesSaga() {
     yield takeLeading(actionTypes.GET_COURSE_BANNER, getCourseBanner)
     yield takeLeading(actionTypes.GET_COURSES_LIST, getCourseList)
 
-    yield takeLeading(actionTypes.GET_DEMO_CLASS , getDemoClassList)
+    yield takeLeading(actionTypes.GET_DEMO_CLASS, getDemoClassList)
     yield takeLeading(actionTypes.GET_LIVE_CLASS, getLiveClassList)
     yield takeLeading(actionTypes.GET_WORKSHOP, getWorkshopsList)
     yield takeLeading(actionTypes.GET_TEACHERS_LIST, getTeachersList)
+
+    yield takeLeading(actionTypes.BOOKED_DEMO_CLASS, bookDemoClass)
 }

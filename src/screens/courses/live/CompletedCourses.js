@@ -1,57 +1,16 @@
-import {View, Text, FlatList, TouchableOpacity, StyleSheet} from 'react-native';
-import React, {useEffect, useState} from 'react';
-import {Colors, Fonts, Sizes} from '../../assets/style';
-import {SCREEN_WIDTH} from '../../config/Screen';
-import {api_url, complete_courses_customer_id} from '../../config/constants';
 import {connect} from 'react-redux';
-import Loader from '../../components/Loader';
-import {ApiRequest} from '../../config/api_requests';
-import NoDataFound from '../../components/NoDataFound';
+import Loader from '../../../components/Loader';
+import React, { useState} from 'react';
+import NoDataFound from '../../../components/NoDataFound';
+import { Colors, SCREEN_WIDTH, Fonts, Sizes } from '../../../assets/styles';
+import {View, Text, FlatList, TouchableOpacity, StyleSheet} from 'react-native';
 
-const data = [
-  {id: 1, title: ''},
-  {id: 2, title: ''},
-  {id: 3, title: ''},
-];
-
-const CompletedCourses = ({navigation, customerData}) => {
+const CompletedCourses = ({navigation}) => {
   const [state, setState] = useState({
     isLoading: false,
     courseData: null,
   });
-
-  useEffect(() => {
-    get_courses();
-  }, []);
-
-  const updateState = data => {
-    setState(prevState => {
-      const newData = {...prevState, ...data};
-      return newData;
-    });
-  };
-
   const {isLoading, courseData} = state;
-
-  const get_courses = async () => {
-    try {
-      updateState({isLoading: true});
-      const response = await ApiRequest.postRequest({
-        url: api_url + complete_courses_customer_id,
-        data: {customer_id: customerData?.id},
-      });
-      if (response?.status == '200') {
-        updateState({courseData: response?.data});
-      }else{
-        updateState({courseData: []});
-      }
-      updateState({isLoading: false});
-    } catch (e) {
-      console.log(e);
-      updateState({isLoading: false});
-    }
-  };
-
   const renderItem = ({item, index}) => {
     return (
       <TouchableOpacity
@@ -90,8 +49,7 @@ const CompletedCourses = ({navigation, customerData}) => {
 };
 
 const mapStateToProps = state => ({
-  customerData: state.user.userData,
-  wallet: state.user.wallet,
+  // wallet: state.user.wallet,
 });
 
 export default connect(mapStateToProps, null)(CompletedCourses);

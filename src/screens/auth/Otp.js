@@ -18,7 +18,7 @@ import { showToastMessage } from '../../utils/services.js';
 
 const CELL_COUNT = 4;
 
-const Otp = ({ route, dispatch, isLoading }) => {
+const Otp = ({ route, dispatch, isLoading, navigation }) => {
     const otpData = route.params ?? {};
 
     const [value, setValue] = useState('');
@@ -27,7 +27,7 @@ const Otp = ({ route, dispatch, isLoading }) => {
         value,
         setValue,
     });
-
+ 
     useEffect(() => {
         Alert.alert('Alert', `Your otp is ${otpData?.otp}`)
     }, [])

@@ -40,7 +40,6 @@ const LiveClass = ({ isLoading, liveClass, dispatch, courseId, courseData }) => 
         );
     }
 };
-
 const LiveClassItem = ({ item, courseData }) => {
     const [countdown, setCountdown] = useState(null);
     useEffect(() => {

@@ -1,17 +1,14 @@
-
 import {
   View,
   Text,
   FlatList,
-  Image,
   ImageBackground,
   TouchableOpacity,
 } from 'react-native';
 import React from 'react';
-import {Colors, Fonts, Sizes} from '../../assets/style';
-import {SCREEN_WIDTH} from '../../config/Screen';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { Colors, SCREEN_WIDTH, Fonts, Sizes } from '../../../assets/styles';
 
 const classData = [
   {
@@ -51,7 +48,7 @@ const classData = [
 
 const CompletedCoursesDetails = () => {
   return (
-    <View style={{flex: 1, backgroundColor: Colors.bodyColor}}>
+    <View style={{ flex: 1, backgroundColor: Colors.bodyColor }}>
       <FlatList
         ListHeaderComponent={
           <>
@@ -62,106 +59,106 @@ const CompletedCoursesDetails = () => {
           </>
         }
       />
-        {downloadCertificateInfo()}
+      {downloadCertificateInfo()}
     </View>
   );
 
   function downloadCertificateInfo() {
     return (
       <TouchableOpacity style={{
-        margin: Sizes.fixPadding*2,
+        margin: Sizes.fixPadding * 2,
         paddingVertical: Sizes.fixPadding,
         backgroundColor: Colors.primaryLight,
         justifyContent: 'center',
         alignItems: 'center',
-        borderRadius: Sizes.fixPadding*1.5
+        borderRadius: Sizes.fixPadding * 1.5
       }}>
-        <Text style={{...Fonts.white14RobotoMedium}}>Download Certificate</Text>
+        <Text style={{ ...Fonts.white14RobotoMedium }}>Download Certificate</Text>
       </TouchableOpacity>
     );
   }
 
   function classInfo() {
-    const renderItem = ({item, index}) => {
+    const renderItem = ({ item, index }) => {
       return (
         <View
-        style={{
-          paddingVertical: Sizes.fixPadding,
-          paddingHorizontal: Sizes.fixPadding * 2,
-          borderBottomWidth: 1,
-          borderBottomColor: Colors.grayLight,
-        }}>
-        <View
           style={{
-            flex: 0,
-            flexDirection: 'row',
-            justifyContent: 'space-between',
+            paddingVertical: Sizes.fixPadding,
+            paddingHorizontal: Sizes.fixPadding * 2,
+            borderBottomWidth: 1,
+            borderBottomColor: Colors.grayLight,
           }}>
-          <View>
-            <Text style={{...Fonts.primaryLight14RobotoMedium}}>
-              {item.class_name}
-              {item.status != 1 && (
-                <Text style={{...Fonts.gray12RobotoMedium}}>
-                  {'  '}({item.time} min)
-                </Text>
-              )}
-            </Text>
-            <Text style={{...Fonts.gray16RobotoMedium, fontSize: 15}}>
-              {item.title}
-            </Text>
-          </View>
-          {item.status == 1 ? (
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              <Text
-                style={{
-                  ...Fonts.gray11RobotoRegular,
-                  marginRight: Sizes.fixPadding * 0.2,
-                }}>
-                Completed
+          <View
+            style={{
+              flex: 0,
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+            }}>
+            <View>
+              <Text style={{ ...Fonts.primaryLight14RobotoMedium }}>
+                {item.class_name}
+                {item.status != 1 && (
+                  <Text style={{ ...Fonts.gray12RobotoMedium }}>
+                    {'  '}({item.time} min)
+                  </Text>
+                )}
               </Text>
-              <Ionicons
-                name="checkmark-circle"
-                color={Colors.blackLight}
-                size={20}
-              />
+              <Text style={{ ...Fonts.gray16RobotoMedium, fontSize: 15 }}>
+                {item.title}
+              </Text>
             </View>
-          ) : (
-            <TouchableOpacity
-              style={{justifyContent: 'center', alignItems: 'center'}}>
-              <Ionicons
-                name="play-circle"
-                color={Colors.primaryLight}
-                size={22}
-              />
-              <Text
-                style={{...Fonts.primaryLight14RobotoMedium, fontSize: 12}}>
-                Join
+            {item.status == 1 ? (
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <Text
+                  style={{
+                    ...Fonts.gray11RobotoRegular,
+                    marginRight: Sizes.fixPadding * 0.2,
+                  }}>
+                  Completed
+                </Text>
+                <Ionicons
+                  name="checkmark-circle"
+                  color={Colors.blackLight}
+                  size={20}
+                />
+              </View>
+            ) : (
+              <TouchableOpacity
+                style={{ justifyContent: 'center', alignItems: 'center' }}>
+                <Ionicons
+                  name="play-circle"
+                  color={Colors.primaryLight}
+                  size={22}
+                />
+                <Text
+                  style={{ ...Fonts.primaryLight14RobotoMedium, fontSize: 12 }}>
+                  Join
+                </Text>
+              </TouchableOpacity>
+            )}
+          </View>
+          <Text
+            style={{
+              ...Fonts.gray12RobotoMedium,
+              marginTop: Sizes.fixPadding * 0.6,
+            }}>
+            {item.description}
+          </Text>
+          <View style={{ alignSelf: 'flex-end' }}>
+            {item.status == 1 ? (
+              <Text style={{ ...Fonts.gray12RobotoRegular }}>
+                ({item.time} min Video){' '}
+                <Text style={{ color: Colors.primaryLight, fontSize: 11 }}>
+                  Watch Again <MaterialIcons name="refresh" />
+                </Text>
               </Text>
-            </TouchableOpacity>
-          )}
-        </View>
-        <Text
-          style={{
-            ...Fonts.gray12RobotoMedium,
-            marginTop: Sizes.fixPadding * 0.6,
-          }}>
-          {item.description}
-        </Text>
-        <View style={{alignSelf: 'flex-end'}}>
-          {item.status == 1 ? (
-            <Text style={{...Fonts.gray12RobotoRegular}}>
-              ({item.time} min Video){' '}
-              <Text style={{color: Colors.primaryLight, fontSize: 11}}>
-                Watch Again <MaterialIcons name="refresh" />
+            ) : (
+              <Text style={{ ...Fonts.primaryDark11InterMedium }}>
+                Next Session at 10 October (10 am)
               </Text>
-            </Text>
-          ) : (
-            <Text style={{...Fonts.primaryDark11InterMedium}}>
-              Next Session at 10 October (10 am)
-            </Text>
-          )}
+            )}
+          </View>
         </View>
-      </View>
       );
     };
     return (
@@ -182,7 +179,7 @@ const CompletedCoursesDetails = () => {
           borderBottomWidth: 1,
           borderBottomColor: Colors.grayLight,
         }}>
-        <Text style={{...Fonts.gray12RobotoRegular}}>
+        <Text style={{ ...Fonts.gray12RobotoRegular }}>
           Comes with sal jade CERTIFICATE OF COMPLETION FROM THE ACCREDITED
           COLLEGE: THE PSYCHIC HEALING ACADEMY Also features free monthly bonus
           Tarot seminars educational announcements tarot readings
@@ -198,7 +195,7 @@ const CompletedCoursesDetails = () => {
           marginHorizontal: Sizes.fixPadding * 2,
           marginTop: Sizes.fixPadding * 2,
         }}>
-        <Text style={{...Fonts.primaryLight14RobotoRegular}}>
+        <Text style={{ ...Fonts.primaryLight14RobotoRegular }}>
           Master your Psychic Ability and Learn to Give Accurate{' '}
         </Text>
       </View>
@@ -215,17 +212,17 @@ const CompletedCoursesDetails = () => {
           overflow: 'hidden',
         }}>
         <ImageBackground
-          source={require('../../assets/images/users/user1.jpg')}
+          source={require('../../../assets/images/user4.jpg')}
           style={{
             width: '100%',
             height: SCREEN_WIDTH * 0.55,
             justifyContent: 'center',
             alignItems: 'center',
           }}>
-          <Image
-            source={require('../../assets/images/icons/vedio_play.png')}
-            style={{width: 40, height: 40}}
-          />
+          {/* <Image
+            source={require('../../../assets/icons/vedio_play.png')}
+            style={{ width: 40, height: 40 }}
+          /> */}
         </ImageBackground>
       </View>
     );

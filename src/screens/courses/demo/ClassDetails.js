@@ -63,7 +63,7 @@ const ClassDetails = ({ route }) => {
           colors={previousPagedata.class?.classStatus == 0 ? [Colors.grayLight, Colors.grayDark] : [Colors.primaryLight, Colors.primaryDark]}
           style={{ paddingVertical: Sizes.fixPadding * 1.5 }}>
           <Text style={{ ...Fonts.white16RobotoMedium, textAlign: 'center' }}>
-            Join the {previousPagedata.title} Demo Class  Now
+            Join the Live {previousPagedata.title} Class Now
           </Text>
         </LinearGradient>
       </TouchableOpacity>

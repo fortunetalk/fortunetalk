@@ -29,3 +29,9 @@ export const getTeachersList = payload => ({
     type: actionTypes.GET_TEACHERS_LIST,
     payload
 })
+
+export const bookdemoClass = payload => ({
+    type: actionTypes.BOOKED_DEMO_CLASS,
+    payload
+})
+

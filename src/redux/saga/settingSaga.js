@@ -22,9 +22,12 @@ function* getSplash() {
                 yield put({ type: actionTypes.SET_CUSTOMER_DATA, payload: response?.data })
                 yield onUserLogin("1", 'Ranjeet Kumar')
                 yield call(resetToScreen, 'home')
+            } else {
+                yield call(resetToScreen, 'login')
             }
+            // console.log("response?.success" , response)
         } else {
-            yield call(resetToScreen, 'home')
+            yield call(resetToScreen, 'login')
         }
 
     } catch (e) {

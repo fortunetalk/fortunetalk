@@ -32,6 +32,7 @@ export const get_demo_class_list = "course/customer/demo_class_by_course_id"
 export const get_live_class_list = "course/customer/live_class_by_course_id"
 export const get_workshop_list = "course/customer/workshop_by_course_id"
 export const get_teachers_list = "course/customer"
+export const book_demo_class = "course/customer/booked_demo_class"
 
 export const get_product_details_banner = "banner/product-category-detail"
 export const get_product_category_banner = "banner/product-category"

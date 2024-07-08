@@ -6,7 +6,7 @@ import LinearGradient from 'react-native-linear-gradient'
 import { Colors, Sizes, Fonts } from '../../assets/styles'
 import { Text, TouchableOpacity, View, FlatList } from 'react-native'
 
-const CourseDetails = ({ navigation, route }) => {
+const CourseDetails = ({ route }) => {
     const [modalVisible, setModalVisible] = useState(false);
     const previousPagedata = route.params
     const handleNext = () => {
@@ -23,8 +23,8 @@ const CourseDetails = ({ navigation, route }) => {
                 barStyle={'light-content'}
             />
             <MyHeader
-                navigation={navigation}
-                title={previousPagedata.courseData?.title || previousPagedata?.courseData?.workShopName}
+                title={previousPagedata.courseData?.title ||
+                    previousPagedata?.courseData?.workShopName}
             />
             <FlatList
                 ListHeaderComponent={

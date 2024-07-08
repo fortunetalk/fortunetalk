@@ -27,8 +27,6 @@ const Courses = ({ isLoading, route }) => {
         setActiveFilter(newState.activeFilter);
     };
 
-    console.log("courseId={route.params?.course?._id}", route.params?.course?._id)
-
     return (
         <View style={{ flex: 1, backgroundColor: Colors.bodyColor }}>
             <MyStatusBar
@@ -45,10 +43,21 @@ const Courses = ({ isLoading, route }) => {
             />
             <FlatList ListHeaderComponent={
                 <>
-                    {activeFilter == 1 && <DemoClass courseId={previousPagedata.course?._id} courseData={previousPagedata.course} />}
-                    {activeFilter == 2 && <LiveClass courseId={previousPagedata.course?._id} courseData={previousPagedata.course} />}
-                    {activeFilter == 3 && <Workshop courseId={previousPagedata.course?._id} courseData={previousPagedata.course} />}
-                    {activeFilter == 4 && <TeachersList courseId={previousPagedata.course?._id} courseData={previousPagedata.course} />}
+                    {activeFilter == 1 && <DemoClass
+                        courseId={previousPagedata.course?._id}
+                        courseData={previousPagedata.course} />}
+                    {activeFilter == 2 && <LiveClass
+                        courseId={previousPagedata.course?._id}
+                        courseData={previousPagedata.course}
+                    />}
+                    {activeFilter == 3 && <Workshop
+                        courseId={previousPagedata.course?._id}
+                        courseData={previousPagedata.course}
+                    />}
+                    {activeFilter == 4 && <TeachersList
+                        courseId={previousPagedata.course?._id}
+                        courseData={previousPagedata.course}
+                    />}
                 </>
             }
             />

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Colors, Sizes, Fonts } from '../../assets/styles';
 import LinearGradient from 'react-native-linear-gradient';
 import AntDesign from 'react-native-vector-icons/AntDesign'
+import { navigate } from '../../utils/navigationServices';
 import { Modal, Text, TextInput, TouchableOpacity, View, StyleSheet } from 'react-native';
 
 const CourseRegistration = ({ visible, onClose, onNext }) => {
@@ -16,6 +17,7 @@ const CourseRegistration = ({ visible, onClose, onNext }) => {
         setName('');
         setEmail('');
         setPhoneNumber('');
+        navigate("classOverview")
         onClose();
     };
 
@@ -30,7 +32,7 @@ const CourseRegistration = ({ visible, onClose, onNext }) => {
                 <TouchableOpacity style={{
                     justifyContent: "flex-start",
                     position: 'absolute',
-                    top: Sizes.fixPadding * 12,
+                    top: Sizes.fixPadding * 16,
                     left: Sizes.fixPadding * 2,
                     zIndex: 1,
                 }} onPress={() => onClose()} >
@@ -51,15 +53,7 @@ const CourseRegistration = ({ visible, onClose, onNext }) => {
                             value={name}
                             onChangeText={text => setName(text)}
                         />
-                        <Text style={{ padding: 5 }}>Email</Text>
-                        <TextInput
-                            style={styles.inputField}
-                            keyboardType="email-address"
-                            value={email}
-                            onChangeText={text => setEmail(text)}
-                        />
                         <Text style={{ padding: 5 }}>Phone Number</Text>
-
                         <TextInput
                             style={styles.inputField}
                             keyboardType="phone-pad"

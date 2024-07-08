@@ -90,7 +90,7 @@ const DemoClassItem = ({ item, courseData }) => {
     return (
         <TouchableOpacity
             activeOpacity={1}
-            onPress={() => navigate("classDetails", { classdetails: item, courseData })}
+            onPress={() => navigate("courseDetails", { classdetails: item, courseData })}
             style={{
                 borderRadius: Sizes.fixPadding,
                 backgroundColor: Colors.whiteDark,

@@ -1,26 +1,17 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Colors, Sizes, Fonts } from '../../assets/styles';
 import LinearGradient from 'react-native-linear-gradient';
 import AntDesign from 'react-native-vector-icons/AntDesign'
-import { navigate } from '../../utils/navigationServices';
 import { Modal, Text, TextInput, TouchableOpacity, View, StyleSheet } from 'react-native';
 
-const CourseRegistration = ({ visible, onClose, onNext }) => {
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [phoneNumber, setPhoneNumber] = useState('');
-
-    const handleNext = () => {
-        onNext({ name, email, phoneNumber });
-
-        // Clear input fields
-        setName('');
-        setEmail('');
-        setPhoneNumber('');
-        navigate("classOverview")
-        onClose();
-    };
-
+const CourseRegistration = ({
+    visible,
+    onClose,
+    handleRegistration,
+    updateState,
+    phoneNumber,
+    name
+}) => {
     return (
         <Modal
             animationType="slide"
@@ -51,14 +42,14 @@ const CourseRegistration = ({ visible, onClose, onNext }) => {
                         <TextInput
                             style={styles.inputField}
                             value={name}
-                            onChangeText={text => setName(text)}
+                            onChangeText={text => updateState({ name: text })}
                         />
                         <Text style={{ padding: 5 }}>Phone Number</Text>
                         <TextInput
                             style={styles.inputField}
                             keyboardType="phone-pad"
                             value={phoneNumber}
-                            onChangeText={text => setPhoneNumber(text)}
+                            onChangeText={text => updateState({ phoneNumber: text })}
                         />
                     </View>
 
@@ -72,7 +63,7 @@ const CourseRegistration = ({ visible, onClose, onNext }) => {
                             overflow: 'hidden',
                         }}>
                         <TouchableOpacity
-                            onPress={() => handleNext()}
+                            onPress={() => handleRegistration()}
                             activeOpacity={0.8}
                             style={{ flex: 0, paddingVertical: Sizes.fixPadding * 0.8 }}>
                             <Text style={{ ...Fonts.white18RobotMedium, textAlign: 'center' }}>

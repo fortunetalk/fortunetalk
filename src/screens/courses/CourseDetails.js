@@ -5,16 +5,39 @@ import MyStatusBar from '../../components/MyStatusBar'
 import LinearGradient from 'react-native-linear-gradient'
 import { Colors, Sizes, Fonts } from '../../assets/styles'
 import { Text, TouchableOpacity, View, FlatList } from 'react-native'
+import { navigate } from '../../utils/navigationServices'
 
 const CourseDetails = ({ route }) => {
-    const [modalVisible, setModalVisible] = useState(false);
     const previousPagedata = route.params
+    const [state, setState] = useState({
+        name: "",
+        phoneNumber: "",
+        modalVisible: false,
+    })
+
     const handleNext = () => {
-        setModalVisible(true)
+        updateState({ modalVisible: true })
+    };
+
+    const updateState = data => {
+        setState(prevState => {
+            const newData = { ...prevState, ...data };
+            return newData;
+        });
+    };
+
+    const handleRegistration = () => {
+        navigate("classOverview", {
+            classData: previousPagedata.classdetails,
+            title: previousPagedata.title
+        })
+        updateState({ modalVisible: false })
     };
 
     console.log("route.params.courseData", route.params.courseData)
     console.log("route.params.classdetails", route.params.classdetails)
+
+    const { name, phoneNumber, modalVisible } = state
 
     return (
         <View style={{ flex: 1, backgroundColor: Colors.bodyColor }}>
@@ -33,8 +56,11 @@ const CourseDetails = ({ route }) => {
                         {proceedButton()}
                         <CourseRegistration
                             visible={modalVisible}
-                            onClose={() => setModalVisible(false)}
-                            onNext={handleNext}
+                            onClose={() => updateState({ modalVisible: false })}
+                            handleRegistration={handleRegistration}
+                            updateState={updateState}
+                            name={name}
+                            phoneNumber={phoneNumber}
                         />
                     </>
                 }

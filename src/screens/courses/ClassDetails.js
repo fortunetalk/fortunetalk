@@ -3,6 +3,7 @@ import {
   Text,
   FlatList,
   TouchableOpacity,
+  Linking,
 } from 'react-native';
 import React from 'react';
 import MyHeader from '../../components/MyHeader';
@@ -10,14 +11,16 @@ import Video from '../../components/Courses/Video';
 import { Colors, Fonts, Sizes } from '../../assets/styles';
 import LinearGradient from 'react-native-linear-gradient';
 
-const ClassDetails = ({ navigation, route }) => {
- 
+const ClassDetails = ({ route }) => {
+  const previousPagedata = route.params
+  console.log("previousPagedata.class====>>>>>", previousPagedata.class)
+
   const demoData = {
     video: 'https://example.com/demo-video.mp4',
     course_name: 'React Native Course',
     description: 'This is a demo description of the React Native course. It covers the basics and advanced topics.',
     course_content: 'Introduction to React Native, Components, State and Props, Navigation, Networking, and more.',
-    is_live: 1, 
+    is_live: 1,
   };
 
   return (
@@ -30,7 +33,6 @@ const ClassDetails = ({ navigation, route }) => {
         ListHeaderComponent={
           <>
             {liveVedioInfo()}
-            {durationInfo()}
             {courseTitleInfo()}
             {courseDescriptionInfo()}
             {classInfo()}
@@ -44,34 +46,33 @@ const ClassDetails = ({ navigation, route }) => {
   function learningInfo() {
     return (
       <View style={{ marginHorizontal: Sizes.fixPadding * 2 }}>
-        <Text style={{ ...Fonts.black16RobotoRegular, marginBottom: Sizes.fixPadding }}>Course Content</Text>
+        <Text style={{
+          ...Fonts.black16RobotoRegular,
+          marginBottom: Sizes.fixPadding
+        }}>Course Content</Text>
         <Text
           style={{
             ...Fonts.gray12RobotoMedium,
             flex: 1,
           }}>
-          {demoData?.course_content}
+          {previousPagedata.class.courseContent}
         </Text>
       </View>
     );
   }
 
   function classInfo() {
-    const on_live = async () => {
-     
-    }
     return (
       <TouchableOpacity
         activeOpacity={0.8}
-        disabled={demoData?.is_live == 0}
-        onPress={on_live}
+        onPress={() => Linking.openURL(previousPagedata.class?.googleMeet)}
         style={{ marginVertical: Sizes.fixPadding }}
       >
         <LinearGradient
-          colors={demoData?.is_live == 0 ? [Colors.grayLight, Colors.grayDark] : [Colors.primaryLight, Colors.primaryDark]}
+          colors={previousPagedata.class?.classStatus == 0 ? [Colors.grayLight, Colors.grayDark] : [Colors.primaryLight, Colors.primaryDark]}
           style={{ paddingVertical: Sizes.fixPadding * 1.5 }}>
           <Text style={{ ...Fonts.white16RobotoMedium, textAlign: 'center' }}>
-            Join the Live Demo Class Now
+            Join the {previousPagedata.title} Demo Class  Now
           </Text>
         </LinearGradient>
       </TouchableOpacity>
@@ -86,7 +87,7 @@ const ClassDetails = ({ navigation, route }) => {
           marginTop: Sizes.fixPadding * 0.5,
         }}>
         <Text style={{ ...Fonts.gray12RobotoRegular }}>
-          {demoData?.description}
+          {previousPagedata.class?.description}
         </Text>
       </View>
     );
@@ -100,32 +101,20 @@ const ClassDetails = ({ navigation, route }) => {
           marginTop: Sizes.fixPadding * 0.5,
         }}>
         <Text style={{ ...Fonts.black16RobotoRegular }}>
-          {demoData?.course_name}
+          {previousPagedata.class?.className}
         </Text>
-      </View>
-    );
-  }
-
-  function durationInfo() {
-    return (
-      <View
-        style={{
-          marginHorizontal: Sizes.fixPadding * 2,
-          marginTop: Sizes.fixPadding,
-        }}>
-        <Text style={{ ...Fonts.gray14RobotoRegular }}>19.00 min Video</Text>
       </View>
     );
   }
 
   function liveVedioInfo() {
     return (
-      <Video uri={demoData?.video} />
+      <Video uri={previousPagedata.class?.video} />
     );
   }
 
   function header() {
-    return <MyHeader title={'Demo Class Details'} navigation={navigation} />;
+    return <MyHeader title={`${previousPagedata.title} Class Details`} />;
   }
 }
 

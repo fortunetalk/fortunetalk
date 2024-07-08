@@ -79,7 +79,11 @@ const LiveClassItem = ({ item, courseData }) => {
     return (
         <TouchableOpacity
             activeOpacity={1}
-            onPress={() => navigate("courseDetails", { classdetails: item, courseData })}
+            onPress={() => navigate("courseDetails", { 
+                classdetails: item,
+                 courseData,
+                 title: "Live"
+                 })}
             style={{
                 borderRadius: Sizes.fixPadding,
                 backgroundColor: Colors.whiteDark,

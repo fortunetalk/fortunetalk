@@ -90,7 +90,11 @@ const DemoClassItem = ({ item, courseData }) => {
     return (
         <TouchableOpacity
             activeOpacity={1}
-            onPress={() => navigate("courseDetails", { classdetails: item, courseData })}
+            onPress={() => navigate("courseDetails", {
+                classdetails: item,
+                courseData,
+                title: "Demo"
+            })}
             style={{
                 borderRadius: Sizes.fixPadding,
                 backgroundColor: Colors.whiteDark,
@@ -134,12 +138,12 @@ const DemoClassItem = ({ item, courseData }) => {
                     paddingLeft: Sizes.fixPadding * 1,
                     borderTopLeftRadius: Sizes.fixPadding * 2
                 }}>
-                <Text 
-                style={{ 
-                    color: Colors.primaryLight,
-                     fontWeight: "700", 
-                     fontSize: 14 
-                     }}>{countdown}</Text>
+                <Text
+                    style={{
+                        color: Colors.primaryLight,
+                        fontWeight: "700",
+                        fontSize: 14
+                    }}>{countdown}</Text>
             </View>
 
             <View

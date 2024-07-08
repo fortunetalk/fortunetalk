@@ -17,15 +17,10 @@ export default function* rootSaga() {
     astrologerSaga(),
     paymentSaga(),
     chatSaga(),
-    callSaga(), 
     eCommerceSaga(), 
-    coursesSaga(),
-    liveSaga(),
     historySaga(),
     liveSaga(),
-    historySaga(),
     callSaga(), 
-    eCommerceSaga(), 
     coursesSaga()
   ]);
 }

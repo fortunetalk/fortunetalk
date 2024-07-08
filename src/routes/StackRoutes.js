@@ -33,6 +33,15 @@ import Courses from '../screens/courses/Courses';
 import ClassDetails from '../screens/courses/demo/ClassDetails';
 import CourseDetails from '../screens/courses/CourseDetails';
 import ClassOverview from '../screens/courses/demo/ClassOverview';
+import LiveScreen from '../screens/live/LiveScreen';
+import OrderHistory from '../screens/history/OrderHistory';
+import WalletHistory from '../screens/history/WalletHistory';
+import ChatHistory from '../screens/history/ChatHistory';
+import CallHistroy from '../screens/history/CallHistroy';
+import LiveCallHistory from '../screens/history/LiveCallHistory';
+import AstromallHistory from '../screens/history/AstromallHistory';
+import RemedyHistory from '../screens/history/RemedyHistory';
+import CoursesHistory from '../screens/history/CoursesHistory';
 
 const Stack = createNativeStackNavigator();
 
@@ -80,6 +89,20 @@ const StackRoutes = () => {
             <Stack.Screen name="courseDetails" component={CourseDetails} />
             <Stack.Screen name="classDetails" component={ClassDetails} />
             <Stack.Screen name="classOverview" component={ClassOverview} />
+            <Stack.Screen name='liveScreen' component={LiveScreen} />
+            <Stack.Screen name='orderHistory' component={OrderHistory} />
+            <Stack.Group
+            screenOptions={{animation: 'flip'}}
+            >
+                <Stack.Screen name='walletHistory' component={WalletHistory} />
+                <Stack.Screen name='chatHistory' component={ChatHistory} />
+                <Stack.Screen name='callHistroy' component={CallHistroy} />
+                <Stack.Screen name='liveCallHistory' component={LiveCallHistory} />
+                <Stack.Screen name='astromallHistory' component={AstromallHistory} />
+                <Stack.Screen name='remedyHistory' component={RemedyHistory} /> 
+                <Stack.Screen name='coursesHistory' component={CoursesHistory} /> 
+            </Stack.Group>
+
         </Stack.Navigator>
     )
 }

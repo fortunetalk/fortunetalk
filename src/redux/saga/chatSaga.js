@@ -1,12 +1,15 @@
 import { put, select, takeLeading } from 'redux-saga/effects'
 import * as actionTypes from '../actionTypes'
-import { postRequest } from '../../utils/apiRequests'
-import { app_api_url, get_chat_data, initiate_chat } from '../../config/constants'
-import { showToastMessage } from '../../utils/services'
+import { blobRequest, postRequest } from '../../utils/apiRequests'
+import { app_api_url, base_url, get_chat_data, initiate_chat, upload_chat_attachments } from '../../config/constants'
+import { getUniqueId, showToastMessage } from '../../utils/services'
 import * as ChatActions from '../actions/chatActions'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import socketServices from '../../utils/socket'
 import database from '@react-native-firebase/database'
+import { resetToScreen } from '../../utils/navigationServices'
+import { GiftedChat } from 'react-native-gifted-chat'
+import RNFetchBlob from 'rn-fetch-blob'
 
 function* sendChatRequest(actions) {
     try {
@@ -48,6 +51,7 @@ function* sendChatRequest(actions) {
 function* startChat(actions) {
     try {
         const { dispatch, historyId } = actions.payload
+        yield put({ type: actionTypes.SET_CHAT_REQUEST_MODAL_DATA, payload: { visible: false, data: { astrologerName:null, astrologerImage: null } } })
         socketServices.emit('joinChatRoom', historyId)
         socketServices.emit('startChatTimer', historyId)
 
@@ -72,22 +76,23 @@ function* startChat(actions) {
             .ref(`Messages/${response.data.data.chatId}`)
             .orderByChild('createdAt');
 
+        console.log(messagesRef)
+
         messagesRef.on('value', snapshot => {
             try {
                 const msg = [];
                 snapshot.forEach(childSnapshot => {
                     try {
                         const message = childSnapshot.val();
-                        if (!message.received && message?.user?.id != requestedData?.user_id) {
-                            // updateMessageStatus(childSnapshot.key);
-                        }
+                        // if (!message.received && message?.user?.id != cha?.user_id) {
+                        //     // updateMessageStatus(childSnapshot.key);
+                        // }
                         msg.push({ ...message });
                     } catch (e) {
                         console.log(e)
                     }
 
                 });
-                console.log(msg)
                 dispatch(ChatActions.setChatMessages(msg.reverse()))
 
                 // setMessages(msg.reverse());
@@ -103,13 +108,12 @@ function* startChat(actions) {
 
 function* sendChatMessage(actions) {
     try {
-        const requestedData = yield select(state => state.chat.requestedData)
-        const chat_id = `customer_${requestedData?.user_id}_astro_${requestedData?.astroID}`
+        const chatData = yield select(state => state.chat.chatData)
         const { payload } = actions
 
-        const chatNode = database().ref(`ChatMessages/${chat_id}`).push();
+        const chatNode = database().ref(`Messages/${chatData?.data?.chatId}`).push();
         const newKey = chatNode.key;
-        const chatRef = database().ref(`ChatMessages/${chat_id}/${newKey}`);
+        const chatRef = database().ref(`Messages/${chatData?.data?.chatId}/${newKey}`);
         chatRef.set({
             ...payload,
             pending: false,
@@ -137,8 +141,11 @@ function* saveChatMessage(actions) {
 
 function* onEndChat(actions) {
     try {
-        const requestedData = yield select(state => state.chat.requestedData)
-        socketServices.emit('endChat', { roomID: requestedData?.chatId });
+        const chatData = yield select(state => state.chat.chatData)
+        console.log(chatData)
+        socketServices.emit('endChat', { roomID: chatData?.data?.historyId });
+        database()
+            .ref(`Messages/${chatData.chatId}`).off()
         // yield put({ type: actionTypes.ON_CLOSE_CHAT, payload: null })
     } catch (e) {
         console.log(e)
@@ -147,26 +154,147 @@ function* onEndChat(actions) {
 
 function* onCloseChat(actions) {
     try {
-        const customerData = yield select(state => state.customer.customerData)
-        const requestedData = yield select(state => state.chat.requestedData)
+        const chatData = yield select(state => state.chat.chatData)
 
-        const response = yield postRequest({
-            url: api_url + get_chat_details,
-            data: {
-                chatId: requestedData?.chatId
-            }
-        })
+        // const response = yield postRequest({
+        //     url: api_url + get_chat_details,
+        //     data: {
+        //         chatId: requestedData?.chatId
+        //     }
+        // })
 
-        if (response?.success) {
+        if (true) {
             yield AsyncStorage.removeItem('chatData')
+
             yield put({ type: actionTypes.SET_CHAT_REQUESTED_DATA, payload: null })
             yield put({ type: actionTypes.SET_CHAT_DATA, payload: [] })
             yield put({ type: actionTypes.SET_CHAT_TIMER_COUNTDOWN, payload: 0 })
-            yield put({ type: actionTypes.GET_CUSTOMER_DATA, payload: customerData?._id })
-            yield put({ type: actionTypes.SET_CHAT_INVOICE_DATA, payload: response?.chatHistory })
-            yield put({ type: actionTypes.SET_CHAT_INVOICE_VISIBLE, payload: true })
+            yield put({ type: actionTypes.GET_CUSTOMER_DATA, payload: null })
+            // yield put({ type: actionTypes.SET_CHAT_INVOICE_DATA, payload: response?.chatHistory })
+            // yield put({ type: actionTypes.SET_CHAT_INVOICE_VISIBLE, payload: true })
         }
         resetToScreen('home')
+    } catch (e) {
+        console.log(e)
+    }
+}
+
+function* onSendAttachment(actions) {
+    try {
+        yield put({ type: actionTypes.SET_IS_LOADING, payload: true })
+        const attachments = yield select(state => state.chat.attachments)
+        const customerData = yield select(state => state.customer.customerData)
+        const chatMessages = yield select(state => state.chat.chatMessages)
+
+        const message = {
+            _id: getUniqueId(),
+            text: 'My message',
+            user: {
+                _id: customerData?._id,
+                name: customerData?.customerName,
+            },
+            image: null,
+            file: null,
+            sent: true,
+            received: true,
+            pending: true,
+            createdAt: new Date().getTime(),
+            addedAt: database.ServerValue.TIMESTAMP,
+        }
+
+        if (attachments?.type === 'image') {
+            message.image = attachments?.data
+        } else {
+            message.file = attachments?.data?.uri
+        }
+
+        yield put({ type: actionTypes.SET_CHAT_MESSAGES, payload: GiftedChat.append(chatMessages, message) })
+        yield put({ type: actionTypes.SET_ATTACHMENT_DATA, payload: { ...attachments, visible: false } })
+
+        const payloadData = [{ name: 'type', data: attachments?.type }]
+        if (attachments?.type === 'image') {
+            payloadData.push({
+                name: 'image',
+                filename: 'chat-image.png',
+                type: 'image/png',
+                data: RNFetchBlob.wrap(attachments?.data)
+            })
+        } else {
+            payloadData.push({
+                name: 'file',
+                filename: 'fortunetalk.pdf',
+                type: 'file/pdf',
+                data: RNFetchBlob.wrap(attachments?.data?.uri)
+            })
+        }
+
+        const response = yield blobRequest({
+            url: app_api_url + upload_chat_attachments,
+            data: payloadData
+        })
+
+        if (response?.success) {
+            if (attachments?.type === 'image') {
+                message.image = base_url + response?.data
+            } else {
+                message.file = base_url + response?.data
+            }
+        }
+
+        yield put({ type: actionTypes.SEND_CHAT_MESSAGE, payload: message })
+
+        yield put({ type: actionTypes.SET_IS_LOADING, payload: false })
+
+    } catch (e) {
+        console.log(e)
+        yield put({ type: actionTypes.SET_IS_LOADING, payload: false })
+    }
+}
+
+function* onSendRecording(actions) {
+    try {
+        const {payload} = actions
+        const customerData = yield select(state => state.customer.customerData)
+        const chatMessages = yield select(state => state.chat.chatMessages)
+
+        const message = {
+            _id: getUniqueId(),
+            text: '',
+            user: {
+                _id: customerData?._id,
+                name: customerData?.customerName,
+            },
+            audio: payload,
+            sent: true,
+            received: true,
+            pending: true,
+            createdAt: new Date().getTime(),
+            addedAt: database.ServerValue.TIMESTAMP,
+        }
+
+        yield put({ type: actionTypes.SET_CHAT_MESSAGES, payload: GiftedChat.append(chatMessages, message) })
+
+        const payloadData = [{ name: 'type', data: 'voice' }]
+        payloadData.push({
+            name: 'voice',
+            filename: 'fortunetalk.mp3',
+            type: 'sound/mp3',
+            data: RNFetchBlob.wrap(payload)
+        })
+
+        const response = yield blobRequest({
+            url: app_api_url + upload_chat_attachments,
+            data: payloadData
+        })
+
+        console.log(response)
+
+        if (response?.success) {
+            message.audio = base_url + response?.data
+        }
+
+        yield put({ type: actionTypes.SEND_CHAT_MESSAGE, payload: message })
+
     } catch (e) {
         console.log(e)
     }
@@ -175,4 +303,9 @@ function* onCloseChat(actions) {
 export default function* chatSaga() {
     yield takeLeading(actionTypes.SEND_CHAT_REQUEST, sendChatRequest)
     yield takeLeading(actionTypes.START_CHAT, startChat)
+    yield takeLeading(actionTypes.ON_END_CHAT, onEndChat)
+    yield takeLeading(actionTypes.ON_CLOSE_CHAT, onCloseChat)
+    yield takeLeading(actionTypes.SEND_CHAT_MESSAGE, sendChatMessage)
+    yield takeLeading(actionTypes.ON_SEND_ATTACHMENT, onSendAttachment)
+    yield takeLeading(actionTypes.ON_SEND_RECORDING, onSendRecording)
 }

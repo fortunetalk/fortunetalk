@@ -12,6 +12,7 @@ import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import { Settings } from 'react-native-fbsdk-next';
 import { regex } from '../../config/data.js';
 import { showToastMessage } from '../../utils/services.js';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 Settings.initializeSDK('1403757197218563');
 
@@ -55,14 +56,14 @@ const Login = ({ dispatch }) => {
         {skipInfo()}
         {imageInfo()}
         <View style={styles.bottomContainer}>
-          <View style={{ flex: 1 }}>
+          <KeyboardAwareScrollView style={{ flex: 1 }}>
             {topTitleInfo()}
             {phoneInput()}
             {termsPrivacyInfo()}
             {submiteButtonInfo()}
             {orContinueInfo()}
             {socialLoginInfo()}
-          </View>
+          </KeyboardAwareScrollView>
           {bottomViewInfo()}
         </View>
       </LinearGradient>

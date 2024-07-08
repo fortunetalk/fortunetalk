@@ -30,9 +30,11 @@ export async function handleIncomingNotification(message, dispatch = null) {
                 if (dispatch) {
                     dispatch(AstrologerActions.setChatRequestModalData({ visible: false, data: null }))
                 }
+                break;
 
             case 'CHAT_ACCEPT':
                 navigate('chatScreen', data)
+                break;
 
             case 'CALL_ACCEPTED':
                 await displayNotification(data);

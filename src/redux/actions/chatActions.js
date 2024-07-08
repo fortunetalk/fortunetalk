@@ -84,3 +84,18 @@ export const startChat = payload => ({
     type: actionTypes.START_CHAT,
     payload,
 })
+
+export const setAttachmentData = payload => ({
+    type: actionTypes.SET_ATTACHMENT_DATA,
+    payload,
+})
+
+export const onSendAttachment = payload => ({
+    type: actionTypes.ON_SEND_ATTACHMENT,
+    payload,
+})
+
+export const onSendRecording = payload => ({
+    type: actionTypes.ON_SEND_RECORDING,
+    payload
+})

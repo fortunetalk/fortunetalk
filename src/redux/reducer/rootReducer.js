@@ -5,6 +5,8 @@ import astrologer from './astrologerReducer';
 import eCommerce from './eCommerceReducer';
 import courses from './courseReducer';
 import chat from './chatReducer';
+import live from './liveReducer';
+import history from './historyReducer';
 
 const rootReducer = combineReducers({
   settings,
@@ -12,7 +14,9 @@ const rootReducer = combineReducers({
   astrologer,
   eCommerce,
   courses,
-  chat
+  chat,
+  live,
+  history
 });
 
 const appReducer = (state, action) => {

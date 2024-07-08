@@ -7,16 +7,20 @@ import eCommerceSaga from './eCommerceSaga';
 import coursesSaga from './courseSaga';
 import paymentSaga from './paymentSaga';
 import chatSaga from './chatSaga';
+import liveSaga from './liveSaga';
+import historySaga from './historySaga';
 
 export default function* rootSaga() {
   yield all([
     settingSaga(),
-    authSaga(),
+    authSaga(), 
     astrologerSaga(),
     paymentSaga(),
     chatSaga(),
     callSaga(), 
     eCommerceSaga(), 
-    coursesSaga()
+    coursesSaga(),
+    liveSaga(),
+    historySaga()
   ]);
 }

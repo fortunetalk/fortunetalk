@@ -1,5 +1,5 @@
 import { View, Text, Platform } from 'react-native'
-import React, { useEffect } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { Send } from 'react-native-gifted-chat'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import { Colors } from '../../../assets/styles'
@@ -11,12 +11,14 @@ import AudioRecorderPlayer, {
     OutputFormatAndroidType,
 } from 'react-native-audio-recorder-player';
 import { check, RESULTS, request, PERMISSIONS } from 'react-native-permissions';
+import { getUniqueId } from '../../../utils/services'
+import { connect } from 'react-redux'
+import * as ChatActions from '../../../redux/actions/chatActions'
 
 const audioRecorderPlayer = new AudioRecorderPlayer();
 audioRecorderPlayer.setSubscriptionDuration(0.1);
 
-const SendMic = ({ message, sendProps, sendButtonProps, updateState }) => {
-
+const SendMic = ({ message, sendProps, sendButtonProps, updateState, dispatch, customerData, attachments, }) => {
     useEffect(() => {
         return () => {
             audioRecorderPlayer.removeRecordBackListener();
@@ -65,28 +67,46 @@ const SendMic = ({ message, sendProps, sendButtonProps, updateState }) => {
             audioRecorderPlayer.removeRecordBackListener();
             updateState({ recordTime: 0 });
             console.log(result)
+            dispatch(ChatActions.onSendRecording(result))
         } catch (e) {
             console.log(e)
         }
     }
 
-    const onPressIn = () => {
+    const onPressIn = useCallback(() => {
         if (message) {
-
+            const msg = {
+                _id: getUniqueId(),
+                text: message,
+                user: {
+                    _id: customerData?._id,
+                    name: customerData?.customerName,
+                    // avatar: base_url + userData?.image,
+                },
+                sent: false,
+                received: false,
+                pending: true,
+                delivered: false,
+            }
+            dispatch(ChatActions.sendChatMessage(msg))
+        } else if (attachments?.visible) {
+            dispatch(ChatActions.onSendAttachment())
         } else {
             console.log('hii')
             updateState({ isMicPressed: true })
             reuestPermissionForRecord()
         }
-    }
+    }, [message, customerData, attachments, dispatch, updateState])
 
-    const onPressOut = () => {
-        if (!message) {
+    const onPressOut = useCallback(() => {
+        console.log(message, 'sdfsfhjsgfsdfh')
+        if (message.length == 0) {
             console.log('Bye')
             updateState({ isMicPressed: false })
             stopRecording()
         }
-    }
+        updateState({ message: '', })
+    }, [message, updateState])
 
     return (
         <Send
@@ -107,10 +127,17 @@ const SendMic = ({ message, sendProps, sendButtonProps, updateState }) => {
                     borderRadius: 1000,
                     backgroundColor: Colors.primaryLight,
                 }}>
-                <Ionicons name={!message ? 'mic' : 'send'} color={Colors.white} size={18} />
+                <Ionicons name={message || attachments?.visible ? 'send' : 'mic'} color={Colors.white} size={18} />
             </View>
         </Send>
     )
 }
 
-export default SendMic
+const mapStateToProps = state => ({
+    customerData: state.customer.customerData,
+    attachments: state.chat.attachments
+})
+
+const mapDispatchToProps = dispatch => ({ dispatch })
+
+export default connect(mapStateToProps, mapDispatchToProps)(SendMic)

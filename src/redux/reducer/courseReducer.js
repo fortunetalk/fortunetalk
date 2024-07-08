@@ -6,7 +6,8 @@ const initialState = {
     demoClass: null,
     liveClass: null,
     workshop: null,
-    teachersList: null
+    teachersList: null,
+    liveClassOfClass:null
 }
 
 const courses = (state = initialState, actions) => {
@@ -52,6 +53,12 @@ const courses = (state = initialState, actions) => {
             return {
                 ...state,
                 teachersList: payload
+            }
+        }
+        case actionTypes.LIVE_CLASS_OF_CLASS: {
+            return {
+                ...state,
+                liveClassOfClass: payload
             }
         }
         default: {

@@ -21,6 +21,11 @@ export default function* rootSaga() {
     eCommerceSaga(), 
     coursesSaga(),
     liveSaga(),
-    historySaga()
+    historySaga(),
+    liveSaga(),
+    historySaga(),
+    callSaga(), 
+    eCommerceSaga(), 
+    coursesSaga()
   ]);
 }

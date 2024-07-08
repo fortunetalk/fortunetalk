@@ -140,6 +140,27 @@ function* bookDemoClass(actions) {
     try {
         yield put({ type: actionTypes.SET_IS_LOADING, payload: true })
         const { payload } = actions
+        
+        const response = yield postRequest({
+            url: app_api_url + book_demo_class,
+            data: payload
+        })
+        
+        if (response?.success) {
+            yield call(showToastMessage, { message: response?.message })
+        }
+
+        yield put({ type: actionTypes.SET_IS_LOADING, payload: false })
+    } catch (e) {
+        yield put({ type: actionTypes.SET_IS_LOADING, payload: false })
+        console.log(e)
+    }
+}
+
+function* liveClassofClass(actions) {
+    try {
+        yield put({ type: actionTypes.SET_IS_LOADING, payload: true })
+        const { payload } = actions
 
         console.log("payload====>>>>>>>" , payload)
         console.log("app_api_url + book_demo_class====>>>>>>>" , app_api_url + book_demo_class)
@@ -152,7 +173,7 @@ function* bookDemoClass(actions) {
         console.log("response.data====>>>>" , response)
         
         if (response?.success) {
-            yield call(showToastMessage, { message: response?.message })
+            yield put({ type: actionTypes.LIVE_CLASS_OF_CLASS, payload: response?.data })
         }
 
         yield put({ type: actionTypes.SET_IS_LOADING, payload: false })
@@ -172,4 +193,5 @@ export default function* coursesSaga() {
     yield takeLeading(actionTypes.GET_TEACHERS_LIST, getTeachersList)
 
     yield takeLeading(actionTypes.BOOKED_DEMO_CLASS, bookDemoClass)
+    yield takeLeading(actionTypes.LIVE_CLASS_OF_CLASS, liveClassofClass)
 }

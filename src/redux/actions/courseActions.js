@@ -35,3 +35,8 @@ export const bookdemoClass = payload => ({
     payload
 })
 
+export const liveClassOfClass = payload => ({
+    type: actionTypes.LIVE_CLASS_OF_CLASS,
+    payload
+})
+

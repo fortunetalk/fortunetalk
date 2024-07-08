@@ -6,16 +6,27 @@ import {
 } from 'react-native';
 import moment from 'moment';
 import { connect } from 'react-redux';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import LinearGradient from 'react-native-linear-gradient';
 import Video from '../../../components/Courses/Video';
 import { Colors, Fonts, Sizes } from '../../../assets/styles';
 import { check_current_day } from '../../../utils/tools';
+import * as Courses from '../../../redux/actions/courseActions';
 
-const CurrentCoursesDetails = ({ navigation, route, userData }) => {
-  
+const CurrentCoursesDetails = ({ navigation, liveClassOfClass, dispatch, classData }) => {
+
+  console.log("classData?._id=====>>>>", classData?._id)
+ 
+  console.log("liveClassOfClass=====>>>>>" , liveClassOfClass)
+
+  useEffect(() => {
+    dispatch(Courses.liveClassOfClass({
+      liveClassId: classData?._id
+    }))
+  }, [])
+
   const [liveData] = useState({
     "course_name": "React Native Development",
     "description": "This course covers all aspects of React Native development.",
@@ -68,7 +79,7 @@ const CurrentCoursesDetails = ({ navigation, route, userData }) => {
 
   function questionPaperDownloadInfo() {
 
-    const handleNext = ()=>{
+    const handleNext = () => {
 
     }
 
@@ -86,7 +97,7 @@ const CurrentCoursesDetails = ({ navigation, route, userData }) => {
           onPress={() => handleNext()}
           activeOpacity={0.8}
           style={{ flex: 0, paddingVertical: Sizes.fixPadding * 0.8 }}>
-          <Text style={{ ...Fonts.white18RobotMedium, textAlign: 'center', fontSize:16 }}>
+          <Text style={{ ...Fonts.white18RobotMedium, textAlign: 'center', fontSize: 16 }}>
             Download Certificate
           </Text>
         </TouchableOpacity>
@@ -241,8 +252,10 @@ const CurrentCoursesDetails = ({ navigation, route, userData }) => {
 };
 
 const mapStateToProps = state => ({
-  // userData: state.user.userData,
-  // wallet: state.user.wallet,
+  liveClassOfClass: state.courses.liveClassOfClass
 });
 
-export default connect(mapStateToProps, null)(CurrentCoursesDetails);
+const mapDispatchToProps = dispatch => ({ dispatch })
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(CurrentCoursesDetails);

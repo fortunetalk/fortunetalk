@@ -12,7 +12,6 @@ import CurrentCoursesDetails from './CurrentCoursesDetails';
 const MyCourses = ({ isLoading, route }) => {
   const [activeFilter, setActiveFilter] = useState(1);
   const previousPagedata = route.params
-
   const filterData = [
     { id: 1, title: 'Current Course' },
     { id: 2, title: 'Completed Course' },
@@ -29,7 +28,7 @@ const MyCourses = ({ isLoading, route }) => {
         barStyle={'light-content'}
       />
       <Loader visible={isLoading} />
-      <MyHeader title={`${previousPagedata.course?.title}`} />
+      <MyHeader title={`${previousPagedata.title} Class`} />
 
       <LiveClassCategory
         filterData={filterData}
@@ -38,7 +37,7 @@ const MyCourses = ({ isLoading, route }) => {
       />
       <FlatList ListHeaderComponent={
         <>
-          {activeFilter == 1 && <CurrentCoursesDetails/>}
+          {activeFilter == 1 && <CurrentCoursesDetails classData = {previousPagedata.classData} />}
           {activeFilter == 2 && <Text>durgeh</Text>}
         </>
       }

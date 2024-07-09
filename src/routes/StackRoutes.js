@@ -31,10 +31,7 @@ import ViewPooja from '../screens/eCommerce/ViewPooja';
 import Learn from '../screens/courses/Learn';
 import Courses from '../screens/courses/Courses';
 import ClassDetails from '../screens/courses/demo/ClassDetails';
-import CourseDetails from '../screens/courses/CourseDetails';
 import ClassOverview from '../screens/courses/demo/ClassOverview';
-import ClassDetails from '../screens/courses/ClassDetails';
-import ClassOverview from '../screens/courses/ClassOverview';
 import LiveScreen from '../screens/live/LiveScreen';
 import OrderHistory from '../screens/history/OrderHistory';
 import WalletHistory from '../screens/history/WalletHistory';
@@ -45,6 +42,7 @@ import AstromallHistory from '../screens/history/AstromallHistory';
 import RemedyHistory from '../screens/history/RemedyHistory';
 import CoursesHistory from '../screens/history/CoursesHistory';
 import MyCourses from '../screens/courses/live/MyCourses';
+import CourseDetails from '../screens/courses/CourseDetails';
 
 const Stack = createNativeStackNavigator();
 

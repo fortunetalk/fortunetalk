@@ -9,7 +9,8 @@ import {
     get_demo_class_list,
     get_live_class_list,
     get_teachers_list,
-    get_workshop_list
+    get_workshop_list,
+    live_class_of_class
 } from '../../config/constants'
 import { showToastMessage } from '../../utils/services'
 
@@ -140,12 +141,12 @@ function* bookDemoClass(actions) {
     try {
         yield put({ type: actionTypes.SET_IS_LOADING, payload: true })
         const { payload } = actions
-        
+
         const response = yield postRequest({
             url: app_api_url + book_demo_class,
             data: payload
         })
-        
+
         if (response?.success) {
             yield call(showToastMessage, { message: response?.message })
         }
@@ -162,16 +163,11 @@ function* liveClassofClass(actions) {
         yield put({ type: actionTypes.SET_IS_LOADING, payload: true })
         const { payload } = actions
 
-        console.log("payload====>>>>>>>" , payload)
-        console.log("app_api_url + book_demo_class====>>>>>>>" , app_api_url + book_demo_class)
-
         const response = yield postRequest({
-            url: app_api_url + book_demo_class,
+            url: app_api_url + live_class_of_class,
             data: payload
         })
 
-        console.log("response.data====>>>>" , response)
-        
         if (response?.success) {
             yield put({ type: actionTypes.LIVE_CLASS_OF_CLASS, payload: response?.data })
         }

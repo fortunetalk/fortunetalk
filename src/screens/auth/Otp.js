@@ -3,7 +3,6 @@ import React, { createRef, useCallback, useEffect, useState } from 'react';
 import {
     CodeField,
     Cursor,
-    useBlurOnFulfill,
     useClearByFocusCell,
 } from 'react-native-confirmation-code-field';
 import { Colors, Sizes, Fonts } from '../../assets/styles';

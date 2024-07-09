@@ -82,7 +82,6 @@ export class Video extends Component {
             }}
             paused={this.state.paused}
             fullscreen={false}
-            controls={true}
             videoStyle={styles.video}
             style={{
               width: '100%',

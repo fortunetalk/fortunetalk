@@ -13,7 +13,6 @@ import LinearGradient from 'react-native-linear-gradient';
 
 const ClassDetails = ({ route }) => {
   const previousPagedata = route.params
-  console.log("previousPagedata.class====>>>>>", previousPagedata.class)
   return (
     <View style={{
       flex: 1,

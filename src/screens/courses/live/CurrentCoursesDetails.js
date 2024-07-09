@@ -18,8 +18,8 @@ import * as Courses from '../../../redux/actions/courseActions';
 const CurrentCoursesDetails = ({ navigation, liveClassOfClass, dispatch, classData }) => {
 
   console.log("classData?._id=====>>>>", classData?._id)
- 
-  console.log("liveClassOfClass=====>>>>>" , liveClassOfClass)
+
+  console.log("liveClassOfClass=====>>>>>", liveClassOfClass)
 
   useEffect(() => {
     dispatch(Courses.liveClassOfClass({
@@ -69,7 +69,7 @@ const CurrentCoursesDetails = ({ navigation, liveClassOfClass, dispatch, classDa
             {liveVedioInfo()}
             {courseTitleInfo()}
             {courseDescriptionInfo()}
-            {classInfo()}
+            {liveClassOfClass && classInfo()}
             {questionPaperDownloadInfo()}
           </>
         }
@@ -107,8 +107,7 @@ const CurrentCoursesDetails = ({ navigation, liveClassOfClass, dispatch, classDa
 
   function classInfo() {
     const renderItem = ({ item, index }) => {
-      console.log(item)
-      const isToday = check_current_day({ date: item.start_date });
+      const isToday = check_current_day({ date: item.date });
       return (
         <>
           <View
@@ -127,17 +126,17 @@ const CurrentCoursesDetails = ({ navigation, liveClassOfClass, dispatch, classDa
               <View>
                 <Text style={{ ...Fonts.primaryLight14RobotoMedium }}>
                   Class {index + 1}
-                  {item.status != 1 && (
+                  {item.status != "Active" && (
                     <Text style={{ ...Fonts.gray12RobotoMedium }}>
-                      {'  '}({item.time_session_duration} min)
+                      {'  '}({item.sessionTime} min)
                     </Text>
                   )}
                 </Text>
                 <Text style={{ ...Fonts.gray16RobotoMedium, fontSize: 15 }}>
-                  {item.class_name}
+                  {item.className}
                 </Text>
               </View>
-              {item.status == 1 ? (
+              {item.status != "Active" ? (
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                   <Text
                     style={{
@@ -175,29 +174,19 @@ const CurrentCoursesDetails = ({ navigation, liveClassOfClass, dispatch, classDa
               {item.description}
             </Text>
             <View style={{ alignSelf: 'flex-end' }}>
-              {item.status == 1 ? (
-                <Text style={{ ...Fonts.gray12RobotoRegular }}>
-                  ({item.time} min Video){' '}
-                  <Text style={{ color: Colors.primaryLight, fontSize: 11 }}>
-                    Watch Again <MaterialIcons name="refresh" />
-                  </Text>
-                </Text>
-              ) : (
+              {item.status == "Active" && (
                 <Text style={{ ...Fonts.primaryDark11InterMedium }}>
-                  Next Session at {moment(item?.start_date).format('DD MMMM')} ({moment(item?.start_time).format('hh A')})
+                  Next Session at {moment(item?.date).format('DD MMMM')} ({moment(item?.time).format("hh:mm A")})
                 </Text>
               )}
             </View>
           </View>
-          {item.status != 1 && isToday && (
+          {item.status == "Active" && isToday && (
             <TouchableOpacity
               activeOpacity={0.8}
-              disabled={item?.is_live == 0}
-              onPress={() => navigation.navigate('liveNow', {
-                liveID: liveData?.unique_id,
-                userID: userData?.id,
-                userName: userData?.username,
-              })}>
+              disabled={item?.status != "Active"}
+              onPress={() => Linking.openURL(item?.googleMeet)}
+            >
               <LinearGradient
                 colors={item?.is_live == 0 ? [Colors.grayLight, Colors.gray] : [Colors.primaryLight, Colors.primaryDark]}
                 style={{ paddingVertical: Sizes.fixPadding * 1.5 }}>
@@ -212,7 +201,7 @@ const CurrentCoursesDetails = ({ navigation, liveClassOfClass, dispatch, classDa
       );
     };
     return (
-      <FlatList data={liveData?.course_live_tbl} renderItem={renderItem} />
+      <FlatList data={liveClassOfClass} renderItem={renderItem} />
     );
   }
 
@@ -226,7 +215,7 @@ const CurrentCoursesDetails = ({ navigation, liveClassOfClass, dispatch, classDa
           borderBottomColor: Colors.grayLight,
         }}>
         <Text style={{ ...Fonts.gray12RobotoRegular }}>
-          {liveData?.description}
+          {classData?.description}
         </Text>
       </View>
     );
@@ -240,14 +229,14 @@ const CurrentCoursesDetails = ({ navigation, liveClassOfClass, dispatch, classDa
           marginTop: Sizes.fixPadding * 2,
         }}>
         <Text style={{ ...Fonts.primaryLight14RobotoRegular }}>
-          {liveData?.course_name}
+          {classData?.className}
         </Text>
       </View>
     );
   }
 
   function liveVedioInfo() {
-    return <Video uri={liveData?.video} />;
+    return <Video uri={classData?.video} />;
   }
 };
 

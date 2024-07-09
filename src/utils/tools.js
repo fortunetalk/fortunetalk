@@ -1,3 +1,5 @@
+import moment from "moment";
+
 export const classifyTime = (time) => {
   const [hour, minute] = time.split(':').map(Number);
 

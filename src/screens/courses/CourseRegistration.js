@@ -20,16 +20,10 @@ const CourseRegistration = ({
             onRequestClose={onClose}
         >
             <View style={styles.modalBackground}>
-                <TouchableOpacity style={{
-                    justifyContent: "flex-start",
-                    position: 'absolute',
-                    top: Sizes.fixPadding * 16,
-                    left: Sizes.fixPadding * 2,
-                    zIndex: 1,
-                }} onPress={() => onClose()} >
-                    <AntDesign name='closecircleo' size={20} color={Colors.white} />
-                </TouchableOpacity>
                 <View style={styles.modalContent}>
+                    <TouchableOpacity style={{ justifyContent: "flex-start" }} onPress={() => onClose()} >
+                        <AntDesign name='closecircleo' size={20} color={Colors.black} />
+                    </TouchableOpacity>
                     <Text style={styles.modalTitle}>Enter the details</Text>
                     <View
                         style={{
@@ -100,7 +94,8 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.grayLight,
         borderRadius: 10,
         padding: 5,
-        marginBottom: 10
+        marginBottom: 10,
+        color: Colors.grayDark
     },
     nextButton: {
         backgroundColor: 'blue',

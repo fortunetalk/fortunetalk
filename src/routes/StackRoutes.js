@@ -43,6 +43,8 @@ import RemedyHistory from '../screens/history/RemedyHistory';
 import CoursesHistory from '../screens/history/CoursesHistory';
 import MyCourses from '../screens/courses/live/MyCourses';
 import CourseDetails from '../screens/courses/CourseDetails';
+import WorkshopOverview from '../screens/courses/workshop/WorkshopOverview';
+import WorkshopDetails from '../screens/courses/workshop/WorkshopDetails';
 
 const Stack = createNativeStackNavigator();
 
@@ -83,6 +85,8 @@ const StackRoutes = () => {
             <Stack.Screen name="productTracking" component={ProductTracking} />
             <Stack.Screen name="rateProduct" component={RateProduct} />
             <Stack.Screen name="mycourse" component={MyCourses} />
+            <Stack.Screen name="workshopOverview" component={WorkshopOverview} />
+            <Stack.Screen name="workshopDetails" component={WorkshopDetails} />
 
 
             <Stack.Screen name="payment" component={Payment} options={{ animation: 'fade_from_bottom' }} />

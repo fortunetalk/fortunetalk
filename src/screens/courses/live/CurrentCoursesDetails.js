@@ -3,6 +3,7 @@ import {
   Text,
   FlatList,
   TouchableOpacity,
+  Linking,
 } from 'react-native';
 import moment from 'moment';
 import { connect } from 'react-redux';

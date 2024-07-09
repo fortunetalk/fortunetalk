@@ -34,6 +34,7 @@ export const get_workshop_list = "course/customer/workshop_by_course_id"
 export const get_teachers_list = "course/customer/astrologer_by_course"
 export const book_demo_class = "course/customer/booked_demo_class"
 export const live_class_of_class = "course/customer/class_by_live_class_id"
+export const check_customer_demo_class_booked = "course/customer/check_customer_demo_class_booked"
 
 export const get_product_details_banner = "banner/product-category-detail"
 export const get_product_category_banner = "banner/product-category"

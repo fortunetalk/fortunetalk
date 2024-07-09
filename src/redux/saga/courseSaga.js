@@ -4,6 +4,7 @@ import { getRequest, postRequest } from '../../utils/apiRequests'
 import {
     app_api_url,
     book_demo_class,
+    check_customer_demo_class_booked,
     get_course_banner,
     get_course_list,
     get_demo_class_list,
@@ -179,6 +180,28 @@ function* liveClassofClass(actions) {
     }
 }
 
+
+function* isDemoClassBooked(actions) {
+    try {
+        yield put({ type: actionTypes.SET_IS_LOADING, payload: true })
+        const { payload } = actions
+
+        const response = yield postRequest({
+            url: app_api_url + check_customer_demo_class_booked,
+            data: payload
+        })
+
+        if (response?.success) {
+            yield put({ type: actionTypes.CHECK_CUSTOMER_DEMO_CLASS_BOOKED, payload: response?.data })
+        }
+
+        yield put({ type: actionTypes.SET_IS_LOADING, payload: false })
+    } catch (e) {
+        yield put({ type: actionTypes.SET_IS_LOADING, payload: false })
+        console.log(e)
+    }
+}
+
 export default function* coursesSaga() {
     yield takeLeading(actionTypes.GET_COURSE_BANNER, getCourseBanner)
     yield takeLeading(actionTypes.GET_COURSES_LIST, getCourseList)
@@ -190,4 +213,5 @@ export default function* coursesSaga() {
 
     yield takeLeading(actionTypes.BOOKED_DEMO_CLASS, bookDemoClass)
     yield takeLeading(actionTypes.LIVE_CLASS_OF_CLASS, liveClassofClass)
+    yield takeLeading(actionTypes.CHECK_CUSTOMER_DEMO_CLASS_BOOKED, isDemoClassBooked)
 }

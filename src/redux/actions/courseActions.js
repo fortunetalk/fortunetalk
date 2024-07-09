@@ -40,3 +40,10 @@ export const liveClassOfClass = payload => ({
     payload
 })
 
+export const demoClassBooked = payload => ({
+    type: actionTypes.CHECK_CUSTOMER_DEMO_CLASS_BOOKED,
+    payload
+})
+
+
+

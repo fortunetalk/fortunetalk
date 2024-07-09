@@ -7,7 +7,8 @@ const initialState = {
     liveClass: null,
     workshop: null,
     teachersList: null,
-    liveClassOfClass:null
+    liveClassOfClass:null,
+    demoClassBooked:null
 }
 
 const courses = (state = initialState, actions) => {
@@ -59,6 +60,12 @@ const courses = (state = initialState, actions) => {
             return {
                 ...state,
                 liveClassOfClass: payload
+            }
+        }
+        case actionTypes.CHECK_CUSTOMER_DEMO_CLASS_BOOKED: {
+            return {
+                ...state,
+                demoClassBooked: payload
             }
         }
         default: {

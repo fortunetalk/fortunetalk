@@ -9,12 +9,13 @@ import { Colors, Sizes, Fonts } from '../../assets/styles'
 import * as CourseActions from '../../redux/actions/courseActions'
 import { Text, TouchableOpacity, View, FlatList, Alert } from 'react-native'
 
-const CourseDetails = ({ route, isLoading, dispatch, customerData }) => {
+const CourseDetails = ({
+    route,
+    isLoading,
+    dispatch,
+    customerData
+}) => {
     const previousPagedata = route.params
-    // console.log("route.params.courseData", route.params.courseData)
-    // console.log("route.params.classdetails", route.params.classdetails)
-
-    console.log("customerData=====>>>", customerData)
     const [state, setState] = useState({
         name: "",
         phoneNumber: "",

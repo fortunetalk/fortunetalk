@@ -14,8 +14,6 @@ import TeachersList from './TeachersList';
 
 const Courses = ({ isLoading, route }) => {
     const previousPagedata = route.params
-    console.log(previousPagedata.course)
-
     const [activeFilter, setActiveFilter] = useState(1);
     const filterData = [
         { id: 1, title: 'Demo Class' },

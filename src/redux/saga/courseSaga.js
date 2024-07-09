@@ -120,7 +120,7 @@ function* getTeachersList(actions) {
     try {
         yield put({ type: actionTypes.SET_IS_LOADING, payload: true })
         const { payload } = actions
-
+      
         const response = yield postRequest({
             url: app_api_url + get_teachers_list,
             data: payload

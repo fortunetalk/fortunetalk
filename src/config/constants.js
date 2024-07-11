@@ -31,6 +31,9 @@ export const get_course_list = "course/customer"
 export const get_demo_class_list = "course/customer/demo_class_by_course_id"
 export const get_live_class_list = "course/customer/live_class_by_course_id"
 export const get_workshop_list = "course/customer/workshop_by_course_id"
+
+export const get_workshop_list_without_id = "course/customer/workshop"
+
 export const get_teachers_list = "course/customer/astrologer_by_course"
 export const book_demo_class = "course/customer/booked_demo_class"
 export const live_class_of_class = "course/customer/class_by_live_class_id"

@@ -8,7 +8,8 @@ const initialState = {
     workshop: null,
     teachersList: null,
     liveClassOfClass:null,
-    demoClassBooked:null
+    demoClassBooked:null,
+    workshopWithoutId:null,
 }
 
 const courses = (state = initialState, actions) => {
@@ -66,6 +67,12 @@ const courses = (state = initialState, actions) => {
             return {
                 ...state,
                 demoClassBooked: payload
+            }
+        }
+        case actionTypes.GET_WORKSHOP_WITHOUT_ID: {
+            return {
+                ...state,
+                workshopWithoutId: payload
             }
         }
         default: {

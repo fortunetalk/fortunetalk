@@ -2,8 +2,7 @@ import { connect } from 'react-redux';
 import React, { useEffect } from 'react'
 import * as CourseActions from '../../../redux/actions/courseActions'
 import { SCREEN_WIDTH, Fonts, Colors, Sizes } from '../../../assets/styles';
-import { View, Text, StyleSheet, FlatList, TouchableOpacity, Image } from 'react-native'
-import { navigate } from '../../../utils/navigationServices';
+import { View, Text, FlatList, TouchableOpacity, Image } from 'react-native'
 
 const LearningSections = ({ courseList, dispatch, isLoading }) => {
 
@@ -17,7 +16,6 @@ const LearningSections = ({ courseList, dispatch, isLoading }) => {
     return (
       <TouchableOpacity
         activeOpacity={0.8}
-        // onPress={() => navigation.navigate('tarotTeachers', {data: item})}
         style={{
           width: SCREEN_WIDTH * 0.55,
           marginLeft: Sizes.fixPadding * 1.5,
@@ -56,21 +54,14 @@ const LearningSections = ({ courseList, dispatch, isLoading }) => {
     );
   };
   return (
-    <View style={{ borderBottomWidth: 1, borderBottomColor: Colors.grayLight }}>
-      <View
-        style={{
-          ...styles.row,
-          justifyContent: 'space-between',
-          paddingHorizontal: Sizes.fixPadding * 1.5,
-          paddingVertical: Sizes.fixPadding,
-        }}>
-        <Text style={{ ...Fonts.black16RobotoMedium }}>Learning Section</Text>
-        <TouchableOpacity
-          activeOpacity={0.8}
-          onPress={() => navigate('learn')}>
-          <Text style={{ ...Fonts.primaryLight15RobotoRegular }}>View all</Text>
-        </TouchableOpacity>
-      </View>
+    <View style={{
+      borderBottomWidth: 1,
+      borderBottomColor: Colors.grayLight
+    }}>
+      <Text style={{
+        ...Fonts.black16RobotoMedium, paddingHorizontal: Sizes.fixPadding * 1.5,
+        paddingVertical: Sizes.fixPadding,
+      }}>Demo Class</Text>
       <FlatList
         data={courseList}
         renderItem={renderItem}
@@ -89,11 +80,3 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({ dispatch })
 
 export default connect(mapStateToProps, mapDispatchToProps)(LearningSections)
-
-const styles = StyleSheet.create({
-  row: {
-    flex: 0,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-});

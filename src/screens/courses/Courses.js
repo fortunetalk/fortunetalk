@@ -9,8 +9,8 @@ import MyHeader from '../../components/MyHeader';
 import CourseCategory from './CourseCategory';
 import DemoClass from './demo/DemoClass';
 import LiveClass from './live/LiveClass';
-import Workshop from './workshop/Workshop';
 import TeachersList from './TeachersList';
+import Workshop from './workshop/Workshop';
 
 const Courses = ({ isLoading, route }) => {
     const previousPagedata = route.params

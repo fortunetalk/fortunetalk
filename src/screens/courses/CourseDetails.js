@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import MyHeader from '../../components/MyHeader'
 import CourseRegistration from './CourseRegistration'
 import MyStatusBar from '../../components/MyStatusBar'
@@ -22,6 +22,13 @@ const CourseDetails = ({
         modalVisible: false,
     })
     const { name, phoneNumber, modalVisible } = state
+
+    useEffect(()=>{
+     dispatch(CourseActions.demoClassBooked({
+        demoClassId: previousPagedata.classdeclstails?._id,
+        courseId: previousPagedata.courseData?._id,
+     }))
+    }, [])
 
     const handleNext = () => {
         updateState({ modalVisible: true })

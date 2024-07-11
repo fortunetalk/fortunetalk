@@ -11,6 +11,7 @@ import {
     get_live_class_list,
     get_teachers_list,
     get_workshop_list,
+    get_workshop_list_without_id,
     live_class_of_class
 } from '../../config/constants'
 import { showToastMessage } from '../../utils/services'
@@ -117,11 +118,30 @@ function* getWorkshopsList(actions) {
     }
 }
 
+function* getWorkshopsListWithoutId() {
+    try {
+        yield put({ type: actionTypes.SET_IS_LOADING, payload: true })
+
+        const response = yield getRequest({
+            url: app_api_url + get_workshop_list_without_id,
+        })
+
+        if (response?.success) {
+            yield put({ type: actionTypes.GET_WORKSHOP_WITHOUT_ID, payload: response?.data })
+        }
+
+        yield put({ type: actionTypes.SET_IS_LOADING, payload: false })
+    } catch (e) {
+        yield put({ type: actionTypes.SET_IS_LOADING, payload: false })
+        console.log(e)
+    }
+}
+
 function* getTeachersList(actions) {
     try {
         yield put({ type: actionTypes.SET_IS_LOADING, payload: true })
         const { payload } = actions
-      
+
         const response = yield postRequest({
             url: app_api_url + get_teachers_list,
             data: payload
@@ -214,4 +234,6 @@ export default function* coursesSaga() {
     yield takeLeading(actionTypes.BOOKED_DEMO_CLASS, bookDemoClass)
     yield takeLeading(actionTypes.LIVE_CLASS_OF_CLASS, liveClassofClass)
     yield takeLeading(actionTypes.CHECK_CUSTOMER_DEMO_CLASS_BOOKED, isDemoClassBooked)
+
+    yield takeLeading(actionTypes.GET_WORKSHOP_WITHOUT_ID, getWorkshopsListWithoutId)
 }

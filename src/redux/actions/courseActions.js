@@ -25,6 +25,11 @@ export const getWorkshop = payload => ({
     payload
 })
 
+export const getWorkshopWithoutId = payload => ({
+    type: actionTypes.GET_WORKSHOP_WITHOUT_ID,
+    payload
+})
+
 export const getTeachersList = payload => ({
     type: actionTypes.GET_TEACHERS_LIST,
     payload

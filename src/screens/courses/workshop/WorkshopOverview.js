@@ -15,15 +15,15 @@ import { classifyTimeNoon } from '../../../utils/tools';
 const WorkshopOverview = ({ route }) => {
   const data = route.params.details
   console.log("route.params data", data)
-
   return (
     <View style={{ flex: 1, backgroundColor: Colors.bodyColor }}>
-      <MyHeader title={'Workshop'}/>
+      <MyHeader title={'Workshop'} />
       <FlatList
         ListHeaderComponent={
           <>
             <Video uri={data?.video} />
             {courseTitleInfo()}
+            {priceInfo()}
             {courseDescriptionInfo()}
             {demoClassDatesInfo()}
           </>
@@ -33,9 +33,30 @@ const WorkshopOverview = ({ route }) => {
     </View>
   );
 
+  function priceInfo() {
+    const originalPrice = data?.price;
+    const discountedPrice = originalPrice - (originalPrice * data?.discount / 100);
+    return (
+      <View style={{ marginHorizontal: Sizes.fixPadding * 2, marginTop: Sizes.fixPadding * 0.5, justifyContent: "flex-start", flexDirection: "row", alignItems: "flex-end", gap: 4 }}>
+        <Text style={{
+          ...Fonts.red16RobotoBold,
+          fontSize: 24,
+          color: Colors.black,
+          fontWeight: "700"
+        }}>₹{discountedPrice}</Text>
+        <Text style={{
+          ...Fonts.black16RobotoRegular,
+          fontSize: 18,
+          textDecorationLine: 'line-through',
+          color: Colors.primaryLight,
+        }}>₹{originalPrice}</Text>
+      </View>
+    );
+  }
+
   function demoClassDetailsInfo() {
     const onClick = () => {
-      navigate("workshopDetails", {workshop:data})
+      navigate("workshopDetails", { workshop: data })
     }
     return (
       <TouchableOpacity

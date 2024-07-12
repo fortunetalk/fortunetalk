@@ -77,7 +77,7 @@ const Home = ({ dispatch, tabVisible, courseBanner, workshopWithoutId }) => {
               (workshopWithoutId && workshopWithoutId.length > 0) &&
               <WorkshopClass />
             }
-            <LearningSections />
+            <LearningSections/>
             <PoojaCategory />
             <ProductCategory />
             <LatestBlogs />

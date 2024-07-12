@@ -3,35 +3,13 @@ import { connect } from 'react-redux';
 import { SCREEN_WIDTH, Fonts, Colors, Sizes } from '../../../assets/styles';
 import { View, Text, FlatList, TouchableOpacity, Image, StyleSheet } from 'react-native';
 import moment from 'moment';
+import { navigate } from '../../../utils/navigationServices';
 
-const WorkshopClass = ({ workshopWithoutId
-}) => {
-    console.log("workshopWithoutId =======>>>>>", workshopWithoutId)
-
-    const WorkshopsList = [
-        {
-            id: 1,
-            date: "2024-07-16",
-            time: "11:30 AM",
-            astrologerId: {
-                displayName: "Durgesh Chaudhary",
-            },
-            workshopName: "Vedic Astrology"
-        },
-        {
-            id: 2,
-            date: "2024-07-18",
-            time: "2:00 PM",
-            astrologerId: {
-                displayName: "Umesh Chaudhary",
-            },
-            workshopName: "Advanced Horoscope"
-        }
-    ];
-
+const WorkshopClass = ({ workshopWithoutId}) => {
     const renderItem = ({ item }) => (
         <TouchableOpacity
             activeOpacity={0.8}
+            onPress={() => navigate("workshopOverview", { details: item })}
             style={styles.workshopCard}>
             <Image
                 source={{ uri: item?.image }}

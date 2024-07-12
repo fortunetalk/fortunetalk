@@ -92,7 +92,6 @@ const DemoClassItem = ({ item, courseData }) => {
             activeOpacity={1}
             onPress={() => navigate("courseDetails", {
                 classdetails: item,
-                courseData,
                 title: "Demo"
             })}
             style={{

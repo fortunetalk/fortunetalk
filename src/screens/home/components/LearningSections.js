@@ -1,21 +1,18 @@
+import React from 'react'
 import { connect } from 'react-redux';
-import React, { useEffect } from 'react'
-import * as CourseActions from '../../../redux/actions/courseActions'
+import { navigate } from '../../../utils/navigationServices';
 import { SCREEN_WIDTH, Fonts, Colors, Sizes } from '../../../assets/styles';
 import { View, Text, FlatList, TouchableOpacity, Image } from 'react-native'
 
-const LearningSections = ({ courseList, dispatch, isLoading }) => {
-
-  useEffect(() => {
-    if (!courseList) {
-      dispatch(CourseActions.getCourseList())
-    }
-  }, [])
-
-  const renderItem = ({ item, index }) => {
+const LearningSections = ({ allDemoClass }) => {
+  const renderItem = ({ item }) => {
     return (
       <TouchableOpacity
         activeOpacity={0.8}
+        onPress={() => navigate("classOverview", {
+          classData: item,
+          title: "Demo"
+        })}
         style={{
           width: SCREEN_WIDTH * 0.55,
           marginLeft: Sizes.fixPadding * 1.5,
@@ -48,7 +45,7 @@ const LearningSections = ({ courseList, dispatch, isLoading }) => {
             textAlign: 'center',
             paddingVertical: Sizes.fixPadding * 0.5,
           }}>
-          {item?.title}
+          {item?.className}
         </Text>
       </TouchableOpacity>
     );
@@ -63,7 +60,7 @@ const LearningSections = ({ courseList, dispatch, isLoading }) => {
         paddingVertical: Sizes.fixPadding,
       }}>Demo Class</Text>
       <FlatList
-        data={courseList}
+        data={allDemoClass}
         renderItem={renderItem}
         horizontal
         contentContainerStyle={{ paddingRight: Sizes.fixPadding * 1.5 }}
@@ -73,8 +70,7 @@ const LearningSections = ({ courseList, dispatch, isLoading }) => {
 }
 
 const mapStateToProps = state => ({
-  isLoading: state.settings.isLoading,
-  courseList: state.courses.courseList,
+  allDemoClass: state.courses.allDemoClass,
 })
 
 const mapDispatchToProps = dispatch => ({ dispatch })

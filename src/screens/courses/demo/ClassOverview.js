@@ -139,14 +139,3 @@ const ClassOverview = ({ route }) => {
 
 
 export default ClassOverview
-
-const styles = StyleSheet.create({
-  dots: {
-    width: 5,
-    height: 5,
-    borderRadius: 5,
-    backgroundColor: Colors.gray,
-    marginRight: Sizes.fixPadding,
-    marginTop: Sizes.fixPadding * 0.5,
-  },
-});

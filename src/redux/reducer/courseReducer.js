@@ -10,6 +10,7 @@ const initialState = {
     liveClassOfClass:null,
     demoClassBooked:null,
     workshopWithoutId:null,
+    allDemoClass:null,
 }
 
 const courses = (state = initialState, actions) => {
@@ -73,6 +74,12 @@ const courses = (state = initialState, actions) => {
             return {
                 ...state,
                 workshopWithoutId: payload
+            }
+        }
+        case actionTypes.GET_ALL_DEMO_CLASSS: {
+            return {
+                ...state,
+                allDemoClass: payload
             }
         }
         default: {

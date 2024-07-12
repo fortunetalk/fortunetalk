@@ -14,17 +14,34 @@ import LinearGradient from 'react-native-linear-gradient';
 const ClassDetails = ({ route }) => {
   const previousPagedata = route.params
   return (
-    <View style={{
-      flex: 1,
-      backgroundColor: Colors.bodyColor
-    }}>
-      {header()}
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: Colors.bodyColor
+      }}>
+      <MyHeader title={`${previousPagedata.title} Class Details`} />
       <FlatList
         ListHeaderComponent={
           <>
-            {liveVedioInfo()}
-            {courseTitleInfo()}
-            {courseDescriptionInfo()}
+            <Video uri={previousPagedata.class?.video} />
+            <View
+              style={{
+                marginHorizontal: Sizes.fixPadding * 2,
+                marginTop: Sizes.fixPadding * 0.5,
+              }}>
+              <Text style={{ ...Fonts.black16RobotoRegular }}>
+                {previousPagedata.class?.className}
+              </Text>
+            </View>
+            <View
+              style={{
+                marginHorizontal: Sizes.fixPadding * 2,
+                marginTop: Sizes.fixPadding * 0.5,
+              }}>
+              <Text style={{ ...Fonts.gray12RobotoRegular }}>
+                {previousPagedata.class?.description}
+              </Text>
+            </View>
             {classInfo()}
             {learningInfo()}
           </>
@@ -67,44 +84,6 @@ const ClassDetails = ({ route }) => {
         </LinearGradient>
       </TouchableOpacity>
     );
-  }
-
-  function courseDescriptionInfo() {
-    return (
-      <View
-        style={{
-          marginHorizontal: Sizes.fixPadding * 2,
-          marginTop: Sizes.fixPadding * 0.5,
-        }}>
-        <Text style={{ ...Fonts.gray12RobotoRegular }}>
-          {previousPagedata.class?.description}
-        </Text>
-      </View>
-    );
-  }
-
-  function courseTitleInfo() {
-    return (
-      <View
-        style={{
-          marginHorizontal: Sizes.fixPadding * 2,
-          marginTop: Sizes.fixPadding * 0.5,
-        }}>
-        <Text style={{ ...Fonts.black16RobotoRegular }}>
-          {previousPagedata.class?.className}
-        </Text>
-      </View>
-    );
-  }
-
-  function liveVedioInfo() {
-    return (
-      <Video uri={previousPagedata.class?.video} />
-    );
-  }
-
-  function header() {
-    return <MyHeader title={`${previousPagedata.title} Class Details`} />;
   }
 }
 

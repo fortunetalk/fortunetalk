@@ -5,6 +5,7 @@ import {
     app_api_url,
     book_demo_class,
     check_customer_demo_class_booked,
+    get_all_demo_class,
     get_course_banner,
     get_course_list,
     get_demo_class_list,
@@ -222,6 +223,25 @@ function* isDemoClassBooked(actions) {
     }
 }
 
+function* allDemoClass() {
+    try {
+        yield put({ type: actionTypes.SET_IS_LOADING, payload: true })
+
+        const response = yield getRequest({
+            url: app_api_url + get_all_demo_class,
+        })
+
+        if (response?.success) {
+            yield put({ type: actionTypes.GET_ALL_DEMO_CLASSS, payload: response?.data })
+        }
+
+        yield put({ type: actionTypes.SET_IS_LOADING, payload: false })
+    } catch (e) {
+        yield put({ type: actionTypes.SET_IS_LOADING, payload: false })
+        console.log(e)
+    }
+}
+
 export default function* coursesSaga() {
     yield takeLeading(actionTypes.GET_COURSE_BANNER, getCourseBanner)
     yield takeLeading(actionTypes.GET_COURSES_LIST, getCourseList)
@@ -236,4 +256,5 @@ export default function* coursesSaga() {
     yield takeLeading(actionTypes.CHECK_CUSTOMER_DEMO_CLASS_BOOKED, isDemoClassBooked)
 
     yield takeLeading(actionTypes.GET_WORKSHOP_WITHOUT_ID, getWorkshopsListWithoutId)
+    yield takeLeading(actionTypes.GET_ALL_DEMO_CLASSS, allDemoClass)
 }

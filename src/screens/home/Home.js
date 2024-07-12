@@ -29,11 +29,17 @@ import ProductCategory from './components/ProductCategory'
 import * as CourseActions from '../../redux/actions/courseActions'
 import WorkshopClass from './components/WorkshopClass'
 
-const Home = ({ dispatch, tabVisible, courseBanner, workshopWithoutId }) => {
+const Home = ({
+  dispatch,
+  tabVisible,
+  courseBanner,
+  workshopWithoutId
+}) => {
 
   useEffect(() => {
     dispatch(CourseActions.getCourseBanner())
     dispatch(CourseActions.getWorkshopWithoutId())
+    dispatch(CourseActions.getAllDemoClass())
   }, [])
 
   const scrollY = useRef(new Animated.Value(0)).current;
@@ -77,7 +83,7 @@ const Home = ({ dispatch, tabVisible, courseBanner, workshopWithoutId }) => {
               (workshopWithoutId && workshopWithoutId.length > 0) &&
               <WorkshopClass />
             }
-            <LearningSections/>
+            <LearningSections />
             <PoojaCategory />
             <ProductCategory />
             <LatestBlogs />

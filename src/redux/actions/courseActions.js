@@ -15,6 +15,11 @@ export const getDemoClass = payload => ({
     payload
 })
 
+export const getAllDemoClass = payload => ({
+    type: actionTypes.GET_ALL_DEMO_CLASSS,
+    payload
+})
+
 export const getLiveClass = payload => ({
     type: actionTypes.GET_LIVE_CLASS,
     payload

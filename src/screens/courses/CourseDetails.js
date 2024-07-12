@@ -13,7 +13,9 @@ const CourseDetails = ({
     route,
     isLoading,
     dispatch,
-    customerData
+    customerData,
+    demoClassBooked,
+    registerDemoclass
 }) => {
     const previousPagedata = route.params
     const [state, setState] = useState({
@@ -23,15 +25,24 @@ const CourseDetails = ({
     })
     const { name, phoneNumber, modalVisible } = state
 
-    useEffect(()=>{
-     dispatch(CourseActions.demoClassBooked({
-        demoClassId: previousPagedata.classdeclstails?._id,
-        courseId: previousPagedata.courseData?._id,
-     }))
+    console.log("registerDemoclass =====>>>>", registerDemoclass)
+
+    useEffect(() => {
+        dispatch(CourseActions.demoClassBooked({
+            demoClassId: previousPagedata.classdetails?._id,
+            customerId: customerData?._id,
+        }))
     }, [])
 
     const handleNext = () => {
-        updateState({ modalVisible: true })
+        if (!demoClassBooked) {
+            updateState({ modalVisible: true })
+        } else {
+            navigate("classOverview", {
+                classData: previousPagedata.classdetails,
+                title: previousPagedata.title
+            })
+        }
     };
 
     const updateState = data => {
@@ -48,14 +59,16 @@ const CourseDetails = ({
             Alert.alert("Phone Number Required")
         } else {
             if (previousPagedata.title == "Demo") {
-                dispatch(CourseActions.bookdemoClass({
-                    customerName: name,
-                    mobileNumber: phoneNumber,
-                    astrologerId: previousPagedata.classdetails?.astrologerId?._id,
-                    demoClassId: previousPagedata.classdetails?._id,
-                    courseId: previousPagedata.courseData?._id,
-                    customerId: customerData?._id,
-                }))
+                if (!demoClassBooked) {
+                    dispatch(CourseActions.bookdemoClass({
+                        customerName: name,
+                        mobileNumber: phoneNumber,
+                        astrologerId: previousPagedata.classdetails?.astrologerId?._id,
+                        demoClassId: previousPagedata.classdetails?._id,
+                        courseId: previousPagedata.courseData?._id,
+                        customerId: customerData?._id,
+                    }))
+                }
                 navigate("classOverview", {
                     classData: previousPagedata.classdetails,
                     title: previousPagedata.title
@@ -85,16 +98,16 @@ const CourseDetails = ({
                     <>
                         {courseAbout()}
                         {proceedButton()}
-                        <CourseRegistration
-                            visible={modalVisible}
-                            onClose={() => updateState({ modalVisible: false })}
-                            handleRegistration={handleRegistration}
-                            updateState={updateState}
-                            name={name}
-                            phoneNumber={phoneNumber}
-                        />
                     </>
                 }
+            />
+            <CourseRegistration
+                visible={modalVisible}
+                onClose={() => updateState({ modalVisible: false })}
+                handleRegistration={handleRegistration}
+                updateState={updateState}
+                name={name}
+                phoneNumber={phoneNumber}
             />
         </View>
     )
@@ -147,7 +160,9 @@ const CourseDetails = ({
 
 const mapStateToProps = state => ({
     isLoading: state.settings.isLoading,
-    customerData: state.customer.customerData
+    customerData: state.customer.customerData,
+    demoClassBooked: state.courses.demoClassBooked,
+    registerDemoclass: state.courses.registerDemoclass
 })
 
 const mapDispatchToProps = dispatch => ({ dispatch })

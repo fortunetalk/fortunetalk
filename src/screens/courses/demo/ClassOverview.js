@@ -3,28 +3,92 @@ import {
   Text,
   FlatList,
   TouchableOpacity,
-  StyleSheet,
+  Alert,
 } from 'react-native';
-import React from 'react';
 import moment from 'moment';
+import { connect } from 'react-redux';
+import React, { useEffect, useState } from 'react';
 import MyHeader from '../../../components/MyHeader';
+import CourseRegistration from '../CourseRegistration';
 import Video from '../../../components/Courses/Video';
-import { Colors, Fonts, Sizes } from '../../../assets/styles';
-import { navigate } from '../../../utils/navigationServices';
 import { classifyTimeNoon } from '../../../utils/tools';
+import { navigate } from '../../../utils/navigationServices';
+import { Colors, Fonts, Sizes } from '../../../assets/styles';
+import * as CourseActions from '../../../redux/actions/courseActions'
 
-const ClassOverview = ({ route }) => {
+const ClassOverview = ({
+  route,
+  customerData,
+  demoClassBooked,
+  dispatch
+}) => {
   const previousPagedata = route.params
+  const [state, setState] = useState({
+    name: "",
+    phoneNumber: "",
+    modalVisible: false,
+  })
+  const { name, phoneNumber, modalVisible } = state
+  
+  const updateState = data => {
+    setState(prevState => {
+      const newData = { ...prevState, ...data };
+      return newData;
+    });
+  };
+
+  useEffect(() => {
+    dispatch(CourseActions.demoClassBooked({
+      demoClassId: previousPagedata.classData?._id,
+      customerId: customerData?._id,
+    }))
+  }, [])
+
+  const onClick = () => {
+    if (!demoClassBooked) {
+      updateState({ modalVisible: true })
+    } else {
+      navigate("classDetails", {
+        class: previousPagedata.classData,
+        title: previousPagedata.title,
+      })
+    }
+  }
+
+  const handleRegistration = () => {
+    if (name.length < 1) {
+      Alert.alert("Name Required")
+    } else if (phoneNumber.length < 9) {
+      Alert.alert("Phone Number Required")
+    } else {
+      if (!demoClassBooked) {
+        dispatch(CourseActions.bookdemoClass({
+          customerName: name,
+          mobileNumber: phoneNumber,
+          astrologerId: previousPagedata.classData?.astrologerId?._id,
+          demoClassId: previousPagedata.classData?._id,
+          courseId: previousPagedata.classData?.courseId?._id,
+          customerId: customerData?._id,
+        }))
+      }
+      navigate("classDetails", {
+        class: previousPagedata.classData,
+        title: previousPagedata.title,
+      })
+      updateState({ modalVisible: false })
+    }
+  };
+
   return (
     <View style={{
       flex: 1,
       backgroundColor: Colors.bodyColor
     }}>
-      {header()}
+      <MyHeader title={`Demo Class`} />
       <FlatList
         ListHeaderComponent={
           <>
-            {liveVedioInfo()}
+            <Video uri={previousPagedata.classData?.video} />
             {courseTitleInfo()}
             {courseDescriptionInfo()}
             {demoClassDatesInfo()}
@@ -33,16 +97,19 @@ const ClassOverview = ({ route }) => {
         }
       />
       {demoClassDetailsInfo()}
+      <CourseRegistration
+        visible={modalVisible}
+        onClose={() => updateState({ modalVisible: false })}
+        handleRegistration={handleRegistration}
+        updateState={updateState}
+        name={name}
+        phoneNumber={phoneNumber}
+      />
+
     </View>
   );
 
   function demoClassDetailsInfo() {
-    const onClick = () => {
-      navigate("classDetails", {
-        class: previousPagedata.classData,
-        title: previousPagedata.title,
-      })
-    }
     return (
       <TouchableOpacity
         activeOpacity={1}
@@ -55,7 +122,7 @@ const ClassOverview = ({ route }) => {
           alignItems: 'center',
           borderRadius: Sizes.fixPadding * 1.5,
         }}>
-        <Text style={{ ...Fonts.white14RobotoMedium }}>{previousPagedata.title} Details</Text>
+        <Text style={{ ...Fonts.white14RobotoMedium }}>Demo Details</Text>
       </TouchableOpacity>
     );
   }
@@ -125,17 +192,15 @@ const ClassOverview = ({ route }) => {
       </View>
     );
   }
-
-  function liveVedioInfo() {
-    return (
-      <Video uri={previousPagedata.classData?.video} />
-    );
-  }
-
-  function header() {
-    return <MyHeader title={`${previousPagedata.title} Class`} />
-  }
 };
 
+const mapStateToProps = state => ({
+  isLoading: state.settings.isLoading,
+  customerData: state.customer.customerData,
+  demoClassBooked: state.courses.demoClassBooked,
+  registerDemoclass: state.courses.registerDemoclass
+})
 
-export default ClassOverview
+const mapDispatchToProps = dispatch => ({ dispatch })
+
+export default connect(mapStateToProps, mapDispatchToProps)(ClassOverview)

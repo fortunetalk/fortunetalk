@@ -163,6 +163,8 @@ function* bookDemoClass(actions) {
     try {
         yield put({ type: actionTypes.SET_IS_LOADING, payload: true })
         const { payload } = actions
+        
+        console.log("payload ===>>>>", payload)
 
         const response = yield postRequest({
             url: app_api_url + book_demo_class,
@@ -170,7 +172,8 @@ function* bookDemoClass(actions) {
         })
 
         if (response?.success) {
-            yield call(showToastMessage, { message: response?.message })
+            yield put({ type: actionTypes.BOOKED_DEMO_CLASS, payload: response?.data })
+            yield call(showToastMessage, { message: "Class Registered" })
         }
 
         yield put({ type: actionTypes.SET_IS_LOADING, payload: false })

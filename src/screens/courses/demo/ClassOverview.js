@@ -20,7 +20,7 @@ const ClassOverview = ({
   route,
   customerData,
   demoClassBooked,
-  dispatch
+  dispatch,
 }) => {
   const previousPagedata = route.params
   const [state, setState] = useState({
@@ -29,7 +29,7 @@ const ClassOverview = ({
     modalVisible: false,
   })
   const { name, phoneNumber, modalVisible } = state
-  
+
   const updateState = data => {
     setState(prevState => {
       const newData = { ...prevState, ...data };
@@ -45,8 +45,15 @@ const ClassOverview = ({
   }, [])
 
   const onClick = () => {
-    if (!demoClassBooked) {
-      updateState({ modalVisible: true })
+    if (previousPagedata?.isRegister) {
+      if (!demoClassBooked) {
+        updateState({ modalVisible: true })
+      } else {
+        navigate("classDetails", {
+          class: previousPagedata.classData,
+          title: previousPagedata.title,
+        })
+      }
     } else {
       navigate("classDetails", {
         class: previousPagedata.classData,

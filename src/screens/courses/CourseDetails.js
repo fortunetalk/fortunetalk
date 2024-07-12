@@ -71,7 +71,8 @@ const CourseDetails = ({
                 }
                 navigate("classOverview", {
                     classData: previousPagedata.classdetails,
-                    title: previousPagedata.title
+                    title: previousPagedata.title,
+                    isRegister:false
                 })
             } else if (previousPagedata.title == "Live") {
                 navigate("mycourse", {

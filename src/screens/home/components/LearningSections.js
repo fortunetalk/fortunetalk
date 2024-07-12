@@ -11,7 +11,8 @@ const LearningSections = ({ allDemoClass }) => {
         activeOpacity={0.8}
         onPress={() => navigate("classOverview", {
           classData: item,
-          title: "Demo"
+          title: "Demo",
+          isRegister:true
         })}
         style={{
           width: SCREEN_WIDTH * 0.55,

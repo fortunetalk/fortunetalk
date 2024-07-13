@@ -3,6 +3,7 @@ import { base_url } from '../config/constants';
 // import { resetToScreen } from '../navigations/NavigationServices';
 // import { showToastMessage } from './services';
 import * as ChatActions from '../redux/actions/chatActions'
+import * as AstrologerActions from '../redux/actions/astrologerActions'
 const SOCKET_URL = base_url;
 
 class socketServices {
@@ -73,7 +74,7 @@ class socketServices {
       });
 
       this.socket.on('walletAlert', data => {
-        // dispatch(ChatActions.setChatWalletAlert(data))
+        dispatch(AstrologerActions.setWalletAlertVisible(data))
       })
 
       this.socket.on('error', data => {

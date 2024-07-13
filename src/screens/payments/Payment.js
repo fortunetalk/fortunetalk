@@ -32,15 +32,6 @@ const Payment = ({ route, navigation, dispatch }) => {
     )
 
     function confirmPaymentInfo() {
-        const onPayment = () => {
-            switch (type) {
-                case 'wallet':
-                    dispatch(PaymentActions.onWalletRechage(amount))
-                    break;
-                default:
-                    break;
-            }
-        }
         return (
             <View
                 style={{
@@ -63,7 +54,7 @@ const Payment = ({ route, navigation, dispatch }) => {
                 </View> */}
                 <TouchableOpacity
                     activeOpacity={0.8}
-                    onPress={onPayment}
+                    onPress={()=>dispatch(PaymentActions.onWalletRechage({amount, type: route?.params?.type}))}
                     style={{
                         flex: 0.6,
                         backgroundColor: Colors.primaryLight,

@@ -1,7 +1,7 @@
 import { put, select, takeLeading } from 'redux-saga/effects'
 import * as actionTypes from '../actionTypes'
 import { blobRequest, postRequest } from '../../utils/apiRequests'
-import { app_api_url, base_url, get_chat_data, initiate_chat, upload_chat_attachments } from '../../config/constants'
+import { app_api_url, base_url, get_chat_data, get_chat_details, initiate_chat, upload_chat_attachments } from '../../config/constants'
 import { getUniqueId, showToastMessage } from '../../utils/services'
 import * as ChatActions from '../actions/chatActions'
 import AsyncStorage from '@react-native-async-storage/async-storage'
@@ -25,7 +25,6 @@ function* sendChatRequest(actions) {
             }
         })
 
-        console.log(response)
         if (response.success) {
             yield put({ type: actionTypes.SET_CHAT_REQUEST_MODAL_DATA, payload: { visible: true, data: { astrologerName, astrologerImage } } })
             socketServices.emit('createChatRoom', {
@@ -34,9 +33,12 @@ function* sendChatRequest(actions) {
                 customerID: response?.data?.customerId,
                 astroID: response?.data?.astrologerId,
                 duration: response?.data?.maxduration,
-                newUser: false
+                newUser: response?.data?.moaApplied
             });
         } else {
+            if (response?.message == 'Insufficent Balance') {
+                yield put({ type: actionTypes.SET_WALLET_ALERT_VISIBLE, payload: true })
+            }
             showToastMessage({ message: response.message })
         }
 
@@ -51,7 +53,7 @@ function* sendChatRequest(actions) {
 function* startChat(actions) {
     try {
         const { dispatch, historyId } = actions.payload
-        yield put({ type: actionTypes.SET_CHAT_REQUEST_MODAL_DATA, payload: { visible: false, data: { astrologerName:null, astrologerImage: null } } })
+        yield put({ type: actionTypes.SET_CHAT_REQUEST_MODAL_DATA, payload: { visible: false, data: { astrologerName: null, astrologerImage: null } } })
         socketServices.emit('joinChatRoom', historyId)
         socketServices.emit('startChatTimer', historyId)
 
@@ -144,8 +146,7 @@ function* onEndChat(actions) {
         const chatData = yield select(state => state.chat.chatData)
         console.log(chatData)
         socketServices.emit('endChat', { roomID: chatData?.data?.historyId });
-        database()
-            .ref(`Messages/${chatData.chatId}`).off()
+        database().ref(`Messages/${chatData.chatId}`).off()
         // yield put({ type: actionTypes.ON_CLOSE_CHAT, payload: null })
     } catch (e) {
         console.log(e)
@@ -155,25 +156,26 @@ function* onEndChat(actions) {
 function* onCloseChat(actions) {
     try {
         const chatData = yield select(state => state.chat.chatData)
+        console.log(chatData)
+        const response = yield postRequest({
+            url: app_api_url + get_chat_details,
+            data: {
+                chatId: chatData?.data?.historyId
+            }
+        })
 
-        // const response = yield postRequest({
-        //     url: api_url + get_chat_details,
-        //     data: {
-        //         chatId: requestedData?.chatId
-        //     }
-        // })
+        console.log(response)
 
-        if (true) {
+        if (response?.success) {
             yield AsyncStorage.removeItem('chatData')
-
             yield put({ type: actionTypes.SET_CHAT_REQUESTED_DATA, payload: null })
             yield put({ type: actionTypes.SET_CHAT_DATA, payload: [] })
             yield put({ type: actionTypes.SET_CHAT_TIMER_COUNTDOWN, payload: 0 })
             yield put({ type: actionTypes.GET_CUSTOMER_DATA, payload: null })
-            // yield put({ type: actionTypes.SET_CHAT_INVOICE_DATA, payload: response?.chatHistory })
-            // yield put({ type: actionTypes.SET_CHAT_INVOICE_VISIBLE, payload: true })
+            yield put({ type: actionTypes.SET_CHAT_INVOICE_DATA, payload: response?.data })
+            yield put({ type: actionTypes.SET_CHAT_INVOICE_VISIBLE, payload: true })
         }
-        resetToScreen('home')
+        // resetToScreen('home')
     } catch (e) {
         console.log(e)
     }
@@ -181,18 +183,14 @@ function* onCloseChat(actions) {
 
 function* onSendAttachment(actions) {
     try {
+        const { payload } = actions
         yield put({ type: actionTypes.SET_IS_LOADING, payload: true })
         const attachments = yield select(state => state.chat.attachments)
         const customerData = yield select(state => state.customer.customerData)
         const chatMessages = yield select(state => state.chat.chatMessages)
 
         const message = {
-            _id: getUniqueId(),
-            text: 'My message',
-            user: {
-                _id: customerData?._id,
-                name: customerData?.customerName,
-            },
+            ...payload,
             image: null,
             file: null,
             sent: true,
@@ -253,7 +251,7 @@ function* onSendAttachment(actions) {
 
 function* onSendRecording(actions) {
     try {
-        const {payload} = actions
+        const { payload } = actions
         const customerData = yield select(state => state.customer.customerData)
         const chatMessages = yield select(state => state.chat.chatMessages)
 

@@ -11,11 +11,14 @@ import { handleIncomingNotification, initializeNotifications } from './src/utils
 import AstrologerRequest from './src/screens/astrologers/components/AstrologerRequest.js';
 import { connect } from 'react-redux';
 import socketServices from './src/utils/socket.js';
+import ChatInvoice from './src/screens/chat/components/ChatInvoice.js';
+import AstrologerRating from './src/screens/astrologers/components/AstrologerRating.js';
+import WalletAlert from './src/screens/payments/components/WalletAlert.js';
 
 LogBox.ignoreLogs(["Warning: ..."]);
 LogBox.ignoreAllLogs();
 
-const App = ({dispatch}) => {
+const App = ({ dispatch }) => {
 
   const getToken = async () => {
     const token = await messaging().getToken()
@@ -61,11 +64,14 @@ const App = ({dispatch}) => {
           <ZegoUIKitPrebuiltCallFloatingMinimizedView />
         </NavigationContainer>
         <AstrologerRequest />
+        <ChatInvoice />
+        <WalletAlert />
+        <AstrologerRating />
       </PaperProvider>
     </SafeAreaProvider>
   );
 };
 
-const mapDispatchToProps = dispatch => ({dispatch})
+const mapDispatchToProps = dispatch => ({ dispatch })
 
 export default connect(null, mapDispatchToProps)(App);

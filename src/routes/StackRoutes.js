@@ -36,7 +36,7 @@ import LiveScreen from '../screens/live/LiveScreen';
 import OrderHistory from '../screens/history/OrderHistory';
 import WalletHistory from '../screens/history/WalletHistory';
 import ChatHistory from '../screens/history/ChatHistory';
-import CallHistroy from '../screens/history/CallHistroy';
+import CallHistory from '../screens/history/CallHistory';
 import LiveCallHistory from '../screens/history/LiveCallHistory';
 import AstromallHistory from '../screens/history/AstromallHistory';
 import RemedyHistory from '../screens/history/RemedyHistory';
@@ -103,7 +103,7 @@ const StackRoutes = () => {
             >
                 <Stack.Screen name='walletHistory' component={WalletHistory} />
                 <Stack.Screen name='chatHistory' component={ChatHistory} />
-                <Stack.Screen name='callHistroy' component={CallHistroy} />
+                <Stack.Screen name='callHistory' component={CallHistory} />
                 <Stack.Screen name='liveCallHistory' component={LiveCallHistory} />
                 <Stack.Screen name='astromallHistory' component={AstromallHistory} />
                 <Stack.Screen name='remedyHistory' component={RemedyHistory} /> 

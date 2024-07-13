@@ -7,7 +7,12 @@ const initialState = {
     chatRequestModalData: {
         visible: false,
         data: null
-    }
+    },
+    astrologerRatingData: {
+        visible: false,
+        data: null
+    },
+    walletAlertVisible: false
 }
 
 const astrologer = (state = initialState, actions) => {
@@ -35,6 +40,18 @@ const astrologer = (state = initialState, actions) => {
             return {
                 ...state,
                 chatRequestModalData: payload
+            }
+        }
+        case actionTypes.SET_ASTROLOGER_RATING_DATA: {
+            return {
+                ...state,
+                astrologerRatingData: payload
+            }
+        }
+        case actionTypes.SET_WALLET_ALERT_VISIBLE: {
+            return {
+                ...state,
+                walletAlertVisible: payload
             }
         }
         default: {

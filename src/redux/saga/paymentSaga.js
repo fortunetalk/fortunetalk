@@ -3,26 +3,40 @@ import * as actionTypes from '../actionTypes'
 import { postRequest } from '../../utils/apiRequests'
 import { app_api_url, customer_wallet_recharge } from '../../config/constants'
 import { showToastMessage } from '../../utils/services'
-import { resetToScreen } from '../../utils/navigationServices'
+import { onPop, resetToScreen } from '../../utils/navigationServices'
+import { razorpayPayment } from '../../utils/razorpay'
 
 function* onWalletRechage(actions) {
     try {
-        yield put({ type: actionTypes.SET_IS_LOADING, payload: true })
+     
         const { payload } = actions
         const customerData = yield select(state => state.customer.customerData)
+
+        const rayzorPayResponse = yield razorpayPayment({amount: payload?.amount, email: '', name: '', contact: ''})
+        console.log(rayzorPayResponse)
+        // if(!rayzorPayResponse){
+        //     return
+        // }
+
+        yield put({ type: actionTypes.SET_IS_LOADING, payload: true })
 
         const response = yield postRequest({
             url: app_api_url + customer_wallet_recharge,
             data: {
                 customerId: customerData?._id,
-                amount: parseFloat(payload)
+                amount: parseFloat(payload?.amount)
             }
         })
 
-        if(response?.success){
-            yield put({type: actionTypes.SET_CUSTOMER_DATA, payload: response?.data})
-            showToastMessage({message: 'Recharge was successfully'})
-            yield call(resetToScreen, 'home')
+        if (response?.success) {
+            yield put({ type: actionTypes.SET_CUSTOMER_DATA, payload: response?.data })
+            showToastMessage({ message: 'Recharge was successfully' })
+            if (payload?.type == 'wallet') {
+                yield call(resetToScreen, 'home')
+            } else if (payload?.type === 'wallet_recharge') {
+                yield call(onPop(2))
+            }
+
         }
 
         yield put({ type: actionTypes.SET_IS_LOADING, payload: false })

@@ -1,5 +1,5 @@
 import { View, Text, Platform } from 'react-native'
-import React, { useCallback, useEffect } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { Send } from 'react-native-gifted-chat'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import { Colors } from '../../../assets/styles'
@@ -19,6 +19,7 @@ const audioRecorderPlayer = new AudioRecorderPlayer();
 audioRecorderPlayer.setSubscriptionDuration(0.1);
 
 const SendMic = ({ message, sendProps, sendButtonProps, updateState, dispatch, customerData, attachments, }) => {
+    const [startTimer, setStartTimer] = useState(null)
     useEffect(() => {
         return () => {
             audioRecorderPlayer.removeRecordBackListener();
@@ -40,6 +41,7 @@ const SendMic = ({ message, sendProps, sendButtonProps, updateState, dispatch, c
 
     const startRecording = async () => {
         try {
+            setStartTimer(new Date())
             const path = Platform.select({
                 ios: undefined,
                 android: undefined,
@@ -63,6 +65,10 @@ const SendMic = ({ message, sendProps, sendButtonProps, updateState, dispatch, c
 
     const stopRecording = async () => {
         try {
+            if (!startTimer) {
+                return
+            }
+            setStartTimer(null)
             const result = await audioRecorderPlayer.stopRecorder();
             audioRecorderPlayer.removeRecordBackListener();
             updateState({ recordTime: 0 });
@@ -74,39 +80,33 @@ const SendMic = ({ message, sendProps, sendButtonProps, updateState, dispatch, c
     }
 
     const onPressIn = useCallback(() => {
-        if (message) {
-            const msg = {
-                _id: getUniqueId(),
-                text: message,
-                user: {
-                    _id: customerData?._id,
-                    name: customerData?.customerName,
-                    // avatar: base_url + userData?.image,
-                },
-                sent: false,
-                received: false,
-                pending: true,
-                delivered: false,
-            }
+        const msg = {
+            _id: getUniqueId(),
+            text: message,
+            user: {
+                _id: customerData?._id,
+                name: customerData?.customerName,
+                // avatar: base_url + userData?.image,
+            },
+            sent: false,
+            received: false,
+            pending: true,
+            delivered: false,
+        }
+        if (attachments?.visible) {
+            dispatch(ChatActions.onSendAttachment(msg))
+        } else if (message) {
             dispatch(ChatActions.sendChatMessage(msg))
-        } else if (attachments?.visible) {
-            dispatch(ChatActions.onSendAttachment())
         } else {
-            console.log('hii')
             updateState({ isMicPressed: true })
             reuestPermissionForRecord()
         }
     }, [message, customerData, attachments, dispatch, updateState])
 
     const onPressOut = useCallback(() => {
-        console.log(message, 'sdfsfhjsgfsdfh')
-        if (message.length == 0) {
-            console.log('Bye')
-            updateState({ isMicPressed: false })
-            stopRecording()
-        }
-        updateState({ message: '', })
-    }, [message, updateState])
+        updateState({ isMicPressed: false })
+        stopRecording()
+    }, [updateState])
 
     return (
         <Send

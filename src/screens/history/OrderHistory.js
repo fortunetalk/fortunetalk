@@ -14,7 +14,7 @@ const data = [
     {
         name: 'Call',
         icon: require('../../assets/icons/call_history.png'),
-        navigateTo: 'callHistroy',
+        navigateTo: 'callHistory',
         params: { type: 'Call' },
     },
     {

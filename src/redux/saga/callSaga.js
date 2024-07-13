@@ -17,8 +17,6 @@ function* sendCallRequest(actions) {
             }
         })
 
-        console.log(response)
-
         if (response?.success) {
             const callTo = [{ userID: astrologerId, userName: astrologerName ?? 'Astrologer', }]
             console.log(callTo)

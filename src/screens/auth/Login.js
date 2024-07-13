@@ -16,21 +16,18 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 
 Settings.initializeSDK('1403757197218563');
 
-const Login = ({ dispatch }) => {
+const Login = ({ dispatch, isLoading }) => {
   const [state, setState] = useState({
     callingCode: '91',
     cca2: 'IN',
     phoneNumber: '',
     errorMessage: '',
-    isLoading: false,
   });
 
   const inputRef = createRef();
 
   useEffect(() => {
     GoogleSignin.configure();
-
-    // zimAction.initEvent()
 
   }, []);
 
@@ -41,7 +38,7 @@ const Login = ({ dispatch }) => {
     })
   }
 
-  const { callingCode, cca2, phoneNumber, errorMessage, isLoading } = state;
+  const { callingCode, cca2, phoneNumber, errorMessage, } = state;
 
   return (
     <View style={{ flex: 1 }}>
@@ -322,7 +319,7 @@ const Login = ({ dispatch }) => {
 }
 
 const mapStateToProps = state => ({
-
+  isLoading: state.settings.isLoading
 })
 
 const mapDispatchToProps = dispatch => ({ dispatch })

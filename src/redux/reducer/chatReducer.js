@@ -9,6 +9,12 @@ const initialState = {
         visible: false,
         data: null,
         type: null
+    },
+    chatInvoiceVisible: false,
+    chatInvoiceData: null,
+    chatWalletAlert: {
+        visible: false,
+        chatId: null
     }
 }
 
@@ -42,6 +48,21 @@ const chat = (state = initialState, actions) => {
             return {
                 ...state,
                 attachments: payload
+            }
+        case actionTypes.SET_CHAT_INVOICE_VISIBLE:
+            return {
+                ...state,
+                chatInvoiceVisible: payload
+            }
+        case actionTypes.SET_CHAT_WALLET_ALERT:
+            return {
+                ...state,
+                chatInvoiceVisible: payload
+            }
+        case actionTypes.SET_CHAT_INVOICE_DATA:
+            return {
+                ...state,
+                chatInvoiceData: payload
             }
         default: {
             return state

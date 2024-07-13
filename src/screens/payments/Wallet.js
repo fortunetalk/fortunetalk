@@ -8,8 +8,8 @@ import WalletBanner from './components/WalletBanner';
 import { regex } from '../../config/data';
 import { connect } from 'react-redux';
 
-const Wallet = ({ navigation }) => {
-    const [amount, setAmount] = useState('')
+const Wallet = ({ navigation, route }) => {
+    const [amount, setAmount] = useState('');
     return (
         <View style={{ flex: 1, backgroundColor: Colors.bodyColor }}>
             <MyStatusBar
@@ -44,7 +44,7 @@ const Wallet = ({ navigation }) => {
                 showToastMessage({message: 'Please enter a valid amount.'})
                 return
             }
-            navigation.navigate('payment', { amount, type: 'wallet' })
+            navigation.navigate('payment', { amount, type: route?.params ? route?.params?.type : 'wallet', data: route?.params?.data })
         }
         return (
             <TouchableOpacity

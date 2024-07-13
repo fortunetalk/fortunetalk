@@ -11,7 +11,7 @@ const data = [
     },
     {
         name: 'Call',
-        navigateTo: 'callHistroy',
+        navigateTo: 'callHistory',
         params: { type: 'Call' },
     },
     {

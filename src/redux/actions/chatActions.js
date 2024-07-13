@@ -1,16 +1,16 @@
 import * as actionTypes from '../actionTypes'
 
-export const sendChatRequest = payload =>({
+export const sendChatRequest = payload => ({
     type: actionTypes.SEND_CHAT_REQUEST,
     payload
 })
 
-export const setChatData = payload =>({
+export const setChatData = payload => ({
     type: actionTypes.SET_CHAT_DATA,
     payload
 })
 
-export const setChatMessages = payload =>({
+export const setChatMessages = payload => ({
     type: actionTypes.SET_CHAT_MESSAGES,
     payload
 })
@@ -98,4 +98,9 @@ export const onSendAttachment = payload => ({
 export const onSendRecording = payload => ({
     type: actionTypes.ON_SEND_RECORDING,
     payload
+})
+
+export const setChatWalletAlert = payload => ({
+    type: actionTypes.SET_CHAT_WALLET_ALERT,
+    payload,
 })

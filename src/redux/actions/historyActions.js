@@ -1,6 +1,6 @@
 import * as actionTypes from '../actionTypes'
 
-export const getWalletHistory = payload =>({
+export const getWalletHistory = payload => ({
     type: actionTypes.GET_WALLET_HISTORY,
     payload
 })
@@ -17,5 +17,15 @@ export const getChatHistory = payload => ({
 
 export const setChatHistory = payload => ({
     type: actionTypes.SET_CHAT_HISTORY,
+    payload
+})
+
+export const getCallHistory = payload => ({
+    type: actionTypes.GET_CALL_HISTORY,
+    payload
+})
+
+export const setCallHistory = payload => ({
+    type: actionTypes.SET_CALL_HISTORY,
     payload
 })

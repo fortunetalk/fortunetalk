@@ -11,7 +11,6 @@ import { secondsToHMS } from '../../utils/services'
 import moment from 'moment'
 
 const ChatHistory = ({ route, chatHistory, dispatch }) => {
-    console.log(chatHistory)
     useEffect(() => {
         dispatch(HistoryActions.getChatHistory())
     }, [])

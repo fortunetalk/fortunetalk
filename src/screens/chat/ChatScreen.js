@@ -22,7 +22,7 @@ const ChatScreen = ({ route, navigation, dispatch }) => {
           onPress: () => null,
           style: 'cancel',
         },
-        { text: 'YES', onPress: () => dispatch(ChatActions.onEndChat()) },
+        { text: 'YES', onPress: () => dispatch(ChatActions.onEndChat())},
       ]);
       return true;
     };

@@ -2,7 +2,8 @@ import * as actionTypes from '../actionTypes'
 
 const initialState = {
     walletHistory: null,
-    chatHistory: null
+    chatHistory: null,
+    callHistory: null
 }
 
 const history = (state = initialState, actions) => {
@@ -17,6 +18,11 @@ const history = (state = initialState, actions) => {
             return {
                 ...state,
                 chatHistory: payload
+            }
+        case actionTypes.SET_CALL_HISTORY:
+            return {
+                ...state,
+                callHistory: payload
             }
         default:
             return state;

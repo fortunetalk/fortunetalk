@@ -1,8 +1,8 @@
 export const base_url = 'http://97.74.83.200:4000/'
 // export const app_api_url = 'http://97.74.83.200:4000/api/app/customers/'
-export const app_api_url = 'https://node-backend-jcdp.onrender.com/api/app/'
+// export const app_api_url = 'https://node-backend-jcdp.onrender.com/api/app/'
 // export const app_api_url = 'http://10.0.2.2:8000/api/app/'
-// export const app_api_url = 'http://97.74.83.200:4000/api/app/'
+export const app_api_url = 'http://97.74.83.200:4000/api/app/'
 
 export const customer_login = 'customers/customer_login'
 export const customer_otp_verify = 'customers/customer_otp_verify'
@@ -15,10 +15,13 @@ export const get_astrologer_details = 'customers/get_astrologer_details'
 export const customer_wallet_recharge = 'customers/customer_wallet_recharge'
 export const get_customer_wallet_history = 'customers/get_customer_wallet_history'
 export const get_customer_chat_history = 'customers/get_customer_chat_history'
+export const get_customer_call_history = 'customers/get_customer_call_history'
 export const initiate_zego_call = 'call/initiate_zego_call'
 export const initiate_chat = 'chat/initiate_chat'
 export const get_chat_data = 'chat/get_chat_data'
 export const upload_chat_attachments = 'chat/upload_chat_attachments'
+export const get_chat_details = 'chat/get_chat_details'
+export const astrologer_rating = 'customers/astrologer_rating'
 
 export const get_pooja_category = "ecommerce/pooja/category"
 export const get_pooja_category_waise = "ecommerce/pooja/category/"
@@ -45,6 +48,7 @@ export const get_pooja_category_banner = "banner/pooja-category"
 
 
 export const google_map_key = 'AIzaSyBjKP15Z_-tCf5EYm5PBbgZPe4yKaRqoFQ';
+export const razorpay_key  = 'rzp_live_UFbPKfqmnZCHLo'
 
 export const zego_live_app_id = 587173410
 export const zego_live_app_sign = '011d0941bcf41787bd3754dcc449dcbf45898eb89aa26dddf276f58592d6efdd'

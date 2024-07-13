@@ -29,3 +29,18 @@ export const setChatRequestModalData = payload => ({
     type: actionTypes.SET_CHAT_REQUEST_MODAL_DATA,
     payload
 })
+
+export const setAstrologerRatingData = payload => ({
+    type: actionTypes.SET_ASTROLOGER_RATING_DATA,
+    payload
+})
+
+export const setWalletAlertVisible = payload => ({
+    type: actionTypes.SET_WALLET_ALERT_VISIBLE,
+    payload
+})
+
+export const onAstrologerRating = payload => ({
+    type: actionTypes.ON_ASTROLOGER_RATING,
+    payload
+})

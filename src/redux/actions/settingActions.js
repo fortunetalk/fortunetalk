@@ -34,3 +34,8 @@ export const setTabVisible = payload => ({
     type: actionTypes.SET_TAB_VISIBLE,
     payload
 })
+
+export const getHomeData = payload => ({
+    type: actionTypes.GET_HOME_DATA,
+    payload
+})

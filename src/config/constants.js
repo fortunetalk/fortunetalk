@@ -22,6 +22,8 @@ export const get_chat_data = 'chat/get_chat_data'
 export const upload_chat_attachments = 'chat/upload_chat_attachments'
 export const get_chat_details = 'chat/get_chat_details'
 export const astrologer_rating = 'customers/astrologer_rating'
+export const get_recent_astrologer = 'customers/get_recent_astrologer'
+export const get_online_astrologer = 'customers/get_online_astrologer'
 
 export const get_pooja_category = "ecommerce/pooja/category"
 export const get_pooja_category_waise = "ecommerce/pooja/category/"
@@ -34,8 +36,15 @@ export const get_course_list = "course/customer"
 export const get_demo_class_list = "course/customer/demo_class_by_course_id"
 export const get_live_class_list = "course/customer/live_class_by_course_id"
 export const get_workshop_list = "course/customer/workshop_by_course_id"
-export const get_teachers_list = "course/customer"
+
+export const get_all_demo_class = "course/customer/demo_class"
+
+export const get_workshop_list_without_id = "course/customer/workshop"
+
+export const get_teachers_list = "course/customer/astrologer_by_course"
 export const book_demo_class = "course/customer/booked_demo_class"
+export const live_class_of_class = "course/customer/class_by_live_class_id"
+export const check_customer_demo_class_booked = "course/customer/check_customer_demo_class_booked"
 
 export const get_product_details_banner = "banner/product-category-detail"
 export const get_product_category_banner = "banner/product-category"

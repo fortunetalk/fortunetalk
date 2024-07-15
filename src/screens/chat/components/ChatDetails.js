@@ -7,7 +7,7 @@ import Footer from './Footer'
 import { Colors, Fonts } from '../../../assets/styles'
 import Voice from './Voice'
 
-const ChatDetails = ({ dispatch, chatMessages, customerData }) => {
+const ChatDetails = ({ dispatch, chatMessages, customerData, }) => {
     const renderInputToolbar = useCallback(({ sendButtonProps, ...props }) => {
         return <CustomeInput sendButtonProps={sendButtonProps} sendProps={props} />
     }, [])

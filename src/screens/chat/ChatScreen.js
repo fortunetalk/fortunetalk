@@ -9,9 +9,11 @@ import { connect } from 'react-redux'
 import * as ChatActions from '../../redux/actions/chatActions'
 
 const ChatScreen = ({ route, navigation, dispatch }) => {
-  
+
   useEffect(() => {
-    dispatch(ChatActions.startChat({ historyId: route.params.historyId, dispatch }))
+    if (route?.params) {
+      dispatch(ChatActions.startChat({ historyId: route.params.historyId, dispatch }))
+    }
   }, [dispatch])
 
   useEffect(() => {
@@ -22,7 +24,7 @@ const ChatScreen = ({ route, navigation, dispatch }) => {
           onPress: () => null,
           style: 'cancel',
         },
-        { text: 'YES', onPress: () => dispatch(ChatActions.onEndChat())},
+        { text: 'YES', onPress: () => dispatch(ChatActions.onEndChat()) },
       ]);
       return true;
     };

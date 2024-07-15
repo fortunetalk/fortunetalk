@@ -3,10 +3,36 @@ import React from 'react'
 import { SCREEN_WIDTH, Fonts, Colors, Sizes } from '../../../assets/styles';
 import moment from 'moment';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
+import { connect } from 'react-redux';
+import * as CallActions from '../../../redux/actions/callActions'
+import * as ChatActions from '../../../redux/actions/chatActions'
+import { useNavigation } from '@react-navigation/native';
 
-const RecentAstrologers = () => {
+const RecentAstrologers = ({ recentAstrologerData, dispatch }) => {
+  const navigation = useNavigation()
+
+  const onChat = (item) => {
+    const payload = {
+      navigation,
+      astrologerId: item?._id,
+      astrologerName: item?.name,
+      astrologerImage: item?.profileImage,
+    }
+    console.log(payload)
+    dispatch(ChatActions.sendChatRequest(payload))
+  }
+
+  const onCall = (item) => {
+    const payload = {
+      navigation,
+      astrologerId: item?._id,
+      astrologerName: item?.name,
+
+    }
+    console.log(payload)
+    dispatch(CallActions.sendCallRequest(payload))
+  }
   const renderItem = ({ item, index }) => {
-    // console.log(item)
     return (
       <TouchableOpacity
         activeOpacity={0.8}
@@ -29,7 +55,7 @@ const RecentAstrologers = () => {
           padding: Sizes.fixPadding,
         }}>
         <Image
-          source={require('../../../assets/images/user.png')}
+          source={{uri: item?.profileImage}}
           style={{
             width: SCREEN_WIDTH * 0.16,
             height: SCREEN_WIDTH * 0.16,
@@ -47,7 +73,7 @@ const RecentAstrologers = () => {
           }}>
           <Text style={{ ...Fonts.black14InterMedium }}>Astro Acharya</Text>
           <Text style={{ ...Fonts.gray9RobotoRegular }}>
-            {moment(new Date).format('DD-MM-YYYY, HH:mm A')}
+            {moment(item?.lastInteractionDate).format('DD-MM-YYYY, HH:mm A')}
           </Text>
           <View
             style={{
@@ -55,11 +81,8 @@ const RecentAstrologers = () => {
               marginTop: Sizes.fixPadding * 0.5,
             }}>
             <TouchableOpacity
-              // onPress={() =>
-              //   navigation.navigate('astrologerDetailes', {
-              //     data: item?.id,
-              //   })
-              // }
+             activeOpacity={0.8}
+             onPress={()=>onChat(item)}
               style={{
                 width: '40%',
                 justifyContent: 'center',
@@ -73,11 +96,8 @@ const RecentAstrologers = () => {
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
-              // onPress={() =>
-              //   navigation.navigate('astrologerDetailes', {
-              //     data: item?.id,
-              //   })
-              // }
+              activeOpacity={0.8}
+              onPress={()=>onCall(item)}
               style={{
                 width: '40%',
                 justifyContent: 'center',
@@ -108,36 +128,48 @@ const RecentAstrologers = () => {
     );
   };
   return (
-    <View
-      style={{
-        borderBottomWidth: 1,
-        borderBottomColor: Colors.grayLight,
-      }}>
-      <View
-        style={{
-          ...styles.row,
-          justifyContent: 'space-between',
-          paddingHorizontal: Sizes.fixPadding * 1.5,
-          paddingVertical: Sizes.fixPadding,
-        }}>
-        <Text style={{ ...Fonts.black16RobotoMedium }}>Recent Astrologers</Text>
-        <TouchableOpacity
-          activeOpacity={0.8}
-          onPress={() => navigation.navigate('recentAstrologers')}>
-          <Text style={{ ...Fonts.primaryLight15RobotoRegular }}>View all</Text>
-        </TouchableOpacity>
-      </View>
-      <FlatList
-        data={Array.from({ length: 5 })}
-        renderItem={renderItem}
-        horizontal
-        contentContainerStyle={{ paddingRight: Sizes.fixPadding * 1.5 }}
-      />
-    </View>
+    <>
+      {
+        recentAstrologerData ? recentAstrologerData.length != 0 && <View
+          style={{
+            borderBottomWidth: 1,
+            borderBottomColor: Colors.grayLight,
+          }}>
+          <View
+            style={{
+              ...styles.row,
+              justifyContent: 'space-between',
+              paddingHorizontal: Sizes.fixPadding * 1.5,
+              paddingVertical: Sizes.fixPadding,
+            }}>
+            <Text style={{ ...Fonts.black16RobotoMedium }}>Recent Astrologers</Text>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              onPress={() => navigation.navigate('recentAstrologers')}>
+              <Text style={{ ...Fonts.primaryLight15RobotoRegular }}>View all</Text>
+            </TouchableOpacity>
+          </View>
+          <FlatList
+            data={recentAstrologerData}
+            renderItem={renderItem}
+            horizontal
+            contentContainerStyle={{ paddingRight: Sizes.fixPadding * 1.5 }}
+          />
+        </View> : null
+      }
+    </>
+
+
   );
 }
 
-export default RecentAstrologers
+const mapStateToProps = state => ({
+  recentAstrologerData: state.astrologer.recentAstrologerData
+})
+
+const mapDispatchToProps = dispatch => ({ dispatch })
+
+export default connect(mapStateToProps, mapDispatchToProps)(RecentAstrologers)
 
 const styles = StyleSheet.create({
   row: {

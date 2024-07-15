@@ -10,7 +10,7 @@ import * as HistoryActions from '../../redux/actions/historyActions'
 import { secondsToHMS } from '../../utils/services'
 import moment from 'moment'
 
-const ChatHistory = ({ route, chatHistory, dispatch }) => {
+const ChatHistory = ({ route, chatHistory, dispatch, navigation }) => {
     useEffect(() => {
         dispatch(HistoryActions.getChatHistory())
     }, [])
@@ -41,11 +41,19 @@ const ChatHistory = ({ route, chatHistory, dispatch }) => {
                             <Text style={{ ...Fonts._13InterMedium, color: Colors.grayN, marginBottom: Sizes.fixPadding }}>{moment(item?.createdAt).format('DD MMM YY, hh:mm A')}</Text>
                             <Text style={{ ...Fonts._15InterMedium, color: Colors.grayN, textTransform: 'uppercase' }}>#{item?.transactionId}</Text>
                         </View>
-                        <TouchableOpacity>
-                            <LinearGradient colors={[Colors.primaryLight, Colors.primaryDark]} style={{ paddingHorizontal: Sizes.fixPadding * 1.5, paddingVertical: Sizes.fixPadding * 0.5, borderRadius: 1000 }} >
-                                <Text style={{ ...Fonts._11RobotoMedium, color: Colors.white, fontSize: 12 }}>Chat Again</Text>
-                            </LinearGradient>
-                        </TouchableOpacity>
+                        <View>
+                            <TouchableOpacity activeOpacity={0.8} onPress={() => navigation.navigate('chatSummary', { chatData: item })} style={{ marginVertical: Sizes.fixPadding }}>
+                                <LinearGradient colors={[Colors.primaryLight, Colors.primaryDark]} style={{ paddingHorizontal: Sizes.fixPadding * 1.5, paddingVertical: Sizes.fixPadding * 0.5, borderRadius: 1000 }} >
+                                    <Text style={{ ...Fonts._11RobotoMedium, color: Colors.white, fontSize: 12 }}>View Chat</Text>
+                                </LinearGradient>
+                            </TouchableOpacity>
+                            <TouchableOpacity>
+                                <LinearGradient colors={[Colors.primaryLight, Colors.primaryDark]} style={{ paddingHorizontal: Sizes.fixPadding * 1.5, paddingVertical: Sizes.fixPadding * 0.5, borderRadius: 1000 }} >
+                                    <Text style={{ ...Fonts._11RobotoMedium, color: Colors.white, fontSize: 12 }}>Chat Again</Text>
+                                </LinearGradient>
+                            </TouchableOpacity>
+                        </View>
+
                     </View>
                 </View>
             )

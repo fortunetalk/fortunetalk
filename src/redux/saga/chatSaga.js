@@ -147,7 +147,7 @@ function* onEndChat(actions) {
         console.log(chatData)
         socketServices.emit('endChat', { roomID: chatData?.data?.historyId });
         database().ref(`Messages/${chatData.chatId}`).off()
-        // yield put({ type: actionTypes.ON_CLOSE_CHAT, payload: null })
+        yield put({ type: actionTypes.ON_CLOSE_CHAT, payload: null })
     } catch (e) {
         console.log(e)
     }
@@ -156,7 +156,10 @@ function* onEndChat(actions) {
 function* onCloseChat(actions) {
     try {
         const chatData = yield select(state => state.chat.chatData)
-        console.log(chatData)
+        if(!chatData){
+            resetToScreen('home')
+            return
+        }
         const response = yield postRequest({
             url: app_api_url + get_chat_details,
             data: {
@@ -164,18 +167,16 @@ function* onCloseChat(actions) {
             }
         })
 
-        console.log(response)
-
         if (response?.success) {
             yield AsyncStorage.removeItem('chatData')
             yield put({ type: actionTypes.SET_CHAT_REQUESTED_DATA, payload: null })
-            yield put({ type: actionTypes.SET_CHAT_DATA, payload: [] })
+            yield put({ type: actionTypes.SET_CHAT_DATA, payload: null })
             yield put({ type: actionTypes.SET_CHAT_TIMER_COUNTDOWN, payload: 0 })
             yield put({ type: actionTypes.GET_CUSTOMER_DATA, payload: null })
             yield put({ type: actionTypes.SET_CHAT_INVOICE_DATA, payload: response?.data })
             yield put({ type: actionTypes.SET_CHAT_INVOICE_VISIBLE, payload: true })
         }
-        // resetToScreen('home')
+      
     } catch (e) {
         console.log(e)
     }

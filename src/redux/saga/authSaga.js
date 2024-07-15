@@ -33,7 +33,10 @@ function* onLogin(actions) {
 function* onGoogleLogin(actions) {
     try {
         yield GoogleSignin.hasPlayServices();
-        const userInfo = yield GoogleSignin.signIn();
+        const userInfo = yield GoogleSignin.signIn({
+            webClientId: `autoDetect`
+        });
+        console.log(userInfo)
         yield put({ type: actionTypes.SET_IS_LOADING, payload: true })
         const response = yield postRequest({
             url: app_api_url + customer_google_login,
@@ -111,7 +114,7 @@ function* onOtpVerification(actions) {
         if (response?.success) {
             yield AsyncStorage.setItem('customerData', JSON.stringify(response?.data?.customer))
             yield put({ type: actionTypes.SET_CUSTOMER_DATA, payload: response?.data?.customer })
-            yield onUserLogin("1", 'Ranjeet Kumar')
+            yield onUserLogin(response?.data?.customer?._id, response?.data?.customer?.customerName ?? 'Customer')
             if (response?.data?.type == 'home') {
                 yield call(resetToScreen, response?.data?.type)
             } else {

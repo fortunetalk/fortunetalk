@@ -12,7 +12,9 @@ const initialState = {
         visible: false,
         data: null
     },
-    walletAlertVisible: false
+    walletAlertVisible: false,
+    recentAstrologerData: null,
+    onlineAstrologerData: null
 }
 
 const astrologer = (state = initialState, actions) => {
@@ -52,6 +54,18 @@ const astrologer = (state = initialState, actions) => {
             return {
                 ...state,
                 walletAlertVisible: payload
+            }
+        }
+        case actionTypes.SET_RECENT_ASTROLOGERS: {
+            return {
+                ...state,
+                recentAstrologerData: payload
+            }
+        }
+        case actionTypes.SET_ONLINE_ASTROLOGERS: {
+            return {
+                ...state,
+                onlineAstrologerData: payload
             }
         }
         default: {

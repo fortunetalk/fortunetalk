@@ -72,7 +72,7 @@ function* onAstrologerRating(actions) {
         })
 
         if (response?.success) {
-            yield put({type: actionTypes.SET_ASTROLOGER_RATING_DATA, payload: {visible: false, data: null}})
+            yield put({ type: actionTypes.SET_ASTROLOGER_RATING_DATA, payload: { visible: false, data: null } })
             resetToScreen('home')
         }
 

@@ -4,12 +4,16 @@ import { getRequest, postRequest } from '../../utils/apiRequests'
 import {
     app_api_url,
     book_demo_class,
+    check_customer_demo_class_booked,
+    get_all_demo_class,
     get_course_banner,
     get_course_list,
     get_demo_class_list,
     get_live_class_list,
     get_teachers_list,
-    get_workshop_list
+    get_workshop_list,
+    get_workshop_list_without_id,
+    live_class_of_class
 } from '../../config/constants'
 import { showToastMessage } from '../../utils/services'
 
@@ -115,6 +119,25 @@ function* getWorkshopsList(actions) {
     }
 }
 
+function* getWorkshopsListWithoutId() {
+    try {
+        yield put({ type: actionTypes.SET_IS_LOADING, payload: true })
+
+        const response = yield getRequest({
+            url: app_api_url + get_workshop_list_without_id,
+        })
+
+        if (response?.success) {
+            yield put({ type: actionTypes.GET_WORKSHOP_WITHOUT_ID, payload: response?.data })
+        }
+
+        yield put({ type: actionTypes.SET_IS_LOADING, payload: false })
+    } catch (e) {
+        yield put({ type: actionTypes.SET_IS_LOADING, payload: false })
+        console.log(e)
+    }
+}
+
 function* getTeachersList(actions) {
     try {
         yield put({ type: actionTypes.SET_IS_LOADING, payload: true })
@@ -141,13 +164,16 @@ function* bookDemoClass(actions) {
         yield put({ type: actionTypes.SET_IS_LOADING, payload: true })
         const { payload } = actions
         
+        console.log("payload ===>>>>", payload)
+
         const response = yield postRequest({
             url: app_api_url + book_demo_class,
             data: payload
         })
-        
+
         if (response?.success) {
-            yield call(showToastMessage, { message: response?.message })
+            yield put({ type: actionTypes.BOOKED_DEMO_CLASS, payload: response?.data })
+            yield call(showToastMessage, { message: "Class Registered" })
         }
 
         yield put({ type: actionTypes.SET_IS_LOADING, payload: false })
@@ -162,18 +188,54 @@ function* liveClassofClass(actions) {
         yield put({ type: actionTypes.SET_IS_LOADING, payload: true })
         const { payload } = actions
 
-        console.log("payload====>>>>>>>" , payload)
-        console.log("app_api_url + book_demo_class====>>>>>>>" , app_api_url + book_demo_class)
-
         const response = yield postRequest({
-            url: app_api_url + book_demo_class,
+            url: app_api_url + live_class_of_class,
             data: payload
         })
 
-        console.log("response.data====>>>>" , response)
-        
         if (response?.success) {
             yield put({ type: actionTypes.LIVE_CLASS_OF_CLASS, payload: response?.data })
+        }
+
+        yield put({ type: actionTypes.SET_IS_LOADING, payload: false })
+    } catch (e) {
+        yield put({ type: actionTypes.SET_IS_LOADING, payload: false })
+        console.log(e)
+    }
+}
+
+
+function* isDemoClassBooked(actions) {
+    try {
+        yield put({ type: actionTypes.SET_IS_LOADING, payload: true })
+        const { payload } = actions
+
+        const response = yield postRequest({
+            url: app_api_url + check_customer_demo_class_booked,
+            data: payload
+        })
+
+        if (response?.success) {
+            yield put({ type: actionTypes.CHECK_CUSTOMER_DEMO_CLASS_BOOKED, payload: response?.data })
+        }
+
+        yield put({ type: actionTypes.SET_IS_LOADING, payload: false })
+    } catch (e) {
+        yield put({ type: actionTypes.SET_IS_LOADING, payload: false })
+        console.log(e)
+    }
+}
+
+function* allDemoClass() {
+    try {
+        yield put({ type: actionTypes.SET_IS_LOADING, payload: true })
+
+        const response = yield getRequest({
+            url: app_api_url + get_all_demo_class,
+        })
+
+        if (response?.success) {
+            yield put({ type: actionTypes.GET_ALL_DEMO_CLASSS, payload: response?.data })
         }
 
         yield put({ type: actionTypes.SET_IS_LOADING, payload: false })
@@ -194,4 +256,8 @@ export default function* coursesSaga() {
 
     yield takeLeading(actionTypes.BOOKED_DEMO_CLASS, bookDemoClass)
     yield takeLeading(actionTypes.LIVE_CLASS_OF_CLASS, liveClassofClass)
+    yield takeLeading(actionTypes.CHECK_CUSTOMER_DEMO_CLASS_BOOKED, isDemoClassBooked)
+
+    yield takeLeading(actionTypes.GET_WORKSHOP_WITHOUT_ID, getWorkshopsListWithoutId)
+    yield takeLeading(actionTypes.GET_ALL_DEMO_CLASSS, allDemoClass)
 }

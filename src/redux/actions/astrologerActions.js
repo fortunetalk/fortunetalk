@@ -44,3 +44,13 @@ export const onAstrologerRating = payload => ({
     type: actionTypes.ON_ASTROLOGER_RATING,
     payload
 })
+
+export const setRecentAstrologers = payload => ({
+    type: actionTypes.SET_RECENT_ASTROLOGERS,
+    payload
+})
+
+export const setOnlineAstrologers = payload => ({
+    type: actionTypes.SET_ONLINE_ASTROLOGERS,
+    payload 
+})

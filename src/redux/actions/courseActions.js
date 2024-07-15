@@ -15,6 +15,11 @@ export const getDemoClass = payload => ({
     payload
 })
 
+export const getAllDemoClass = payload => ({
+    type: actionTypes.GET_ALL_DEMO_CLASSS,
+    payload
+})
+
 export const getLiveClass = payload => ({
     type: actionTypes.GET_LIVE_CLASS,
     payload
@@ -22,6 +27,11 @@ export const getLiveClass = payload => ({
 
 export const getWorkshop = payload => ({
     type: actionTypes.GET_WORKSHOP,
+    payload
+})
+
+export const getWorkshopWithoutId = payload => ({
+    type: actionTypes.GET_WORKSHOP_WITHOUT_ID,
     payload
 })
 
@@ -39,4 +49,11 @@ export const liveClassOfClass = payload => ({
     type: actionTypes.LIVE_CLASS_OF_CLASS,
     payload
 })
+
+export const demoClassBooked = payload => ({
+    type: actionTypes.CHECK_CUSTOMER_DEMO_CLASS_BOOKED,
+    payload
+})
+
+
 

@@ -27,11 +27,16 @@ import * as SettingActions from '../../redux/actions/settingActions'
 import CustomCrousel from '../../components/CustomCrousel'
 import ProductCategory from './components/ProductCategory'
 import * as CourseActions from '../../redux/actions/courseActions'
+import ActiveChat from './components/ActiveChat'
+import WorkshopClass from './components/WorkshopClass'
 
-const Home = ({ dispatch, tabVisible, courseBanner }) => {
+const Home = ({ dispatch, tabVisible, courseBanner, workshopWithoutId }) => {
 
   useEffect(() => {
     dispatch(CourseActions.getCourseBanner())
+    dispatch(CourseActions.getWorkshopWithoutId())
+    dispatch(CourseActions.getAllDemoClass())
+    dispatch(SettingActions.getHomeData())
   }, [])
 
   const scrollY = useRef(new Animated.Value(0)).current;
@@ -59,6 +64,7 @@ const Home = ({ dispatch, tabVisible, courseBanner }) => {
       <MyStatusBar backgroundColor={Colors.primaryLight} barStyle={'light-content'} />
       <View style={{ flex: 1 }}>
         <HomeHeader />
+        <ActiveChat />
         <FlatList
           ListHeaderComponent={<>
             <Search />
@@ -71,6 +77,10 @@ const Home = ({ dispatch, tabVisible, courseBanner }) => {
             <OnlineAstrologers />
             <RecentAstrologers />
             {learningBanner()}
+            {
+              (workshopWithoutId && workshopWithoutId.length > 0) &&
+              <WorkshopClass />
+            }
             <LearningSections />
             <PoojaCategory />
             <ProductCategory />
@@ -80,6 +90,7 @@ const Home = ({ dispatch, tabVisible, courseBanner }) => {
           onScroll={onScroll}
         />
       </View>
+
     </View>
   )
 
@@ -94,7 +105,9 @@ const Home = ({ dispatch, tabVisible, courseBanner }) => {
 
 const mapStateToProps = state => ({
   tabVisible: state.settings.tabVisible,
-  courseBanner: state.courses.courseBanner
+  courseBanner: state.courses.courseBanner,
+  workshopWithoutId: state.courses.workshopWithoutId,
+  isLoading: state.settings.isLoading,
 })
 
 const mapDispatchToProps = dispatch => ({ dispatch })

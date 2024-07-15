@@ -43,6 +43,7 @@ import AstromallHistory from '../screens/history/AstromallHistory';
 import RemedyHistory from '../screens/history/RemedyHistory';
 import CoursesHistory from '../screens/history/CoursesHistory';
 import MyCourses from '../screens/courses/live/MyCourses';
+import ChatSummary from '../screens/chat/ChatSummary';
 
 const Stack = createNativeStackNavigator();
 
@@ -105,6 +106,7 @@ const StackRoutes = () => {
                 <Stack.Screen name='remedyHistory' component={RemedyHistory} /> 
                 <Stack.Screen name='coursesHistory' component={CoursesHistory} /> 
             </Stack.Group>
+            <Stack.Screen name='chatSummary' component={ChatSummary} /> 
 
         </Stack.Navigator>
     )

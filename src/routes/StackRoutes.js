@@ -31,7 +31,6 @@ import ViewPooja from '../screens/eCommerce/ViewPooja';
 import Learn from '../screens/courses/Learn';
 import Courses from '../screens/courses/Courses';
 import ClassDetails from '../screens/courses/demo/ClassDetails';
-import CourseDetails from '../screens/courses/CourseDetails';
 import ClassOverview from '../screens/courses/demo/ClassOverview';
 import LiveScreen from '../screens/live/LiveScreen';
 import OrderHistory from '../screens/history/OrderHistory';
@@ -44,6 +43,9 @@ import RemedyHistory from '../screens/history/RemedyHistory';
 import CoursesHistory from '../screens/history/CoursesHistory';
 import MyCourses from '../screens/courses/live/MyCourses';
 import ChatSummary from '../screens/chat/ChatSummary';
+import CourseDetails from '../screens/courses/CourseDetails';
+import WorkshopOverview from '../screens/courses/workshop/WorkshopOverview';
+import WorkshopDetails from '../screens/courses/workshop/WorkshopDetails';
 
 const Stack = createNativeStackNavigator();
 
@@ -84,6 +86,8 @@ const StackRoutes = () => {
             <Stack.Screen name="productTracking" component={ProductTracking} />
             <Stack.Screen name="rateProduct" component={RateProduct} />
             <Stack.Screen name="mycourse" component={MyCourses} />
+            <Stack.Screen name="workshopOverview" component={WorkshopOverview} />
+            <Stack.Screen name="workshopDetails" component={WorkshopDetails} />
 
 
             <Stack.Screen name="payment" component={Payment} options={{ animation: 'fade_from_bottom' }} />

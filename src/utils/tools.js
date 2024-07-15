@@ -1,5 +1,7 @@
+import moment from "moment";
+
 export const classifyTime = (time) => {
-  const [hour, minute] = time.split(':').map(Number);
+  const [hour, minute] = time?.split(':').map(Number);
 
   if (hour >= 0 && hour < 12) {
     return '(Morning)';
@@ -9,7 +11,7 @@ export const classifyTime = (time) => {
 };
 
 export const classifyTimeNoon = (time) => {
-  const [hour, minute] = time.split(':').map(Number);
+  const [hour, minute] = time?.split(':').map(Number);
 
   if (hour >= 0 && hour < 12) {
     return 'Morning';

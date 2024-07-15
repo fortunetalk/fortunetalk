@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import MyHeader from '../../components/MyHeader'
 import CourseRegistration from './CourseRegistration'
 import MyStatusBar from '../../components/MyStatusBar'
@@ -9,12 +9,15 @@ import { Colors, Sizes, Fonts } from '../../assets/styles'
 import * as CourseActions from '../../redux/actions/courseActions'
 import { Text, TouchableOpacity, View, FlatList, Alert } from 'react-native'
 
-const CourseDetails = ({ route, isLoading, dispatch, customerData }) => {
+const CourseDetails = ({
+    route,
+    isLoading,
+    dispatch,
+    customerData,
+    demoClassBooked,
+    registerDemoclass
+}) => {
     const previousPagedata = route.params
-    // console.log("route.params.courseData", route.params.courseData)
-    // console.log("route.params.classdetails", route.params.classdetails)
-
-    console.log("customerData=====>>>", customerData)
     const [state, setState] = useState({
         name: "",
         phoneNumber: "",
@@ -22,8 +25,24 @@ const CourseDetails = ({ route, isLoading, dispatch, customerData }) => {
     })
     const { name, phoneNumber, modalVisible } = state
 
+    console.log("registerDemoclass =====>>>>", registerDemoclass)
+
+    useEffect(() => {
+        dispatch(CourseActions.demoClassBooked({
+            demoClassId: previousPagedata.classdetails?._id,
+            customerId: customerData?._id,
+        }))
+    }, [])
+
     const handleNext = () => {
-        updateState({ modalVisible: true })
+        if (!demoClassBooked) {
+            updateState({ modalVisible: true })
+        } else {
+            navigate("classOverview", {
+                classData: previousPagedata.classdetails,
+                title: previousPagedata.title
+            })
+        }
     };
 
     const updateState = data => {
@@ -40,17 +59,20 @@ const CourseDetails = ({ route, isLoading, dispatch, customerData }) => {
             Alert.alert("Phone Number Required")
         } else {
             if (previousPagedata.title == "Demo") {
-                dispatch(CourseActions.bookdemoClass({
-                    customerName: name,
-                    mobileNumber: phoneNumber,
-                    astrologerId: previousPagedata.classdetails?.astrologerId?._id,
-                    demoClassId: previousPagedata.classdetails?._id,
-                    courseId: previousPagedata.courseData?._id,
-                    customerId: customerData?._id,
-                }))
+                if (!demoClassBooked) {
+                    dispatch(CourseActions.bookdemoClass({
+                        customerName: name,
+                        mobileNumber: phoneNumber,
+                        astrologerId: previousPagedata.classdetails?.astrologerId?._id,
+                        demoClassId: previousPagedata.classdetails?._id,
+                        courseId: previousPagedata.courseData?._id,
+                        customerId: customerData?._id,
+                    }))
+                }
                 navigate("classOverview", {
                     classData: previousPagedata.classdetails,
-                    title: previousPagedata.title
+                    title: previousPagedata.title,
+                    isRegister:false
                 })
             } else if (previousPagedata.title == "Live") {
                 navigate("mycourse", {
@@ -77,16 +99,16 @@ const CourseDetails = ({ route, isLoading, dispatch, customerData }) => {
                     <>
                         {courseAbout()}
                         {proceedButton()}
-                        <CourseRegistration
-                            visible={modalVisible}
-                            onClose={() => updateState({ modalVisible: false })}
-                            handleRegistration={handleRegistration}
-                            updateState={updateState}
-                            name={name}
-                            phoneNumber={phoneNumber}
-                        />
                     </>
                 }
+            />
+            <CourseRegistration
+                visible={modalVisible}
+                onClose={() => updateState({ modalVisible: false })}
+                handleRegistration={handleRegistration}
+                updateState={updateState}
+                name={name}
+                phoneNumber={phoneNumber}
             />
         </View>
     )
@@ -139,7 +161,9 @@ const CourseDetails = ({ route, isLoading, dispatch, customerData }) => {
 
 const mapStateToProps = state => ({
     isLoading: state.settings.isLoading,
-    customerData: state.customer.customerData
+    customerData: state.customer.customerData,
+    demoClassBooked: state.courses.demoClassBooked,
+    registerDemoclass: state.courses.registerDemoclass
 })
 
 const mapDispatchToProps = dispatch => ({ dispatch })

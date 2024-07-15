@@ -1,32 +1,25 @@
-import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux';
 import { Text, View } from 'react-native'
-import Loader from '../../components/Loader';
 import { Image } from 'react-native';
+import Stars from 'react-native-stars';
+import Loader from '../../components/Loader';
+import React, { useEffect, useState } from 'react'
 import NoDataFound from '../../components/NoDataFound';
 import { FlatList, TouchableOpacity } from 'react-native';
 import { Colors, Fonts, Sizes } from '../../assets/styles';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import Stars from 'react-native-stars';
 import * as Courses from '../../redux/actions/courseActions';
 
-const TeachersList = ({ isLoading, teachersList, dispatch, courseId }) => {
+const TeachersList = ({
+    isLoading,
+    teachersList,
+    dispatch,
+    courseId,
+    courseData
+}) => {
     const [ratingStar, setRatingStar] = useState(3);
-
-    const demoClassData = [
-        {
-            id: 1,
-            course_name: 'Durgesh Chaudhary',
-        },
-        {
-            id: 1,
-            course_name: 'Durgesh Chaudhary',
-        },
-        {
-            id: 1,
-            course_name: 'Durgesh Chaudhary',
-        },
-    ];
+    console.log("teachersList ====>>>>>", teachersList)
+    console.log("courseId ====>>>>>", courseId)
 
     const handleNext = () => {
 
@@ -37,11 +30,16 @@ const TeachersList = ({ isLoading, teachersList, dispatch, courseId }) => {
     }, [])
 
     return (
-        <View style={{ flex: 1, backgroundColor: Colors.bodyColor }}>
+        <View
+            style={{
+                flex: 1,
+                backgroundColor: Colors.bodyColor
+            }}
+        >
             <Loader visible={isLoading} />
             <FlatList ListHeaderComponent={
                 <>{
-                    demoClassData && tarotTeachersInfo()
+                    teachersList && tarotTeachersInfo()
                 }</>}
             />
         </View>
@@ -66,7 +64,7 @@ const TeachersList = ({ isLoading, teachersList, dispatch, courseId }) => {
                             borderRadius: 10,
                         }}>
 
-                        <Image source={require("../../assets/images/user4.jpg")}
+                        <Image source={{ uri: item.profileImage }}
                             style={{
                                 width: 50,
                                 height: 50,
@@ -83,10 +81,10 @@ const TeachersList = ({ isLoading, teachersList, dispatch, courseId }) => {
                                     paddingLeft: Sizes.fixPadding,
                                 }}
                             >
-                                {item?.course_name}
+                                {item?.displayName}
                             </Text>
                             <Stars
-                                default={ratingStar}
+                                default={item.rating}
                                 count={5}
                                 half={true}
                                 starSize={12}
@@ -129,7 +127,8 @@ const TeachersList = ({ isLoading, teachersList, dispatch, courseId }) => {
                                 paddingLeft: Sizes.fixPadding * 0.3,
                                 paddingBottom: Sizes.fixPadding * 0.3,
                                 fontSize: 14,
-                            }}>Master your Psichic </Text>
+                            }}>{courseData?.title}
+                        </Text>
                     </View>
 
                     <View
@@ -183,7 +182,7 @@ const TeachersList = ({ isLoading, teachersList, dispatch, courseId }) => {
                     marginBottom: 100
                 }}>
                 <FlatList
-                    data={demoClassData}
+                    data={teachersList}
                     renderItem={renderItem}
                     keyExtractor={item => item.id}
                     ListEmptyComponent={<NoDataFound />}

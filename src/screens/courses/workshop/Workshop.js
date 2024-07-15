@@ -9,7 +9,7 @@ import * as Courses from '../../../redux/actions/courseActions';
 import { Colors, Fonts, SCREEN_WIDTH, Sizes } from '../../../assets/styles';
 import { navigate } from '../../../utils/navigationServices';
 
-const Workshop = ({ isLoading, dispatch, courseId, workshop }) => {
+const Workshops = ({ isLoading, dispatch, courseId, workshop }) => {
     useEffect(() => {
         dispatch(Courses.getWorkshop({ courseId }))
     }, [])
@@ -78,7 +78,7 @@ const DemoClassItem = ({ item }) => {
     return (
         <TouchableOpacity
             activeOpacity={1}
-            onPress={() => navigate("courseDetails", { details: item })}
+            onPress={() => navigate("workshopOverview", { details: item })}
             style={{
                 borderRadius: Sizes.fixPadding,
                 backgroundColor: Colors.whiteDark,
@@ -187,4 +187,4 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({ dispatch });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Workshop);
+export default connect(mapStateToProps, mapDispatchToProps)(Workshops);

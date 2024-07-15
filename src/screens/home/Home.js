@@ -96,7 +96,11 @@ const Home = ({ dispatch, tabVisible, courseBanner, workshopWithoutId }) => {
 
   function learningBanner() {
     return (
-      <SafeAreaView edges={['bottom']} style={{ flex: 1 }}>
+      <SafeAreaView edges={['bottom']} style={{
+        flex: 1,
+        borderBottomColor: Colors.grayLight,
+        borderBottomWidth: 1,
+      }}>
         {courseBanner && <CustomCrousel data={courseBanner} />}
       </SafeAreaView>
     );
@@ -105,9 +109,7 @@ const Home = ({ dispatch, tabVisible, courseBanner, workshopWithoutId }) => {
 
 const mapStateToProps = state => ({
   tabVisible: state.settings.tabVisible,
-  courseBanner: state.courses.courseBanner,
-  workshopWithoutId: state.courses.workshopWithoutId,
-  isLoading: state.settings.isLoading,
+  courseBanner: state.courses.courseBanner
 })
 
 const mapDispatchToProps = dispatch => ({ dispatch })

@@ -4,9 +4,9 @@ import { classifyTime } from '../../../utils/tools';
 import React, { useEffect, useState } from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import NoDataFound from '../../../components/NoDataFound';
+import { navigate } from '../../../utils/navigationServices';
 import * as Courses from '../../../redux/actions/courseActions';
 import { Colors, Fonts, SCREEN_WIDTH, Sizes } from '../../../assets/styles';
-import { navigate } from '../../../utils/navigationServices';
 import { Text, View, Image, ImageBackground, FlatList, TouchableOpacity } from 'react-native';
 
 const DemoClass = ({
@@ -16,9 +16,11 @@ const DemoClass = ({
     courseId,
     courseData
 }) => {
+    
     useEffect(() => {
         dispatch(Courses.getDemoClass({ courseId }));
     }, [courseId, dispatch])
+
     return (
         <View style={{ flex: 1, backgroundColor: Colors.bodyColor }}>
             <Loader visible={isLoading} />
@@ -90,8 +92,8 @@ const DemoClassItem = ({ item, courseData }) => {
             activeOpacity={1}
             onPress={() => navigate("courseDetails", {
                 classdetails: item,
-                courseData,
-                title: "Demo"
+                title: "Demo",
+                courseData
             })}
             style={{
                 borderRadius: Sizes.fixPadding,

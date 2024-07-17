@@ -7,41 +7,50 @@ import LinearGradient from 'react-native-linear-gradient'
 import * as AstrologerActions from '../../../redux/actions/astrologerActions'
 import { connect } from 'react-redux'
 import { resetToScreen } from '../../../utils/navigationServices'
+import AntDesign from 'react-native-vector-icons/AntDesign'
 
 const AstrologerRating = ({ dispatch, astrologerRatingData }) => {
-  console.log(astrologerRatingData)
   const [comments, setComments] = useState('')
   const [rating, setRating] = useState(3)
   const onClose = () => {
-    dispatch(AstrologerActions.setAstrologerRatingData({visible: false, data: null}))
+    console.log('hii')
     resetToScreen('home')
+    dispatch(AstrologerActions.setAstrologerRatingData({ visible: false, data: null }))
+
   }
 
-  const onRating = ()=>{
+  const onRating = () => {
     const payload = {
       astrologerId: astrologerRatingData?.data?.astrologerId,
       rating: rating,
       comments: comments
     }
-    console.log(payload)
     dispatch(AstrologerActions.onAstrologerRating(payload))
   }
-  
+
   return (
     <BottomSheet
       isVisible={astrologerRatingData?.visible}
       onBackdropPress={onClose}
     >
       <View style={styles.container}>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={onClose}
+          style={{ position: 'absolute', right: 10, top: 10, zIndex: 99 }}
+        >
+          <AntDesign name='closecircleo' color={Colors.black} size={26} />
+        </TouchableOpacity>
         <Text style={{ ...Fonts._15RobotMedium, color: Colors.grayM, textAlign: 'center', marginVertical: Sizes.fixPadding * 2 }}>How was your{'\n'}experience on this chat?</Text>
+
         <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-          <Image source={{uri: astrologerRatingData?.data?.profileImage}} style={{ width: SCREEN_WIDTH * 0.25, height: SCREEN_WIDTH * 0.25, borderRadius: 1000 }} />
+          <Image source={{ uri: astrologerRatingData?.data?.profileImage }} style={{ width: SCREEN_WIDTH * 0.25, height: SCREEN_WIDTH * 0.25, borderRadius: 1000 }} />
           <Text style={{ ...Fonts._15RobotMedium, color: Colors.primaryDark }}>{astrologerRatingData?.data?.astrolgoerName}</Text>
           <Text style={{ ...Fonts._11RobotoMedium, color: Colors.grayMedium }}>(Taroat reader, Relationship)</Text>
           <Rating
             count={5}
             defaultRating={rating}
-            onFinishRating={star=>setRating(star)}
+            onFinishRating={star => setRating(star)}
             size={30}
             style={{ width: '80%', justifyContent: 'space-evenly', marginVertical: Sizes.fixPadding * 2 }}
           />

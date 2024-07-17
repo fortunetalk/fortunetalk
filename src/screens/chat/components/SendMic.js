@@ -20,6 +20,7 @@ audioRecorderPlayer.setSubscriptionDuration(0.1);
 
 const SendMic = ({ message, sendProps, sendButtonProps, updateState, dispatch, customerData, attachments, }) => {
     const [startTimer, setStartTimer] = useState(null)
+    console.log(startTimer)
     useEffect(() => {
         return () => {
             audioRecorderPlayer.removeRecordBackListener();
@@ -65,14 +66,14 @@ const SendMic = ({ message, sendProps, sendButtonProps, updateState, dispatch, c
 
     const stopRecording = async () => {
         try {
+            updateState({ isMicPressed: false, recordTime: 0 })
+            console.log(startTimer, 'startTimer')
             if (!startTimer) {
                 return
             }
             setStartTimer(null)
             const result = await audioRecorderPlayer.stopRecorder();
             audioRecorderPlayer.removeRecordBackListener();
-            updateState({ recordTime: 0 });
-            console.log(result)
             dispatch(ChatActions.onSendRecording(result))
         } catch (e) {
             console.log(e)
@@ -97,16 +98,15 @@ const SendMic = ({ message, sendProps, sendButtonProps, updateState, dispatch, c
             dispatch(ChatActions.onSendAttachment(msg))
         } else if (message) {
             dispatch(ChatActions.sendChatMessage(msg))
-        } else {
-            updateState({ isMicPressed: true })
-            reuestPermissionForRecord()
         }
-    }, [message, customerData, attachments, dispatch, updateState])
+        updateState({message: ''})
+    }, [message, customerData, attachments, dispatch, updateState, startTimer])
 
-    const onPressOut = useCallback(() => {
-        updateState({ isMicPressed: false })
-        stopRecording()
-    }, [updateState])
+    const onLongPress = useCallback(()=>{
+        updateState({ isMicPressed: true })
+        setStartTimer(new Date())
+        reuestPermissionForRecord()
+    }, [startTimer])
 
     return (
         <Send
@@ -114,8 +114,9 @@ const SendMic = ({ message, sendProps, sendButtonProps, updateState, dispatch, c
             {...sendProps}
             sendButtonProps={{
                 ...sendButtonProps,
+                onLongPress,
                 onPressIn,
-                onPressOut
+                onPressOut: stopRecording
             }}
         >
             <View

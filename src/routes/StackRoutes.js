@@ -42,10 +42,12 @@ import AstromallHistory from '../screens/history/AstromallHistory';
 import RemedyHistory from '../screens/history/RemedyHistory';
 import CoursesHistory from '../screens/history/CoursesHistory';
 import MyCourses from '../screens/courses/live/MyCourses';
+import ChatSummary from '../screens/chat/ChatSummary';
 import CourseDetails from '../screens/courses/CourseDetails';
 import WorkshopOverview from '../screens/courses/workshop/WorkshopOverview';
 import WorkshopDetails from '../screens/courses/workshop/WorkshopDetails';
 import BlogDetails from '../screens/BlogDetails';
+import Setting from '../screens/app/Setting';
 
 const Stack = createNativeStackNavigator();
 
@@ -114,6 +116,9 @@ const StackRoutes = () => {
                 name="blogDetails"
                 component={BlogDetails}
             />
+            <Stack.Screen name='chatSummary' component={ChatSummary} /> 
+            <Stack.Screen name='setting' component={Setting} /> 
+
         </Stack.Navigator>
     )
 }

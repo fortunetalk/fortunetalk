@@ -28,14 +28,10 @@ import CustomCrousel from '../../components/CustomCrousel'
 import ProductCategory from './components/ProductCategory'
 import * as CourseActions from '../../redux/actions/courseActions'
 import * as CustomerAction from '../../redux/actions/authActions'
+import ActiveChat from './components/ActiveChat'
 import WorkshopClass from './components/WorkshopClass'
 
-const Home = ({
-  dispatch,
-  tabVisible,
-  courseBanner,
-  workshopWithoutId
-}) => {
+const Home = ({ dispatch, tabVisible, courseBanner, workshopWithoutId }) => {
 
   useEffect(() => {
     dispatch(CourseActions.getCourseBanner())
@@ -43,6 +39,7 @@ const Home = ({
     dispatch(CourseActions.getAllDemoClass())
     dispatch(CustomerAction.onCustomerblogs())
     dispatch(CustomerAction.onCustomerTestimonials())
+    dispatch(SettingActions.getHomeData())
   }, [])
 
   const scrollY = useRef(new Animated.Value(0)).current;
@@ -70,6 +67,7 @@ const Home = ({
       <MyStatusBar backgroundColor={Colors.primaryLight} barStyle={'light-content'} />
       <View style={{ flex: 1 }}>
         <HomeHeader />
+        <ActiveChat />
         <FlatList
           ListHeaderComponent={<>
             <Search />
@@ -77,8 +75,8 @@ const Home = ({
             <LiveAstrologers />
             <FreeInsights />
             <RemedySuggestions />
-            <OfferAstrologers />
-            <TrendingAstrologers />
+            {/* <OfferAstrologers /> */}
+            {/* <TrendingAstrologers /> */}
             <OnlineAstrologers />
             <RecentAstrologers />
             {learningBanner()}
@@ -95,6 +93,7 @@ const Home = ({
           onScroll={onScroll}
         />
       </View>
+
     </View>
   )
 
@@ -113,8 +112,7 @@ const Home = ({
 
 const mapStateToProps = state => ({
   tabVisible: state.settings.tabVisible,
-  courseBanner: state.courses.courseBanner,
-  workshopWithoutId: state.courses.workshopWithoutId
+  courseBanner: state.courses.courseBanner
 })
 
 const mapDispatchToProps = dispatch => ({ dispatch })

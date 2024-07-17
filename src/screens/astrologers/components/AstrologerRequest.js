@@ -5,6 +5,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import { Colors, Sizes, Fonts, SCREEN_WIDTH } from '../../../assets/styles';
 import * as AstrologerActions from '../../../redux/actions/astrologerActions'
 import { connect } from 'react-redux';
+import { base_url } from '../../../config/constants';
 
 const Dot = ({ animatedValue }) => {
     return (
@@ -46,8 +47,7 @@ const DotsAnimation = () => {
     );
 };
 
-const AstrologerRequest = ({ dispatch, chatRequestModalData }) => {
-    console.log(chatRequestModalData, 'hii')
+const AstrologerRequest = ({ dispatch, chatRequestModalData, customerData }) => {
     return (
         <Modal
             visible={chatRequestModalData?.visible}
@@ -109,7 +109,7 @@ const AstrologerRequest = ({ dispatch, chatRequestModalData }) => {
                                 shadowColor: Colors.blackLight
                             }}>
                             <Image
-                                source={require('../../../assets/images/user.png')}
+                                source={{uri: base_url + customerData?.profileImage}}
                                 style={{
                                     width: '100%',
                                     height: '100%',
@@ -122,7 +122,7 @@ const AstrologerRequest = ({ dispatch, chatRequestModalData }) => {
                                 ...Fonts.white16RobotoMedium,
                                 marginTop: Sizes.fixPadding,
                             }}>
-                            User Name
+                            {customerData?.customerName}
                         </Text>
                     </View>
                     <DotsAnimation />
@@ -136,7 +136,7 @@ const AstrologerRequest = ({ dispatch, chatRequestModalData }) => {
                                 shadowColor: Colors.blackLight
                             }}>
                             <Image
-                                source={require('../../../assets/images/user.png')}
+                                source={{uri: chatRequestModalData?.data?.astrologerImage}}
                                 style={{
                                     width: '100%',
                                     height: '100%',
@@ -149,7 +149,7 @@ const AstrologerRequest = ({ dispatch, chatRequestModalData }) => {
                                 ...Fonts.white16RobotoMedium,
                                 marginTop: Sizes.fixPadding,
                             }}>
-                            Astro guru ji
+                            {chatRequestModalData?.data?.astrologerName}
                         </Text>
                     </View>
                 </View>
@@ -173,7 +173,7 @@ const AstrologerRequest = ({ dispatch, chatRequestModalData }) => {
                             textAlign: 'center',
                             paddingBottom: Sizes.fixPadding * 4,
                         }}>
-                        While you wait for Astro Guru Ji, you may also Chat Chat (wait 4 min)
+                        While you wait for {chatRequestModalData?.data?.astrologerName}, you may also Chat Chat (wait 4 min)
                         explore other astrologers and join their waitlist.
                     </Text>
                     <TouchableOpacity
@@ -199,7 +199,8 @@ const AstrologerRequest = ({ dispatch, chatRequestModalData }) => {
 }
 
 const mapStateToProps = state => ({
-    chatRequestModalData: state.astrologer.chatRequestModalData
+    chatRequestModalData: state.astrologer.chatRequestModalData,
+    customerData: state.customer.customerData
 })
 
 const mapDispatchToProps = dispatch => ({ dispatch })

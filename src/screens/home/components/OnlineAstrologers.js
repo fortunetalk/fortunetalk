@@ -5,8 +5,35 @@ import Stars from 'react-native-stars';
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import { showNumber } from '../../../utils/services';
 import LottieView from "lottie-react-native";
+import { connect } from 'react-redux';
+import * as CallActions from '../../../redux/actions/callActions'
+import * as ChatActions from '../../../redux/actions/chatActions'
+import { useNavigation } from '@react-navigation/native';
 
-const OnlineAstrologers = () => {
+const OnlineAstrologers = ({ dispatch, onlineAstrologerData }) => {
+
+  const navigation = useNavigation()
+
+  const onChat = (item) => {
+    const payload = {
+      navigation,
+      astrologerId: item?._id,
+      astrologerName: item?.name,
+      astrologerImage: item?.profileImage,
+    }
+    dispatch(ChatActions.sendChatRequest(payload))
+  }
+
+  const onCall = (item) => {
+    const payload = {
+      navigation,
+      astrologerId: item?._id,
+      astrologerName: item?.name,
+
+    }
+    dispatch(CallActions.sendCallRequest(payload))
+  }
+
   const renderItem = ({ item, index }) => {
     return (
       <TouchableOpacity
@@ -36,7 +63,7 @@ const OnlineAstrologers = () => {
           source={require('../../../assets/images/astro.jpg')}
           style={{ width: '100%', height: 50 }}>
           <Image
-            source={require('../../../assets/images/user.png')}
+            source={{ uri: item?.profileImage }}
             style={{
               width: SCREEN_WIDTH * 0.14,
               height: SCREEN_WIDTH * 0.14,
@@ -60,6 +87,7 @@ const OnlineAstrologers = () => {
         </ImageBackground>
         <View
           style={{
+            width: '100%',
             paddingHorizontal: Sizes.fixPadding * 0.3,
             justifyContent: 'center',
             alignItems: 'center',
@@ -68,7 +96,7 @@ const OnlineAstrologers = () => {
             zIndex: -1,
           }}>
           <Stars
-            default={4}
+            default={item?.rating ?? 1}
             count={5}
             half={true}
             starSize={14}
@@ -86,13 +114,13 @@ const OnlineAstrologers = () => {
           // halfStar={<Icon name={'star-half'} style={[styles.myStarStyle]} />}
           />
           <Text numberOfLines={1} style={{ ...Fonts.black14InterMedium }}>
-            Acharya Ram
+            {item?.name}
           </Text>
           <Text numberOfLines={1} style={{ ...Fonts.gray9RobotoRegular }}>
-            Love, Palm Reading
+            {item?.expertise.join(', ')}
           </Text>
           <Text numberOfLines={1} style={{ ...Fonts.gray9RobotoRegular }}>
-            Hindi, English
+            {item?.languages.join(', ')}
           </Text>
           <Text
             style={{
@@ -106,7 +134,7 @@ const OnlineAstrologers = () => {
                 textDecorationLine:
                   item?.moa == '1' ? 'line-through' : 'none',
               }}>
-              {showNumber(10)}/min
+              {showNumber(item?.chatPrice + item?.companyChatPrice)}/min
             </Text>
             {/* {item?.Offer_list.length != 0 && (
               <Text style={{ fontSize: 9 }}>
@@ -137,6 +165,8 @@ const OnlineAstrologers = () => {
               width: '100%',
             }}>
             <TouchableOpacity
+              activeOpacity={0.8}
+              onPress={()=>onChat(item)}
               style={{
                 flex: 0.4,
                 justifyContent: 'center',
@@ -146,10 +176,12 @@ const OnlineAstrologers = () => {
                 borderRadius: Sizes.fixPadding * 0.5,
               }}>
               <Text style={{ ...Fonts.primaryDark11InterMedium }}>
-                Chat Now
+                Chat
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
+              activeOpacity={0.8}
+              onPress={() => onCall(item)}
               style={{
                 flex: 0.4,
                 justifyContent: 'center',
@@ -166,36 +198,47 @@ const OnlineAstrologers = () => {
     );
   };
   return (
-    <View
-      style={{
-        borderBottomWidth: 1,
-        borderBottomColor: Colors.grayLight,
-      }}>
-      <View
-        style={{
-          ...styles.row,
-          justifyContent: 'space-between',
-          paddingHorizontal: Sizes.fixPadding * 1.5,
-          paddingVertical: Sizes.fixPadding,
-        }}>
-        <Text style={{ ...Fonts.black16RobotoMedium }}>Online Astrologers</Text>
-        <TouchableOpacity
-          activeOpacity={0.8}
-          onPress={() => navigation.navigate('onlineAstrologers')}>
-          <Text style={{ ...Fonts.primaryLight15RobotoRegular }}>View all</Text>
-        </TouchableOpacity>
-      </View>
-      <FlatList
-        data={Array.from({ length: 5 })}
-        renderItem={renderItem}
-        horizontal
-        contentContainerStyle={{ paddingRight: Sizes.fixPadding * 1.5 }}
-      />
-    </View>
+    <>
+      {
+        onlineAstrologerData ? onlineAstrologerData.length != 0 && <View
+          style={{
+            borderBottomWidth: 1,
+            borderBottomColor: Colors.grayLight,
+          }}>
+          <View
+            style={{
+              ...styles.row,
+              justifyContent: 'space-between',
+              paddingHorizontal: Sizes.fixPadding * 1.5,
+              paddingVertical: Sizes.fixPadding,
+            }}>
+            <Text style={{ ...Fonts.black16RobotoMedium }}>Online Astrologers</Text>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              onPress={() => navigation.navigate('onlineAstrologers')}>
+              <Text style={{ ...Fonts.primaryLight15RobotoRegular }}>View all</Text>
+            </TouchableOpacity>
+          </View>
+          <FlatList
+            data={onlineAstrologerData}
+            renderItem={renderItem}
+            horizontal
+            contentContainerStyle={{ paddingRight: Sizes.fixPadding * 1.5 }}
+          />
+        </View> : null
+      }
+    </>
+
   );
 }
 
-export default OnlineAstrologers
+const mapStateToProps = state => ({
+  onlineAstrologerData: state.astrologer.onlineAstrologerData,
+})
+
+const mapDispatchToProps = dispatch => ({ dispatch })
+
+export default connect(mapStateToProps, mapDispatchToProps)(OnlineAstrologers)
 
 const styles = StyleSheet.create({
   row: {

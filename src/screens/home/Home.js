@@ -72,8 +72,8 @@ const Home = ({ dispatch, tabVisible, courseBanner, workshopWithoutId }) => {
             <LiveAstrologers />
             <FreeInsights />
             <RemedySuggestions />
-            <OfferAstrologers />
-            <TrendingAstrologers />
+            {/* <OfferAstrologers /> */}
+            {/* <TrendingAstrologers /> */}
             <OnlineAstrologers />
             <RecentAstrologers />
             {learningBanner()}

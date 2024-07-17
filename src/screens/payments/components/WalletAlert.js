@@ -11,8 +11,9 @@ import { navigate } from '../../../utils/navigationServices'
 
 const WalletAlert = ({ dispatch, walletAlertVisible }) => {
   const onRecharge = () => {
-    dispatch(AstrologerActions.setWalletAlertVisible(false))
     navigate('wallet', { type: 'wallet_recharge' })
+    dispatch(AstrologerActions.setWalletAlertVisible(false))
+   
   }
   return (
     <Modal

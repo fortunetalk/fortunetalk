@@ -81,7 +81,6 @@ const SendMic = ({ message, sendProps, sendButtonProps, updateState, dispatch, c
     }
 
     const onPressIn = useCallback(() => {
-        console.log('hii')
         const msg = {
             _id: getUniqueId(),
             text: message,
@@ -100,19 +99,14 @@ const SendMic = ({ message, sendProps, sendButtonProps, updateState, dispatch, c
         } else if (message) {
             dispatch(ChatActions.sendChatMessage(msg))
         }
-        setStartTimer(new Date())
         updateState({message: ''})
     }, [message, customerData, attachments, dispatch, updateState, startTimer])
 
     const onLongPress = useCallback(()=>{
         updateState({ isMicPressed: true })
+        setStartTimer(new Date())
         reuestPermissionForRecord()
-    }, [])
-    
-
-    const onPressOut = useCallback(() => {
-        stopRecording()
-    }, [updateState, startTimer])
+    }, [startTimer])
 
     return (
         <Send
@@ -122,7 +116,7 @@ const SendMic = ({ message, sendProps, sendButtonProps, updateState, dispatch, c
                 ...sendButtonProps,
                 onLongPress,
                 onPressIn,
-                onPressOut
+                onPressOut: stopRecording
             }}
         >
             <View

@@ -46,6 +46,7 @@ import ChatSummary from '../screens/chat/ChatSummary';
 import CourseDetails from '../screens/courses/CourseDetails';
 import WorkshopOverview from '../screens/courses/workshop/WorkshopOverview';
 import WorkshopDetails from '../screens/courses/workshop/WorkshopDetails';
+import Setting from '../screens/app/Setting';
 
 const Stack = createNativeStackNavigator();
 
@@ -111,6 +112,7 @@ const StackRoutes = () => {
                 <Stack.Screen name='coursesHistory' component={CoursesHistory} /> 
             </Stack.Group>
             <Stack.Screen name='chatSummary' component={ChatSummary} /> 
+            <Stack.Screen name='setting' component={Setting} /> 
 
         </Stack.Navigator>
     )

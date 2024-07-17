@@ -275,7 +275,7 @@ const CustomDrawerContent = ({ drawerProps, customerData }) => {
                     style={{ ...styles.row, marginBottom: Sizes.fixPadding * 2 }}>
                     <Image
                         source={require('../../assets/icons/planet.png')}
-                        style={[styles.itemImage, {tintColor: Colors.grayDark}]}
+                        style={[styles.itemImage, { tintColor: Colors.grayDark }]}
                     />
                     <Text style={styles.itemTitle}>Free Insights</Text>
                 </TouchableOpacity>
@@ -322,7 +322,7 @@ const CustomDrawerContent = ({ drawerProps, customerData }) => {
                 </TouchableOpacity>
                 <TouchableOpacity
                     activeOpacity={0.8}
-                    onPress={() => navigation.navigate('settings')}
+                    onPress={() => navigation.navigate('setting')}
                     style={{ ...styles.row, marginBottom: Sizes.fixPadding * 2 }}>
                     <Image
                         source={require('../../assets/icons/setting.png')}
@@ -395,7 +395,7 @@ const CustomDrawerContent = ({ drawerProps, customerData }) => {
         return (
             <Divider
                 orientation="horizontal"
-                style={{ marginVertical: Sizes.fixPadding*1.3 }}
+                style={{ marginVertical: Sizes.fixPadding * 1.3 }}
             />
         );
     }
@@ -405,7 +405,7 @@ const CustomDrawerContent = ({ drawerProps, customerData }) => {
             <View style={{ ...styles.center }}>
                 <Text style={{ ...Fonts._15RobotoRegular, fontSize: 16 }}>{customerData?.customerName ?? 'Hii User!'}</Text>
                 {true && (
-                    <Text style={{ ...Fonts._11InterRegular,color: Colors.grayB, fontSize: 12 }}>{customerData?.email ?? ''}</Text>
+                    <Text style={{ ...Fonts._11InterRegular, color: Colors.grayB, fontSize: 12 }}>{customerData?.email ?? ''}</Text>
                 )}
             </View>
         );
@@ -418,7 +418,7 @@ const CustomDrawerContent = ({ drawerProps, customerData }) => {
                 style={{
                     alignSelf: 'center',
                     height: SCREEN_WIDTH * 0.26,
-                    padding: Sizes.fixPadding*1.4,
+                    padding: Sizes.fixPadding * 1.4,
                     justifyContent: 'flex-end',
                     borderBottomLeftRadius: 1000,
                     borderBottomRightRadius: 1000,
@@ -469,7 +469,7 @@ const styles = StyleSheet.create({
         ...Fonts._13InterMedium,
         fontSize: 12,
         color: Colors.grayDark,
-        marginLeft: Sizes.fixPadding*1.8,
+        marginLeft: Sizes.fixPadding * 1.8,
     },
     socialImage: {
         width: 30,

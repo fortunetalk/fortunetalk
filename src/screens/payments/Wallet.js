@@ -1,5 +1,5 @@
-import { View, Text, FlatList, StyleSheet, TouchableOpacity, TextInput } from 'react-native'
-import React, { useState } from 'react'
+import { View, Text, FlatList, StyleSheet, TouchableOpacity, TextInput, SafeAreaView } from 'react-native'
+import React, { useEffect, useState } from 'react'
 import { Colors, Sizes, Fonts, SCREEN_WIDTH } from '../../assets/styles';
 import MyStatusBar from '../../components/MyStatusBar';
 import { showNumber, showToastMessage } from '../../utils/services';
@@ -9,9 +9,15 @@ import { regex } from '../../config/data';
 import { connect } from 'react-redux';
 
 const Wallet = ({ navigation, route }) => {
+    console.log('hii');
     const [amount, setAmount] = useState('');
+
+    useEffect(()=>{
+
+    }, [])
+
     return (
-        <View style={{ flex: 1, backgroundColor: Colors.bodyColor }}>
+        <SafeAreaView style={{ flex: 1, backgroundColor: Colors.bodyColor }}>
             <MyStatusBar
                 backgroundColor={Colors.primaryLight}
                 barStyle={'light-content'}
@@ -32,7 +38,7 @@ const Wallet = ({ navigation, route }) => {
                     }
                 />
             </View>
-        </View>
+        </SafeAreaView>
     );
 
     function proceedButtonInfo() {
@@ -49,7 +55,7 @@ const Wallet = ({ navigation, route }) => {
         return (
             <TouchableOpacity
                 activeOpacity={0.8}
-                onPress={onPayment}
+                onPress={()=>onPayment()}
                 style={{
                     backgroundColor: Colors.primaryLight,
                     paddingVertical: Sizes.fixPadding,

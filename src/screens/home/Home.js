@@ -27,6 +27,7 @@ import * as SettingActions from '../../redux/actions/settingActions'
 import CustomCrousel from '../../components/CustomCrousel'
 import ProductCategory from './components/ProductCategory'
 import * as CourseActions from '../../redux/actions/courseActions'
+import * as CustomerAction from '../../redux/actions/authActions'
 import WorkshopClass from './components/WorkshopClass'
 
 const Home = ({
@@ -40,6 +41,8 @@ const Home = ({
     dispatch(CourseActions.getCourseBanner())
     dispatch(CourseActions.getWorkshopWithoutId())
     dispatch(CourseActions.getAllDemoClass())
+    dispatch(CustomerAction.onCustomerblogs())
+    dispatch(CustomerAction.onCustomerTestimonials())
   }, [])
 
   const scrollY = useRef(new Animated.Value(0)).current;

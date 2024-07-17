@@ -51,3 +51,21 @@ export const check_current_day = ({ date = new Date(), type = 'equal' }) => {
     return false;
   }
 };
+
+
+export const formateTestimonails = (data) => {
+  const ans = [];
+
+  for (let i = 0; i < data?.length; i += 2) {
+    const pair = [];
+    pair.push(data[i]);
+
+    if (i + 1 < data?.length) {
+      pair.push(data[i + 1]);
+    }
+
+    ans.push(pair);
+  }
+
+  return ans;
+};

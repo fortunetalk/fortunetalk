@@ -6,6 +6,10 @@ import moment from 'moment';
 import { navigate } from '../../../utils/navigationServices';
 
 const WorkshopClass = ({ workshopWithoutId}) => {
+
+    console.log("workshopWithoutId =====>>>>" , workshopWithoutId)
+
+
     const renderItem = ({ item }) => (
         <TouchableOpacity
             activeOpacity={0.8}

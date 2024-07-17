@@ -1,15 +1,17 @@
-import { View, Text, StyleSheet, TouchableOpacity, FlatList, Image } from 'react-native'
 import React from 'react'
+import { connect } from 'react-redux';
 import { SCREEN_WIDTH, Fonts, Colors, Sizes } from '../../../assets/styles';
+import { View, Text, StyleSheet, TouchableOpacity, FlatList, Image } from 'react-native'
+import { navigate } from '../../../utils/navigationServices';
 
-const LatestBlogs = () => {
+const LatestBlogs = ({blogs}) => {
   const renderItem = ({ item, index }) => {
     return (
       <TouchableOpacity
         activeOpacity={0.8}
-        // onPress={() =>
-        //   navigation.navigate('astrologyBlogDetails', { blogData: item })
-        // }
+        onPress={() =>
+          navigate('blogDetails', { blogData: item })
+        }
         style={{
           width: SCREEN_WIDTH * 0.55,
           marginLeft: Sizes.fixPadding * 1.5,
@@ -28,7 +30,7 @@ const LatestBlogs = () => {
           padding: Sizes.fixPadding * 0.5,
         }}>
         <Image
-          source={require('../../../assets/images/astro.jpg')}
+          source={{uri:item?.image}}
           style={{
             width: '100%',
             height: SCREEN_WIDTH * 0.3,
@@ -43,7 +45,7 @@ const LatestBlogs = () => {
             color: Colors.black,
             fontSize: 9,
           }}>
-          Blogs Title
+          {item?.title}
         </Text>
       </TouchableOpacity>
     );
@@ -65,7 +67,7 @@ const LatestBlogs = () => {
         </TouchableOpacity>
       </View>
       <FlatList
-        data={Array.from({ length: 5 })}
+        data={blogs}
         renderItem={renderItem}
         horizontal
         contentContainerStyle={{ paddingRight: Sizes.fixPadding * 1.5 }}
@@ -74,7 +76,13 @@ const LatestBlogs = () => {
   );
 }
 
-export default LatestBlogs
+const mapStateToProps = state => ({
+  blogs: state.customer.blogs
+});
+
+const mapDispatchToProps = dispatch => ({ dispatch });
+
+export default connect(mapStateToProps, mapDispatchToProps)(LatestBlogs);
 
 const styles = StyleSheet.create({
   row: {

@@ -1,19 +1,23 @@
-import { View, Text, StyleSheet, TouchableOpacity, FlatList, Image } from 'react-native'
 import React from 'react'
-import { SCREEN_WIDTH, Fonts, Colors, Sizes } from '../../../assets/styles';
-import Ionicons from 'react-native-vector-icons/Ionicons'
-import { useNavigation } from '@react-navigation/native';
+import { connect } from 'react-redux';
 import Stars from 'react-native-stars';
+import Ionicons from 'react-native-vector-icons/Ionicons'
+import { View, Text, StyleSheet, TouchableOpacity, FlatList, Image } from 'react-native'
+import { SCREEN_WIDTH, Fonts, Colors, Sizes } from '../../../assets/styles';
+import { navigate } from '../../../utils/navigationServices';
+import { formateTestimonails } from '../../../utils/tools';
 
-const ClientTestimonials = () => {
-  const navigation = useNavigation()
-  const renderItem = ({item, index}) => {
+const ClientTestimonials = ({ testimonials }) => {
+
+  console.log("testimonials ===<<<<===>>>>", testimonials && formateTestimonails(testimonials))
+
+  const renderItem = ({ item, index }) => {
     return (
       <View>
         <TouchableOpacity
-        disabled
+          disabled
           onPress={() =>
-            navigation.navigate('tesetimonialsDetails', {data: item[0]})
+            navigate('tesetimonialsDetails', { data: item[0] })
           }
           activeOpacity={0.8}
           style={{
@@ -33,10 +37,10 @@ const ClientTestimonials = () => {
             backgroundColor: Colors.white,
             padding: Sizes.fixPadding * 0.8,
           }}>
-          <Text numberOfLines={5} style={{...Fonts.gray11RobotoRegular}}>
-          "To show the individual deprecation warnings and determine if they come"
+          <Text numberOfLines={5} style={{ ...Fonts.gray11RobotoRegular }}>
+            "To show the individual deprecation warnings and determine if they come"
           </Text>
-          <View style={{...styles.row}}>
+          <View style={{ ...styles.row }}>
             <Image
               source={require('../../../assets/images/user.png')}
               style={{
@@ -50,9 +54,9 @@ const ClientTestimonials = () => {
                 ...Fonts.gray11RobotoRegular,
                 marginLeft: Sizes.fixPadding * 0.5,
               }}>
-                Acharaya
+              Acharaya
             </Text>
-            <View style={{flex: 1, justifyContent: 'flex-end'}}>
+            <View style={{ flex: 1, justifyContent: 'flex-end' }}>
               <Stars
                 default={4}
                 count={5}
@@ -72,7 +76,7 @@ const ClientTestimonials = () => {
                     color={Colors.primaryLight}
                   />
                 }
-                // halfStar={<Icon name={'star-half'} style={[styles.myStarStyle]} />}
+              // halfStar={<Icon name={'star-half'} style={[styles.myStarStyle]} />}
               />
             </View>
           </View>
@@ -100,10 +104,10 @@ const ClientTestimonials = () => {
               backgroundColor: Colors.white,
               padding: Sizes.fixPadding * 0.8,
             }}>
-            <Text numberOfLines={5} style={{...Fonts.gray11RobotoRegular}}>
+            <Text numberOfLines={5} style={{ ...Fonts.gray11RobotoRegular }}>
               "To show the individual deprecation warnings and determine if they come"
             </Text>
-            <View style={{...styles.row}}>
+            <View style={{ ...styles.row }}>
               <Image
                 source={require('../../../assets/images/user.png')}
                 style={{
@@ -119,7 +123,7 @@ const ClientTestimonials = () => {
                 }}>
                 Aacharya Rama
               </Text>
-              <View style={{flex: 1, justifyContent: 'flex-end'}}>
+              <View style={{ flex: 1, justifyContent: 'flex-end' }}>
                 <Stars
                   default={4}
                   count={5}
@@ -139,7 +143,7 @@ const ClientTestimonials = () => {
                       color={Colors.primaryLight}
                     />
                   }
-                  // halfStar={<Icon name={'star-half'} style={[styles.myStarStyle]} />}
+                // halfStar={<Icon name={'star-half'} style={[styles.myStarStyle]} />}
                 />
               </View>
             </View>
@@ -149,7 +153,7 @@ const ClientTestimonials = () => {
     );
   };
   return (
-    <View style={{borderBottomWidth: 1, borderBottomColor: Colors.grayLight}}>
+    <View style={{ borderBottomWidth: 1, borderBottomColor: Colors.grayLight }}>
       <View
         style={{
           ...styles.row,
@@ -157,7 +161,7 @@ const ClientTestimonials = () => {
           paddingHorizontal: Sizes.fixPadding * 1.5,
           paddingVertical: Sizes.fixPadding,
         }}>
-        <Text style={{...Fonts.black16RobotoMedium}}>
+        <Text style={{ ...Fonts.black16RobotoMedium }}>
           Client Testimonials
         </Text>
         {/* <TouchableOpacity>
@@ -165,16 +169,22 @@ const ClientTestimonials = () => {
         </TouchableOpacity> */}
       </View>
       <FlatList
-        data={[Array.from({length: 2}), Array.from({length: 2})]}
+        data={formateTestimonails(testimonials)}
         renderItem={renderItem}
         horizontal
-        contentContainerStyle={{paddingRight: Sizes.fixPadding * 1.5}}
+        contentContainerStyle={{ paddingRight: Sizes.fixPadding * 1.5 }}
       />
     </View>
   );
-} 
+}
 
-export default ClientTestimonials
+const mapStateToProps = state => ({
+  testimonials: state.customer.testimonials
+});
+
+const mapDispatchToProps = dispatch => ({ dispatch });
+
+export default connect(mapStateToProps, mapDispatchToProps)(ClientTestimonials);
 
 const styles = StyleSheet.create({
   row: {

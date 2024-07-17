@@ -45,6 +45,7 @@ import MyCourses from '../screens/courses/live/MyCourses';
 import CourseDetails from '../screens/courses/CourseDetails';
 import WorkshopOverview from '../screens/courses/workshop/WorkshopOverview';
 import WorkshopDetails from '../screens/courses/workshop/WorkshopDetails';
+import BlogDetails from '../screens/BlogDetails';
 
 const Stack = createNativeStackNavigator();
 
@@ -99,17 +100,20 @@ const StackRoutes = () => {
             <Stack.Screen name='liveScreen' component={LiveScreen} />
             <Stack.Screen name='orderHistory' component={OrderHistory} />
             <Stack.Group
-            screenOptions={{animation: 'flip'}}
+                screenOptions={{ animation: 'flip' }}
             >
                 <Stack.Screen name='walletHistory' component={WalletHistory} />
                 <Stack.Screen name='chatHistory' component={ChatHistory} />
                 <Stack.Screen name='callHistory' component={CallHistory} />
                 <Stack.Screen name='liveCallHistory' component={LiveCallHistory} />
                 <Stack.Screen name='astromallHistory' component={AstromallHistory} />
-                <Stack.Screen name='remedyHistory' component={RemedyHistory} /> 
-                <Stack.Screen name='coursesHistory' component={CoursesHistory} /> 
+                <Stack.Screen name='remedyHistory' component={RemedyHistory} />
+                <Stack.Screen name='coursesHistory' component={CoursesHistory} />
             </Stack.Group>
-
+            <Stack.Screen
+                name="blogDetails"
+                component={BlogDetails}
+            />
         </Stack.Navigator>
     )
 }

@@ -5,6 +5,9 @@ import { SCREEN_WIDTH, Fonts, Colors, Sizes } from '../../../assets/styles';
 import { View, Text, FlatList, TouchableOpacity, Image } from 'react-native'
 
 const LearningSections = ({ allDemoClass }) => {
+
+  console.log("allDemoClass =====>>>>" , allDemoClass)
+
   const renderItem = ({ item }) => {
     return (
       <TouchableOpacity

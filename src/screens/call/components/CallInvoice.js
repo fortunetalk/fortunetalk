@@ -7,27 +7,25 @@ import { BlurView } from "@react-native-community/blur";
 import { Divider } from '@rneui/themed'
 import { secondsToHMS, showNumber } from '../../../utils/services'
 import { connect } from 'react-redux'
-import * as ChatActions from '../../../redux/actions/chatActions'
+import * as CallActions from '../../../redux/actions/callActions'
 import * as AstrologerActions from '../../../redux/actions/astrologerActions'
 
-const ChatInvoice = ({ dispatch, chatInvoiceData, chatInvoiceVisible }) => {
-    console.log(chatInvoiceData);
+const CallInvoice = ({dispatch, callInvoiceData}) => {
     const onClose = () => {
         dispatch(AstrologerActions.setAstrologerRatingData({
             visible: true,
             data: {
-                astrologerId: chatInvoiceData?.astrologerId?._id,
-                astrolgoerName: chatInvoiceData?.astrologerId?.name,
-                profileImage: chatInvoiceData?.astrologerId?.profileImage,
-                skill: chatInvoiceData?.astrologerId?.remedies
+                astrologerId: callInvoiceData?.data?.astrologerId?._id,
+                astrolgoerName: callInvoiceData?.data?.astrologerId?.name,
+                profileImage: callInvoiceData?.data?.astrologerId?.profileImage,
+                skill: callInvoiceData?.data?.astrologerId?.remedies
             }
         }))
-        dispatch(ChatActions.setChatInvoiceVisible(false))
-        dispatch(ChatActions.setChatInvoiceData(null))
+        dispatch(CallActions.setCallInvoiceData({visible: false, data: null}))
     }
     return (
         <Modal
-            visible={chatInvoiceVisible}
+            visible={callInvoiceData?.visible}
             contentContainerStyle={{ flex: 1 }}
             onDismiss={onClose}
         >
@@ -47,15 +45,15 @@ const ChatInvoice = ({ dispatch, chatInvoiceData, chatInvoiceVisible }) => {
                     <View style={{ paddingHorizontal: Sizes.fixPadding }}>
                         <View style={styles.itemContainer}>
                             <Text style={styles.itemText}>Finished ID:</Text>
-                            <Text style={[styles.itemText, {textTransform: 'uppercase'}]}>{chatInvoiceData?.transactionId}</Text>
+                            <Text style={[styles.itemText, { textTransform: 'uppercase' }]}>{callInvoiceData?.data?.transactionId}</Text>
                         </View>
                         <View style={styles.itemContainer}>
                             <Text style={styles.itemText}>Time:</Text>
-                            <Text style={styles.itemText}>{secondsToHMS(chatInvoiceData?.durationInSeconds)}</Text>
+                            <Text style={styles.itemText}>{secondsToHMS(callInvoiceData?.data?.durationInSeconds)}</Text>
                         </View>
                         <View style={styles.itemContainer}>
                             <Text style={styles.itemText}>Charge:</Text>
-                            <Text style={styles.itemText}>{showNumber(chatInvoiceData?.deductedAmount)}</Text>
+                            <Text style={styles.itemText}>{showNumber(callInvoiceData?.data?.deductedAmount)}</Text>
                         </View>
                         <View style={styles.itemContainer}>
                             <Text style={styles.itemText}>Promotion:</Text>
@@ -63,7 +61,7 @@ const ChatInvoice = ({ dispatch, chatInvoiceData, chatInvoiceVisible }) => {
                         </View>
                         <View style={styles.itemContainer}>
                             <Text style={styles.itemText}>Total Charge:</Text>
-                            <Text style={styles.itemText}>{showNumber(chatInvoiceData?.deductedAmount)}</Text>
+                            <Text style={styles.itemText}>{showNumber(callInvoiceData?.data?.deductedAmount)}</Text>
                         </View>
                     </View>
                     <TouchableOpacity activeOpacity={0.8} onPress={onClose} style={styles.buttonContainer}>
@@ -78,13 +76,12 @@ const ChatInvoice = ({ dispatch, chatInvoiceData, chatInvoiceVisible }) => {
 }
 
 const mapStateToProps = state => ({
-    chatInvoiceVisible: state.chat.chatInvoiceVisible,
-    chatInvoiceData: state.chat.chatInvoiceData,
+    callInvoiceData: state.call.callInvoiceData,
 })
 
 const mapDispatchToProps = dispatch => ({ dispatch })
 
-export default connect(mapStateToProps, mapDispatchToProps)(ChatInvoice)
+export default connect(mapStateToProps, mapDispatchToProps)(CallInvoice)
 
 const styles = StyleSheet.create({
     absolute: {

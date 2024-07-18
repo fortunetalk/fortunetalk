@@ -38,6 +38,8 @@ export const SET_ONLINE_ASTROLOGERS = 'SET_ONLINE_ASTROLOGERS';
 
 //Call
 export const SEND_CALL_REQUEST = 'SEND_CALL_REQUEST';
+export const GET_CALL_INVOICE_DATA = 'GET_CALL_INVOICE_DATA';
+export const SET_CALL_INVOICE_DATA = 'SET_CALL_INVOICE_DATA';
 
 // ************** E-Commerce ********************
 //product
@@ -139,4 +141,7 @@ export const SET_CALL_HISTORY = 'SET_CALL_HISTORY'
 //Kundli
 export const GET_KUNDLI_DATA = 'GET_KUNDLI_DATA'
 export const SET_KUNDLI_DATA = 'SET_KUNDLI_DATA'
+
+//Banners
+export const SET_HOME_TOP_BANNER = 'SET_HOME_TOP_BANNER'
 

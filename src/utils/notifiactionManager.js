@@ -2,6 +2,7 @@ import notifee, { AndroidCategory, AndroidColor, AndroidImportance } from '@noti
 import { showToastMessage } from './services';
 import * as AstrologerActions from '../redux/actions/astrologerActions'
 import { navigate } from './navigationServices';
+import * as CallActions from '../redux/actions/callActions'
 
 // Function to request notification permission
 export async function initializeNotifications() {
@@ -25,6 +26,8 @@ export async function handleIncomingNotification(message, dispatch = null) {
                 await displayChatNotification();
                 break;
             case 'CALL_ENDED':
+                dispatch(CallActions.getCallInovoiceData(data));
+                break;
             case 'CHAT_REJECTED':
                 showToastMessage({ message: 'Chat Request Failed' })
                 if (dispatch) {

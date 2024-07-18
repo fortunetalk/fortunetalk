@@ -1,4 +1,4 @@
-import { put, select, takeLeading } from 'redux-saga/effects'
+import { delay, put, select, takeLeading } from 'redux-saga/effects'
 import * as actionTypes from '../actionTypes'
 import { blobRequest, postRequest } from '../../utils/apiRequests'
 import { app_api_url, base_url, get_chat_data, get_chat_details, initiate_chat, upload_chat_attachments } from '../../config/constants'
@@ -144,9 +144,9 @@ function* saveChatMessage(actions) {
 function* onEndChat(actions) {
     try {
         const chatData = yield select(state => state.chat.chatData)
-        console.log(chatData)
         socketServices.emit('endChat', { roomID: chatData?.data?.historyId });
         database().ref(`Messages/${chatData.chatId}`).off()
+        yield delay(1500)
         yield put({ type: actionTypes.ON_CLOSE_CHAT, payload: null })
     } catch (e) {
         console.log(e)
@@ -160,6 +160,7 @@ function* onCloseChat(actions) {
             resetToScreen('home')
             return
         }
+
         const response = yield postRequest({
             url: app_api_url + get_chat_details,
             data: {

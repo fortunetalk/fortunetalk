@@ -2,8 +2,8 @@ import { call, put, select, takeLeading } from 'redux-saga/effects'
 import { resetToScreen } from '../../utils/navigationServices.js'
 import * as actionTypes from '../actionTypes.js'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { postRequest } from '../../utils/apiRequests.js'
-import { app_api_url, get_online_astrologer, get_recent_astrologer, get_splash } from '../../config/constants.js'
+import { getRequest, postRequest } from '../../utils/apiRequests.js'
+import { app_api_url, banner, get_online_astrologer, get_recent_astrologer, get_splash } from '../../config/constants.js'
 import { onUserLogin } from '../../utils/zegoCall.js'
 
 function* getSplash() {
@@ -62,6 +62,10 @@ function* getHomeData() {
         const customer = yield select(state => state.customer.customerData)
         yield put({ type: actionTypes.SET_IS_LOADING, payload: true })
 
+        const topBannerResponse = yield getRequest({
+            url: app_api_url + banner,
+        })
+
         const recentResponse = yield postRequest({
             url: app_api_url + get_recent_astrologer,
             data: {
@@ -76,6 +80,10 @@ function* getHomeData() {
                 "limit": 10
             }
         })
+
+        if(topBannerResponse?.success){
+            yield put({type: actionTypes.SET_HOME_TOP_BANNER, payload: topBannerResponse?.data})
+        }
 
         if (recentResponse?.success) {
             yield put({ type: actionTypes.SET_RECENT_ASTROLOGERS, payload: recentResponse?.data })

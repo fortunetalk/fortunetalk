@@ -7,6 +7,8 @@ import courses from './courseReducer';
 import chat from './chatReducer';
 import live from './liveReducer';
 import history from './historyReducer';
+import banners from './banners';
+import call from './callReducer';
 
 const rootReducer = combineReducers({
   settings,
@@ -16,7 +18,9 @@ const rootReducer = combineReducers({
   courses,
   chat,
   live,
-  history
+  history,
+  banners,
+  call
 });
 
 const appReducer = (state, action) => {

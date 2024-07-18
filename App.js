@@ -14,6 +14,7 @@ import socketServices from './src/utils/socket.js';
 import ChatInvoice from './src/screens/chat/components/ChatInvoice.js';
 import AstrologerRating from './src/screens/astrologers/components/AstrologerRating.js';
 import WalletAlert from './src/screens/payments/components/WalletAlert.js';
+import CallInvoice from './src/screens/call/components/CallInvoice.js';
 
 LogBox.ignoreLogs(["Warning: ..."]);
 LogBox.ignoreAllLogs();
@@ -65,6 +66,7 @@ const App = ({ dispatch }) => {
         </NavigationContainer>
         <AstrologerRequest />
         <ChatInvoice />
+        <CallInvoice />
         <WalletAlert />
         <AstrologerRating />
       </PaperProvider>

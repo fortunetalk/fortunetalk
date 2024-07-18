@@ -269,7 +269,8 @@ const CustomDrawerContent = ({ drawerProps, customerData }) => {
                     />
                     <Text style={styles.itemTitle}>Astrology Blog</Text>
                 </TouchableOpacity>
-                <TouchableOpacity
+                
+                {/* <TouchableOpacity
                     activeOpacity={0.8}
                     onPress={() => navigation.navigate('freeInsights')}
                     style={{ ...styles.row, marginBottom: Sizes.fixPadding * 2 }}>
@@ -278,7 +279,8 @@ const CustomDrawerContent = ({ drawerProps, customerData }) => {
                         style={[styles.itemImage, { tintColor: Colors.grayDark }]}
                     />
                     <Text style={styles.itemTitle}>Free Insights</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
+
                 <TouchableOpacity
                     activeOpacity={0.8}
                     onPress={() => navigation.navigate('following')}

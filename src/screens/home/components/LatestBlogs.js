@@ -1,8 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux';
+import { navigate } from '../../../utils/navigationServices';
 import { SCREEN_WIDTH, Fonts, Colors, Sizes } from '../../../assets/styles';
 import { View, Text, StyleSheet, TouchableOpacity, FlatList, Image } from 'react-native'
-import { navigate } from '../../../utils/navigationServices';
 
 const LatestBlogs = ({blogs}) => {
   const renderItem = ({ item, index }) => {

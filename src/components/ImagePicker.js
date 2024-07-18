@@ -56,7 +56,7 @@ const ImagePicker = ({ visible, onImagePick, onBackPress }) => {
                             ...Fonts.primaryLight15RobotoMedium,
                             marginLeft: 5,
                         }}>
-                        Gallary
+                        Gallery
                     </Text>
                 </TouchableOpacity>
             </View>

@@ -1,15 +1,14 @@
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import React from 'react';
-import { useNavigation } from '@react-navigation/native';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { Colors, Sizes, Fonts } from '../assets/styles';
+import { goBack } from '../utils/navigationServices';
 
 const MyHeader = ({ title }) => {
-  const navigation = useNavigation();
   return (
     <View style={styles.container}>
-      <TouchableOpacity activeOpacity={0.8} onPress={() => navigation.goBack()} 
-      style={{position: 'absolute', zIndex: 99, left: Sizes.fixPadding*1.5}}>
+      <TouchableOpacity activeOpacity={0.8} onPress={() => goBack()}
+        style={{ position: 'absolute', zIndex: 99, left: Sizes.fixPadding * 1.5 }}>
         <AntDesign
           name="leftcircleo"
           color={Colors.primaryLight}
@@ -29,7 +28,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     paddingHorizontal: Sizes.fixPadding * 1.5,
-    paddingVertical: Sizes.fixPadding*1.3,
+    paddingVertical: Sizes.fixPadding * 1.3,
     borderBottomWidth: 2,
     borderBlockColor: Colors.grayLight,
   }

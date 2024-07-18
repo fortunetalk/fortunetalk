@@ -21,6 +21,10 @@ const DemoClass = ({
         dispatch(Courses.getDemoClass({ courseId }));
     }, [courseId, dispatch])
 
+    if (demoClass && demoClass.length == 0) {
+        return <NoDataFound />
+    }
+
     return (
         <View style={{ flex: 1, backgroundColor: Colors.bodyColor }}>
             <Loader visible={isLoading} />
@@ -45,7 +49,7 @@ const DemoClass = ({
                     data={demoClass}
                     renderItem={({ item, index }) => <DemoClassItem item={item} courseData={courseData} />}
                     keyExtractor={item => item.id}
-                    ListEmptyComponent={<NoDataFound />}
+                    // ListEmptyComponent={<NoDataFound />}
                 />
             </View>
         );

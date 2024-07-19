@@ -34,7 +34,7 @@ const AstrologerItems = memo(({ item, index, type = 'chat', dispatch }) => {
             <ImageBackground
                 source={require('../../../assets/images/astro.jpg')}
                 style={{ width: '100%', height: SCREEN_WIDTH * 0.2 }}>
-                {item?.Offer_list != 0 && (
+                {/* {item?.Offer_list != 0 && (
                     <View
                         style={{
                             transform: [{ rotate: '-45deg' }],
@@ -47,7 +47,7 @@ const AstrologerItems = memo(({ item, index, type = 'chat', dispatch }) => {
                             Offer
                         </Text>
                     </View>
-                )}
+                )} */}
                 <Image source={{ uri: item?.profileImage }} style={styles.imageContainer} />
                 <Image
                     source={require('../../../assets/icons/verify.png')}

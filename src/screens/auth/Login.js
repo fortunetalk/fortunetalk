@@ -1,17 +1,16 @@
-import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native'
-import React, { createRef, useEffect, useState } from 'react'
-import { Colors, Sizes, Fonts } from '../../assets/styles.js'
 import { connect } from 'react-redux';
-import LinearGradient from 'react-native-linear-gradient';
+import { regex } from '../../config/data.js';
 import Loader from '../../components/Loader';
-import MyStatusBar from '../../components/MyStatusBar';
 import CountryPicker from 'rn-country-picker';
 import { Divider, Input } from '@rneui/themed';
+import { Settings } from 'react-native-fbsdk-next';
+import MyStatusBar from '../../components/MyStatusBar';
+import LinearGradient from 'react-native-linear-gradient';
+import React, { createRef, useEffect, useState } from 'react'
+import { Colors, Sizes, Fonts } from '../../assets/styles.js'
 import * as AuthActions from '../../redux/actions/authActions.js'
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
-import { Settings } from 'react-native-fbsdk-next';
-import { regex } from '../../config/data.js';
-import { showToastMessage } from '../../utils/services.js';
+import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 Settings.initializeSDK('1403757197218563');
@@ -28,7 +27,6 @@ const Login = ({ dispatch, isLoading }) => {
 
   useEffect(() => {
     GoogleSignin.configure();
-
   }, []);
 
   const updateState = data => {

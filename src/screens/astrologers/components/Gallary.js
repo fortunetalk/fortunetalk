@@ -1,10 +1,13 @@
-import { View, Text, TouchableOpacity, FlatList, Image, StyleSheet } from 'react-native'
+import ImageView from '../../ImageView';
 import React, { useEffect, useState } from 'react'
-import { SCREEN_WIDTH, Sizes, Fonts, Colors } from '../../../assets/styles';
 import { navigate } from '../../../utils/navigationServices';
-const Gallary = ({ data }) => {
+import { SCREEN_WIDTH, Sizes, Fonts, Colors } from '../../../assets/styles';
+import { View, Text, TouchableOpacity, FlatList, Image, StyleSheet } from 'react-native'
 
+const Gallary = ({ data }) => {
+    const [modalVisible, setModalVisible] = useState(false);
     const [gallaryData, setGallaryData] = useState([])
+    const [showImage, setShowImage] = useState(0)
 
     useEffect(() => {
         if (data.length > 9) {
@@ -16,7 +19,7 @@ const Gallary = ({ data }) => {
 
     }, [])
 
-    if(gallaryData.length == 0){
+    if (gallaryData.length == 0) {
         return null
     }
 
@@ -36,7 +39,7 @@ const Gallary = ({ data }) => {
         return (
             <TouchableOpacity
                 activeOpacity={0.8}
-                onPress={() => navigate('imageView', { data, index })}
+                onPress={() => { setModalVisible(true), setShowImage(index) }}
                 style={styles.imageContainer}
             >
                 <Image
@@ -50,34 +53,28 @@ const Gallary = ({ data }) => {
             </TouchableOpacity>
         );
     };
-    
+
     return (
         <View
             style={{
                 borderBottomWidth: 1,
                 borderBottomColor: Colors.grayLight,
+                marginLeft: SCREEN_WIDTH * 0.02,
             }}>
             <Text
                 style={{
                     ...Fonts.black16RobotoMedium,
-                    paddingHorizontal: Sizes.fixPadding * 1.5,
                     paddingTop: Sizes.fixPadding * 1.5,
+                    paddingVertical: Sizes.fixPadding * 0.5,
                 }}>
                 Gallery
             </Text>
-            {
-                gallaryData && <FlatList
-                    data={gallaryData}
-                    renderItem={renderItem}
-                    // keyExtractor={item => item.id}
-                    numColumns={4}
-                    contentContainerStyle={{
-                        paddingHorizontal: Sizes.fixPadding * 1.5,
-                        paddingBottom: Sizes.fixPadding * 1.5,
-                    }}
-                    columnWrapperStyle={{}}
-                />
-            }
+            {gallaryData && <FlatList
+                data={gallaryData}
+                renderItem={renderItem} numColumns={4}
+            />}
+
+            {modalVisible && <ImageView showImage={showImage} images={data} modalVisible={modalVisible} setModalVisible={setModalVisible} />}
 
         </View>
     );
@@ -87,15 +84,13 @@ export default Gallary
 
 const styles = StyleSheet.create({
     imageContainer: {
-        width: SCREEN_WIDTH * 0.2,
-        height: SCREEN_WIDTH * 0.2,
+        width: SCREEN_WIDTH * 0.35,
+        height: SCREEN_WIDTH * 0.35,
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: Colors.white,
         borderRadius: Sizes.fixPadding,
         marginBottom: Sizes.fixPadding,
-        marginLeft: SCREEN_WIDTH * 0.035,
-        borderWidth: 2,
-        borderColor: Colors.gray
+        marginLeft: SCREEN_WIDTH * 0.01,
     }
 })

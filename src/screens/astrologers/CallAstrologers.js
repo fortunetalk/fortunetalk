@@ -1,15 +1,15 @@
-import { View, Text, FlatList, LayoutAnimation, Animated } from 'react-native'
-import React, { useEffect, useRef } from 'react'
+import { connect } from 'react-redux'
+import Banner from './components/Banner'
+import Category from './components/Category'
+import Loader from '../../components/Loader'
 import { Colors } from '../../assets/styles'
+import React, { useEffect, useRef } from 'react'
 import MyStatusBar from '../../components/MyStatusBar'
 import ChatCallHeader from './components/ChatCallHeader'
-import Category from './components/Category'
-import Banner from './components/Banner'
 import AstrologersList from './components/AstrologersList'
 import * as SettingActions from '../../redux/actions/settingActions'
-import { connect } from 'react-redux'
 import * as AstrologerActions from '../../redux/actions/astrologerActions'
-import Loader from '../../components/Loader'
+import { View, FlatList, LayoutAnimation, Animated } from 'react-native'
 
 const CallAstrologers = ({ dispatch, tabVisible, isLoading, }) => {
   const scrollY = useRef(new Animated.Value(0)).current;
@@ -51,7 +51,6 @@ const CallAstrologers = ({ dispatch, tabVisible, isLoading, }) => {
           </>}
         />
       </View>
-      {/* <Filters /> */}
     </View>
   )
 }

@@ -1,22 +1,22 @@
-import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity } from 'react-native'
+import { connect } from 'react-redux'
 import React, { useState } from 'react'
 import { BottomSheet } from '@rneui/themed'
-import { Colors, Fonts, SCREEN_HEIGHT, SCREEN_WIDTH, Sizes } from '../../../assets/styles'
 import { Rating } from 'react-native-ratings'
 import LinearGradient from 'react-native-linear-gradient'
+import { Colors, Fonts, SCREEN_WIDTH, Sizes } from '../../../assets/styles'
+import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity } from 'react-native'
 import * as AstrologerActions from '../../../redux/actions/astrologerActions'
-import { connect } from 'react-redux'
 import { resetToScreen } from '../../../utils/navigationServices'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 
 const AstrologerRating = ({ dispatch, astrologerRatingData }) => {
   const [comments, setComments] = useState('')
   const [rating, setRating] = useState(3)
+
   const onClose = () => {
     console.log('hii')
     resetToScreen('home')
     dispatch(AstrologerActions.setAstrologerRatingData({ visible: false, data: null }))
-
   }
 
   const onRating = () => {

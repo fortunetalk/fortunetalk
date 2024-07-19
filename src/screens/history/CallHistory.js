@@ -11,6 +11,7 @@ import moment from 'moment'
 import { secondsToHMS } from '../../utils/services'
 
 const CallHistory = ({ route, callHistory, dispatch }) => {
+
     useEffect(() => {
         dispatch(HistoryActions.getCallHistory())
     }, [])
@@ -18,14 +19,14 @@ const CallHistory = ({ route, callHistory, dispatch }) => {
     return (
         <View style={{ flex: 1, backgroundColor: Colors.white }}>
             <MyStatusBar backgroundColor={Colors.primaryLight} barStyle={'light-content'} />
-            <MyHeader title={'Wallet Transaction'} />
+            <MyHeader title={'Call History'} />
             <HistoryTab activeTab={route.params.type} />
             <View style={{ flex: 1 }}>
                 <FlatList
                     ListHeaderComponent={<>
                         {callHistory && historyInfo()}
                     </>}
-                    contentContainerStyle={{paddingVertical: Sizes.fixPadding, paddingHorizontal: Sizes.fixPadding}}
+                    contentContainerStyle={{ paddingVertical: Sizes.fixPadding, paddingHorizontal: Sizes.fixPadding }}
                 />
             </View>
         </View>
@@ -35,19 +36,24 @@ const CallHistory = ({ route, callHistory, dispatch }) => {
         const renderItem = ({ item, index }) => {
             return (
                 <View style={{ backgroundColor: Colors.grayL, marginBottom: Sizes.fixPadding, padding: Sizes.fixPadding, borderRadius: Sizes.fixPadding, elevation: 5, shadowColor: Colors.blackLight }}>
-                <Text style={{ ...Fonts._15InterMedium, color: Colors.grayM }}>{`Chat with ${item?.astrologerId?.name} for ${secondsToHMS(item?.durationInSeconds ?? 0)}`}</Text>
-                <View style={{ flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between' }}>
-                    <View>
-                        <Text style={{ ...Fonts._13InterMedium, color: Colors.grayN, marginBottom: Sizes.fixPadding }}>{moment(item?.createdAt).format('DD MMM YY, hh:mm A')}</Text>
-                        <Text style={{ ...Fonts._15InterMedium, color: Colors.grayN, textTransform: 'uppercase' }}>#{item?.transactionId}</Text>
+                    <Text style={{ ...Fonts._15InterMedium, color: Colors.grayM }}>{`Chat with ${item?.astrologerId?.name} for ${secondsToHMS(item?.durationInSeconds ?? 0)}`}</Text>
+                    <View style={{ flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between' }}>
+                        <View>
+                            <Text style={{ ...Fonts._13InterMedium, color: Colors.grayN, marginBottom: Sizes.fixPadding }}>{moment(item?.createdAt).format('DD MMM YY, hh:mm A')}</Text>
+                            <Text style={{ ...Fonts._15InterMedium, color: Colors.grayN, textTransform: 'uppercase' }}>#{item?.transactionId}</Text>
+                        </View>
+                        <TouchableOpacity>
+                            <LinearGradient colors={[Colors.primaryLight, Colors.primaryDark]} style={{ paddingHorizontal: Sizes.fixPadding * 1.5, paddingVertical: Sizes.fixPadding * 0.5, borderRadius: 1000 }} >
+                                <Text style={{ ...Fonts._11RobotoMedium, color: Colors.white, fontSize: 12 }}>Call Again</Text>
+                            </LinearGradient>
+                        </TouchableOpacity>
                     </View>
-                    <TouchableOpacity>
-                        <LinearGradient colors={[Colors.primaryLight, Colors.primaryDark]} style={{ paddingHorizontal: Sizes.fixPadding * 1.5, paddingVertical: Sizes.fixPadding * 0.5, borderRadius: 1000 }} >
-                            <Text style={{ ...Fonts._11RobotoMedium, color: Colors.white, fontSize: 12 }}>Call Again</Text>
-                        </LinearGradient>
-                    </TouchableOpacity>
+
+                    <View style={{ flexDirection: "row", alignItems: "center", gap: 5 }} >
+                        <Text style={{ ...Fonts._13InterMedium, color: Colors.black, }}>Deducted Amount:</Text>
+                        <Text style={{ ...Fonts._15InterMedium, color: Colors.black }}>{item?.deductedAmount ? `₹${item?.deductedAmount}` : "₹ 0"}</Text>
+                    </View>
                 </View>
-            </View>
             )
         }
         return (
@@ -67,9 +73,3 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({ dispatch })
 
 export default connect(mapStateToProps, mapDispatchToProps)(CallHistory)
-
-const styles = StyleSheet.create({
-    container:{
-
-    }
-})

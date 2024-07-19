@@ -90,10 +90,9 @@ const AstrologerItems = memo(({ item, index, type = 'chat', dispatch }) => {
                                 color={Colors.primaryLight}
                             />
                         }
-                    // halfStar={<Icon name={'star-half'} style={[styles.myStarStyle]} />}
                     />
                     <Text numberOfLines={1} style={{ ...Fonts.black14InterMedium }}>
-                        {item?.name}
+                        {item?.displayName}
                     </Text>
                     <Text
                         numberOfLines={1}
@@ -198,7 +197,6 @@ const AstrologersList = ({ astroChatList, dispatch, type, astroCallList }) => {
                 data={data}
                 renderItem={renderItem}
                 keyExtractor={keyExtractor}
-                // ListEmptyComponent={<NoDataFound />}
                 numColumns={2}
                 maxToRenderPerBatch={10}
                 initialNumToRender={10}

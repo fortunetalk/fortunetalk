@@ -3,6 +3,7 @@ import React from 'react'
 import LinearGradient from 'react-native-linear-gradient';
 import { Colors, Fonts, Sizes, SCREEN_WIDTH } from '../../../assets/styles';
 import Ionicons from 'react-native-vector-icons/Ionicons'
+import { navigate } from '../../../utils/navigationServices';
 
 const LiveAstrologers = () => {
   const renderItem = ({ item, index }) => {
@@ -88,7 +89,7 @@ const LiveAstrologers = () => {
         <Text style={{ ...Fonts.black16RobotoMedium }}>Live Astrologers</Text>
         <TouchableOpacity
           activeOpacity={0.8}
-          onPress={() => navigation.navigate('live')}>
+          onPress={() => navigate('liveAstrologers')}>
           <Text style={{ ...Fonts.primaryLight15RobotoRegular }}>View all</Text>
         </TouchableOpacity>
       </View>

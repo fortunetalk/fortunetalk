@@ -1,7 +1,7 @@
-import { View, Text, FlatList, StyleSheet } from 'react-native';
 import React from 'react';
 import { TouchableOpacity } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import { View, Text, FlatList, StyleSheet } from 'react-native';
 import { Colors, Sizes, SCREEN_WIDTH, Fonts } from '../../../assets/styles';
 
 const Category = () => {

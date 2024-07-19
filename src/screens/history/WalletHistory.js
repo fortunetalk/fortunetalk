@@ -58,7 +58,7 @@ const WalletHistory = ({ route, navigation, customerData, dispatch, walletHistor
                             <Text style={{ ...Fonts._15InterMedium, color: Colors.grayN }}>{item?.invoiceId}</Text>
                         </View>
                         <View style={{ paddingHorizontal: Sizes.fixPadding * 1.5, paddingVertical: Sizes.fixPadding * 0.5, borderRadius: 1000 }} >
-                            <Text style={{ ...Fonts._18RobotoMedium, color: item?.transactionType == 'CREDIT' ? Colors.greenLight : Colors.red, }}>{item?.transactionType == 'CREDIT' ? '+' : "-"} {item?.amount}</Text>
+                            <Text style={{ ...Fonts._18RobotoMedium, color: item?.transactionType == 'CREDIT' ? Colors.greenLight : Colors.red, }}>{item?.transactionType == 'CREDIT' ? ' +' : "-"} ₹{item?.amount}</Text>
                         </View>
                     </View>
                 </View>

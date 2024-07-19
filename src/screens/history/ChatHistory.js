@@ -15,6 +15,7 @@ const ChatHistory = ({ route, chatHistory, dispatch, navigation }) => {
         dispatch(HistoryActions.getChatHistory())
     }, [])
 
+
     return (
         <View style={{ flex: 1, backgroundColor: Colors.white }}>
             <MyStatusBar backgroundColor={Colors.primaryLight} barStyle={'light-content'} />
@@ -54,6 +55,10 @@ const ChatHistory = ({ route, chatHistory, dispatch, navigation }) => {
                             </TouchableOpacity>
                         </View>
 
+                    </View>
+                    <View style={{ flexDirection: "row", alignItems: "center", gap: 5 }} >
+                        <Text style={{ ...Fonts._13InterMedium, color: Colors.black, }}>Deducted Amount:</Text>
+                        <Text style={{ ...Fonts._15InterMedium, color: Colors.black }}>{item?.deductedAmount ? `₹${item?.deductedAmount}` : "₹ 0"}</Text>
                     </View>
                 </View>
             )

@@ -9,6 +9,7 @@ import * as LiveActions from '../../redux/actions/liveActions'
 
 const LiveAstrologers = ({navigation, customerData, dispatch}) => {
   const [liveAstroListData, setLiveAstroListData] = useState(null);
+ 
   useEffect(() => {
     database().ref(`LiveAstro`).on('value', snapshot => {
       if (snapshot.val()) {
@@ -27,8 +28,6 @@ const LiveAstrologers = ({navigation, customerData, dispatch}) => {
       database().ref(`LiveAstro`).off()
     }
   }, [])
-
-
 
   return (
     <View style={{ flex: 1, backgroundColor: Colors.white }}>

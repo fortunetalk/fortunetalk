@@ -111,7 +111,6 @@ const OnlineAstrologers = ({ dispatch, onlineAstrologerData }) => {
                 color={Colors.primaryLight}
               />
             }
-          // halfStar={<Icon name={'star-half'} style={[styles.myStarStyle]} />}
           />
           <Text numberOfLines={1} style={{ ...Fonts.black14InterMedium }}>
             {item?.name}
@@ -136,26 +135,6 @@ const OnlineAstrologers = ({ dispatch, onlineAstrologerData }) => {
               }}>
               {showNumber(item?.chatPrice + item?.companyChatPrice)}/min
             </Text>
-            {/* {item?.Offer_list.length != 0 && (
-              <Text style={{ fontSize: 9 }}>
-                {' '}
-                ₹
-                {sum_price({
-                  firstPrice: parseFloat(item?.chat_price_m),
-                  secondPrice: parseFloat(item?.chat_commission),
-                })}
-              </Text>
-            )} */}
-            {/* {item?.moa == '1' && (
-              <Text
-                style={{
-                  fontSize: 12,
-                  fontWeight: 'bold',
-                  color: Colors.primaryLight,
-                }}>
-                {'Free 5 min'}
-              </Text>
-            )} */}
           </Text>
           <View
             style={{
@@ -215,7 +194,8 @@ const OnlineAstrologers = ({ dispatch, onlineAstrologerData }) => {
             <Text style={{ ...Fonts.black16RobotoMedium }}>Online Astrologers</Text>
             <TouchableOpacity
               activeOpacity={0.8}
-              onPress={() => navigation.navigate('onlineAstrologers')}>
+              onPress={() => navigation.navigate('onlineastrologers')}
+              >
               <Text style={{ ...Fonts.primaryLight15RobotoRegular }}>View all</Text>
             </TouchableOpacity>
           </View>

@@ -181,7 +181,7 @@ const AstrologerDetails = ({ navigation, dispatch, isLoading, route, astrologerD
                         fontSize: 20,
                         marginTop: Sizes.fixPadding * 0.5,
                     }}>
-                    {astrologerData?.name}
+                    {astrologerData?.displayName}
                 </Text>
                 <Text style={{ ...Fonts._13RobotoMedium, color: Colors.grayC, textAlign: 'center' }}>
                     Love, Palm Reading
@@ -207,9 +207,9 @@ const AstrologerDetails = ({ navigation, dispatch, isLoading, route, astrologerD
                         justifyContent: 'space-evenly',
                     }}>
                     <View style={[styles.boxContainer, styles.center]}>
-                        <Text style={{ ...Fonts._11RobotoMedium, color: Colors.grayC }}>({astrologerData?.rating ?? 1})</Text>
+                        <Text style={{ ...Fonts._11RobotoMedium, color: Colors.grayC }}>({astrologerData?.avgRating ?? 1})</Text>
                         <Stars
-                            default={astrologerData?.avgRating ?? 1}
+                            default={astrologerData?.avgRating}
                             count={5}
                             half={false}
                             starSize={14}
@@ -223,11 +223,10 @@ const AstrologerDetails = ({ navigation, dispatch, isLoading, route, astrologerD
                                     color={Colors.primaryLight}
                                 />
                             }
-                        // halfStar={<Icon name={'star-half'} style={[styles.myStarStyle]} />}
                         />
                     </View>
                     <View style={[styles.boxContainer, styles.center]}>
-                        <Text style={{ ...Fonts._15RobotMedium, color: Colors.grayC }}>Ex. +{!astrologerData?.experience ?? 1} years</Text>
+                        <Text style={{ ...Fonts._15RobotMedium, color: Colors.grayC }}>Ex. +{astrologerData?.experience} years</Text>
                     </View>
                     <View style={[styles.boxContainer, styles.center]}>
                         <Text style={{ ...Fonts._13RobotoMedium, color: Colors.grayC }}>{astrologerData?.follower_count}</Text>

@@ -3,7 +3,8 @@ import * as actionTypes from '../actionTypes'
 const initialState = {
     walletHistory: null,
     chatHistory: null,
-    callHistory: null
+    callHistory: null,
+    fortuneHistory: null
 }
 
 const history = (state = initialState, actions) => {
@@ -24,6 +25,12 @@ const history = (state = initialState, actions) => {
                 ...state,
                 callHistory: payload
             }
+        case actionTypes.GET_PRODUCT_HISTORY: {
+            return {
+                ...state,
+                fortuneHistory: payload
+            }
+        }
         default:
             return state;
     }

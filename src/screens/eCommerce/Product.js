@@ -14,9 +14,6 @@ import { FlatList, Image, ImageBackground, StyleSheet, Text, TouchableOpacity, V
 
 const Product = ({ dispatch, navigation, route, productCategoryWaiseList, productDetailsBanner }) => {
     const id = route.params.categoryId
-
-    console.log("productDetailsBanner===>>>", productDetailsBanner)
-
     const [state, setState] = useState({
         isLoading: false,
         searchText: '',

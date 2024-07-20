@@ -8,7 +8,7 @@ const initialState = {
     productDetailsBanner: null,
     productCategoryBanner: null,
     poojaDetailsBanner: null,
-    poojaCategoryBanner: null
+    poojaCategoryBanner: null,
 }
 
 const eCommerce = (state = initialState, actions) => {

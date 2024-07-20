@@ -11,9 +11,9 @@ import * as CallActions from '../../redux/actions/callActions'
 import * as ChatActions from '../../redux/actions/chatActions'
 import { SCREEN_WIDTH, Sizes, Fonts, Colors } from '../../assets/styles';
 import { View, Text, StyleSheet, TouchableOpacity, Image, FlatList, ImageBackground } from 'react-native'
+import { Input } from 'react-native-elements';
 
 const OnlineAstrologers = ({ dispatch, onlineAstrologerData, isLoading }) => {
-
     const navigation = useNavigation()
 
     const onChat = (item) => {
@@ -137,7 +137,7 @@ const OnlineAstrologers = ({ dispatch, onlineAstrologerData, isLoading }) => {
                             }}>
                             {showNumber(item?.chatPrice + item?.companyChatPrice)}/min
                         </Text>
-                       
+
                     </Text>
                     <View
                         style={{
@@ -180,25 +180,69 @@ const OnlineAstrologers = ({ dispatch, onlineAstrologerData, isLoading }) => {
         );
     };
     return (
-        <>
+        <View style={{ backgroundColor: "white", flex: 1 }} >
             <Loader visible={isLoading} />
             <MyHeader title={"Online Astrologers"} />
-            {onlineAstrologerData ? onlineAstrologerData.length != 0 && <View
-                style={{
-                    borderBottomWidth: 1,
-                    borderBottomColor: Colors.grayLight,
-                }}>
-                <FlatList
-                    data={onlineAstrologerData}
-                    renderItem={renderItem}
-                    horizontal
-                    contentContainerStyle={{ paddingRight: Sizes.fixPadding * 1.5 }}
-                />
-            </View> : null
+            {Search()}
+            {onlineAstrologerData ? onlineAstrologerData.length != 0 &&
+                <View
+                    style={{
+                        borderBottomWidth: 1,
+                        borderBottomColor: Colors.grayLight,
+                        paddingTop: Sizes.fixPadding * 1
+                    }}>
+                    <FlatList
+                        data={onlineAstrologerData}
+                        renderItem={renderItem}
+                        horizontal
+                        contentContainerStyle={{ paddingRight: Sizes.fixPadding * 1.5 }}
+                    />
+                </View> : null
             }
-        </>
+        </View>
 
     );
+}
+
+const Search = () => {
+    return (
+        <View
+            style={{
+                paddingVertical: Sizes.fixPadding,
+                borderTopWidth: 1,
+                borderBottomWidth: 1,
+                borderColor: Colors.gray + '30',
+                ...styles.row,
+            }}>
+            <Input
+                placeholder={`Search Here...`}
+                placeholderTextColor={Colors.gray}
+                inputStyle={{ ...Fonts.black14InterMedium }}
+                containerStyle={{
+                    height: 36,
+                    flex: 1,
+                    flexGrow: 1.3,
+                }}
+                inputContainerStyle={{
+                    borderBottomWidth: 0,
+                    margin: 0,
+                    padding: 0,
+                    paddingVertical: 0,
+                    paddingTop: 0,
+                    backgroundColor: Colors.grayLight + '90',
+                    borderRadius: 1000,
+                    paddingHorizontal: Sizes.fixPadding,
+                    height: 36,
+                }}
+                rightIcon={
+                    <Image
+                        source={require('../../assets/icons/search.png')}
+                        style={{ width: 20, height: 20 }}
+                    />
+                }
+            />
+        </View>
+    )
 }
 
 const mapStateToProps = state => ({

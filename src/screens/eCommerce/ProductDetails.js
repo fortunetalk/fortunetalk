@@ -6,42 +6,17 @@ import {
   StyleSheet,
   Image,
 } from 'react-native';
-import Stars from 'react-native-stars';
 import React, { useState } from 'react';
 import MyStatusBar from '../../components/MyStatusBar';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import GlobalButton from '../../components/GlobalButton';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { SCREEN_WIDTH, Colors, Fonts, Sizes } from '../../assets/styles';
 
 const ProductDetails = ({ navigation, route }) => {
-  const [review, setreview] = useState([
-    {
-      id: '1',
-      customer_name: 'John Doe',
-      rating: 4.5,
-      comment: 'Great service and friendly staff!',
-    },
-    {
-      id: '2',
-      customer_name: 'Jane Smith',
-      rating: 4,
-      comment: 'Good experience, but room for improvement.',
-    },
-  ]);
-
   const [state, setState] = useState({
     productData: route.params?.details,
     isLoading: false,
   });
-
-
-  const updateState = data => {
-    setState(prevState => {
-      const newData = { ...prevState, ...data };
-      return newData;
-    });
-  };
 
   const { productData, isLoading } = state;
 
@@ -59,12 +34,11 @@ const ProductDetails = ({ navigation, route }) => {
               {bannerInfo()}
               {productInfo()}
               {benefitsInfo()}
-              {reviewInfo()}
-              {bookNowButtonInfo()}
             </>
           }
           contentContainerStyle={{ paddingVertical: Sizes.fixPadding }}
-        />
+          />
+          {bookNowButtonInfo()}
       </View>
     </View>
   );
@@ -73,96 +47,8 @@ const ProductDetails = ({ navigation, route }) => {
     const add_product_to_cart = () => {
     }
     return (
-      <View style={{ marginHorizontal: Sizes.fixPadding * 2}}>
+      <View style={{ marginHorizontal: Sizes.fixPadding * 2 }}>
         <GlobalButton handlePress={() => add_product_to_cart()} ButtonName={"Book Now"} />
-      </View>
-    );
-  }
-
-  function reviewInfo() {
-    const renderItem = ({ item, index }) => {
-      return (
-        <TouchableOpacity
-          activeOpacity={1}
-          style={{
-            width: '100%',
-            borderRadius: Sizes.fixPadding,
-            overflow: 'hidden',
-            borderColor: Colors.primaryLight,
-            elevation: 5,
-            shadowOffset: {
-              width: 0,
-              height: 1,
-            },
-            shadowOpacity: 0.2,
-            marginBottom: Sizes.fixPadding * 1.5,
-            shadowColor: Colors.blackLight,
-            backgroundColor: Colors.white,
-            padding: Sizes.fixPadding * 0.8,
-          }}>
-          <View style={{ ...styles.row }}>
-            <Image
-              source={require("../../assets/images/astro.jpg")}
-              style={{
-                width: 25,
-                height: 25,
-                borderRadius: 100,
-              }}
-            />
-            <Text
-              style={{
-                ...Fonts.gray11RobotoRegular,
-                marginLeft: Sizes.fixPadding * 0.5,
-              }}>
-              {item.customer_name}
-            </Text>
-            <View style={{ marginLeft: Sizes.fixPadding * 1.5 }}>
-              <Stars
-                default={4}
-                count={item.rating}
-                half={true}
-                starSize={9}
-                fullStar={
-                  <Ionicons
-                    name={'star'}
-                    size={9}
-                    color={Colors.primaryLight}
-                  />
-                }
-                emptyStar={
-                  <Ionicons
-                    name={'star-outline'}
-                    size={9}
-                    color={Colors.primaryLight}
-                  />
-                }
-              />
-            </View>
-          </View>
-          <Text numberOfLines={5} style={{ ...Fonts.gray11RobotoRegular }}>
-            {item.comment}
-          </Text>
-        </TouchableOpacity>
-      );
-    };
-    return (
-      <View
-        style={{
-          marginTop: Sizes.fixPadding * 1.5,
-          marginHorizontal: Sizes.fixPadding * 2,
-        }}>
-        <Text
-          style={{
-            ...Fonts.black18RobotoRegular,
-            marginBottom: Sizes.fixPadding,
-          }}>
-          Customer Reviews
-        </Text>
-        <FlatList
-          data={review}
-          renderItem={renderItem}
-          keyExtractor={item => item.id}
-        />
       </View>
     );
   }
@@ -286,7 +172,7 @@ const ProductDetails = ({ navigation, route }) => {
           onPress={() => on_cart_press()}
         >
           <Image
-            source={require("../../assets/images/astro.jpg")}
+            source={require('../../assets/icons/cart.png')}
             style={{ width: 22, height: 22 }}
           />
         </TouchableOpacity>

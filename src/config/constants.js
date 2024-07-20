@@ -55,9 +55,7 @@ export const get_product_category_banner = "banner/product-category"
 
 export const get_pooja_details_banner = "banner/pooja-category-detail"
 export const get_pooja_category_banner = "banner/pooja-category"
-
-
-
+export const get_product_history = "ecommerce/product/order-by-customer"
 
 
 export const google_map_key = 'AIzaSyBjKP15Z_-tCf5EYm5PBbgZPe4yKaRqoFQ';

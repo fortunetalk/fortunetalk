@@ -29,3 +29,8 @@ export const setCallHistory = payload => ({
     type: actionTypes.SET_CALL_HISTORY,
     payload
 })
+
+export const onProductHistory = payload => ({
+    type: actionTypes.GET_PRODUCT_HISTORY,
+    payload
+})

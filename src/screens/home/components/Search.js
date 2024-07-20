@@ -1,7 +1,7 @@
-import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native'
 import React from 'react'
-import { useNavigation } from '@react-navigation/native'
+import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native'
 import { Sizes, Fonts, Colors } from '../../../assets/styles'
+import { navigate } from '../../../utils/navigationServices'
 
 const Search = () => {
   return (
@@ -15,11 +15,7 @@ const Search = () => {
       }}>
       <TouchableOpacity
         activeOpacity={0.8}
-        // onPress={() =>
-        //   navigation.navigate('searchAstrologers', {
-        //     astrologerData: astroData,
-        //   })
-        // }
+        onPress={() => navigate('onlineastrologers')}
         style={{
           ...styles.row,
           borderBottomWidth: 0,

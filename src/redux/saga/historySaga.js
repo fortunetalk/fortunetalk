@@ -1,7 +1,7 @@
 import { put, select, takeLeading } from 'redux-saga/effects'
 import * as actionTypes from '../actionTypes'
 import { postRequest } from '../../utils/apiRequests'
-import { app_api_url, get_customer_call_history, get_customer_chat_history, get_customer_wallet_history } from '../../config/constants'
+import { app_api_url, get_customer_call_history, get_customer_chat_history, get_customer_wallet_history, get_product_history } from '../../config/constants'
 
 
 function* getWalletHistory() {
@@ -73,8 +73,34 @@ function* getCallHistory() {
     }
 }
 
+function* getFortuneProductHistory() {
+    try {
+        yield put({ type: actionTypes.SET_IS_LOADING, payload: true })
+        const customerData = yield select(state => state.customer.customerData)
+
+        const response = yield postRequest({
+            url: app_api_url + get_product_history,
+            data: {
+                customerId: customerData?._id
+            }
+        })
+
+        if (response?.success) {
+            yield put({ type: actionTypes.GET_PRODUCT_HISTORY, payload: response?.data })
+        }
+        yield put({ type: actionTypes.SET_IS_LOADING, payload: false })
+
+    } catch (error) {
+        yield put({ type: actionTypes.SET_IS_LOADING, payload: false })
+        console.log(error)
+    }
+}
+
 export default function* historySaga() {
     yield takeLeading(actionTypes.GET_WALLET_HISTORY, getWalletHistory)
     yield takeLeading(actionTypes.GET_CHAT_HISTORY, getChatHistory)
     yield takeLeading(actionTypes.GET_CALL_HISTORY, getCallHistory)
+
+    yield takeLeading(actionTypes.GET_PRODUCT_HISTORY, getFortuneProductHistory)
+
 }

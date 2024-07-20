@@ -69,7 +69,6 @@ const ChatHistory = ({ route, chatHistory, dispatch, navigation }) => {
             </View>
         )
     }
-
 }
 
 const mapStateToProps = state => ({

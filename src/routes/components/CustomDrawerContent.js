@@ -1,50 +1,19 @@
-import { View, Text, StyleSheet, Linking, TouchableOpacity, Image } from 'react-native'
 import React from 'react'
-import { Sizes, Fonts, Colors, SCREEN_WIDTH, } from '../../assets/styles'
 import { connect } from 'react-redux';
+import { Divider } from '@rneui/themed';
+import { View, Text, StyleSheet, Linking, TouchableOpacity, Image } from 'react-native'
+import { Sizes, Fonts, Colors, SCREEN_WIDTH, } from '../../assets/styles'
 import { useNavigation } from '@react-navigation/native';
 import { DrawerContentScrollView } from '@react-navigation/drawer';
 import LinearGradient from 'react-native-linear-gradient';
-import { Divider } from '@rneui/themed';
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import { showNumber } from '../../utils/services';
 import { base_url } from '../../config/constants';
+import { navigate } from '../../utils/navigationServices';
 
 const CustomDrawerContent = ({ drawerProps, customerData }) => {
     const isLogged = true
     const navigation = useNavigation();
-
-    const on_logout = async () => {
-        await axios({
-            method: 'post',
-            url: api_url + api2_logout,
-            headers: {
-                'Content-Type': 'multipart/form-data',
-            },
-            data: {
-                user_id: props.props?.customerData?.id,
-            },
-        })
-            .then(res => {
-                if (res.data.status) {
-                    AsyncStorage.clear();
-                    go_login();
-                }
-            })
-            .catch(err => {
-                console.log(err);
-            });
-    };
-
-    const go_login = () => {
-        navigation.dispatch(
-            CommonActions.reset({
-                index: 0,
-                routes: [{ name: 'login' }],
-            }),
-        );
-    };
-
 
     const openWhatsApp = phoneNumber => {
         const whatsappUrl = `whatsapp://send?phone=${phoneNumber}`;
@@ -66,7 +35,12 @@ const CustomDrawerContent = ({ drawerProps, customerData }) => {
     };
 
     return (
-        <View style={{ flex: 1 }}>
+        <View
+            style={{
+                flex: 1,
+                backgroundColor: "white",
+            }}
+        >
             <DrawerContentScrollView
                 {...drawerProps}
                 showsVerticalScrollIndicator={false}>
@@ -229,9 +203,10 @@ const CustomDrawerContent = ({ drawerProps, customerData }) => {
                     />
                     <Text style={styles.itemTitle}>Learning</Text>
                 </TouchableOpacity>
+
                 <TouchableOpacity
                     activeOpacity={0.8}
-                    onPress={() => navigation.navigate('eCommerce')}
+                    onPress={() => navigate("viewProduct")}
                     style={{ ...styles.row, marginBottom: Sizes.fixPadding * 2 }}>
                     <Image
                         source={require('../../assets/icons/cart.png')}
@@ -239,6 +214,7 @@ const CustomDrawerContent = ({ drawerProps, customerData }) => {
                     />
                     <Text style={styles.itemTitle}>E-Commerce</Text>
                 </TouchableOpacity>
+
                 <TouchableOpacity
                     activeOpacity={0.8}
                     onPress={() => navigation.navigate('walletHistory', { flag: 1 })}
@@ -269,17 +245,6 @@ const CustomDrawerContent = ({ drawerProps, customerData }) => {
                     />
                     <Text style={styles.itemTitle}>Astrology Blog</Text>
                 </TouchableOpacity>
-                
-                {/* <TouchableOpacity
-                    activeOpacity={0.8}
-                    onPress={() => navigation.navigate('freeInsights')}
-                    style={{ ...styles.row, marginBottom: Sizes.fixPadding * 2 }}>
-                    <Image
-                        source={require('../../assets/icons/planet.png')}
-                        style={[styles.itemImage, { tintColor: Colors.grayDark }]}
-                    />
-                    <Text style={styles.itemTitle}>Free Insights</Text>
-                </TouchableOpacity> */}
 
                 <TouchableOpacity
                     activeOpacity={0.8}

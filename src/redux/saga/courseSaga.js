@@ -13,7 +13,9 @@ import {
     get_teachers_list,
     get_workshop_list,
     get_workshop_list_without_id,
-    live_class_of_class
+    is_registered_for_live_class,
+    live_class_of_class,
+    register_for_live_class
 } from '../../config/constants'
 import { showToastMessage } from '../../utils/services'
 
@@ -163,8 +165,6 @@ function* bookDemoClass(actions) {
     try {
         yield put({ type: actionTypes.SET_IS_LOADING, payload: true })
         const { payload } = actions
-        
-        console.log("payload ===>>>>", payload)
 
         const response = yield postRequest({
             url: app_api_url + book_demo_class,
@@ -245,6 +245,51 @@ function* allDemoClass() {
     }
 }
 
+function* registerLiveClass(actions) {
+    try {
+        yield put({ type: actionTypes.SET_IS_LOADING, payload: true })
+        const { payload } = actions
+
+        const response = yield getRequest({
+            url: app_api_url + register_for_live_class,
+            data: payload
+        })
+
+        console.log("response?.success" , response?.success)
+        
+        if (response?.success) {
+            yield put({ type: actionTypes.REGISTER_FOR_LIVE_CLASS, payload: response?.data })
+            yield call(showToastMessage, { message: "Class Registered Successfully" })
+        }
+
+        yield put({ type: actionTypes.SET_IS_LOADING, payload: false })
+    } catch (e) {
+        yield put({ type: actionTypes.SET_IS_LOADING, payload: false })
+        console.log(e)
+    }
+}
+
+function* isRegisterForLiveClass(actions) {
+    try {
+        yield put({ type: actionTypes.SET_IS_LOADING, payload: true })
+        const { payload } = actions
+
+        const response = yield getRequest({
+            url: app_api_url + is_registered_for_live_class,
+            data: payload
+        })
+
+        if (response?.success) {
+            yield put({ type: actionTypes.IS_REGISTER_FOR_LIVE_CLASS, payload: response?.data })
+        }
+
+        yield put({ type: actionTypes.SET_IS_LOADING, payload: false })
+    } catch (e) {
+        yield put({ type: actionTypes.SET_IS_LOADING, payload: false })
+        console.log(e)
+    }
+}
+
 export default function* coursesSaga() {
     yield takeLeading(actionTypes.GET_COURSE_BANNER, getCourseBanner)
     yield takeLeading(actionTypes.GET_COURSES_LIST, getCourseList)
@@ -260,4 +305,8 @@ export default function* coursesSaga() {
 
     yield takeLeading(actionTypes.GET_WORKSHOP_WITHOUT_ID, getWorkshopsListWithoutId)
     yield takeLeading(actionTypes.GET_ALL_DEMO_CLASSS, allDemoClass)
+
+    yield takeLeading(actionTypes.REGISTER_FOR_LIVE_CLASS, registerLiveClass)
+    yield takeLeading(actionTypes.IS_REGISTER_FOR_LIVE_CLASS, isRegisterForLiveClass)
+
 }

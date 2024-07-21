@@ -40,8 +40,10 @@ export const get_course_list = "course/customer"
 export const get_demo_class_list = "course/customer/demo_class_by_course_id"
 export const get_live_class_list = "course/customer/live_class_by_course_id"
 export const get_workshop_list = "course/customer/workshop_by_course_id"
-
 export const get_all_demo_class = "course/customer/demo_class"
+
+export const register_for_live_class = "course/customer/register_live_class"
+export const is_registered_for_live_class = "course/customer/check_customer_live_class_registration"
 
 export const get_workshop_list_without_id = "course/customer/workshop"
 
@@ -59,7 +61,7 @@ export const get_product_history = "ecommerce/product/order-by-customer"
 
 
 export const google_map_key = 'AIzaSyBjKP15Z_-tCf5EYm5PBbgZPe4yKaRqoFQ';
-export const razorpay_key  = 'rzp_live_UFbPKfqmnZCHLo'
+export const razorpay_key = 'rzp_live_UFbPKfqmnZCHLo'
 
 export const zego_live_app_id = 587173410
 export const zego_live_app_sign = '011d0941bcf41787bd3754dcc449dcbf45898eb89aa26dddf276f58592d6efdd'

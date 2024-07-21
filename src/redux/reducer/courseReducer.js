@@ -11,7 +11,8 @@ const initialState = {
     demoClassBooked:null,
     workshopWithoutId:null,
     allDemoClass:null,
-    registerDemoclass:null
+    registerDemoclass:null,
+    isRegisterForLive:null
 }
 
 const courses = (state = initialState, actions) => {
@@ -87,6 +88,12 @@ const courses = (state = initialState, actions) => {
             return {
                 ...state,
                 registerDemoclass: payload
+            }
+        }
+        case actionTypes.IS_REGISTER_FOR_LIVE_CLASS: {
+            return {
+                ...state,
+                isRegisterForLive: payload
             }
         }
         default: {

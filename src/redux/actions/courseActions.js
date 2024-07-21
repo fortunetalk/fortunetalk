@@ -55,6 +55,16 @@ export const demoClassBooked = payload => ({
     payload
 })
 
+export const onRegisterLiveClass = payload => ({
+    type: actionTypes.REGISTER_FOR_LIVE_CLASS,
+    payload
+})
+
+export const onIsRegisterLiveClass = payload => ({
+    type: actionTypes.IS_REGISTER_FOR_LIVE_CLASS,
+    payload
+})
+
 
 
 

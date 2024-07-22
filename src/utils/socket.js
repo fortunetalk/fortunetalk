@@ -74,7 +74,7 @@ class socketServices {
       });
 
       this.socket.on('walletAlert', data => {
-        dispatch(AstrologerActions.setWalletAlertVisible(data))
+        dispatch(AstrologerActions.setWalletAlertVisible({visible: data, visibleFor: 'chat_wallet_recharge'}))
       })
 
       this.socket.on('error', data => {

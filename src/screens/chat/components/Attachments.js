@@ -1,6 +1,6 @@
 import { View, TouchableOpacity, Image, StyleSheet, Keyboard } from 'react-native'
 import React, { useState } from 'react'
-import { Colors, Sizes } from '../../../assets/styles'
+import { Colors, SCREEN_WIDTH, Sizes } from '../../../assets/styles'
 import { Divider } from '@rneui/themed'
 import Tooltip from 'react-native-walkthrough-tooltip';
 import AttachmentBackground from '../../../assets/svg/chat_attachment.svg'
@@ -9,7 +9,7 @@ import DocumentPicker, { types } from 'react-native-document-picker';
 import * as ChatActions from '../../../redux/actions/chatActions'
 import { connect } from 'react-redux';
 
-const ICON_SIZE = 18;
+const ICON_SIZE = 22;
 const ATTACHMENT_ICON_SIZE = 20;
 
 
@@ -54,7 +54,7 @@ const Items = ({ setTooltipVisible, dispatch }) => {
 
     return (
         <View style={styles.attachmentContainer}>
-            <AttachmentBackground />
+            <AttachmentBackground height={60} width={SCREEN_WIDTH*0.6} />
             <View style={styles.attachmentOverlay}>
                 <TouchableOpacity activeOpacity={0.8} onPress={onGallary} style={styles.itemContainer}>
                     <Image source={require('../../../assets/icons/gallary.png')} style={styles.icon} />
@@ -112,6 +112,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(Attachments)
 const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
+        marginBottom: Sizes.fixPadding
     },
     attachmentContainer: {
         flex: 1,

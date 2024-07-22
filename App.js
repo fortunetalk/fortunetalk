@@ -49,10 +49,10 @@ const App = ({ dispatch }) => {
           },
           stringify: {
             chatId: (chatId) => chatId.replace(/^chat-/, ''),
-            historyId: (historyId) => historyId, // Remove the leading colon for URL
+            historyId: (historyId) => historyId.replace(/^:/, ''), // Remove the leading colon for URL
           },
         },
-      }
+      },
     },
   };
 
@@ -64,10 +64,10 @@ const App = ({ dispatch }) => {
           <StackRoutes />
           <ZegoUIKitPrebuiltCallFloatingMinimizedView />
         </NavigationContainer>
+        <WalletAlert />
         <AstrologerRequest />
         <ChatInvoice />
         <CallInvoice />
-        <WalletAlert />
         <AstrologerRating />
       </PaperProvider>
     </SafeAreaProvider>

@@ -3,8 +3,9 @@ import React from 'react'
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { goBack } from '../../../utils/navigationServices';
 import { Colors, Sizes, Fonts } from '../../../assets/styles';
+import { connect } from 'react-redux';
 
-const ChatHeader = () => {
+const ChatHeader = ({chatData}) => {
     return (
         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: Sizes.fixPadding*1.5, paddingVertical: Sizes.fixPadding*1.3 }}>
             <TouchableOpacity activeOpacity={0.8} onPress={() => goBack()} >
@@ -14,7 +15,7 @@ const ChatHeader = () => {
                     size={Sizes.fixPadding * 2}
                 />
             </TouchableOpacity>
-            <Text style={{ ...Fonts._15RobotMedium, color: Colors.orange, textAlign: 'center' }}>Astro Guruji</Text>
+            <Text style={{ ...Fonts._15RobotMedium, color: Colors.orange, textAlign: 'center' }}>{chatData?.data?.astroloerName}</Text>
             <TouchableOpacity>
                 <Image source={require('../../../assets/icons/share.png')} style={{ width: 20, height: 20 }} resizeMode='contain' />
             </TouchableOpacity>
@@ -23,4 +24,8 @@ const ChatHeader = () => {
     )
 }
 
-export default ChatHeader
+const mapStateToProps = state =>({
+    chatData: state.chat.chatData
+})
+
+export default connect(mapStateToProps, null)(ChatHeader)

@@ -14,17 +14,10 @@ import messaging from '@react-native-firebase/messaging'
 import { handleIncomingNotification } from './src/utils/notifiactionManager';
 import notifee, { EventType } from '@notifee/react-native';
 import { Linking } from 'react-native';
+import ChatRequest from './src/screens/chat/ChatRequest';
+import axios from 'axios';
 
 ZegoUIKitPrebuiltCallService.useSystemCallingUI([ZIM, ZPNs]);
-
-function HeadlessCheck({ isHeadless }) {
-  if (isHeadless) {
-    // App has been launched in the background by iOS, ignore
-    return null;
-  }
-
-  return <RNRedux />;
-}
 
 const RNRedux = () => {
   return (
@@ -36,6 +29,8 @@ const RNRedux = () => {
 
 AppRegistry.registerComponent(appName, () => RNRedux);
 
+AppRegistry.registerComponent('custom', ()=>ChatRequest); 
+
 messaging().setBackgroundMessageHandler(handleIncomingNotification);
 
 notifee.registerForegroundService((notification) => {
@@ -45,25 +40,42 @@ notifee.registerForegroundService((notification) => {
 });
 
 notifee.onForegroundEvent(async ({ type, detail }) => {
-  console.log(detail.notification.id)
-  if (type === EventType.ACTION_PRESS && detail.pressAction.id === 'chat_accept') {
-    console.log('User pressed an action with the id: ', detail.pressAction.id);
-    Linking.openURL('fortunetalk://chat/:dsfsfsdfsdfs/:sdfsfsdf')
-    await notifee.cancelNotification(detail.notification.id);
-  } else if (type === EventType.ACTION_PRESS && detail.pressAction.id === 'chat_reject') {
-    console.log('User pressed an action with the id: ', detail.pressAction.id);
-    await notifee.cancelNotification(detail.notification.id);
+  try{
+    console.log(detail.notification.data, 'details')
+    if (type === EventType.ACTION_PRESS && detail.pressAction.id === 'chat_accept') {
+      console.log('User pressed an action with the id: ', detail.pressAction.id);
+      await notifee.cancelNotification(detail.notification.id);
+      await axios.post('http://97.74.83.200:4000/api/app/chat/accept_chat', { chatId: detail.notification.data.historyId, type: 'customer' })
+      Linking.openURL(`fortunetalk://chat/:${detail.notification.data.chatId}/:${detail.notification.data.historyId}`)
+  
+    } else if (type === EventType.ACTION_PRESS && detail.pressAction.id === 'chat_reject') {
+      console.log('User pressed an action with the id: ', detail.pressAction.id);
+      await notifee.cancelNotification(detail.notification.id);
+      await axios.post('http://97.74.83.200:4000/api/app/chat/reject_chat', { chatId: detail.notification.data.historyId, type: 'customer' })
+    }
+  }catch(e){
+    console.log(e)
   }
+ 
 });
 
-
 notifee.onBackgroundEvent(async ({ type, detail, headless }) => {
-  const { notification, pressAction } = detail;
-  if (type === EventType.ACTION_PRESS && pressAction.id === 'chat_accept') {
-    Linking.openURL('fortunetalk://chat/:dsfsfsdfsdfs/:sdfsfsdf')
-    await notifee.cancelNotification(notification.id);
-  } else if (type === EventType.ACTION_PRESS && pressAction.id === 'chat_reject') {
-    await notifee.cancelNotification(notification.id);
+  try{
+    console.log(detail.notification.data, 'details',)
+    if (type === EventType.ACTION_PRESS && detail.pressAction.id === 'chat_accept') {
+      console.log('User pressed an action with the id: ', detail.pressAction.id);
+      await notifee.cancelNotification(detail.notification.id);
+      await axios.post('http://97.74.83.200:4000/api/app/chat/accept_chat', { chatId: detail.notification.data.historyId, type: 'customer' })
+      Linking.openURL(`fortunetalk://chat/:${detail.notification.data.chatId}/:${detail.notification.data.historyId}`)
+  
+    } else if (type === EventType.ACTION_PRESS && detail.pressAction.id === 'chat_reject') {
+      console.log('User pressed an action with the id: ', detail.pressAction.id);
+      await notifee.cancelNotification(detail.notification.id);
+      await axios.post('http://97.74.83.200:4000/api/app/chat/reject_chat', { chatId: detail.notification.data.historyId, type: 'customer' })
+    }
+  }catch(e){
+    console.log(e)
   }
+  
 });
 

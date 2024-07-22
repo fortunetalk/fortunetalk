@@ -12,7 +12,10 @@ const initialState = {
         visible: false,
         data: null
     },
-    walletAlertVisible: false,
+    walletAlertVisible: {
+        visible: false,
+        visibleFor: ''
+    },
     recentAstrologerData: null,
     onlineAstrologerData: null
 }

@@ -5,6 +5,7 @@ import { app_api_url, customer_wallet_recharge } from '../../config/constants'
 import { showToastMessage } from '../../utils/services'
 import { onPop, resetToScreen } from '../../utils/navigationServices'
 import { razorpayPayment } from '../../utils/razorpay'
+import socketServices from '../../utils/socket'
 
 function* onWalletRechage(actions) {
     try {
@@ -34,6 +35,10 @@ function* onWalletRechage(actions) {
             if (payload?.type == 'wallet') {
                 yield call(resetToScreen, 'home')
             } else if (payload?.type === 'wallet_recharge') {
+                yield call(onPop(2))
+            }else if(payload?.type === 'chat_wallet_recharge'){
+                const chatData = yield select(state=>state.chat.chatData)
+                socketServices.emit('updateChatDuration', {roomID: chatData?.data?.historyId, amount: parseFloat(payload?.amount)})
                 yield call(onPop(2))
             }
 

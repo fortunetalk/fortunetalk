@@ -26,6 +26,13 @@ const AstrologerItems = memo(({ item, index, type = 'chat', dispatch }) => {
             dispatch(CallActions.sendCallRequest(payload))
         }
     }
+
+    const getStatusColor = (status)=>{
+        if(status === 'Online') return Colors.green_a
+        else if(status === 'Offline') return Colors.gray
+        else if (status === 'Busy') return 'red'
+    }
+
     return (
         <TouchableOpacity
             activeOpacity={0.8}
@@ -162,7 +169,7 @@ const AstrologerItems = memo(({ item, index, type = 'chat', dispatch }) => {
                         alignSelf: 'flex-end',
                         borderRadius: Sizes.fixPadding * 1.5,
                         marginTop: Sizes.fixPadding,
-                        backgroundColor: Colors.green_a,
+                        backgroundColor: getStatusColor(type == 'chat' ? item?.chatStatus : item?.callStatus),
                         paddingVertical: Sizes.fixPadding * 0.5,
                     }}>
                     <Text style={{ ...Fonts.white14RobotoMedium }}>

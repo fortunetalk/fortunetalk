@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import { Modal } from 'react-native-paper'
 import { Colors, Fonts, SCREEN_HEIGHT, SCREEN_WIDTH, Sizes } from '../../../assets/styles'
 import { BlurView } from '@react-native-community/blur'
@@ -10,23 +10,27 @@ import { connect } from 'react-redux'
 import { navigate } from '../../../utils/navigationServices'
 
 const WalletAlert = ({ dispatch, walletAlertVisible }) => {
+  const [showBlur, setShowBlur] = useState(true);
   const onRecharge = () => {
-    navigate('wallet', { type: 'wallet_recharge' })
-    dispatch(AstrologerActions.setWalletAlertVisible(false))
-   
+    setShowBlur(false);
+    navigate('wallet', { type: walletAlertVisible?.visibleFor })
+    dispatch(AstrologerActions.setWalletAlertVisible({visible: false, visibleFor: ''}))
   }
   return (
     <Modal
-      visible={walletAlertVisible}
+      visible={walletAlertVisible?.visible}
       contentContainerStyle={{ flex: 1 }}
     >
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <BlurView
+        { showBlur &&
+          <BlurView
           style={styles.absolute}
           blurType="light"
           blurAmount={2}
-          reducedTransparencyFallbackColor="white"
+          reducedTransparencyFallbackColor='transparent'
         />
+        }
+        
         <View style={{ backgroundColor: Colors.grayD, borderRadius: Sizes.fixPadding * 1.5, elevation: 8, width: '80%' }}>
           <Text style={{ ...Fonts._18RobotoBold, color: Colors.primaryDark, textAlign: 'center', marginVertical: Sizes.fixPadding }}>Low Balance Alert!</Text>
           <Divider orientation='horizontal' width={2} color={Colors.grayP} />
@@ -35,7 +39,7 @@ const WalletAlert = ({ dispatch, walletAlertVisible }) => {
             <Text style={{ ...Fonts._15RobotMedium, color: Colors.grayO, textAlign: 'center', marginBottom: Sizes.fixPadding }}>Recharge Your Wallet</Text>
           </View>
           <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', bottom: SCREEN_WIDTH * 0.1 }}>
-            <TouchableOpacity activeOpacity={0.8} onPress={() => dispatch(AstrologerActions.setWalletAlertVisible(false))} style={styles.buttonContainer}>
+            <TouchableOpacity activeOpacity={0.8} onPress={() => {   setShowBlur(false); dispatch(AstrologerActions.setWalletAlertVisible({visible: false, visibleFor: ''}))}} style={styles.buttonContainer}>
               <Text style={styles.buttonText}>Exit</Text>
             </TouchableOpacity>
             <TouchableOpacity activeOpacity={0.8} onPress={onRecharge} style={{ width: '40%' }}>

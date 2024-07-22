@@ -443,6 +443,7 @@ async function removeFromWaitingList(liveID, userID) {
 
 function* addInWaitingList(actions) {
   try {
+    const {payload} = actions
     yield put({ type: actionTypes.SET_WAITING_LIST_VISIBLE, payload: false })
     yield put({ type: actionTypes.SET_LIVE_CALLS_VISIBLE, payload: false })
     const customerData = yield select(state => state.customer.customerData);
@@ -468,7 +469,7 @@ function* addInWaitingList(actions) {
         userID: customerData?._id,
         userName: customerData?.customerName,
         wallet: customerData?.wallet_balance,
-        type: 'vedio',
+        type: payload,
         joingTime: new Date().getTime(),
         callStarted: false
       });
@@ -569,7 +570,7 @@ function* onStreamUpdate(actions) {
     if (astrologerKey != null) {
       if (updateType === 1) {
         showToastMessage({ message: 'Astrologer ended the live streaming' })
-        yield call(navigate, 'astroLive')
+        yield call(navigate, 'liveAstrologers')
       }
     }
 

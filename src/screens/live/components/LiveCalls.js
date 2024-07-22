@@ -9,6 +9,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons'
 import { base_url } from '../../../config/constants';
 
 const LiveCalls = ({ liveCallsVisible, dispatch, liveData, astroData, layout }) => {
+  console.log(liveData)
   return (
     <BottomSheet
       isVisible={liveCallsVisible} 
@@ -16,7 +17,7 @@ const LiveCalls = ({ liveCallsVisible, dispatch, liveData, astroData, layout }) 
       <View style={styles.mainContainer}>
         <View style={styles.imageContainer}>
           <Image
-            source={{ uri: base_url + astroData?.profileImage }}
+            source={{ uri: astroData?.profileImage }}
             style={styles.image}
           />
         </View>
@@ -28,9 +29,9 @@ const LiveCalls = ({ liveCallsVisible, dispatch, liveData, astroData, layout }) 
               marginTop: Sizes.fixPadding * 5,
               marginBottom: Sizes.fixPadding * 4,
             }}>
-            {astroData?.astrologerName}
+            {astroData?.name}
           </Text>
-          <View style={styles.itemContainer}>
+          <View style={[styles.itemContainer, {marginBottom: Sizes.fixPadding}]}>
             <View
               style={{
                 width: SCREEN_WIDTH * 0.15,
@@ -43,11 +44,31 @@ const LiveCalls = ({ liveCallsVisible, dispatch, liveData, astroData, layout }) 
               <Ionicons name='videocam' color={Colors.white} size={22} />
             </View>
             <View style={{ width: '60%', paddingHorizontal: Sizes.fixPadding * 0.5 }}>
-              <Text style={{ ...Fonts.white12RobotoRegular, fontSize: 13 }}>Video call @ {showNumber(liveData?.vedioCallPrice)} <Text style={{ textDecorationLine: 'line-through' }}>{showNumber(53)}/min</Text></Text>
+              <Text style={{ ...Fonts.white12RobotoRegular, fontSize: 13 }}>Video call @ {showNumber(liveData?.vedioCallPrice + liveData?.commissionVideoCallPrice)} <Text style={{ textDecorationLine: 'line-through' }}>{showNumber(53)}/min</Text></Text>
               <Text style={{ ...Fonts.white12RobotoRegular, fontSize: 8, color: '#F7C514' }}>Both consultant and you on video call</Text>
             </View>
-            <TouchableOpacity disabled={layout == 'VEDIO_CALL'} onPress={() => dispatch(LiveActions.addInWaitingList())} activeOpacity={0.8} style={{ width: '25%', backgroundColor: layout == 'VEDIO_CALL' ? Colors.grayDark : '#F7C514', justifyContent: 'center', alignItems: 'center', paddingVertical: Sizes.fixPadding * 0.8, borderRadius: Sizes.fixPadding * 0.5 }}>
+            <TouchableOpacity disabled={layout == 'VEDIO_CALL'} onPress={() => dispatch(LiveActions.addInWaitingList('VEDIO_CALL'))} activeOpacity={0.8} style={{ width: '25%', backgroundColor: layout == 'VEDIO_CALL' ? Colors.grayDark : '#F7C514', justifyContent: 'center', alignItems: 'center', paddingVertical: Sizes.fixPadding * 0.8, borderRadius: Sizes.fixPadding * 0.5 }}>
               <Text style={{ ...Fonts.black14InterMedium, color: layout == 'VEDIO_CALL' ? Colors.white : Colors.black }}> {layout == 'VEDIO_CALL' ? 'Joined' : 'Join'}</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.itemContainer}>
+            <View
+              style={{
+                width: SCREEN_WIDTH * 0.15,
+                height: SCREEN_WIDTH * 0.15,
+                borderRadius: 100,
+                justifyContent: 'center',
+                alignItems: 'center',
+                backgroundColor: '#F7C514',
+              }}>
+              <Ionicons name='mic' color={Colors.white} size={22} />
+            </View>
+            <View style={{ width: '60%', paddingHorizontal: Sizes.fixPadding * 0.5 }}>
+              <Text style={{ ...Fonts.white12RobotoRegular, fontSize: 13 }}>Voice call @ {showNumber(liveData?.voiceCallPrice + liveData?.commissionVoiceCallPrice)} <Text style={{ textDecorationLine: 'line-through' }}>{showNumber(53)}/min</Text></Text>
+              <Text style={{ ...Fonts.white12RobotoRegular, fontSize: 8, color: '#F7C514' }}>Both consultant and you on voice call</Text>
+            </View>
+            <TouchableOpacity disabled={layout == 'VOICE_CALL'} onPress={() => dispatch(LiveActions.addInWaitingList('VOICE_CALL'))} activeOpacity={0.8} style={{ width: '25%', backgroundColor: layout == 'VOICE_CALL' ? Colors.grayDark : '#F7C514', justifyContent: 'center', alignItems: 'center', paddingVertical: Sizes.fixPadding * 0.8, borderRadius: Sizes.fixPadding * 0.5 }}>
+              <Text style={{ ...Fonts.black14InterMedium, color: layout == 'VOICE_CALL' ? Colors.white : Colors.black }}> {layout == 'VOICE_CALL' ? 'Joined' : 'Join'}</Text>
             </TouchableOpacity>
           </View>
         </View>

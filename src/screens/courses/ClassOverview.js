@@ -8,13 +8,14 @@ import {
 import moment from 'moment';
 import { connect } from 'react-redux';
 import React, { useEffect, useState } from 'react';
-import MyHeader from '../../../components/MyHeader';
-import CourseRegistration from '../CourseRegistration';
-import Video from '../../../components/Courses/Video';
-import { classifyTimeNoon } from '../../../utils/tools';
-import { navigate } from '../../../utils/navigationServices';
-import { Colors, Fonts, Sizes } from '../../../assets/styles';
-import * as CourseActions from '../../../redux/actions/courseActions'
+import MyHeader from '../../components/MyHeader';
+import CourseRegistration from './CourseRegistration';
+import Video from '../../components/Courses/Video';
+import { classifyTimeNoon } from '../../utils/tools';
+import { navigate } from '../../utils/navigationServices';
+import { Colors, Fonts, Sizes } from '../../assets/styles';
+import * as CourseActions from '../../redux/actions/courseActions'
+import MyStatusBar from '../../components/MyStatusBar';
 
 const ClassOverview = ({
   route,
@@ -23,10 +24,7 @@ const ClassOverview = ({
   dispatch,
   singleDemoClass
 }) => {
-
   const previousPagedata = route.params
-  // console.log("previousPagedata.id ===>>>", previousPagedata.id)
-  console.log("singleDemoClass ==================>>", singleDemoClass)
 
   const [state, setState] = useState({
     name: "",
@@ -100,6 +98,10 @@ const ClassOverview = ({
         flex: 1,
         backgroundColor: Colors.bodyColor
       }}>
+      <MyStatusBar
+        backgroundColor={Colors.primaryLight}
+        barStyle={'light-content'}
+      />
       <MyHeader title={`Demo Class`} />
       {singleDemoClass && <FlatList
         ListHeaderComponent={

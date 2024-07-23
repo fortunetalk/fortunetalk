@@ -8,7 +8,7 @@ import {
 import React from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import { Colors, SCREEN_WIDTH, Fonts, Sizes } from '../../../assets/styles';
+import { Colors, SCREEN_WIDTH, Fonts, Sizes } from '../../assets/styles';
 
 const classData = [
   {

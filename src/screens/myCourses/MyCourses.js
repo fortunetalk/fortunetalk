@@ -2,12 +2,12 @@ import React, { useState } from 'react'
 import { connect } from 'react-redux';
 import { Text, View } from 'react-native'
 import { FlatList } from 'react-native';
-import { Colors } from '../../../assets/styles';
-import MyStatusBar from '../../../components/MyStatusBar';
-import Loader from '../../../components/Loader';
-import MyHeader from '../../../components/MyHeader';
-import LiveClassCategory from './LiveClassCategory';
+import { Colors } from '../../assets/styles';
+import MyStatusBar from '../../components/MyStatusBar';
+import Loader from '../../components/Loader';
+import MyHeader from '../../components/MyHeader';
 import CurrentCoursesDetails from './CurrentCoursesDetails';
+import LiveClassCategory from './LiveClassCategory';
 
 const MyCourses = ({ isLoading, route }) => {
   const [activeFilter, setActiveFilter] = useState(1);
@@ -28,7 +28,7 @@ const MyCourses = ({ isLoading, route }) => {
         barStyle={'light-content'}
       />
       <Loader visible={isLoading} />
-      <MyHeader title={`${previousPagedata.title} Class`} />
+      <MyHeader title={`My Courses`} />
 
       <LiveClassCategory
         filterData={filterData}

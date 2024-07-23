@@ -70,5 +70,9 @@ export const onIsRegisterLiveClass = payload => ({
 })
 
 
+export const onGetSingleLiveClass = payload => ({
+    type: actionTypes.GET_SINGLE_LIVE_CLASS,
+    payload
+})
 
 

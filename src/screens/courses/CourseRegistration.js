@@ -43,6 +43,7 @@ const CourseRegistration = ({
                             style={styles.inputField}
                             keyboardType="phone-pad"
                             value={phoneNumber}
+                            maxLength={10}
                             onChangeText={text => updateState({ phoneNumber: text })}
                         />
                     </View>

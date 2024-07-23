@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 import moment from 'moment';
 import { connect } from 'react-redux';
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import Loader from '../../../components/Loader';
 import MyHeader from '../../../components/MyHeader';
 import Video from '../../../components/Courses/Video';
@@ -17,23 +17,28 @@ import { check_current_day } from '../../../utils/tools';
 import GlobalButton from '../../../components/GlobalButton';
 import * as PaymentActions from '../../../redux/actions/paymentActions'
 import { Colors, Fonts, SCREEN_WIDTH, Sizes } from '../../../assets/styles';
+import * as CourseActions from '../../../redux/actions/courseActions'
 
-const LiveClassDetails = ({ navigation, route }) => {
-    const [classData] = useState(route?.params?.classData);
-    const [isLoading, setIsLoading] = useState(false);
-    const CoursePayment = classData?.price - (classData?.price * classData.discount / 100)
+const LiveClassDetails = ({ navigation, route, singleLiveClass, dispatch, isLoading }) => {
+    const CoursePayment = singleLiveClass?.price - (singleLiveClass?.price * singleLiveClass.discount / 100)
 
     const go_to_live = () => {
     };
+
+    useEffect(() => {
+        dispatch(CourseActions.onGetSingleLiveClass({
+            classId: route.params.id
+        }))
+    }, [])
 
     const handlePress = () => {
         PaymentActions.onCoursesPayment({ amount: CoursePayment })
     }
 
-    console.log("classData =====>>>>>", classData)
+    console.log("singleLiveClass =====>>>>>", singleLiveClass)
 
     return (
-        <View style={{ flex: 1 }}>
+        <View style={{ flex: 1, backgroundColor: Colors.white }}>
             <MyStatusBar
                 backgroundColor={Colors.primaryLight}
                 barStyle={'light-content'}
@@ -41,27 +46,21 @@ const LiveClassDetails = ({ navigation, route }) => {
             <Loader visible={isLoading} />
             <MyHeader title={'Live Class'} navigation={navigation} />
             <View style={{ flex: 1, backgroundColor: Colors.white }}>
-                <FlatList
+                {singleLiveClass && <FlatList
                     ListHeaderComponent={
                         <>
-                            <Video uri={classData?.video} />
+                            <Video uri={singleLiveClass?.video} />
                             {courseDetails()}
-                            {bookNow()}
-                            {classesList()}
+                            <View style={{ paddingHorizontal: Sizes.fixPadding * 2.5 }} >
+                                <GlobalButton handlePress={handlePress} ButtonName={"Book Now"} />
+                            </View>
+                            {/* {classesList()} */}
                         </>
                     }
-                />
+                />}
             </View>
         </View>
-    );
-
-    function bookNow() {
-        return (
-            <View style={{ paddingHorizontal: Sizes.fixPadding * 2.5 }} >
-                <GlobalButton handlePress={handlePress} ButtonName={"Book Now"} />
-            </View>
-        )
-    }
+    )
 
     function courseDetails() {
         return (
@@ -83,7 +82,7 @@ const LiveClassDetails = ({ navigation, route }) => {
                                 },
                             ]}
                         >
-                            ₹ {CoursePayment}
+                            ₹ {CoursePayment || "-"}
                         </Text>
                         <Text
                             style={[
@@ -95,7 +94,7 @@ const LiveClassDetails = ({ navigation, route }) => {
                                 },
                             ]}
                         >
-                            ₹{classData?.price}
+                            ₹ {singleLiveClass?.price || "-"}
                         </Text>
                     </View>
                 </View>
@@ -273,9 +272,14 @@ const LiveClassDetails = ({ navigation, route }) => {
 };
 
 const mapStateToProps = state => ({
+    singleLiveClass: state.courses.singleLiveClass,
+    isLoading: state.settings.isLoading,
 });
 
-export default connect(mapStateToProps, null)(LiveClassDetails);
+const mapDispatchToProps = dispatch => ({ dispatch })
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(LiveClassDetails);
 
 const styles = StyleSheet.create({
     container: {

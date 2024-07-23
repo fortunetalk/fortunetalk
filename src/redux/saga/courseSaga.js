@@ -11,6 +11,7 @@ import {
     get_demo_class_list,
     get_live_class_list,
     get_single_demo_class_by_id,
+    get_single_live_class_by_id,
     get_teachers_list,
     get_workshop_list,
     get_workshop_list_without_id,
@@ -168,6 +169,8 @@ function* bookDemoClass(actions) {
         yield put({ type: actionTypes.SET_IS_LOADING, payload: true })
         const { payload } = actions
 
+        console.log("payload  =====>>>>", payload)
+
         const response = yield postRequest({
             url: app_api_url + book_demo_class,
             data: payload
@@ -194,7 +197,7 @@ function* getSingleDemoClass(actions) {
         yield put({ type: actionTypes.SET_IS_LOADING, payload: true })
         const { payload } = actions
 
-        console.log("url: app_api_url + get_single_demo_class_by_id,", { url: app_api_url + get_single_demo_class_by_id, })
+        // console.log("url: app_api_url + get_single_demo_class_by_id,", { url: app_api_url + get_single_demo_class_by_id, })
 
         const response = yield postRequest({
             url: app_api_url + get_single_demo_class_by_id,
@@ -203,6 +206,29 @@ function* getSingleDemoClass(actions) {
 
         if (response?.success) {
             yield put({ type: actionTypes.GET_SINGLE_DEMO_CLASS, payload: response?.data })
+        }
+
+        yield put({ type: actionTypes.SET_IS_LOADING, payload: false })
+    } catch (e) {
+        yield put({ type: actionTypes.SET_IS_LOADING, payload: false })
+        console.log(e)
+    }
+}
+
+function* getSingleLiveClass(actions) {
+    try {
+        yield put({ type: actionTypes.SET_IS_LOADING, payload: true })
+        const { payload } = actions
+
+        // console.log("url: app_api_url + get_single_demo_class_by_id,", { url: app_api_url + get_single_demo_class_by_id, })
+
+        const response = yield postRequest({
+            url: app_api_url + get_single_live_class_by_id,
+            data: payload
+        })
+
+        if (response?.success) {
+            yield put({ type: actionTypes.GET_SINGLE_LIVE_CLASS, payload: response?.data })
         }
 
         yield put({ type: actionTypes.SET_IS_LOADING, payload: false })
@@ -301,10 +327,16 @@ function* isRegisterForLiveClass(actions) {
         yield put({ type: actionTypes.SET_IS_LOADING, payload: true })
         const { payload } = actions
 
-        const response = yield getRequest({
+        console.log("payload =====>>>>", payload)
+        console.log("url: app_api_url + is_registered_for_live_class =====>>>>", { url: app_api_url + is_registered_for_live_class })
+
+
+        const response = yield postRequest({
             url: app_api_url + is_registered_for_live_class,
             data: payload
         })
+
+        console.log("payload: response?.data ====>>>>>", { payload: response?.data })
 
         if (response?.success) {
             yield put({ type: actionTypes.IS_REGISTER_FOR_LIVE_CLASS, payload: response?.data })
@@ -337,5 +369,6 @@ export default function* coursesSaga() {
 
     yield takeLeading(actionTypes.REGISTER_FOR_LIVE_CLASS, registerLiveClass)
     yield takeLeading(actionTypes.IS_REGISTER_FOR_LIVE_CLASS, isRegisterForLiveClass)
+    yield takeLeading(actionTypes.GET_SINGLE_LIVE_CLASS, getSingleLiveClass)
 
 }

@@ -11,15 +11,21 @@ import { Text, TouchableOpacity, View, FlatList, Alert } from 'react-native'
 
 const CourseDetails = ({
     route,
-    isLoading,
     dispatch,
     customerData,
     demoClassBooked,
-    registerDemoclass,
     isRegisterForLive
 }) => {
     const previousPagedata = route.params
+    const customerId = customerData?._id
     const classId = previousPagedata.classdetails._id
+    const courseId = previousPagedata.courseData?._id
+    const amount = previousPagedata?.classdetails?.price
+    const astrologerId = previousPagedata.classdetails?.astrologerId?._id
+
+    // console.log("astrologerId ====>>>>" , astrologerId)
+    // console.log("previousPagedata.classdetails ====>>>>" , previousPagedata.classdetails)
+
     const [state, setState] = useState({
         name: "",
         phoneNumber: "",
@@ -28,24 +34,41 @@ const CourseDetails = ({
     const { name, phoneNumber, modalVisible } = state
 
     useEffect(() => {
-        dispatch(CourseActions.demoClassBooked({
-            demoClassId: classId,
-            customerId: customerData._id,
-        }))
-        dispatch(CourseActions.onIsRegisterLiveClass({
-            liveClassId: classId,
-            customerId: customerData._id,
-        }))
+        if (previousPagedata.title == "Demo") {
+            dispatch(CourseActions.demoClassBooked({
+                demoClassId: classId,
+                customerId,
+            }))
+        } else {
+            dispatch(CourseActions.onIsRegisterLiveClass({
+                liveClassId: classId,
+                customerId,
+            }))
+        }
     }, [])
 
+    // console.log("isRegisterForLive ====>>>>", isRegisterForLive)
+
     const handleNext = () => {
-        if (demoClassBooked) {
-            navigate("classOverview", {
-                id: classId,
-                title: previousPagedata.title
-            })
-        } else {
-            updateState({ modalVisible: true })
+        if (previousPagedata.title == "Demo") {
+            if (demoClassBooked) {
+                navigate("classOverview", {
+                    id: classId,
+                    title: previousPagedata.title
+                })
+            } else {
+                updateState({ modalVisible: true })
+            }
+        }
+        else {
+            if (isRegisterForLive == true) {
+                navigate("liveclassdetails", {
+                    id: classId,
+                    title: previousPagedata.title
+                })
+            } else {
+                updateState({ modalVisible: true })
+            }
         }
     };
 
@@ -63,35 +86,24 @@ const CourseDetails = ({
             Alert.alert("Phone Number Required")
         } else {
             if (previousPagedata.title == "Demo") {
-                // if (!demoClassBooked) {
-                    dispatch(CourseActions.bookdemoClass({
-                        customerName: name,
-                        mobileNumber: phoneNumber,
-                        astrologerId: previousPagedata.classdetails?.astrologerId?._id,
-                        demoClassId: classId,
-                        courseId: previousPagedata.courseData?._id,
-                        customerId: customerData?._id,
-                    }))
-                // }
-                // navigate("classOverview", {
-                //     classData: previousPagedata.classdetails,
-                //     title: previousPagedata.title,
-                //     isRegister: false
-                // })
-            } else if (previousPagedata.title == "Live") {
-                dispatch(CourseActions.onRegisterLiveClass({
-                    courseId: previousPagedata.courseData?._id,
-                    liveClassId: classId,
-                    astrologerId: previousPagedata.classdetails?.astrologerId?._id,
-                    customerId: customerData?._id,
+                dispatch(CourseActions.bookdemoClass({
                     customerName: name,
                     mobileNumber: phoneNumber,
-                    amount: previousPagedata?.classdetails?.price
+                    astrologerId,
+                    demoClassId: classId,
+                    courseId,
+                    customerId,
                 }))
-                navigate("liveclassdetails", {
-                    classData: previousPagedata.classdetails,
-                    title: previousPagedata.title
-                })
+            } else if (previousPagedata.title == "Live") {
+                dispatch(CourseActions.onRegisterLiveClass({
+                    courseId,
+                    liveClassId: classId,
+                    astrologerId,
+                    customerId,
+                    customerName: name,
+                    mobileNumber: phoneNumber,
+                    amount
+                }))
             }
         }
         updateState({ modalVisible: false })

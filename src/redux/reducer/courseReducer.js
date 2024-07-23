@@ -14,6 +14,7 @@ const initialState = {
     registerDemoclass:null,
     isRegisterForLive:null,
     singleDemoClass : null,
+    singleLiveClass : null,
 }
 
 const courses = (state = initialState, actions) => {
@@ -101,6 +102,12 @@ const courses = (state = initialState, actions) => {
             return {
                 ...state,
                 singleDemoClass: payload
+            }
+        }
+        case actionTypes.GET_SINGLE_LIVE_CLASS: {
+            return {
+                ...state,
+                singleLiveClass: payload
             }
         }
         default: {

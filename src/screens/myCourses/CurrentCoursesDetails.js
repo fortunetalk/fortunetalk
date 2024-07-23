@@ -10,10 +10,10 @@ import { connect } from 'react-redux';
 import React, { useEffect } from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
-import Video from '../../../components/Courses/Video';
-import { Colors, Fonts, Sizes } from '../../../assets/styles';
-import { check_current_day } from '../../../utils/tools';
-import * as Courses from '../../../redux/actions/courseActions';
+import Video from '../../components/Courses/Video';
+import { Colors, Fonts, Sizes } from '../../assets/styles';
+import { check_current_day } from '../../utils/tools';
+import * as Courses from '../../redux/actions/courseActions';
 
 const CurrentCoursesDetails = ({ liveClassOfClass, dispatch, classData }) => {
 

@@ -1,8 +1,8 @@
-import { View, Text, FlatList, TouchableOpacity, Image } from 'react-native';
 import React from 'react';
-import { Colors, Fonts, SCREEN_WIDTH, Sizes } from '../../assets/styles';
-import MyStatusBar from '../../components/MyStatusBar';
 import MyHeader from '../../components/MyHeader';
+import MyStatusBar from '../../components/MyStatusBar';
+import { Colors, Fonts, SCREEN_WIDTH, Sizes } from '../../assets/styles';
+import { View, Text, FlatList, TouchableOpacity, Image } from 'react-native';
 
 const data = [
     {

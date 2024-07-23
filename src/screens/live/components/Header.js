@@ -6,9 +6,9 @@ import { connect } from 'react-redux';
 import * as LiveActions from '../../../redux/actions/liveActions';
 import CallTimer from './CallTimer';
 import { goBack } from '../../../utils/navigationServices';
+import { base_url } from '../../../config/constants';
 
 const Header = ({ roomUserCount, dispatch, coHostData, astroData, customerData }) => {
-  console.log(astroData)
   const [duration, setDuration] = useState(null);
   useEffect(() => {
     if (coHostData) {
@@ -30,16 +30,16 @@ const Header = ({ roomUserCount, dispatch, coHostData, astroData, customerData }
     <View style={styles.container}>
       <View style={styles.col1}>
         <View style={styles.imageContainer}>
-          {/* <Image
-            source={{ uri: base_url + astroData?.profileImage }}
+          <Image
+            source={{ uri: astroData?.profileImage }}
             style={{ width: '100%', height: '100%', borderRadius: 100 }}
-          /> */}
+          />
         </View>
         {coHostData && <View style={styles.coHostImageContainer}>
-          {/* <Image
-            source={{ uri: img_url + coHostData?.img_url }}
+          <Image
+            source={{ uri: base_url + coHostData?.img_url }}
             style={{ width: '100%', height: '100%', borderRadius: 100 }}
-          /> */}
+          />
         </View>}
 
         <Text

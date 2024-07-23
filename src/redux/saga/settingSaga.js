@@ -20,7 +20,7 @@ function* getSplash() {
             if (response?.success) {
                 yield AsyncStorage.setItem('customerData', JSON.stringify(response?.data))
                 yield put({ type: actionTypes.SET_CUSTOMER_DATA, payload: response?.data })
-                yield onUserLogin("1", 'Ranjeet Kumar')
+                yield onUserLogin(response?.data?._id, response?.data?.customerName ?? 'Customer')
                 yield call(resetToScreen, 'home')
             } else {
                 yield call(resetToScreen, 'login')

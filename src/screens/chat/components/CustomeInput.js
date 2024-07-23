@@ -34,6 +34,7 @@ const CustomeInput = ({ sendButtonProps, sendProps, attachments }) => {
                     </View> : <TextInput
                         value={message}
                         placeholder='Enter message...'
+                        multiline
                         onChangeText={onChangeText}
                         style={{ ...Fonts._13InterMedium, flex: 1 }}
                     />
@@ -62,7 +63,7 @@ const CustomeInput = ({ sendButtonProps, sendProps, attachments }) => {
             renderActions={renderActions}
             renderSend={renderSend}
             containerStyle={{ paddingHorizontal: Sizes.fixPadding, }}
-            primaryStyle={{ flexDirection: 'row', alignItems: 'center', }}
+            primaryStyle={{ flexDirection: 'row', alignItems: 'flex-end', }}
         />
     )
 }

@@ -37,7 +37,7 @@ function* sendChatRequest(actions) {
             });
         } else {
             if (response?.message == 'Insufficent Balance') {
-                yield put({ type: actionTypes.SET_WALLET_ALERT_VISIBLE, payload: true })
+                yield put({ type: actionTypes.SET_WALLET_ALERT_VISIBLE, payload: {visible: true, visibleFor: 'wallet_recharge'} })
             }
             showToastMessage({ message: response.message })
         }
@@ -56,6 +56,11 @@ function* startChat(actions) {
         yield put({ type: actionTypes.SET_CHAT_REQUEST_MODAL_DATA, payload: { visible: false, data: { astrologerName: null, astrologerImage: null } } })
         socketServices.emit('joinChatRoom', historyId)
         socketServices.emit('startChatTimer', historyId)
+
+        console.log( {
+            chatId: historyId,
+            type: 'customer'
+        })
 
         const response = yield postRequest({
             url: app_api_url + get_chat_data,

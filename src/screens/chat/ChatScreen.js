@@ -12,30 +12,9 @@ const ChatScreen = ({ route, navigation, dispatch }) => {
 
   useEffect(() => {
     if (route?.params) {
-      dispatch(ChatActions.startChat({ historyId: route.params.historyId, dispatch }))
+      dispatch(ChatActions.startChat({ historyId: route.params.historyId.replace(/^:/, ''), dispatch }))
     }
   }, [dispatch])
-
-  useEffect(() => {
-    const backAction = () => {
-      Alert.alert('Hold on!', 'Are you sure you want to end chat?', [
-        {
-          text: 'Cancel',
-          onPress: () => null,
-          style: 'cancel',
-        },
-        { text: 'YES', onPress: () => dispatch(ChatActions.onEndChat()) },
-      ]);
-      return true;
-    };
-
-    const backHandler = BackHandler.addEventListener(
-      'hardwareBackPress',
-      backAction,
-    );
-
-    return () => backHandler.remove();
-  }, []);
 
   return (
     <View style={{ flex: 1, backgroundColor: Colors.white }}>

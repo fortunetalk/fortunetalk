@@ -23,7 +23,7 @@ export async function handleIncomingNotification(message, dispatch = null) {
         const { data } = message;
         switch (data.type) {
             case 'CHAT_REQUEST':
-                await displayChatNotification();
+                await displayChatNotification(data);
                 break;
             case 'CALL_ENDED':
                 dispatch(CallActions.getCallInovoiceData(data));
@@ -52,12 +52,12 @@ export async function handleIncomingNotification(message, dispatch = null) {
 }
 
 // Function to display a chat notification
-export async function displayChatNotification() {
+export async function displayChatNotification(data) {
     try {
         const channelId = await notifee.createChannel({
             id: 'chat_request',
             name: 'Chat Request',
-            sound: 'zego_incoming',
+            sound: 'chat_incoming',
             vibration: true,
             vibrationPattern: [300, 500],
             lights: true,
@@ -69,11 +69,12 @@ export async function displayChatNotification() {
         await notifee.displayNotification({
             title: 'Chat Request',
             body: 'You have a new chat request.',
+            data: data,
             android: {
                 channelId: channelId,
                 color: '#000000',
                 smallIcon: 'ic_launcher', // Replace with your small icon name
-                sound: 'zego_incoming',
+                sound: 'chat_incoming',
                 loopSound: true,
                 timeoutAfter: 1000 * 30,
                 autoCancel: false,
@@ -101,6 +102,7 @@ export async function displayChatNotification() {
                 ],
                 fullScreenAction: {
                     id: 'default',
+                    launchActivity: 'com.fortunetalk.FullScreenActivity',
                 },
                 // asForegroundService: true,
             },

@@ -95,6 +95,14 @@ const WaitingList = ({ dispatch, waitingListVisible, waitListData, layout }) => 
               {item?.userName}
             </Text>
           </View>
+          <Text
+              style={{
+                ...Fonts.black11InterMedium,
+                marginLeft: Sizes.fixPadding * 0.5,
+                color: Colors.primaryLight,
+              }}>
+              {item?.type == 'VOICE_CALL' ? 'Voice' : 'Video'}
+            </Text>
           <Text style={{ ...Fonts.gray11RobotoRegular }}>
             Waiting - <WaitingTimer joingTime={getCurrentDuration(item?.joingTime)} />
           </Text>

@@ -27,8 +27,7 @@ const LiveClassDetails = ({ navigation, route }) => {
     };
 
     const handlePress = () => {
-        console.log("ksajhjkd")
-        PaymentActions.onCoursesPayment({ amount:CoursePayment})
+        PaymentActions.onCoursesPayment({ amount: CoursePayment })
     }
 
     console.log("classData =====>>>>>", classData)

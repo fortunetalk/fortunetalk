@@ -1,4 +1,4 @@
-import { call, put, takeLeading } from 'redux-saga/effects'
+import { call, put, select, takeLeading } from 'redux-saga/effects'
 import * as actionTypes from '../actionTypes'
 import { getRequest, postRequest } from '../../utils/apiRequests'
 import {
@@ -10,6 +10,7 @@ import {
     get_course_list,
     get_demo_class_list,
     get_live_class_list,
+    get_single_demo_class_by_id,
     get_teachers_list,
     get_workshop_list,
     get_workshop_list_without_id,
@@ -18,6 +19,7 @@ import {
     register_for_live_class
 } from '../../config/constants'
 import { showToastMessage } from '../../utils/services'
+import { navigate } from '../../utils/navigationServices'
 
 function* getCourseBanner() {
     try {
@@ -173,7 +175,34 @@ function* bookDemoClass(actions) {
 
         if (response?.success) {
             yield put({ type: actionTypes.BOOKED_DEMO_CLASS, payload: response?.data })
-            yield call(showToastMessage, { message: "Class Registered" })
+            yield call(showToastMessage, { message: "Class Registered Successfully" })
+            navigate("classOverview", {
+                id: response?.data?.demoClassId,
+                title: "Demo",
+                isRegister: false
+            })
+        }
+        yield put({ type: actionTypes.SET_IS_LOADING, payload: false })
+    } catch (e) {
+        yield put({ type: actionTypes.SET_IS_LOADING, payload: false })
+        console.log(e)
+    }
+}
+
+function* getSingleDemoClass(actions) {
+    try {
+        yield put({ type: actionTypes.SET_IS_LOADING, payload: true })
+        const { payload } = actions
+
+        console.log("url: app_api_url + get_single_demo_class_by_id,", { url: app_api_url + get_single_demo_class_by_id, })
+
+        const response = yield postRequest({
+            url: app_api_url + get_single_demo_class_by_id,
+            data: payload
+        })
+
+        if (response?.success) {
+            yield put({ type: actionTypes.GET_SINGLE_DEMO_CLASS, payload: response?.data })
         }
 
         yield put({ type: actionTypes.SET_IS_LOADING, payload: false })
@@ -255,8 +284,6 @@ function* registerLiveClass(actions) {
             data: payload
         })
 
-        console.log("response?.success" , response?.success)
-        
         if (response?.success) {
             yield put({ type: actionTypes.REGISTER_FOR_LIVE_CLASS, payload: response?.data })
             yield call(showToastMessage, { message: "Class Registered Successfully" })
@@ -300,6 +327,8 @@ export default function* coursesSaga() {
     yield takeLeading(actionTypes.GET_TEACHERS_LIST, getTeachersList)
 
     yield takeLeading(actionTypes.BOOKED_DEMO_CLASS, bookDemoClass)
+    yield takeLeading(actionTypes.GET_SINGLE_DEMO_CLASS, getSingleDemoClass)
+
     yield takeLeading(actionTypes.LIVE_CLASS_OF_CLASS, liveClassofClass)
     yield takeLeading(actionTypes.CHECK_CUSTOMER_DEMO_CLASS_BOOKED, isDemoClassBooked)
 

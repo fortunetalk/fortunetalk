@@ -1,12 +1,12 @@
-import { View, Text, TouchableOpacity, Image, StyleSheet, FlatList } from 'react-native'
-import React, { useEffect, useState } from 'react'
-import LinearGradient from 'react-native-linear-gradient';
-import { Colors, Fonts, Sizes, SCREEN_WIDTH } from '../../../assets/styles';
-import Ionicons from 'react-native-vector-icons/Ionicons'
-import database from '@react-native-firebase/database'
 import { connect } from 'react-redux';
+import React, { useEffect, useState } from 'react'
+import database from '@react-native-firebase/database'
+import Ionicons from 'react-native-vector-icons/Ionicons'
+import LinearGradient from 'react-native-linear-gradient';
 import { navigate } from '../../../utils/navigationServices';
 import * as LiveActions from '../../../redux/actions/liveActions'
+import { Colors, Fonts, Sizes, SCREEN_WIDTH } from '../../../assets/styles';
+import { View, Text, TouchableOpacity, Image, StyleSheet, FlatList } from 'react-native'
 
 const LiveAstrologers = ({ customerData, dispatch }) => {
 
@@ -113,8 +113,7 @@ const LiveAstrologers = ({ customerData, dispatch }) => {
 
   return (
     <>
-      {
-        liveAstroListData &&
+      {liveAstroListData &&
         <View style={{ borderBottomWidth: 1, borderBottomColor: Colors.grayLight }}>
           <View
             style={{
@@ -140,7 +139,6 @@ const LiveAstrologers = ({ customerData, dispatch }) => {
         </View>
       }
     </>
-
   );
 }
 

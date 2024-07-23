@@ -37,7 +37,7 @@ const MyCourses = ({ isLoading, route }) => {
       />
       <FlatList ListHeaderComponent={
         <>
-          {activeFilter == 1 && <CurrentCoursesDetails classData = {previousPagedata.classData} />}
+          {activeFilter == 1 && <CurrentCoursesDetails classData={previousPagedata.classData} />}
           {activeFilter == 2 && <Text>durgeh</Text>}
         </>
       }

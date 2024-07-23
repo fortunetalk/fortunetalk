@@ -44,6 +44,10 @@ export const bookdemoClass = payload => ({
     type: actionTypes.BOOKED_DEMO_CLASS,
     payload
 })
+export const onGetSingleDemoClass = payload => ({
+    type: actionTypes.GET_SINGLE_DEMO_CLASS,
+    payload
+})
 
 export const liveClassOfClass = payload => ({
     type: actionTypes.LIVE_CLASS_OF_CLASS,

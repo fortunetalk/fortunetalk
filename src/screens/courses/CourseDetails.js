@@ -19,6 +19,7 @@ const CourseDetails = ({
     isRegisterForLive
 }) => {
     const previousPagedata = route.params
+    const classId = previousPagedata.classdetails._id
     const [state, setState] = useState({
         name: "",
         phoneNumber: "",
@@ -26,30 +27,25 @@ const CourseDetails = ({
     })
     const { name, phoneNumber, modalVisible } = state
 
-    console.log("registerDemoclass =====>>>>", registerDemoclass)
-    console.log("isRegisterForLive =====>>>>", isRegisterForLive)
-    console.log(" previousPagedata.classdetails =====>>>>", previousPagedata.classdetails.price)
-
     useEffect(() => {
         dispatch(CourseActions.demoClassBooked({
-            demoClassId: previousPagedata.classdetails?._id,
-            customerId: customerData?._id,
+            demoClassId: classId,
+            customerId: customerData._id,
         }))
         dispatch(CourseActions.onIsRegisterLiveClass({
-            liveClassId: previousPagedata.classdetails?._id,
-            customerId: customerData?._id,
+            liveClassId: classId,
+            customerId: customerData._id,
         }))
     }, [])
 
     const handleNext = () => {
         if (demoClassBooked) {
             navigate("classOverview", {
-                classData: previousPagedata.classdetails,
+                id: classId,
                 title: previousPagedata.title
             })
         } else {
-            // updateState({ modalVisible: true })
-            handleRegistration()
+            updateState({ modalVisible: true })
         }
     };
 
@@ -61,49 +57,44 @@ const CourseDetails = ({
     };
 
     const handleRegistration = () => {
-        // if (name.length < 1) {
-        //     Alert.alert("Name Required")
-        // } else if (phoneNumber.length < 9) {
-        //     Alert.alert("Phone Number Required")
-        // } 
-
-        // if(){
-        if (previousPagedata.title == "Demo") {
-            if (!demoClassBooked) {
-                dispatch(CourseActions.bookdemoClass({
+        if (name.length < 1) {
+            Alert.alert("Name Required")
+        } else if (phoneNumber.length < 9) {
+            Alert.alert("Phone Number Required")
+        } else {
+            if (previousPagedata.title == "Demo") {
+                // if (!demoClassBooked) {
+                    dispatch(CourseActions.bookdemoClass({
+                        customerName: name,
+                        mobileNumber: phoneNumber,
+                        astrologerId: previousPagedata.classdetails?.astrologerId?._id,
+                        demoClassId: classId,
+                        courseId: previousPagedata.courseData?._id,
+                        customerId: customerData?._id,
+                    }))
+                // }
+                // navigate("classOverview", {
+                //     classData: previousPagedata.classdetails,
+                //     title: previousPagedata.title,
+                //     isRegister: false
+                // })
+            } else if (previousPagedata.title == "Live") {
+                dispatch(CourseActions.onRegisterLiveClass({
+                    courseId: previousPagedata.courseData?._id,
+                    liveClassId: classId,
+                    astrologerId: previousPagedata.classdetails?.astrologerId?._id,
+                    customerId: customerData?._id,
                     customerName: name,
                     mobileNumber: phoneNumber,
-                    astrologerId: previousPagedata.classdetails?.astrologerId?._id,
-                    demoClassId: previousPagedata.classdetails?._id,
-                    courseId: previousPagedata.courseData?._id,
-                    customerId: customerData?._id,
+                    amount: previousPagedata?.classdetails?.price
                 }))
+                navigate("liveclassdetails", {
+                    classData: previousPagedata.classdetails,
+                    title: previousPagedata.title
+                })
             }
-            navigate("classOverview", {
-                classData: previousPagedata.classdetails,
-                title: previousPagedata.title,
-                isRegister: false
-            })
-        } else if (previousPagedata.title == "Live") {
-
-            console.log("Live class")
-
-            // dispatch(CourseActions.onRegisterLiveClass({
-            //     courseId: previousPagedata.courseData?._id,
-            //     liveClassId: previousPagedata.classdetails?._id,
-            //     astrologerId: previousPagedata.classdetails?.astrologerId?._id,
-            //     customerId: customerData?._id,
-            //     customerName: name,
-            //     mobileNumber: phoneNumber,
-            //     amount: previousPagedata?.classdetails?.price
-            // }))
-            navigate("liveclassdetails", {
-                classData: previousPagedata.classdetails,
-                title: previousPagedata.title
-            })
         }
         updateState({ modalVisible: false })
-        // }
     };
 
     return (
@@ -113,8 +104,7 @@ const CourseDetails = ({
                 barStyle={'light-content'}
             />
             <MyHeader
-                title={previousPagedata.courseData?.title ||
-                    previousPagedata?.courseData?.workShopName}
+                title={previousPagedata.courseData?.title}
             />
             <FlatList
                 ListHeaderComponent={

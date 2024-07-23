@@ -5,9 +5,9 @@ import {
   Platform,
   ToastAndroid,
 } from 'react-native';
+import moment from 'moment';
 import messaging from '@react-native-firebase/messaging';
 import * as ImagePicker from 'react-native-image-picker';
-import moment from 'moment';
 import Notifications from './notifiactionManager';
 
 export const showToastMessage = ({message = ''}) => {

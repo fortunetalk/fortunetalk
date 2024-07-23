@@ -49,6 +49,9 @@ export const get_workshop_list_without_id = "course/customer/workshop"
 
 export const get_teachers_list = "course/customer/astrologer_by_course"
 export const book_demo_class = "course/customer/booked_demo_class"
+
+export const get_single_demo_class_by_id = "course/customer/demo_class_by_id"
+
 export const live_class_of_class = "course/customer/class_by_live_class_id"
 export const check_customer_demo_class_booked = "course/customer/check_customer_demo_class_booked"
 

@@ -47,9 +47,8 @@ const DemoClass = ({
             }}>
                 <FlatList
                     data={demoClass}
-                    renderItem={({ item, index }) => <DemoClassItem item={item} courseData={courseData} />}
+                    renderItem={({ item }) => <DemoClassItem item={item} courseData={courseData} />}
                     keyExtractor={item => item.id}
-                    // ListEmptyComponent={<NoDataFound />}
                 />
             </View>
         );

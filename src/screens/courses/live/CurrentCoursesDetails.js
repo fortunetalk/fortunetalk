@@ -7,57 +7,19 @@ import {
 } from 'react-native';
 import moment from 'moment';
 import { connect } from 'react-redux';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import LinearGradient from 'react-native-linear-gradient';
 import Video from '../../../components/Courses/Video';
 import { Colors, Fonts, Sizes } from '../../../assets/styles';
 import { check_current_day } from '../../../utils/tools';
 import * as Courses from '../../../redux/actions/courseActions';
 
-const CurrentCoursesDetails = ({ navigation, liveClassOfClass, dispatch, classData }) => {
-
-  console.log("classData?._id=====>>>>", classData?._id)
-
-  console.log("liveClassOfClass=====>>>>>", liveClassOfClass)
+const CurrentCoursesDetails = ({ liveClassOfClass, dispatch, classData }) => {
 
   useEffect(() => {
-    dispatch(Courses.liveClassOfClass({
-      liveClassId: classData?._id
-    }))
+    dispatch(Courses.liveClassOfClass({ liveClassId: classData?._id }))
   }, [])
-
-  const [liveData] = useState({
-    "course_name": "React Native Development",
-    "description": "This course covers all aspects of React Native development.",
-    "video": "https://example.com/video.mp4",
-    "course_live_tbl": [
-      {
-        "start_date": "2024-07-08",
-        "start_time": "10:00 AM",
-        "class_name": "Introduction to React Native",
-        "description": "An introductory session to React Native.",
-        "time_session_duration": 60,
-        "status": 0,
-        "time": 45,
-        "is_live": 1,
-        "unique_id": "12345"
-      },
-      {
-        "start_date": "2024-07-09",
-        "start_time": "11:00 AM",
-        "class_name": "React Native Components",
-        "description": "A session on React Native components.",
-        "time_session_duration": 90,
-        "status": 1,
-        "time": 90,
-        "is_live": 0,
-        "unique_id": "12346"
-      }
-    ]
-  }
-  );
 
   return (
     <View style={{
@@ -67,7 +29,7 @@ const CurrentCoursesDetails = ({ navigation, liveClassOfClass, dispatch, classDa
       <FlatList
         ListHeaderComponent={
           <>
-            {liveVedioInfo()}
+            <Video uri={classData?.video} />
             {courseTitleInfo()}
             {courseDescriptionInfo()}
             {liveClassOfClass && classInfo()}
@@ -236,9 +198,6 @@ const CurrentCoursesDetails = ({ navigation, liveClassOfClass, dispatch, classDa
     );
   }
 
-  function liveVedioInfo() {
-    return <Video uri={classData?.video} />;
-  }
 };
 
 const mapStateToProps = state => ({

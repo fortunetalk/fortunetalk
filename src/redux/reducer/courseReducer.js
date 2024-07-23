@@ -12,7 +12,8 @@ const initialState = {
     workshopWithoutId:null,
     allDemoClass:null,
     registerDemoclass:null,
-    isRegisterForLive:null
+    isRegisterForLive:null,
+    singleDemoClass : null,
 }
 
 const courses = (state = initialState, actions) => {
@@ -94,6 +95,12 @@ const courses = (state = initialState, actions) => {
             return {
                 ...state,
                 isRegisterForLive: payload
+            }
+        }
+        case actionTypes.GET_SINGLE_DEMO_CLASS: {
+            return {
+                ...state,
+                singleDemoClass: payload
             }
         }
         default: {

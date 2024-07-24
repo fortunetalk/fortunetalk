@@ -20,20 +20,16 @@ import { Colors, Fonts, SCREEN_WIDTH, Sizes } from '../../../assets/styles';
 import * as CourseActions from '../../../redux/actions/courseActions'
 
 const LiveClassDetails = ({ navigation, route, singleLiveClass, dispatch, isLoading }) => {
-    const CoursePayment = singleLiveClass?.price - (singleLiveClass?.price * singleLiveClass.discount / 100)
+    // const CoursePayment = singleLiveClass?.price - (singleLiveClass?.price * singleLiveClass.discount / 100)
 
     const go_to_live = () => {
     };
 
-    useEffect(() => {
-        dispatch(CourseActions.onGetSingleLiveClass({
-            classId: route.params.id
-        }))
-    }, [])
-
-    const handlePress = () => {
-        PaymentActions.onCoursesPayment({ amount: CoursePayment })
-    }
+    // useEffect(() => {
+    //     dispatch(CourseActions.onGetSingleLiveClass({
+    //         classId: route.params.id
+    //     }))
+    // }, [])
 
     console.log("singleLiveClass =====>>>>>", singleLiveClass)
 
@@ -45,7 +41,7 @@ const LiveClassDetails = ({ navigation, route, singleLiveClass, dispatch, isLoad
             />
             <Loader visible={isLoading} />
             <MyHeader title={'Live Class'} navigation={navigation} />
-            <View style={{ flex: 1, backgroundColor: Colors.white }}>
+            {/* <View style={{ flex: 1, backgroundColor: Colors.white }}>
                 {singleLiveClass && <FlatList
                     ListHeaderComponent={
                         <>
@@ -54,11 +50,11 @@ const LiveClassDetails = ({ navigation, route, singleLiveClass, dispatch, isLoad
                             <View style={{ paddingHorizontal: Sizes.fixPadding * 2.5 }} >
                                 <GlobalButton handlePress={handlePress} ButtonName={"Book Now"} />
                             </View>
-                            {/* {classesList()} */}
+                            {classesList()}
                         </>
                     }
                 />}
-            </View>
+            </View> */}
         </View>
     )
 

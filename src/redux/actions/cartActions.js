@@ -5,3 +5,8 @@ export const onAddToCart = (payload) => ({
     payload
 })
 
+export const onCartDetails = (payload) => ({
+    type: actionTypes.GET_CART_DETAILS,
+    payload
+})
+

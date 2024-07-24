@@ -1,16 +1,16 @@
 import * as  actionTypes from '../actionTypes'
 
 const initialState = {
-    cart: null
+    cartDetails: null,
 }
 
 const cart = (state = initialState, actions) => {
     const { type, payload } = actions
     switch (type) {
-        case actionTypes.SET_CALL_INVOICE_DATA:
+        case actionTypes.GET_CART_DETAILS:
             return {
                 ...state,
-                callInvoiceData: payload
+                cartDetails: payload
             }
         default:
             return state

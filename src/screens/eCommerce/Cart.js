@@ -6,15 +6,17 @@ import {
   FlatList,
   Image,
 } from 'react-native';
+import { connect } from 'react-redux';
 import React, { useState } from 'react';
+import Loader from '../../components/Loader';
+import MyHeader from '../../components/MyHeader';
 import MyStatusBar from '../../components/MyStatusBar';
-import AntDesign from 'react-native-vector-icons/AntDesign';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { SCREEN_WIDTH, Colors, Fonts, Sizes } from '../../assets/styles';
 
-const Cart = ({ navigation }) => {
+const Cart = ({ navigation, isLoading, cartDetails }) => {
   const [state, setState] = useState({
     cartData: [
       {
@@ -36,6 +38,8 @@ const Cart = ({ navigation }) => {
     ],
   });
 
+  console.log("cartDetails =====>>>>>>", cartDetails)
+
   const updateState = data => setState({ ...state, ...data });
 
   const { cartData } = state;
@@ -46,7 +50,8 @@ const Cart = ({ navigation }) => {
         backgroundColor={Colors.primaryLight}
         barStyle={'light-content'}
       />
-      {header()}
+      <MyHeader title={"Your Cart"} />
+      <Loader visible={isLoading} />
       <View style={{ flex: 1 }}>
         <FlatList
           ListHeaderComponent={
@@ -174,7 +179,7 @@ const Cart = ({ navigation }) => {
             <Ionicons
               name="pencil-outline"
               color={Colors.primaryDark}
-              size={14}
+              size={25}
             />
           </TouchableOpacity>
         </View>
@@ -236,19 +241,12 @@ const Cart = ({ navigation }) => {
             style={{
               marginLeft: Sizes.fixPadding,
               flexDirection: 'column',
-              height: SCREEN_WIDTH * 0.32,
               justifyContent: 'space-between',
             }}>
             <Text
               style={{ ...Fonts.black16RobotoRegular, color: Colors.blackLight }}>
               {item.title}
             </Text>
-            <View style={[styles.row]}>
-              <Ionicons name="star" color={Colors.primaryDark} size={14} />
-              <Text style={{ ...Fonts.gray12RobotoRegular }}>
-                {item.star} ({item?.number_of_review} Reviews)
-              </Text>
-            </View>
             <Text style={{ ...Fonts.black18RobotoRegular }}>₹{item.dicount_price}</Text>
             <View
               style={[
@@ -268,7 +266,10 @@ const Cart = ({ navigation }) => {
                   borderRadius: Sizes.fixPadding,
                   ...styles.center,
                 }}>
-                <Text style={{ ...Fonts.white16RobotoMedium, lineHeight: 20 }}>
+                <Text style={{
+                  ...Fonts.white16RobotoMedium,
+                  lineHeight: 16
+                }}>
                   -
                 </Text>
               </TouchableOpacity>
@@ -286,7 +287,10 @@ const Cart = ({ navigation }) => {
                   borderRadius: Sizes.fixPadding,
                   ...styles.center,
                 }}>
-                <Text style={{ ...Fonts.white16RobotoMedium, lineHeight: 20 }}>
+                <Text style={{
+                  ...Fonts.white16RobotoMedium,
+                  lineHeight: 17
+                }}>
                   +
                 </Text>
               </TouchableOpacity>
@@ -312,40 +316,17 @@ const Cart = ({ navigation }) => {
       </View>
     );
   }
-
-  function header() {
-    return (
-      <View
-        style={{
-          padding: Sizes.fixPadding * 1.5,
-          ...styles.row,
-          justifyContent: 'space-between',
-          borderBottomWidth: 1,
-          borderBottomColor: Colors.grayLight,
-        }}>
-        <TouchableOpacity
-          onPress={() => navigation.goBack()}
-          style={{ position: 'absolute', zIndex: 99, padding: Sizes.fixPadding * 1.5 }}>
-          <AntDesign
-            name="leftcircleo"
-            color={Colors.primaryLight}
-            size={Sizes.fixPadding * 2.2}
-          />
-        </TouchableOpacity>
-        <Text
-          style={{
-            ...Fonts.primaryLight15RobotoMedium,
-            textAlign: 'center',
-            flex: 1,
-          }}>
-          Your Cart
-        </Text>
-      </View>
-    );
-  }
 };
 
-export default Cart;
+
+const mapStateToProps = state => ({
+  isLoading: state.settings.isLoading,
+  cartDetails: state.cart.cartDetails,
+})
+
+const mapDispatchToProps = dispatch => ({ dispatch })
+
+export default connect(mapStateToProps, mapDispatchToProps)(Cart)
 
 const styles = StyleSheet.create({
   row: {

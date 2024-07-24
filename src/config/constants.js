@@ -42,6 +42,7 @@ export const get_live_class_list = "course/customer/live_class_by_course_id"
 export const get_workshop_list = "course/customer/workshop_by_course_id"
 export const get_all_demo_class = "course/customer/demo_class"
 export const add_to_cart = "ecommerce/product/addToCart"
+export const get_cart_details = "ecommerce/product/cart-details"
 
 export const register_for_live_class = "course/customer/register_live_class"
 export const is_registered_for_live_class = "course/customer/check_customer_live_class_registration"

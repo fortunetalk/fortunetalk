@@ -6,23 +6,31 @@ import {
   StyleSheet,
   Image,
 } from 'react-native';
+import { connect } from 'react-redux';
 import React, { useState } from 'react';
+import Loader from '../../components/Loader';
 import MyStatusBar from '../../components/MyStatusBar';
 import GlobalButton from '../../components/GlobalButton';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import { SCREEN_WIDTH, Colors, Fonts, Sizes } from '../../assets/styles';
 import LinearGradient from 'react-native-linear-gradient';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import * as cartActions from '../../redux/actions/cartActions'
+import { SCREEN_WIDTH, Colors, Fonts, Sizes } from '../../assets/styles';
+import { navigate } from '../../utils/navigationServices';
 
-const ProductDetails = ({ navigation, route }) => {
+const ProductDetails = ({ navigation, route, isLoading, dispatch }) => {
   const [state, setState] = useState({
     productData: route.params?.details,
-    isLoading: false,
   });
 
-  const { productData, isLoading } = state;
+  const { productData } = state;
 
-  const handlePress = () => {
+  console.log("productData ===>>>", productData)
 
+  const Add_TO_Cart = () => {
+    dispatch(cartActions.onAddToCart({
+      productId: productData?._id,
+      quantity: 1
+    }))
   }
 
   return (
@@ -31,6 +39,7 @@ const ProductDetails = ({ navigation, route }) => {
         backgroundColor={Colors.primaryLight}
         barStyle={'light-content'}
       />
+      <Loader visible={isLoading} />
       <View style={{ flex: 1 }}>
         {header()}
         <FlatList
@@ -100,7 +109,7 @@ const ProductDetails = ({ navigation, route }) => {
           </Text>
           <TouchableOpacity
             activeOpacity={0.8}
-            onPress={handlePress}
+            onPress={Add_TO_Cart}
             style={{
               marginVertical: Sizes.fixPadding,
               borderRadius: Sizes.fixPadding * 3,
@@ -173,8 +182,6 @@ const ProductDetails = ({ navigation, route }) => {
   }
 
   function header() {
-    const on_cart_press = () => {
-    }
     return (
       <View
         style={{
@@ -192,7 +199,7 @@ const ProductDetails = ({ navigation, route }) => {
           <AntDesign
             name="leftcircleo"
             color={Colors.primaryLight}
-            size={Sizes.fixPadding * 2.2}
+            size={Sizes.fixPadding * 3}
           />
         </TouchableOpacity>
         <Text
@@ -204,11 +211,11 @@ const ProductDetails = ({ navigation, route }) => {
         </Text>
         <TouchableOpacity
           activeOpacity={0.8}
-          onPress={() => on_cart_press()}
+          onPress={() => navigate("cart")}
         >
           <Image
             source={require('../../assets/icons/cart.png')}
-            style={{ width: 22, height: 22 }}
+            style={{ width: 24, height: 24 }}
           />
         </TouchableOpacity>
       </View>
@@ -216,7 +223,14 @@ const ProductDetails = ({ navigation, route }) => {
   }
 };
 
-export default ProductDetails;
+const mapStateToProps = state => ({
+  isLoading: state.settings.isLoading,
+})
+
+const mapDispatchToProps = dispatch => ({ dispatch })
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProductDetails)
+
 
 const styles = StyleSheet.create({
   row: {

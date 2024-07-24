@@ -102,7 +102,7 @@ const CourseDetails = ({
                     customerId,
                     customerName: name,
                     mobileNumber: phoneNumber,
-                    amount
+                    amount:"1000"
                 }))
             }
         }

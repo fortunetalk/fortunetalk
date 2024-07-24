@@ -47,30 +47,30 @@ function* onWalletRechage(actions) {
     }
 }
 
-function* onCoursePayment(actions) {
-    try {
-        const { payload } = actions
-        const customerData = yield select(state => state.customer.customerData)
+// function* onCoursePayment(actions) {
+//     try {
+//         const { payload } = actions
+//         const customerData = yield select(state => state.customer.customerData)
 
-        console.log(payload, "payment")
+//         console.log(payload, "payment")
 
-        const rayzorPayResponse = yield razorpayPayment({ amount: payload?.amount, email: '', name: '', contact: '' })
-        console.log(rayzorPayResponse)
+//         const rayzorPayResponse = yield razorpayPayment({ amount: payload?.amount, email: '', name: '', contact: '' })
+//         console.log(rayzorPayResponse)
 
-        if (true) {
-            showToastMessage({ message: 'Payment was successfully' })
-            goBack()
-        }
+//         if (true) {
+//             showToastMessage({ message: 'Payment was successfully' })
+//             goBack()
+//         }
 
-        yield put({ type: actionTypes.SET_IS_LOADING, payload: false })
-    } catch (e) {
-        console.log(e)
-        yield put({ type: actionTypes.SET_IS_LOADING, payload: false })
-    }
-}
+//         yield put({ type: actionTypes.SET_IS_LOADING, payload: false })
+//     } catch (e) {
+//         console.log(e)
+//         yield put({ type: actionTypes.SET_IS_LOADING, payload: false })
+//     }
+// }
 
 
 export default function* paymentSaga() {
     yield takeLeading(actionTypes.ON_WALLET_RECHARGE, onWalletRechage)
-    yield takeLeading(actionTypes.LIVE_COURSE_PAYMENT, onCoursePayment)
+    // yield takeLeading(actionTypes.LIVE_COURSE_PAYMENT, onCoursePayment)
 }

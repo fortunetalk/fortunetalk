@@ -21,6 +21,7 @@ import {
 } from '../../config/constants'
 import { showToastMessage } from '../../utils/services'
 import { navigate } from '../../utils/navigationServices'
+import { razorpayPayment } from '../../utils/razorpay'
 
 function* getCourseBanner() {
     try {
@@ -305,14 +306,24 @@ function* registerLiveClass(actions) {
         yield put({ type: actionTypes.SET_IS_LOADING, payload: true })
         const { payload } = actions
 
-        const response = yield getRequest({
+        const rayzorPayResponse = yield razorpayPayment({ amount: payload?.amount, email: '', name: '', contact: '' })
+        console.log("rayzorPayResponse ===>>>", rayzorPayResponse)
+        console.log(" payload rayzorPayResponse ===>>>", payload)
+
+        const response = yield postRequest({
             url: app_api_url + register_for_live_class,
             data: payload
         })
 
+        console.log("resp dmd registerLiveClass", response?.data)
+
         if (response?.success) {
             yield put({ type: actionTypes.REGISTER_FOR_LIVE_CLASS, payload: response?.data })
             yield call(showToastMessage, { message: "Class Registered Successfully" })
+            navigate("liveclassdetails", {
+                id: response?.data?.liveClassId,
+                title: "Live"
+            })
         }
 
         yield put({ type: actionTypes.SET_IS_LOADING, payload: false })

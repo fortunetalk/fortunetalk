@@ -15,21 +15,36 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import MyStatusBar from '../../../components/MyStatusBar';
 import { check_current_day } from '../../../utils/tools';
 import GlobalButton from '../../../components/GlobalButton';
-import * as PaymentActions from '../../../redux/actions/paymentActions'
 import { Colors, Fonts, SCREEN_WIDTH, Sizes } from '../../../assets/styles';
 import * as CourseActions from '../../../redux/actions/courseActions'
+import { navigate } from '../../../utils/navigationServices';
 
-const LiveClassDetails = ({ navigation, route, singleLiveClass, dispatch, isLoading }) => {
-    // const CoursePayment = singleLiveClass?.price - (singleLiveClass?.price * singleLiveClass.discount / 100)
+const LiveClassDetails = ({
+    navigation,
+    route,
+    singleLiveClass,
+    dispatch,
+    isLoading,
+    liveClassOfClass }) => {
+    const CoursePayment = singleLiveClass?.price - (singleLiveClass?.price * singleLiveClass?.discount / 100)
+
+    console.log("liveClassOfClass ====>>> indisecomponent", liveClassOfClass)
 
     const go_to_live = () => {
     };
 
-    // useEffect(() => {
-    //     dispatch(CourseActions.onGetSingleLiveClass({
-    //         classId: route.params.id
-    //     }))
-    // }, [])
+    const handlePress = () => {
+        navigate("courseBookingDetails", { data: singleLiveClass })
+    }
+
+    useEffect(() => {
+        dispatch(CourseActions.onGetSingleLiveClass({
+            classId: route.params.id
+        }))
+        dispatch(CourseActions.liveClassOfClass({
+            liveClassId: route.params.id
+        }))
+    }, [])
 
     console.log("singleLiveClass =====>>>>>", singleLiveClass)
 
@@ -41,30 +56,31 @@ const LiveClassDetails = ({ navigation, route, singleLiveClass, dispatch, isLoad
             />
             <Loader visible={isLoading} />
             <MyHeader title={'Live Class'} navigation={navigation} />
-            {/* <View style={{ flex: 1, backgroundColor: Colors.white }}>
+            <View style={{ flex: 1, backgroundColor: Colors.white }}>
                 {singleLiveClass && <FlatList
                     ListHeaderComponent={
                         <>
                             <Video uri={singleLiveClass?.video} />
                             {courseDetails()}
-                            <View style={{ paddingHorizontal: Sizes.fixPadding * 2.5 }} >
+                            <View
+                                style={{
+                                    paddingHorizontal: Sizes.fixPadding * 2.5,
+                                    borderBottomWidth: 1,
+                                    borderBottomColor: Colors.grayLight,
+                                }} >
                                 <GlobalButton handlePress={handlePress} ButtonName={"Book Now"} />
                             </View>
-                            {classesList()}
+                            {liveClassOfClass && classesList()}
                         </>
                     }
                 />}
-            </View> */}
+            </View>
         </View>
     )
 
     function courseDetails() {
         return (
-            <View
-                style={{
-                    borderBottomWidth: 1,
-                    borderBottomColor: Colors.grayLight,
-                }}>
+            <View>
                 <View activeOpacity={0.9} style={styles.container}>
                     <View style={styles.subContainer}>
                         <Text
@@ -259,7 +275,7 @@ const LiveClassDetails = ({ navigation, route, singleLiveClass, dispatch, isLoad
         };
         return (
             <FlatList
-                data={classData?.course_live_tbl}
+                data={liveClassOfClass}
                 renderItem={renderItem}
                 contentContainerStyle={{ paddingVertical: 15 }}
             />
@@ -269,6 +285,7 @@ const LiveClassDetails = ({ navigation, route, singleLiveClass, dispatch, isLoad
 
 const mapStateToProps = state => ({
     singleLiveClass: state.courses.singleLiveClass,
+    liveClassOfClass: state.courses.liveClassOfClass,
     isLoading: state.settings.isLoading,
 });
 

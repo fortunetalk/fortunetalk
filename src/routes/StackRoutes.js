@@ -50,6 +50,7 @@ import BlogDetails from '../screens/BlogDetails';
 import Setting from '../screens/app/Setting';
 import OnlineAstrologers from '../screens/astrologers/OnlineAstrologers';
 import LiveClassDetails from '../screens/courses/live/LiveClassDetails';
+import CourseBookingDetails from '../screens/courses/CourseBookingDetails';
 
 const Stack = createNativeStackNavigator();
 
@@ -122,6 +123,7 @@ const StackRoutes = () => {
             <Stack.Screen name='chatSummary' component={ChatSummary} /> 
             <Stack.Screen name='setting' component={Setting} /> 
             <Stack.Screen name='liveclassdetails' component={LiveClassDetails} /> 
+            <Stack.Screen name='courseBookingDetails' component={CourseBookingDetails} /> 
 
         </Stack.Navigator>
     )

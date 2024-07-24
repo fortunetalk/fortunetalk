@@ -244,6 +244,8 @@ function* liveClassofClass(actions) {
         yield put({ type: actionTypes.SET_IS_LOADING, payload: true })
         const { payload } = actions
 
+        console.log("liveClassofClass ====>>>>", payload)
+
         const response = yield postRequest({
             url: app_api_url + live_class_of_class,
             data: payload
@@ -307,15 +309,15 @@ function* registerLiveClass(actions) {
         const { payload } = actions
 
         const rayzorPayResponse = yield razorpayPayment({ amount: payload?.amount, email: '', name: '', contact: '' })
-        console.log("rayzorPayResponse ===>>>", rayzorPayResponse)
-        console.log(" payload rayzorPayResponse ===>>>", payload)
+        // console.log("rayzorPayResponse ===>>>", rayzorPayResponse)
+        // console.log(" payload rayzorPayResponse ===>>>", payload)
 
         const response = yield postRequest({
             url: app_api_url + register_for_live_class,
             data: payload
         })
 
-        console.log("resp dmd registerLiveClass", response?.data)
+        // console.log("resp dmd registerLiveClass", response?.data)
 
         if (response?.success) {
             yield put({ type: actionTypes.REGISTER_FOR_LIVE_CLASS, payload: response?.data })
@@ -338,8 +340,8 @@ function* isRegisterForLiveClass(actions) {
         yield put({ type: actionTypes.SET_IS_LOADING, payload: true })
         const { payload } = actions
 
-        console.log("payload =====>>>>", payload)
-        console.log("url: app_api_url + is_registered_for_live_class =====>>>>", { url: app_api_url + is_registered_for_live_class })
+        // console.log("payload =====>>>>", payload)
+        // console.log("url: app_api_url + is_registered_for_live_class =====>>>>", { url: app_api_url + is_registered_for_live_class })
 
 
         const response = yield postRequest({
@@ -347,7 +349,7 @@ function* isRegisterForLiveClass(actions) {
             data: payload
         })
 
-        console.log("payload: response?.data ====>>>>>", { payload: response?.data })
+        // console.log("payload: response?.data ====>>>>>", { payload: response?.data })
 
         if (response?.success) {
             yield put({ type: actionTypes.IS_REGISTER_FOR_LIVE_CLASS, payload: response?.data })

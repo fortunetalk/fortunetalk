@@ -1,6 +1,7 @@
 import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Splash from '../screens/Splash';
+import Setting from '../screens/app/Setting';
 import Login from '../screens/auth/Login';
 import Otp from '../screens/auth/Otp';
 import Register from '../screens/auth/Register';
@@ -47,10 +48,9 @@ import CourseDetails from '../screens/courses/CourseDetails';
 import WorkshopOverview from '../screens/courses/workshop/WorkshopOverview';
 import WorkshopDetails from '../screens/courses/workshop/WorkshopDetails';
 import BlogDetails from '../screens/BlogDetails';
-import Setting from '../screens/app/Setting';
 import OnlineAstrologers from '../screens/astrologers/OnlineAstrologers';
 import LiveClassDetails from '../screens/courses/live/LiveClassDetails';
-import CourseBookingDetails from '../screens/courses/CourseBookingDetails';
+import CourseBookingDetails from '../screens/courses/live/BookingDetails';
 
 const Stack = createNativeStackNavigator();
 

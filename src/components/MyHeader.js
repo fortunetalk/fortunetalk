@@ -12,7 +12,7 @@ const MyHeader = ({ title }) => {
         <AntDesign
           name="leftcircleo"
           color={Colors.primaryLight}
-          size={Sizes.fixPadding * 2}
+          size={Sizes.fixPadding * 3}
         />
       </TouchableOpacity>
       <Text style={{ ...Fonts._15RobotMedium, color: Colors.primaryLight, textAlign: 'center' }}>{title}</Text>

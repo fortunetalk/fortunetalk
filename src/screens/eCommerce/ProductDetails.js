@@ -11,6 +11,7 @@ import MyStatusBar from '../../components/MyStatusBar';
 import GlobalButton from '../../components/GlobalButton';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { SCREEN_WIDTH, Colors, Fonts, Sizes } from '../../assets/styles';
+import LinearGradient from 'react-native-linear-gradient';
 
 const ProductDetails = ({ navigation, route }) => {
   const [state, setState] = useState({
@@ -19,6 +20,10 @@ const ProductDetails = ({ navigation, route }) => {
   });
 
   const { productData, isLoading } = state;
+
+  const handlePress = () => {
+
+  }
 
   return (
     <View style={{ flex: 1, backgroundColor: Colors.bodyColor }}>
@@ -37,8 +42,8 @@ const ProductDetails = ({ navigation, route }) => {
             </>
           }
           contentContainerStyle={{ paddingVertical: Sizes.fixPadding }}
-          />
-          {bookNowButtonInfo()}
+        />
+        {bookNowButtonInfo()}
       </View>
     </View>
   );
@@ -83,11 +88,41 @@ const ProductDetails = ({ navigation, route }) => {
           borderBottomColor: Colors.grayLight,
           borderBottomWidth: 1,
         }}>
-        <View style={{ display: "flex", justifyContent: "space-between", flexDirection: "row", alignItems: "center" }}>
+        <View
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            flexDirection: "row",
+            alignItems: "center"
+          }}>
           <Text style={{ ...Fonts.primaryLight18RobotoMedium }}>
             {productData?.title}
           </Text>
-          <GlobalButton ButtonName={"Add to Cart"} />
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={handlePress}
+            style={{
+              marginVertical: Sizes.fixPadding,
+              borderRadius: Sizes.fixPadding * 3,
+              overflow: 'hidden',
+            }}>
+            <LinearGradient
+              colors={[Colors.primaryLight, Colors.primaryDark]}
+              style={{
+                paddingVertical: Sizes.fixPadding * 1,
+                paddingHorizontal: Sizes.fixPadding * 1.4
+              }}
+            >
+              <Text
+                style={{
+                  ...Fonts.white16RobotoMedium,
+                  textAlign: 'center',
+                  fontSize: 12
+                }}>
+                Add to Cart
+              </Text>
+            </LinearGradient>
+          </TouchableOpacity>
         </View>
 
         <Text style={{ ...Fonts.gray14RobotoMedium, fontSize: 13 }}>

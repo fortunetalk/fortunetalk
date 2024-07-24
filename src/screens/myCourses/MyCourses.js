@@ -6,12 +6,10 @@ import { Colors } from '../../assets/styles';
 import MyStatusBar from '../../components/MyStatusBar';
 import Loader from '../../components/Loader';
 import MyHeader from '../../components/MyHeader';
-import CurrentCoursesDetails from './CurrentCoursesDetails';
 import LiveClassCategory from './LiveClassCategory';
 
 const MyCourses = ({ isLoading, route }) => {
   const [activeFilter, setActiveFilter] = useState(1);
-  const previousPagedata = route.params
   const filterData = [
     { id: 1, title: 'Current Course' },
     { id: 2, title: 'Completed Course' },
@@ -22,7 +20,11 @@ const MyCourses = ({ isLoading, route }) => {
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: Colors.bodyColor }}>
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: Colors.bodyColor
+      }}>
       <MyStatusBar
         backgroundColor={Colors.primaryLight}
         barStyle={'light-content'}
@@ -37,8 +39,8 @@ const MyCourses = ({ isLoading, route }) => {
       />
       <FlatList ListHeaderComponent={
         <>
-          {activeFilter == 1 && <CurrentCoursesDetails classData={previousPagedata.classData} />}
-          {activeFilter == 2 && <Text>durgeh</Text>}
+          {activeFilter == 1 && <Text>Current Course</Text>}
+          {activeFilter == 2 && <Text>Completed Courses</Text>}
         </>
       }
       />

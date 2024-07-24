@@ -5,13 +5,16 @@ import {
   FlatList,
   TouchableOpacity,
   Image,
+  Alert,
 } from 'react-native';
 import React, { useState } from 'react';
 import { Modal } from 'react-native-paper';
-import MyStatusBar from '../../components/MyStatusBar';
+import MyHeader from '../../../components/MyHeader';
+import MyStatusBar from '../../../components/MyStatusBar';
+import { razorpayPayment } from '../../../utils/razorpay';
 import LinearGradient from 'react-native-linear-gradient';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import { Colors, Fonts, Sizes, SCREEN_WIDTH } from '../../assets/styles';
+import { navigate } from '../../../utils/navigationServices';
+import { Colors, Fonts, Sizes, SCREEN_WIDTH } from '../../../assets/styles';
 
 const CourseBookingDetails = ({ navigation, route }) => {
   const [state, setState] = useState({
@@ -31,12 +34,45 @@ const CourseBookingDetails = ({ navigation, route }) => {
     );
   }
 
+
+  function half_amount() {
+    return (
+      (parseFloat(paymentData?.price) +
+        (parseFloat(paymentData?.price) * 18) / 100) / 2
+    );
+  }
+
+  // console.log("half_amount ===>>>" , half_amount())
+  // console.log("total_amount ===>>>" , total_amount())
+
   const updateState = data => {
     setState(prevState => {
       const newData = { ...prevState, ...data };
       return newData;
     });
   };
+
+  const handleFullPayment = () => {
+    if (!half_amount) {
+      Alert.alert("Amount Required")
+    } else {
+      razorpayPayment({ amount: half_amount(), email: '', name: '', contact: '' })
+        .then((res) => {
+          navigate("home")
+        })
+    }
+  }
+
+  const handleHalfPayment = () => {
+    if (!total_amount()) {
+      Alert.alert("Amount Required")
+    } else {
+      razorpayPayment({ amount: total_amount(), email: '', name: '', contact: '' })
+        .then((res) => {
+          navigate("home")
+        })
+    }
+  }
 
   const { showPayment, successVisible, paymentData } = state;
 
@@ -47,18 +83,19 @@ const CourseBookingDetails = ({ navigation, route }) => {
         barStyle={'light-content'}
       />
       <View style={{ flex: 1 }}>
-        {header()}
+        <MyHeader title={"Booking Details"} />
         <FlatList
           ListHeaderComponent={
             <>
               {paymentData?.image && bannerInfo()}
               {remediesInfo()}
               {billDetailsInfo()}
+              {continueHalfPaymentButtonInfo()}
+              {continueFullPaymentButtonInfo()}
             </>
           }
           contentContainerStyle={{ paddingVertical: Sizes.fixPadding }}
         />
-        {continueButtonInfo()}
         {successModalInfo()}
       </View>
     </View>
@@ -209,11 +246,11 @@ const CourseBookingDetails = ({ navigation, route }) => {
     );
   }
 
-  function continueButtonInfo() {
+  function continueHalfPaymentButtonInfo() {
     return (
       <TouchableOpacity
         activeOpacity={0.8}
-        onPress={() => updateState({ showPayment: true })}
+        onPress={() => handleHalfPayment()}
         style={{
           marginHorizontal: Sizes.fixPadding * 2,
           marginVertical: Sizes.fixPadding,
@@ -223,8 +260,30 @@ const CourseBookingDetails = ({ navigation, route }) => {
         <LinearGradient
           colors={[Colors.primaryLight, Colors.primaryDark]}
           style={{ paddingVertical: Sizes.fixPadding }}>
-          <Text style={{ ...Fonts.white18RobotMedium, textAlign: 'center' }}>
-            Continue for Payment
+          <Text style={{ ...Fonts.white18RobotMedium, textAlign: 'center', fontSize: 14 }}>
+            Pay Half Payment
+          </Text>
+        </LinearGradient>
+      </TouchableOpacity>
+    );
+  }
+
+  function continueFullPaymentButtonInfo() {
+    return (
+      <TouchableOpacity
+        activeOpacity={0.8}
+        onPress={() => handleFullPayment()}
+        style={{
+          marginHorizontal: Sizes.fixPadding * 2,
+          marginVertical: Sizes.fixPadding,
+          borderRadius: Sizes.fixPadding * 1.4,
+          overflow: 'hidden',
+        }}>
+        <LinearGradient
+          colors={[Colors.primaryLight, Colors.primaryDark]}
+          style={{ paddingVertical: Sizes.fixPadding }}>
+          <Text style={{ ...Fonts.white18RobotMedium, textAlign: 'center', fontSize: 14 }}>
+            Pay Full Payment
           </Text>
         </LinearGradient>
       </TouchableOpacity>
@@ -243,7 +302,7 @@ const CourseBookingDetails = ({ navigation, route }) => {
             { justifyContent: 'space-between', marginBottom: Sizes.fixPadding },
           ]}>
           <Text style={{ ...Fonts.black16RobotoRegular }}>Subtotal</Text>
-          <Text style={{ ...Fonts.black16RobotoMedium, fontWeight:"800" }}>
+          <Text style={{ ...Fonts.black16RobotoMedium, fontWeight: "800" }}>
             ₹ {parseFloat(paymentData?.price).toFixed(2)}
           </Text>
         </View>
@@ -270,7 +329,7 @@ const CourseBookingDetails = ({ navigation, route }) => {
             },
           ]}>
           <Text style={{ ...Fonts.black16RobotoRegular }}>Total</Text>
-          <Text style={{ ...Fonts.black16RobotoRegular,  fontWeight:"800"  }}>
+          <Text style={{ ...Fonts.black16RobotoRegular, fontWeight: "800" }}>
             ₹ {total_amount()}
           </Text>
         </View>
@@ -319,34 +378,6 @@ const CourseBookingDetails = ({ navigation, route }) => {
     );
   }
 
-  function header() {
-    return (
-      <View
-        style={{
-          padding: Sizes.fixPadding * 1.5,
-          ...styles.row,
-          justifyContent: 'space-between',
-          borderBottomWidth: 1,
-          borderBottomColor: Colors.grayLight,
-        }}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <AntDesign
-            name="leftcircleo"
-            color={Colors.primaryLight}
-            size={Sizes.fixPadding * 2.2}
-          />
-        </TouchableOpacity>
-        <Text
-          style={{
-            ...Fonts.primaryLight15RobotoMedium,
-            textAlign: 'center',
-            flex: 1,
-          }}>
-          Booking Details
-        </Text>
-      </View>
-    );
-  }
 };
 
 export default CourseBookingDetails;

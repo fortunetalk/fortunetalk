@@ -10,6 +10,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons'
 import { showNumber } from '../../utils/services';
 import { base_url } from '../../config/constants';
 import { navigate } from '../../utils/navigationServices';
+import Feather from 'react-native-vector-icons/Feather'
 
 const CustomDrawerContent = ({ drawerProps, customerData }) => {
     const isLogged = true
@@ -225,6 +226,15 @@ const CustomDrawerContent = ({ drawerProps, customerData }) => {
                     />
                     <Text style={styles.itemTitle}>Wallet Transaction</Text>
                 </TouchableOpacity>
+
+                <TouchableOpacity
+                    activeOpacity={0.8}
+                    onPress={() => navigation.navigate('mycourse', { flag: 1 })}
+                    style={{ ...styles.row, marginBottom: Sizes.fixPadding * 2 }}>
+                    <Feather size={Sizes.fixPadding * 2} name='book-open' />
+                    <Text style={styles.itemTitle}>Courses</Text>
+                </TouchableOpacity>
+
                 <TouchableOpacity
                     activeOpacity={0.8}
                     onPress={() => navigation.navigate('orderHistory')}

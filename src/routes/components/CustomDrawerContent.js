@@ -8,7 +8,6 @@ import { DrawerContentScrollView } from '@react-navigation/drawer';
 import LinearGradient from 'react-native-linear-gradient';
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import { showNumber } from '../../utils/services';
-import { base_url } from '../../config/constants';
 import { navigate } from '../../utils/navigationServices';
 import Feather from 'react-native-vector-icons/Feather'
 
@@ -79,7 +78,7 @@ const CustomDrawerContent = ({ drawerProps, customerData }) => {
     function editButtonInfo() {
         return (
             <TouchableOpacity
-                onPress={() => navigation.navigate('profile')}
+                onPress={() => navigation.navigate('register')}
                 style={{
                     position: 'absolute',
                     top: Sizes.fixPadding,
@@ -231,7 +230,7 @@ const CustomDrawerContent = ({ drawerProps, customerData }) => {
                     activeOpacity={0.8}
                     onPress={() => navigation.navigate('mycourse', { flag: 1 })}
                     style={{ ...styles.row, marginBottom: Sizes.fixPadding * 2 }}>
-                    <Feather size={Sizes.fixPadding * 2} name='book-open' />
+                    <Feather size={Sizes.fixPadding * 2} color={Colors.gray} name='book-open' />
                     <Text style={styles.itemTitle}>Courses</Text>
                 </TouchableOpacity>
 
@@ -380,9 +379,9 @@ const CustomDrawerContent = ({ drawerProps, customerData }) => {
     function nameEmailInfo() {
         return (
             <View style={{ ...styles.center }}>
-                <Text style={{ ...Fonts._15RobotoRegular, fontSize: 16 }}>{customerData?.customerName ?? 'Hii User!'}</Text>
+                <Text style={{ ...Fonts._15RobotoRegular, fontSize: 16, color: Colors.black }}>{customerData?.customerName || 'Hii User!'}</Text>
                 {true && (
-                    <Text style={{ ...Fonts._11InterRegular, color: Colors.grayB, fontSize: 12 }}>{customerData?.email ?? ''}</Text>
+                    <Text style={{ ...Fonts._11InterRegular, color: Colors.black, fontSize: 12 }}>{customerData?.phoneNumber || ''}</Text>
                 )}
             </View>
         );
@@ -404,7 +403,7 @@ const CustomDrawerContent = ({ drawerProps, customerData }) => {
                     shadowColor: Colors.blackLight
                 }}>
                 <Image
-                    source={{ uri: base_url + customerData?.profileImage }}
+                    source={require("../../assets/images/user.png")}
                     style={{
                         width: SCREEN_WIDTH * 0.17,
                         height: SCREEN_WIDTH * 0.17,

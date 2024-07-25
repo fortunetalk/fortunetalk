@@ -5,19 +5,15 @@ import Ionicons from 'react-native-vector-icons/Ionicons'
 import { View, Text, StyleSheet, TouchableOpacity, FlatList, Image } from 'react-native'
 import { SCREEN_WIDTH, Fonts, Colors, Sizes } from '../../../assets/styles';
 import { navigate } from '../../../utils/navigationServices';
-import { formateTestimonails } from '../../../utils/tools';
 
 const ClientTestimonials = ({ testimonials }) => {
-
-  console.log("testimonials ===<<<<===>>>>", testimonials && formateTestimonails(testimonials))
-
-  const renderItem = ({ item, index }) => {
+  const renderItem = ({ item }) => {
     return (
       <View>
         <TouchableOpacity
           disabled
           onPress={() =>
-            navigate('tesetimonialsDetails', { data: item[0] })
+            navigate('tesetimonialsDetails', { data: item })
           }
           activeOpacity={0.8}
           style={{
@@ -38,7 +34,7 @@ const ClientTestimonials = ({ testimonials }) => {
             padding: Sizes.fixPadding * 0.8,
           }}>
           <Text numberOfLines={5} style={{ ...Fonts.gray11RobotoRegular }}>
-            "To show the individual deprecation warnings and determine if they come"
+            {item?.description}
           </Text>
           <View style={{ ...styles.row }}>
             <Image
@@ -54,11 +50,11 @@ const ClientTestimonials = ({ testimonials }) => {
                 ...Fonts.gray11RobotoRegular,
                 marginLeft: Sizes.fixPadding * 0.5,
               }}>
-              Acharaya
+              {item?.name}
             </Text>
             <View style={{ flex: 1, justifyContent: 'flex-end' }}>
               <Stars
-                default={4}
+                default={item?.rating}
                 count={5}
                 half={true}
                 starSize={9}
@@ -76,79 +72,10 @@ const ClientTestimonials = ({ testimonials }) => {
                     color={Colors.primaryLight}
                   />
                 }
-              // halfStar={<Icon name={'star-half'} style={[styles.myStarStyle]} />}
               />
             </View>
           </View>
         </TouchableOpacity>
-        {item.length == 2 && (
-          <TouchableOpacity
-            activeOpacity={0.8}
-            // onPress={() =>
-            //   navigation.navigate('tesetimonialsDetails', {data: item[1]})
-            // }
-            style={{
-              width: SCREEN_WIDTH * 0.65,
-              marginLeft: Sizes.fixPadding * 1.5,
-              borderRadius: Sizes.fixPadding,
-              overflow: 'hidden',
-              borderColor: Colors.primaryLight,
-              elevation: 5,
-              shadowOffset: {
-                width: 0,
-                height: 1,
-              },
-              shadowOpacity: 0.2,
-              marginBottom: Sizes.fixPadding * 1.5,
-              shadowColor: Colors.black,
-              backgroundColor: Colors.white,
-              padding: Sizes.fixPadding * 0.8,
-            }}>
-            <Text numberOfLines={5} style={{ ...Fonts.gray11RobotoRegular }}>
-              "To show the individual deprecation warnings and determine if they come"
-            </Text>
-            <View style={{ ...styles.row }}>
-              <Image
-                source={require('../../../assets/images/user.png')}
-                style={{
-                  width: 25,
-                  height: 25,
-                  borderRadius: 100,
-                }}
-              />
-              <Text
-                style={{
-                  ...Fonts.gray11RobotoRegular,
-                  marginLeft: Sizes.fixPadding * 0.5,
-                }}>
-                Aacharya Rama
-              </Text>
-              <View style={{ flex: 1, justifyContent: 'flex-end' }}>
-                <Stars
-                  default={4}
-                  count={5}
-                  half={true}
-                  starSize={9}
-                  fullStar={
-                    <Ionicons
-                      name={'star'}
-                      size={9}
-                      color={Colors.primaryLight}
-                    />
-                  }
-                  emptyStar={
-                    <Ionicons
-                      name={'star-outline'}
-                      size={9}
-                      color={Colors.primaryLight}
-                    />
-                  }
-                // halfStar={<Icon name={'star-half'} style={[styles.myStarStyle]} />}
-                />
-              </View>
-            </View>
-          </TouchableOpacity>
-        )}
       </View>
     );
   };
@@ -164,12 +91,9 @@ const ClientTestimonials = ({ testimonials }) => {
         <Text style={{ ...Fonts.black16RobotoMedium }}>
           Client Testimonials
         </Text>
-        {/* <TouchableOpacity>
-          <Text style={{...Fonts.primaryLight15RobotoRegular}}>View all</Text>
-        </TouchableOpacity> */}
       </View>
       <FlatList
-        data={formateTestimonails(testimonials)}
+        data={testimonials}
         renderItem={renderItem}
         horizontal
         contentContainerStyle={{ paddingRight: Sizes.fixPadding * 1.5 }}

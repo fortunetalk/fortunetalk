@@ -26,7 +26,7 @@ const Otp = ({ route, dispatch, isLoading, navigation }) => {
         value,
         setValue,
     });
- 
+
     useEffect(() => {
         Alert.alert('Alert', `Your otp is ${otpData?.otp}`)
     }, [])
@@ -66,7 +66,6 @@ const Otp = ({ route, dispatch, isLoading, navigation }) => {
         const otpHandle = () => {
             if (otpData?.otp === value) {
                 dispatch(AuthActions.onOtpVerification({ otpData, dispatch }));
-                // onLogin()
             } else {
                 showToastMessage({ message: 'Invalid OTP!' })
             }
@@ -129,7 +128,6 @@ const Otp = ({ route, dispatch, isLoading, navigation }) => {
             <CodeField
                 ref={inputRef}
                 {...otpprops}
-                // Use `caretHidden={false}` when users can't paste a text value, because context menu doesn't appear
                 value={value}
                 onChangeText={setValue}
                 cellCount={CELL_COUNT}

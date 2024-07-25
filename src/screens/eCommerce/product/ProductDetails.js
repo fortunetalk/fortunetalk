@@ -53,7 +53,7 @@ const ProductDetails = ({ navigation, route, isLoading, dispatch }) => {
 
   function bookNowButtonInfo() {
     const add_product_to_cart = () => {
-      navigate("productSuccessBooking", { pooja: route.params?.details })
+      navigate("productBookingDetails", { product: route.params?.details })
     }
     return (
       <View style={{ marginHorizontal: Sizes.fixPadding * 2 }}>

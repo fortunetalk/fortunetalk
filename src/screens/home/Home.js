@@ -31,7 +31,13 @@ import * as CustomerAction from '../../redux/actions/authActions'
 import ActiveChat from './components/ActiveChat'
 import WorkshopClass from './components/WorkshopClass'
 
-const Home = ({ dispatch, tabVisible, courseBanner, workshopWithoutId }) => {
+const Home = ({
+  dispatch,
+  tabVisible,
+  courseBanner,
+  workshopWithoutId,
+  testimonials
+}) => {
 
   useEffect(() => {
     dispatch(CourseActions.getCourseBanner())
@@ -88,7 +94,7 @@ const Home = ({ dispatch, tabVisible, courseBanner, workshopWithoutId }) => {
             <PoojaCategory />
             <ProductCategory />
             <LatestBlogs />
-            <ClientTestimonials />
+            {testimonials && <ClientTestimonials />}
           </>}
           onScroll={onScroll}
         />
@@ -112,7 +118,8 @@ const Home = ({ dispatch, tabVisible, courseBanner, workshopWithoutId }) => {
 
 const mapStateToProps = state => ({
   tabVisible: state.settings.tabVisible,
-  courseBanner: state.courses.courseBanner
+  courseBanner: state.courses.courseBanner,
+  testimonials: state.customer.testimonials
 })
 
 const mapDispatchToProps = dispatch => ({ dispatch })

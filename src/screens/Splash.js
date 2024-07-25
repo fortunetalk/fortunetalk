@@ -27,10 +27,8 @@ const Splash = ({ dispatch }) => {
                     source={require('../assets/animations/splash.json')}
                     style={{ width: "60%", height: "60%" }}
                     autoPlay
-                    // loop
                 />
             </LinearGradient>
-            {/* {modalInfo()} */}
         </View>
     )
 }

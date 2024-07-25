@@ -658,11 +658,7 @@ const Register = ({ navigation, locationData, customerData, dispatch, isLoading 
                 activeOpacity={0.8}
                 style={styles.imageContainer}>
                 <Image
-                    source={
-                        profileImage
-                            ? { uri: profileImage }
-                            : { uri: base_url + customerData?.profileImage }
-                    }
+                    source={profileImage ? { uri: profileImage } : require("../../assets/images/user.png")}
                     style={{ width: '100%', height: '100%' }}
                 />
             </TouchableOpacity>
@@ -707,14 +703,6 @@ const Register = ({ navigation, locationData, customerData, dispatch, isLoading 
                                 size={Sizes.fixPadding * 2}
                             />
                         </TouchableOpacity>
-                        <TouchableOpacity
-                            // onPress={() => customer_profile('skip')}
-                            style={{
-                                padding: Sizes.fixPadding * 0.5,
-                                alignSelf: 'flex-start',
-                            }}>
-                            <Text style={{ ...Fonts.white12RobotoRegular, fontSize: 15 }}>Skip</Text>
-                        </TouchableOpacity>
                     </View>
                     <Text
                         style={{
@@ -723,7 +711,7 @@ const Register = ({ navigation, locationData, customerData, dispatch, isLoading 
                             textAlign: 'center',
                             marginVertical: Sizes.fixPadding * 2,
                         }}>
-                        Register your Profile
+                        Update Your Profile
                     </Text>
                 </View>
             </LinearGradient>

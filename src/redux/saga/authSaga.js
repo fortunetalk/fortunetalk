@@ -116,11 +116,13 @@ function* onOtpVerification(actions) {
             yield AsyncStorage.setItem('customerData', JSON.stringify(response?.data?.customer))
             yield put({ type: actionTypes.SET_CUSTOMER_DATA, payload: response?.data?.customer })
             yield onUserLogin(response?.data?.customer?._id, response?.data?.customer?.customerName ?? 'Customer')
-            if (response?.data?.type == 'home') {
-                yield call(resetToScreen, response?.data?.type)
-            } else {
-                yield call(replace, response?.data?.type)
-            }
+            // if (response?.data?.type == 'home') {
+            //     yield call(resetToScreen, response?.data?.type)
+            // }else{
+            //     yield call(resetToScreen, response?.data?.type)
+            // }
+            yield call(resetToScreen, "home")
+
         }
 
         yield put({ type: actionTypes.SET_IS_LOADING, payload: false })
@@ -153,7 +155,7 @@ function* onCustomerRegistration(actions) {
 function* onCustomerBlogs() {
     try {
         yield put({ type: actionTypes.SET_IS_LOADING, payload: true })
-    
+
         const response = yield getRequest({
             url: app_api_url + get_customer_blogs,
         })
@@ -170,7 +172,7 @@ function* onCustomerBlogs() {
 function* onCustomerTestimonials() {
     try {
         yield put({ type: actionTypes.SET_IS_LOADING, payload: true })
-    
+
         const response = yield getRequest({
             url: app_api_url + get_customer_testimonails,
         })

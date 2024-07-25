@@ -6,25 +6,24 @@ import {
     Image,
     FlatList,
 } from 'react-native';
+import moment from 'moment';
+import { Input } from '@rneui/themed';
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
+import RNFetchBlob from 'rn-fetch-blob';
+import Loader from '../../components/Loader';
+import CountryPicker from 'rn-country-picker';
 import MyStatusBar from '../../components/MyStatusBar';
-import { Colors, Sizes, Fonts, SCREEN_WIDTH, SCREEN_HEIGHT } from '../../assets/styles';
 import ImagePicker from '../../components/ImagePicker';
 import LinearGradient from 'react-native-linear-gradient';
 import { Dropdown } from 'react-native-element-dropdown';
-import { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
 import AntDesign from 'react-native-vector-icons/AntDesign'
-import { Input } from '@rneui/themed';
-import CountryPicker from 'rn-country-picker';
-import { genderData, occupationData, problemData, regex } from '../../config/data';
 import Ionicons from 'react-native-vector-icons/Ionicons'
-import moment from 'moment';
 import { showToastMessage } from '../../utils/services';
-import RNFetchBlob from 'rn-fetch-blob';
 import * as AuthActions from '../../redux/actions/authActions'
-import Loader from '../../components/Loader';
-import { base_url } from '../../config/constants';
+import { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
+import { genderData, occupationData, problemData, regex } from '../../config/data';
+import { Colors, Sizes, Fonts, SCREEN_WIDTH, SCREEN_HEIGHT } from '../../assets/styles';
 
 const Register = ({ navigation, locationData, customerData, dispatch, isLoading }) => {
     const [state, setState] = useState({
@@ -350,7 +349,6 @@ const Register = ({ navigation, locationData, customerData, dispatch, isLoading 
                     marginVertical: Sizes.fixPadding,
                 }}>
                 <Input
-                    // disabled
                     value={currentAddress}
                     placeholder="Current City"
                     numberOfLines={2}
@@ -359,9 +357,6 @@ const Register = ({ navigation, locationData, customerData, dispatch, isLoading 
                     containerStyle={{ flex: 0.45, padding: 0 }}
                     inputContainerStyle={{ height: 30, borderBottomColor: Colors.gray }}
                     inputStyle={{ ...Fonts._13RobotoMedium, fontSize: 14, color: Colors.blackLight, }}
-                // rightIcon={
-                //   <Ionicons name="location-sharp" color={Colors.gray} size={25} />
-                // }
                 />
             </View>
         );
@@ -584,8 +579,7 @@ const Register = ({ navigation, locationData, customerData, dispatch, isLoading 
                 leftIcon={
                     <View style={styles.flagContainer}>
                         <CountryPicker
-                            disable
-                            countryCode={customerData?.countryCode}
+                            countryCode={callingCode}
                             pickerTitleStyle={styles.pickerTitleStyle}
                             pickerContainerStyle={styles.pickerStyle}
                             dropDownIconStyle={{ width: 0 }}
@@ -595,6 +589,9 @@ const Register = ({ navigation, locationData, customerData, dispatch, isLoading 
                                 height: 20,
                                 resizeMode: 'cover',
                                 overflow: 'hidden'
+                            }}
+                            selectedValue={text => {
+                                updateState({ callingCode: text.callingCode, cca2: text.cca2 })
                             }}
                         />
                     </View>
@@ -640,7 +637,7 @@ const Register = ({ navigation, locationData, customerData, dispatch, isLoading 
                     inputStyle={{ ...Fonts._15RobotoRegular, color: Colors.blackLight }}
                 />
                 <Input
-                    placeholder="Last Name (optional)"
+                    placeholder="Last Name"
                     placeholderTextColor={Colors.grayDark}
                     onChangeText={text => updateState({ lastName: text })}
                     containerStyle={{ flex: 0.45, borderBottomColor: Colors.primaryDark }}

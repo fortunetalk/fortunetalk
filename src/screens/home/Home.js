@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import Search from './components/Search'
-import { Colors } from '../../assets/styles'
+import { Colors, Sizes, Fonts, SCREEN_WIDTH } from '../../assets/styles'
 import HomeHeader from './components/HomeHeader'
 import HomeBanner from './components/HomeBanner'
 import React, { useEffect, useRef } from 'react'
@@ -12,7 +12,10 @@ import {
   FlatList,
   Animated,
   LayoutAnimation,
-  SafeAreaView
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  Image
 } from 'react-native'
 import MyStatusBar from '../../components/MyStatusBar'
 import LiveAstrologers from './components/LiveAstrologers'
@@ -30,14 +33,19 @@ import * as CourseActions from '../../redux/actions/courseActions'
 import * as CustomerAction from '../../redux/actions/authActions'
 import ActiveChat from './components/ActiveChat'
 import WorkshopClass from './components/WorkshopClass'
+import { TouchableOpacity } from 'react-native'
+import { navigate } from '../../utils/navigationServices'
 
 const Home = ({
   dispatch,
   tabVisible,
   courseBanner,
   workshopWithoutId,
-  testimonials
+  testimonials,
+  blogs
 }) => {
+
+  console.log("testimonials --", testimonials)
 
   useEffect(() => {
     dispatch(CourseActions.getCourseBanner())
@@ -93,7 +101,8 @@ const Home = ({
             <LearningSections />
             <PoojaCategory />
             <ProductCategory />
-            <LatestBlogs />
+            {blogs && latestBlogInfo()}
+
             {testimonials && <ClientTestimonials />}
           </>}
           onScroll={onScroll}
@@ -102,6 +111,78 @@ const Home = ({
 
     </View>
   )
+
+
+  function latestBlogInfo() {
+    const renderItem = ({ item, index }) => {
+      return (
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={() => navigate('blogDetails', { blogData: item })}
+        // style={{
+        //   // width: SCREEN_WIDTH * 0.55,
+        //   // marginLeft: Sizes.fixPadding * 1.5,
+        //   // borderRadius: Sizes.fixPadding,
+        //   // overflow: 'hidden',
+        //   borderColor: Colors.primaryLight,
+        //   elevation: 5,
+        //   shadowOffset: {
+        //     width: 0,
+        //     height: 1,
+        //   },
+        //   shadowOpacity: 0.2,
+        //   marginBottom: Sizes.fixPadding * 1.5,
+        //   shadowColor: Colors.black,
+        //   backgroundColor: Colors.whiteDark,
+        //   padding: Sizes.fixPadding * 0.5,
+        // }}
+        >
+          <Image
+            source={{ uri: item?.image }}
+            style={{
+              width: '100%',
+              height: SCREEN_WIDTH * 0.3,
+              borderTopLeftRadius: Sizes.fixPadding,
+              borderTopRightRadius: Sizes.fixPadding,
+            }}
+          />
+          <Text
+            numberOfLines={2}
+            style={{
+              ...Fonts.white18RobotBold,
+              color: Colors.black,
+              fontSize: 9,
+            }}>
+            {item?.title}
+          </Text>
+        </TouchableOpacity>
+      );
+    };
+    return (
+      <View style={{ borderBottomWidth: 1, borderBottomColor: Colors.grayLight }}>
+        <View
+          style={{
+            ...styles.row,
+            justifyContent: 'space-between',
+            paddingHorizontal: Sizes.fixPadding * 1.5,
+            paddingVertical: Sizes.fixPadding,
+          }}>
+          <Text style={{ ...Fonts.black16RobotoMedium }}>Latest Blogs</Text>
+          <TouchableOpacity
+            onPress={() => navigate('astrologyBlogs')}>
+            <Text style={{ ...Fonts.primaryLight15RobotoRegular }}>View all</Text>
+          </TouchableOpacity>
+        </View>
+        <FlatList
+          data={blogs}
+          renderItem={renderItem}
+          horizontal
+          contentContainerStyle={{ paddingRight: Sizes.fixPadding * 1.5 }}
+        />
+      </View>
+    );
+  }
+
 
   function learningBanner() {
     return (
@@ -119,9 +200,19 @@ const Home = ({
 const mapStateToProps = state => ({
   tabVisible: state.settings.tabVisible,
   courseBanner: state.courses.courseBanner,
-  testimonials: state.customer.testimonials
+  testimonials: state.customer.testimonials,
+  blogs: state.customer.blogs
+
 })
 
 const mapDispatchToProps = dispatch => ({ dispatch })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home)
+
+const styles = StyleSheet.create({
+  row: {
+    flex: 0,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+});

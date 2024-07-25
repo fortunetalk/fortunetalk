@@ -20,13 +20,11 @@ import BookingDetails from '../screens/eCommerce/pooja/BookingDetails';
 import SuccessfullyBooked from '../screens/eCommerce/pooja/SuccessfullyBooked';
 import ProductDetails from '../screens/eCommerce/product/ProductDetails';
 import Cart from '../screens/eCommerce/product/Cart';
-import PersonalDetails from '../screens/eCommerce/PersonalDetails';
-import ProductSuccessBooking from '../screens/eCommerce/product/ProductSuccessBooking';
-import ProductTracking from '../screens/eCommerce/product/ProductTracking';
-import RateProduct from '../screens/eCommerce/product/RateProduct';
-import Product from '../screens/eCommerce/product/Product';
 import Payment from '../screens/payments/Payment';
+import BlogDetails from '../screens/BlogDetails';
 import ChatScreen from '../screens/chat/ChatScreen';
+import PersonalDetails from '../screens/eCommerce/PersonalDetails';
+import Product from '../screens/eCommerce/product/Product';
 import ViewProduct from '../screens/eCommerce/product/ViewProduct';
 import ViewPooja from '../screens/eCommerce/pooja/ViewPooja';
 import Learn from '../screens/courses/Learn';
@@ -47,11 +45,12 @@ import ChatSummary from '../screens/chat/ChatSummary';
 import CourseDetails from '../screens/courses/CourseDetails';
 import WorkshopOverview from '../screens/courses/workshop/WorkshopOverview';
 import WorkshopDetails from '../screens/courses/workshop/WorkshopDetails';
-import BlogDetails from '../screens/BlogDetails';
 import OnlineAstrologers from '../screens/astrologers/OnlineAstrologers';
 import LiveClassDetails from '../screens/courses/live/LiveClassDetails';
 import CourseBookingDetails from '../screens/courses/live/CourseBookingDetails';
 import BookPooja from '../screens/eCommerce/pooja/BookPooja';
+import ProductSuccessBooking from '../screens/eCommerce/product/ProductSuccessBooking';
+import ProductBookingDetails from '../screens/eCommerce/product/ProductBookingDetails';
 
 const Stack = createNativeStackNavigator();
 
@@ -89,8 +88,7 @@ const StackRoutes = () => {
             <Stack.Screen name="cart" component={Cart} />
             <Stack.Screen name="personalDetails" component={PersonalDetails} />
             <Stack.Screen name="productSuccessBooking" component={ProductSuccessBooking} />
-            <Stack.Screen name="productTracking" component={ProductTracking} />
-            <Stack.Screen name="rateProduct" component={RateProduct} />
+            <Stack.Screen name="productBookingDetails" component={ProductBookingDetails} />
             <Stack.Screen name="mycourse" component={MyCourses} />
             <Stack.Screen name="workshopOverview" component={WorkshopOverview} />
             <Stack.Screen name="workshopDetails" component={WorkshopDetails} />

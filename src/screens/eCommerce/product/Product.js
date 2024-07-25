@@ -12,7 +12,13 @@ import { Colors, SCREEN_WIDTH, Sizes, Fonts } from "../../../assets/styles";
 import * as EcommerceActions from '../../../redux/actions/eCommerceActions'
 import { FlatList, Image, ImageBackground, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
-const Product = ({ dispatch, navigation, route, productCategoryWaiseList, productDetailsBanner }) => {
+const Product = ({
+    dispatch,
+    navigation,
+    route,
+    productCategoryWaiseList,
+    productDetailsBanner
+}) => {
     const id = route.params.categoryId
     const [state, setState] = useState({
         isLoading: false,

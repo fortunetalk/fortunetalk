@@ -8,13 +8,13 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import React, { useState } from 'react';
-import Loader from '../../components/Loader';
-import MyHeader from '../../components/MyHeader';
-import MyStatusBar from '../../components/MyStatusBar';
+import Loader from '../../../components/Loader';
+import MyHeader from '../../../components/MyHeader';
+import MyStatusBar from '../../../components/MyStatusBar';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { SCREEN_WIDTH, Colors, Fonts, Sizes } from '../../assets/styles';
+import { SCREEN_WIDTH, Colors, Fonts, Sizes } from '../../../assets/styles';
 
 const Cart = ({ navigation, isLoading, cartDetails }) => {
   const [state, setState] = useState({
@@ -233,7 +233,7 @@ const Cart = ({ navigation, isLoading, cartDetails }) => {
         <View style={[styles.row, styles.itemContainer]}>
           <View style={styles.imageContainer}>
             <Image
-              source={require("../../assets/images/astro.jpg")}
+              source={require("../../../assets/images/astro.jpg")}
               style={{ width: '100%', height: '100%' }}
             />
           </View>

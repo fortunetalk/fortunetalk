@@ -1,12 +1,12 @@
 import { useState } from "react";
 import Stars from 'react-native-stars';
-import Loader from "../../components/Loader";
-import MyStatusBar from "../../components/MyStatusBar";
+import Loader from "../../../components/Loader";
+import MyStatusBar from "../../../components/MyStatusBar";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from "react-native-linear-gradient";
-import { Colors, Sizes, Fonts, SCREEN_WIDTH } from "../../assets/styles";
+import { Colors, Sizes, Fonts, SCREEN_WIDTH } from "../../../assets/styles";
 import { Image, Text, View, TextInput, TouchableOpacity } from "react-native";
-import MyHeader from "../../components/MyHeader";
+import MyHeader from "../../../components/MyHeader";
 
 function RateProduct() {
     const [state, setState] = useState({
@@ -43,7 +43,7 @@ function RateProduct() {
                     overflow: 'hidden',
                 }}>
                 <Image
-                    source={require("../../assets/images/astro.jpg")}
+                    source={require("../../../assets/images/astro.jpg")}
                     style={{
                         width: '100%',
                         height: SCREEN_WIDTH * 0.6,

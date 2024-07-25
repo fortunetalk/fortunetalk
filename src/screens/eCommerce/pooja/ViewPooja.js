@@ -1,30 +1,27 @@
 import { connect } from 'react-redux';
 import { FlatList } from 'react-native';
-import Loader from '../../components/Loader';
+import Loader from '../../../components/Loader';
 import React, { useEffect } from 'react';
-import MyStatusBar from '../../components/MyStatusBar';
-import NoDataFound from '../../components/NoDataFound';
-import { navigate } from '../../utils/navigationServices';
+import MyHeader from '../../../components/MyHeader';
+import MyStatusBar from '../../../components/MyStatusBar';
+import NoDataFound from '../../../components/NoDataFound';
+import { navigate } from '../../../utils/navigationServices';
 import LinearGradient from 'react-native-linear-gradient';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import * as EcommerceActions from '../../redux/actions/eCommerceActions'
-import { Colors, Fonts, SCREEN_WIDTH, Sizes } from '../../assets/styles';
-import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
-import CustomCarousel from '../../components/CustomCrousel';
+import CustomCarousel from '../../../components/CustomCrousel';
+import * as EcommerceActions from '../../../redux/actions/eCommerceActions'
+import { Colors, Fonts, SCREEN_WIDTH, Sizes } from '../../../assets/styles';
+import { View, Text, TouchableOpacity, Image } from 'react-native';
 
-const ViewProduct = ({
-  navigation,
-  ProductCategoryList,
+const ViewPooja = ({
+  PoojaCategoryList,
   dispatch,
   productCategoryBanner,
   isLoading
 }) => {
-  
-  useEffect(
-    () => {
-      dispatch(EcommerceActions.getProductCategoryList())
-      dispatch(EcommerceActions.getProductCategoryBanner())
-    }, [dispatch])
+
+  useEffect(() => {
+    dispatch(EcommerceActions.getPoojaCategoryList())
+  }, [dispatch])
 
   return (
     <View style={{ flex: 1, backgroundColor: Colors.bodyColor }}>
@@ -34,12 +31,12 @@ const ViewProduct = ({
       />
       <Loader visible={isLoading} />
       <View style={{ flex: 1 }}>
-        {header()}
+        <MyHeader title={"Pooja"} />
         <FlatList
           ListHeaderComponent={
             <>
               {productCategoryBanner && <CustomCarousel data={productCategoryBanner} />}
-              {ProductCategoryList && eCommerceDataInfo()}
+              {PoojaCategoryList && eCommerceDataInfo()}
             </>
           }
           contentContainerStyle={{ paddingVertical: Sizes.fixPadding }}
@@ -49,7 +46,7 @@ const ViewProduct = ({
   );
 
   function eCommerceDataInfo() {
-    const renderItem = ({ item, index }) => {
+    const renderItem = ({ item }) => {
       return (
         <TouchableOpacity
           activeOpacity={1}
@@ -115,7 +112,7 @@ const ViewProduct = ({
     return (
       <View>
         <FlatList
-          data={ProductCategoryList}
+          data={PoojaCategoryList}
           renderItem={renderItem}
           keyExtractor={item => item._id}
           numColumns={2}
@@ -125,60 +122,15 @@ const ViewProduct = ({
       </View>
     );
   }
-
-  function header() {
-    return (
-      <View
-        style={{
-          padding: Sizes.fixPadding * 1.5,
-          ...styles.row,
-          justifyContent: 'space-between',
-          borderBottomWidth: 1,
-          borderBottomColor: Colors.grayLight,
-        }}>
-        <TouchableOpacity
-          onPress={() => navigation.goBack()}
-          style={{
-            alignSelf: 'flex-start',
-          }}>
-          <AntDesign
-            name="leftcircleo"
-            color={Colors.primaryLight}
-            size={Sizes.fixPadding * 2.2}
-          />
-        </TouchableOpacity>
-        <Text
-          style={{
-            ...Fonts.primaryLight15RobotoMedium,
-            textAlign: 'center',
-          }}>
-          Fortune Store
-        </Text>
-        <TouchableOpacity>
-          <Image
-            source={require('../../assets/icons/cart.png')}
-            style={{ width: 22, height: 22 }}
-          />
-        </TouchableOpacity>
-      </View>
-    );
-  }
 };
 
 const mapStateToProps = state => ({
   isLoading: state.settings.isLoading,
   productCategoryBanner: state.eCommerce.productCategoryBanner,
-  ProductCategoryList: state.eCommerce.ProductCategoryList,
+  PoojaCategoryList: state.eCommerce.PoojaCategoryList,
 })
 
 const mapDispatchToProps = dispatch => ({ dispatch })
 
-export default connect(mapStateToProps, mapDispatchToProps)(ViewProduct)
+export default connect(mapStateToProps, mapDispatchToProps)(ViewPooja)
 
-const styles = StyleSheet.create({
-  row: {
-    flex: 0,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-});

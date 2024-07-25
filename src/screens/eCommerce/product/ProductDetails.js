@@ -8,14 +8,14 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import React, { useState } from 'react';
-import Loader from '../../components/Loader';
-import MyStatusBar from '../../components/MyStatusBar';
-import GlobalButton from '../../components/GlobalButton';
+import Loader from '../../../components/Loader';
+import MyStatusBar from '../../../components/MyStatusBar';
+import GlobalButton from '../../../components/GlobalButton';
 import LinearGradient from 'react-native-linear-gradient';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import * as cartActions from '../../redux/actions/cartActions'
-import { SCREEN_WIDTH, Colors, Fonts, Sizes } from '../../assets/styles';
-import { navigate } from '../../utils/navigationServices';
+import * as cartActions from '../../../redux/actions/cartActions'
+import { SCREEN_WIDTH, Colors, Fonts, Sizes } from '../../../assets/styles';
+import { navigate } from '../../../utils/navigationServices';
 
 const ProductDetails = ({ navigation, route, isLoading, dispatch }) => {
   const [state, setState] = useState({
@@ -59,10 +59,11 @@ const ProductDetails = ({ navigation, route, isLoading, dispatch }) => {
 
   function bookNowButtonInfo() {
     const add_product_to_cart = () => {
+      navigate("bookingdetails", { pooja: route.params?.details })
     }
     return (
       <View style={{ marginHorizontal: Sizes.fixPadding * 2 }}>
-        <GlobalButton handlePress={() => add_product_to_cart()} ButtonName={"Book Now"} />
+        {/* <GlobalButton handlePress={() => add_product_to_cart()} ButtonName={"Book Now"} /> */}
       </View>
     );
   }
@@ -214,7 +215,7 @@ const ProductDetails = ({ navigation, route, isLoading, dispatch }) => {
           onPress={() => navigate("cart")}
         >
           <Image
-            source={require('../../assets/icons/cart.png')}
+            source={require('../../../assets/icons/cart.png')}
             style={{ width: 24, height: 24 }}
           />
         </TouchableOpacity>

@@ -10,9 +10,9 @@ import {
 } from 'react-native';
 import moment from 'moment';
 import React, { useEffect } from 'react';
-import MyHeader from '../../components/MyHeader';
-import MyStatusBar from '../../components/MyStatusBar';
-import { SCREEN_HEIGHT, SCREEN_WIDTH, Colors, Fonts, Sizes } from '../../assets/styles';
+import MyHeader from '../../../components/MyHeader';
+import MyStatusBar from '../../../components/MyStatusBar';
+import { SCREEN_HEIGHT, SCREEN_WIDTH, Colors, Fonts, Sizes } from '../../../assets/styles';
 
 const ProductSuccessBooking = ({ navigation }) => {
 
@@ -126,7 +126,7 @@ const ProductSuccessBooking = ({ navigation }) => {
     return (
       <View style={{ height: SCREEN_HEIGHT * 0.3 }}>
         <ImageBackground
-          source={require('../../assets/gifs/celebration.gif')}
+          source={require('../../../assets/gifs/celebration.gif')}
           style={{
             width: '100%',
             height: '100%',
@@ -134,7 +134,7 @@ const ProductSuccessBooking = ({ navigation }) => {
             alignItems: 'center',
           }}>
           <Image
-            source={require('../../assets/gifs/booking_successful.gif')}
+            source={require('../../../assets/gifs/booking_successful.gif')}
             style={{ width: '30%', height: '40%', resizeMode: 'contain' }}
           />
         </ImageBackground>

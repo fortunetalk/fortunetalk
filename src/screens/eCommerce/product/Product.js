@@ -1,15 +1,15 @@
 import { connect } from "react-redux";
 import { useCallback, useEffect, useState } from "react";
-import Loader from "../../components/Loader";
-import Filter from "../../components/Filter";
-import SearchInfo from "./components/SearchInfo";
-import MyStatusBar from "../../components/MyStatusBar";
+import Loader from "../../../components/Loader";
+import Filter from "../../../components/Filter";
+import SearchInfo from "../components/SearchInfo";
+import MyStatusBar from "../../../components/MyStatusBar";
 import LinearGradient from "react-native-linear-gradient";
-import CustomCrousel from "../../components/CustomCrousel";
+import CustomCrousel from "../../../components/CustomCrousel";
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import { useFocusEffect } from "@react-navigation/native";
-import { Colors, SCREEN_WIDTH, Sizes, Fonts } from "../../assets/styles";
-import * as EcommerceActions from '../../redux/actions/eCommerceActions'
+import { Colors, SCREEN_WIDTH, Sizes, Fonts } from "../../../assets/styles";
+import * as EcommerceActions from '../../../redux/actions/eCommerceActions'
 import { FlatList, Image, ImageBackground, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 const Product = ({ dispatch, navigation, route, productCategoryWaiseList, productDetailsBanner }) => {
@@ -221,7 +221,7 @@ const Product = ({ dispatch, navigation, route, productCategoryWaiseList, produc
                 </Text>
                 <TouchableOpacity>
                     <Image
-                        source={require('../../assets/icons/cart.png')}
+                        source={require('../../../assets/icons/cart.png')}
                         style={{ width: 22, height: 22 }}
                     />
                 </TouchableOpacity>
@@ -230,7 +230,6 @@ const Product = ({ dispatch, navigation, route, productCategoryWaiseList, produc
     }
 }
 
-// export default BookPooja;
 const mapStateToProps = state => ({
     productCategoryWaiseList: state.eCommerce.productCategoryWaiseList,
     productDetailsBanner: state.eCommerce.productDetailsBanner,

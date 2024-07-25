@@ -7,15 +7,15 @@ import {
   Image,
 } from 'react-native';
 import moment from 'moment';
-import MyHeader from '../../components/MyHeader';
+import MyHeader from '../../../components/MyHeader';
 import React, { useEffect, useState } from 'react';
-import { img_url_2 } from '../../config/constants';
-import MyStatusBar from '../../components/MyStatusBar';
+import { img_url_2 } from '../../../config/constants';
+import MyStatusBar from '../../../components/MyStatusBar';
 import Carousel from 'react-native-reanimated-carousel';
 import { useSharedValue } from 'react-native-reanimated';
 import LinearGradient from 'react-native-linear-gradient';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { SCREEN_WIDTH, Colors, Fonts, Sizes } from '../../assets/styles';
+import { SCREEN_WIDTH, Colors, Fonts, Sizes } from '../../../assets/styles';
 
 const PoojaDetails = ({ navigation, route }) => {
   const progressValue = useSharedValue(0);
@@ -232,7 +232,7 @@ const PoojaDetails = ({ navigation, route }) => {
             alignSelf: 'center',
           }}>
           <Image
-            source={require("../../assets/images/astro.jpg")}
+            source={require("../../../assets/images/astro.jpg")}
             resizeMode="cover"
             style={{
               width: '100%',

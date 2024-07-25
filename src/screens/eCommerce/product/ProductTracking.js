@@ -6,12 +6,12 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import React, { useState } from 'react';
-import Loader from '../../components/Loader';
-import MyHeader from '../../components/MyHeader';
-import MyStatusBar from '../../components/MyStatusBar';
+import Loader from '../../../components/Loader';
+import MyHeader from '../../../components/MyHeader';
+import MyStatusBar from '../../../components/MyStatusBar';
 import StepIndicator from 'react-native-step-indicator';
-import { labels } from '../../config/data';
-import { Colors, Fonts, Sizes } from '../../assets/styles';
+import { labels } from '../../../config/data';
+import { Colors, Fonts, Sizes } from '../../../assets/styles';
 
 const ProductTracking = ({ navigation }) => {
   const [state, setState] = useState({

@@ -16,8 +16,8 @@ import { ZegoUIKitPrebuiltCallWaitingScreen, ZegoUIKitPrebuiltCallInCallScreen }
 
 import PoojaAstrologerList from '../screens/eCommerce/pooja/PoojaAstrologerList';
 import PoojaDetails from '../screens/eCommerce/pooja/PoojaDetails';
-import BookingDetails from '../screens/eCommerce/BookingDetails';
-import SuccessfullyBooked from '../screens/eCommerce/SuccessfullyBooked';
+import BookingDetails from '../screens/eCommerce/pooja/BookingDetails';
+import SuccessfullyBooked from '../screens/eCommerce/pooja/SuccessfullyBooked';
 import ProductDetails from '../screens/eCommerce/product/ProductDetails';
 import Cart from '../screens/eCommerce/product/Cart';
 import PersonalDetails from '../screens/eCommerce/PersonalDetails';

@@ -18,14 +18,8 @@ import { SCREEN_WIDTH, Colors, Fonts, Sizes } from '../../../assets/styles';
 import { navigate } from '../../../utils/navigationServices';
 
 const ProductDetails = ({ navigation, route, isLoading, dispatch }) => {
-  const [state, setState] = useState({
-    productData: route.params?.details,
-  });
-
-  const { productData } = state;
-
-  console.log("productData ===>>>", productData)
-
+  const [productData, setProductData] = useState(route.params?.details);
+  
   const Add_TO_Cart = () => {
     dispatch(cartActions.onAddToCart({
       productId: productData?._id,
@@ -63,7 +57,7 @@ const ProductDetails = ({ navigation, route, isLoading, dispatch }) => {
     }
     return (
       <View style={{ marginHorizontal: Sizes.fixPadding * 2 }}>
-        {/* <GlobalButton handlePress={() => add_product_to_cart()} ButtonName={"Book Now"} /> */}
+        <GlobalButton handlePress={() => add_product_to_cart()} ButtonName={"Book Now"} />
       </View>
     );
   }

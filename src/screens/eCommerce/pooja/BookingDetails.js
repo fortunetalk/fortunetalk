@@ -7,19 +7,22 @@ import {
   Image,
 } from 'react-native';
 import React, { useState } from 'react';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import MyStatusBar from '../../components/MyStatusBar';
+import MyHeader from '../../../components/MyHeader';
+import MyStatusBar from '../../../components/MyStatusBar';
 import LinearGradient from 'react-native-linear-gradient';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { SCREEN_WIDTH, Colors, Fonts, Sizes } from '../../assets/styles';
-import { navigate } from '../../utils/navigationServices';
+import { navigate } from '../../../utils/navigationServices';
+import { SCREEN_WIDTH, Colors, Fonts, Sizes } from '../../../assets/styles';
 
-const BookingDetails = ({ navigation }) => {
+const BookingPoojaDetails = ({route }) => {
+
+  console.log("route =====>>>", route.params?.pooja)
+
   const [state, setState] = useState({
     paginationIndex: 0,
     showPayment: false,
     successVisible: false,
-    poojaData: [],
+    poojaData: route.params.pooja,
     suggestedBy: '',
     poojaType: "Booking Details"
   });
@@ -51,7 +54,7 @@ const BookingDetails = ({ navigation }) => {
         barStyle={'light-content'}
       />
       <View style={{ flex: 1 }}>
-        {header()}
+        <MyHeader title={"Booking Details"} />
         <FlatList
           ListHeaderComponent={
             <>
@@ -189,7 +192,7 @@ const BookingDetails = ({ navigation }) => {
             marginVertical: Sizes.fixPadding * 1,
           }}>
           <Image
-            source={require("../../assets/images/astro.jpg")}
+            source={require("../../../assets/images/astro.jpg")}
             style={{
               width: '100%',
               height: '100%',
@@ -211,38 +214,9 @@ const BookingDetails = ({ navigation }) => {
       </>
     );
   }
-
-  function header() {
-    return (
-      <View
-        style={{
-          padding: Sizes.fixPadding * 1.5,
-          ...styles.row,
-          justifyContent: 'space-between',
-          borderBottomWidth: 1,
-          borderBottomColor: Colors.grayLight,
-        }}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <AntDesign
-            name="leftcircleo"
-            color={Colors.primaryLight}
-            size={Sizes.fixPadding * 2.2}
-          />
-        </TouchableOpacity>
-        <Text
-          style={{
-            ...Fonts.primaryLight15RobotoMedium,
-            textAlign: 'center',
-            flex: 1,
-          }}>
-          Booking Details
-        </Text>
-      </View>
-    );
-  }
 };
 
-export default BookingDetails;
+export default BookingPoojaDetails;
 
 const styles = StyleSheet.create({
   row: {

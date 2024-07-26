@@ -28,7 +28,8 @@ const LatestBlogs = ({ blogs }) => {
           shadowColor: Colors.black,
           backgroundColor: Colors.whiteDark,
           padding: Sizes.fixPadding * 0.5,
-        }}>
+        }}
+        >
         <Image
           source={{ uri: item?.image }}
           style={{

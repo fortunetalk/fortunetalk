@@ -94,48 +94,45 @@ const Home = ({
             <OnlineAstrologers />
             <RecentAstrologers />
             {learningBanner()}
-            {
-              (workshopWithoutId && workshopWithoutId.length > 0) &&
+            {(workshopWithoutId && workshopWithoutId.length > 0) &&
               <WorkshopClass />
             }
             <LearningSections />
             <PoojaCategory />
             <ProductCategory />
-            {blogs && latestBlogInfo()}
-
+            {/* {blogs && latestBlogInfo()} */}
             {testimonials && <ClientTestimonials />}
           </>}
           onScroll={onScroll}
         />
       </View>
-
     </View>
   )
 
 
   function latestBlogInfo() {
-    const renderItem = ({ item, index }) => {
+
+    const renderItem = ({ item }) => {
       return (
         <TouchableOpacity
           activeOpacity={0.8}
           onPress={() => navigate('blogDetails', { blogData: item })}
-        // style={{
-        //   // width: SCREEN_WIDTH * 0.55,
-        //   // marginLeft: Sizes.fixPadding * 1.5,
-        //   // borderRadius: Sizes.fixPadding,
-        //   // overflow: 'hidden',
-        //   borderColor: Colors.primaryLight,
-        //   elevation: 5,
-        //   shadowOffset: {
-        //     width: 0,
-        //     height: 1,
-        //   },
-        //   shadowOpacity: 0.2,
-        //   marginBottom: Sizes.fixPadding * 1.5,
-        //   shadowColor: Colors.black,
-        //   backgroundColor: Colors.whiteDark,
-        //   padding: Sizes.fixPadding * 0.5,
-        // }}
+          style={{
+            borderColor: Colors.primaryLight,
+            elevation: 5,
+            shadowOffset: {
+              width: 0,
+              height: 1,
+            },
+            shadowOpacity: 0.2,
+            shadowColor: Colors.black,
+            backgroundColor: Colors.whiteDark,
+            padding: Sizes.fixPadding * 0.5,
+            marginBottom: Sizes.fixPadding * 1.5,
+            marginLeft: Sizes.fixPadding * 1.5,
+            borderRadius: Sizes.fixPadding,
+            overflow: 'hidden'
+          }}
         >
           <Image
             source={{ uri: item?.image }}
@@ -152,24 +149,34 @@ const Home = ({
               ...Fonts.white18RobotBold,
               color: Colors.black,
               fontSize: 9,
-            }}>
+              padding: Sizes.fixPadding * 0.5,
+            }}
+          >
             {item?.title}
           </Text>
         </TouchableOpacity>
       );
     };
+
     return (
-      <View style={{ borderBottomWidth: 1, borderBottomColor: Colors.grayLight }}>
+      <View
+        style={{
+          borderBottomWidth: 1,
+          borderBottomColor: Colors.grayLight,
+        }}
+      >
         <View
           style={{
-            ...styles.row,
+            flexDirection: 'row',
             justifyContent: 'space-between',
             paddingHorizontal: Sizes.fixPadding * 1.5,
             paddingVertical: Sizes.fixPadding,
-          }}>
+          }}
+        >
           <Text style={{ ...Fonts.black16RobotoMedium }}>Latest Blogs</Text>
           <TouchableOpacity
-            onPress={() => navigate('astrologyBlogs')}>
+            onPress={() => navigate('astrologyBlogs')}
+          >
             <Text style={{ ...Fonts.primaryLight15RobotoRegular }}>View all</Text>
           </TouchableOpacity>
         </View>
@@ -182,7 +189,6 @@ const Home = ({
       </View>
     );
   }
-
 
   function learningBanner() {
     return (
@@ -215,4 +221,52 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
+  container: {
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.grayLight,
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: Sizes.fixPadding * 1.5,
+    paddingVertical: Sizes.fixPadding,
+  },
+  headerText: {
+    ...Fonts.black16RobotoMedium,
+  },
+  viewAllText: {
+    ...Fonts.primaryLight15RobotoRegular,
+  },
+  touchable: {
+    marginLeft: Sizes.fixPadding * 1.5,
+    borderRadius: Sizes.fixPadding,
+    overflow: 'hidden',
+    borderColor: Colors.primaryLight,
+    elevation: 5,
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.2,
+    shadowColor: Colors.black,
+    backgroundColor: Colors.whiteDark,
+    padding: Sizes.fixPadding * 0.5,
+    marginBottom: Sizes.fixPadding * 1.5,
+  },
+  image: {
+    width: '100%',
+    height: Sizes.screenWidth * 0.3,
+    borderTopLeftRadius: Sizes.fixPadding,
+    borderTopRightRadius: Sizes.fixPadding,
+  },
+  text: {
+    ...Fonts.white18RobotBold,
+    color: Colors.black,
+    fontSize: 9,
+    padding: Sizes.fixPadding * 0.5,
+  },
+  flatListContent: {
+    paddingRight: Sizes.fixPadding * 1.5,
+  },
 });
+

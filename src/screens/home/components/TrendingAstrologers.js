@@ -4,8 +4,32 @@ import { showNumber } from '../../../utils/services';
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import { SCREEN_WIDTH, Colors, Fonts, Sizes } from '../../../assets/styles';
 import Stars from 'react-native-stars';
+import * as CallActions from '../../../redux/actions/callActions'
+import * as ChatActions from '../../../redux/actions/chatActions'
+import { connect } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
 
-const TrendingAstrologers = () => {
+const TrendingAstrologers = ({ trendingAstrologerData, dispatch }) => {
+  const navigation = useNavigation()
+  const onChat = (item) => {
+    const payload = {
+      navigation,
+      astrologerId: item?._id,
+      astrologerName: item?.name,
+      astrologerImage: item?.profileImage,
+    }
+    dispatch(ChatActions.sendChatRequest(payload))
+  }
+
+  const onCall = (item) => {
+    const payload = {
+      navigation,
+      astrologerId: item?._id,
+      astrologerName: item?.name,
+
+    }
+    dispatch(CallActions.sendCallRequest(payload))
+  }
   const renderItem = ({ item, index }) => {
     return (
       <TouchableOpacity
@@ -42,7 +66,7 @@ const TrendingAstrologers = () => {
             alignItems: 'center',
           }}>
           <Image
-            source={require('../../../assets/images/user.png')}
+            source={{ uri: item?.profileImage }}
             style={{
               width: SCREEN_WIDTH * 0.14,
               height: SCREEN_WIDTH * 0.14,
@@ -54,7 +78,7 @@ const TrendingAstrologers = () => {
             }}
           />
           <Stars
-            default={3}
+            default={item?.rating}
             count={5}
             half={true}
             starSize={14}
@@ -72,30 +96,20 @@ const TrendingAstrologers = () => {
           // halfStar={<Icon name={'star-half'} style={[styles.myStarStyle]} />}
           />
           <Text numberOfLines={1} style={{ ...Fonts.black14InterMedium }}>
-            Acharya Shyam
+            {item?.name}
           </Text>
           <Text numberOfLines={1} style={{ ...Fonts.gray9RobotoRegular }}>
-            Love, Plam Reading
+            {item?.experties?.join(', ')}
           </Text>
           <Text numberOfLines={1} style={{ ...Fonts.gray9RobotoRegular }}>
-            Hindi, English
+            {item?.languages?.join(', ')}
           </Text>
           <Text
             style={{
               ...Fonts.black11InterMedium,
               marginTop: Sizes.fixPadding * 0.2,
             }}>
-            {showNumber(10)}/min
-            {/* {item?.Offer_list.length != 0 && (
-              <Text style={{ fontSize: 9, textDecorationLine: 'line-through' }}>
-                {showNumber(10)}
-              </Text>
-            )} */}
-            {/* {item?.moa == '1' && (
-              <Text style={{ fontSize: 9, color: Colors.primaryLight }}>
-                {'Free 5 min'}
-              </Text>
-            )} */}
+            {showNumber(item?.chatPrice + item?.companyChatPrice)}/min
           </Text>
           <View
             style={{
@@ -105,6 +119,8 @@ const TrendingAstrologers = () => {
               width: '100%',
             }}>
             <TouchableOpacity
+              activeOpacity={0.8}
+              onPress={() => onChat(item)}
               style={{
                 flex: 0.4,
                 justifyContent: 'center',
@@ -118,6 +134,8 @@ const TrendingAstrologers = () => {
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
+              activeOpacity={0.8}
+              onPress={() => onCall(item)}
               style={{
                 flex: 0.4,
                 justifyContent: 'center',
@@ -134,23 +152,34 @@ const TrendingAstrologers = () => {
     );
   };
   return (
-    <View
-      style={{
-        borderBottomWidth: 1,
-        borderBottomColor: Colors.grayLight,
-        marginTop: Sizes.fixPadding * 1.5,
-      }}>
-      <FlatList
-        data={Array.from({ length: 5 })}
-        renderItem={renderItem}
-        horizontal
-        contentContainerStyle={{ paddingRight: Sizes.fixPadding * 1.5 }}
-      />
-    </View>
+    <>
+      {
+        trendingAstrologerData && <View
+          style={{
+            borderBottomWidth: 1,
+            borderBottomColor: Colors.grayLight,
+            marginTop: Sizes.fixPadding * 1.5,
+          }}>
+          <FlatList
+            data={trendingAstrologerData}
+            renderItem={renderItem}
+            horizontal
+            contentContainerStyle={{ paddingRight: Sizes.fixPadding * 1.5 }}
+          />
+        </View>
+      }
+    </>
+
   );
 }
 
-export default TrendingAstrologers
+const mapStateToProps = state => ({
+  trendingAstrologerData: state.astrologer.trendingAstrologerData,
+})
+
+const mapDispatchToProps = dispatch => ({ dispatch })
+
+export default connect(mapStateToProps, mapDispatchToProps)(TrendingAstrologers)
 
 const styles = StyleSheet.create({
   row: {

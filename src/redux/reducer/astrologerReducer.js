@@ -17,7 +17,9 @@ const initialState = {
         visibleFor: ''
     },
     recentAstrologerData: null,
-    onlineAstrologerData: null
+    onlineAstrologerData: null,
+    offerAstrologerData: null,
+    trendingAstrologerData: null,
 }
 
 const astrologer = (state = initialState, actions) => {
@@ -69,6 +71,18 @@ const astrologer = (state = initialState, actions) => {
             return {
                 ...state,
                 onlineAstrologerData: payload
+            }
+        }
+        case actionTypes.SET_OFFER_ASTROLOGERS: {
+            return {
+                ...state,
+                offerAstrologerData: payload
+            }
+        }
+        case actionTypes.SET_TRENDING_ASTROLOGERS: {
+            return {
+                ...state,
+                trendingAstrologerData: payload
             }
         }
         default: {

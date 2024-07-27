@@ -7,7 +7,7 @@ import {
   Image,
 } from 'react-native';
 import { connect } from 'react-redux';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Loader from '../../../components/Loader';
 import MyHeader from '../../../components/MyHeader';
 import MyStatusBar from '../../../components/MyStatusBar';
@@ -15,34 +15,22 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { SCREEN_WIDTH, Colors, Fonts, Sizes } from '../../../assets/styles';
+import * as CartActions from '../../../redux/actions/cartActions'
 
-const Cart = ({ navigation, isLoading, cartDetails }) => {
+const Cart = ({ navigation, isLoading, cartDetails, dispatch }) => {
   const [state, setState] = useState({
-    cartData: [
-      {
-        id: '1',
-        title: 'Astro Product 1',
-        star: 4.5,
-        number_of_review: 10,
-        dicount_price: 299,
-        qty: 1,
-      },
-      {
-        id: '2',
-        title: 'Astro Product 2',
-        star: 4.0,
-        number_of_review: 8,
-        dicount_price: 399,
-        qty: 2,
-      },
-    ],
+    cartData: cartDetails?.items,
   });
 
-  console.log("cartDetails =====>>>>>>", cartDetails)
+  useEffect(() => {
+    dispatch(CartActions.onCartDetails())
+  }, [])
 
   const updateState = data => setState({ ...state, ...data });
 
   const { cartData } = state;
+
+  console.log("cartData" , cartData)
 
   return (
     <View style={{ flex: 1, backgroundColor: Colors.bodyColor }}>
@@ -233,7 +221,7 @@ const Cart = ({ navigation, isLoading, cartDetails }) => {
         <View style={[styles.row, styles.itemContainer]}>
           <View style={styles.imageContainer}>
             <Image
-              source={require("../../../assets/images/astro.jpg")}
+              source={{uri:item?.productId?.image}}
               style={{ width: '100%', height: '100%' }}
             />
           </View>
@@ -245,9 +233,9 @@ const Cart = ({ navigation, isLoading, cartDetails }) => {
             }}>
             <Text
               style={{ ...Fonts.black16RobotoRegular, color: Colors.blackLight }}>
-              {item.title}
+              {item?.productId.title}
             </Text>
-            <Text style={{ ...Fonts.black18RobotoRegular }}>₹{item.dicount_price}</Text>
+            <Text style={{ ...Fonts.black18RobotoRegular }}>₹{item.productId.price}</Text>
             <View
               style={[
                 styles.row,

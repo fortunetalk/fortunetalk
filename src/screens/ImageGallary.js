@@ -6,8 +6,8 @@ import MyStatusBar from '../components/MyStatusBar'
 const ImageGallary = ({ navigation, route }) => {
     const renderItem = ({ item, index }) => {
         return (
-            <TouchableOpacity onPress={() => navigation.navigate('imageView', {...route?.params, index})} activeOpacity={0.8} style={styles.imageContainer}>
-                <Image source={{uri: item}} style={{ width: '100%', height: '100%', borderRadius: Sizes.fixPadding }} />
+            <TouchableOpacity onPress={() => navigation.navigate('imageView', { ...route?.params, index })} activeOpacity={0.8} style={styles.imageContainer}>
+                <Image source={{ uri: item }} style={{ width: '100%', height: '100%', borderRadius: Sizes.fixPadding }} />
             </TouchableOpacity>
         )
     }

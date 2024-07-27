@@ -51,6 +51,7 @@ import CourseBookingDetails from '../screens/courses/live/CourseBookingDetails';
 import BookPooja from '../screens/eCommerce/pooja/BookPooja';
 import ProductSuccessBooking from '../screens/eCommerce/product/ProductSuccessBooking';
 import ProductBookingDetails from '../screens/eCommerce/product/ProductBookingDetails';
+import AstrologyBlogs from '../screens/AstrologyBlogs';
 
 const Stack = createNativeStackNavigator();
 
@@ -93,7 +94,8 @@ const StackRoutes = () => {
             <Stack.Screen name="workshopOverview" component={WorkshopOverview} />
             <Stack.Screen name="workshopDetails" component={WorkshopDetails} />
             <Stack.Screen name="onlineastrologers" component={OnlineAstrologers} />
-   
+            <Stack.Screen name="astrologyBlogs" component={AstrologyBlogs} />
+
 
             <Stack.Screen name="payment" component={Payment} options={{ animation: 'fade_from_bottom' }} />
             <Stack.Screen name="chatScreen" component={ChatScreen} />

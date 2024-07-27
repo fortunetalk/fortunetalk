@@ -5,12 +5,15 @@ import {
   Image,
 } from 'react-native';
 import React, { useState } from 'react';
+import MyHeader from '../components/MyHeader';
 import MyStatusBar from '../components/MyStatusBar';
 import { Colors, Fonts, Sizes, SCREEN_WIDTH } from '../assets/styles';
-import MyHeader from '../components/MyHeader';
 
 const BlogDetails = ({ route }) => {
   const [blogData] = useState(route.params.blogData);
+
+
+  console.log("blogData ====>>>>" , blogData)
 
   return (
     <View style={{ flex: 1, backgroundColor: Colors.bodyColor }}>
@@ -19,15 +22,19 @@ const BlogDetails = ({ route }) => {
         barStyle={'light-content'}
       />
       <MyHeader title={`${blogData?.title}`} />
-      <ScrollView>
+      <ScrollView contentContainerStyle={{ alignItems: 'center' }}>
         <Image
           source={{ uri: blogData?.image }}
-          style={{ width: '100%', height: SCREEN_WIDTH * 0.5 }}
+          style={{
+            width: '90%',
+            height: SCREEN_WIDTH * 0.5,
+          }}
+          
         />
         <Text
           style={{
             ...Fonts.primaryLight18RobotoMedium,
-            margin: Sizes.fixPadding
+            margin: Sizes.fixPadding,
           }}>
           {blogData?.title}
         </Text>
@@ -36,7 +43,7 @@ const BlogDetails = ({ route }) => {
             marginHorizontal: Sizes.fixPadding,
             marginBottom: Sizes.fixPadding * 2,
           }}>
-          <Text>
+          <Text style={{color:Colors.black}} >
             {blogData?.description}
           </Text>
         </View>

@@ -10,8 +10,8 @@ function* addToCart(actions) {
         const customerData = yield select(state => state.customer.customerData)
         const { payload } = actions
 
-        console.log("payload ===>>", payload)
-        console.log("  url: app_api_url + add_to_cart, ===>>", {url: app_api_url + add_to_cart})
+        // console.log("payload ===>>", payload)
+        // console.log("  url: app_api_url + add_to_cart, ===>>", {url: app_api_url + add_to_cart})
 
         const response = yield postRequest({
             url: app_api_url + add_to_cart,
@@ -39,14 +39,23 @@ function* addToCart(actions) {
 function* getCartDetails() {
     try {
         yield put({ type: actionTypes.SET_IS_LOADING, payload: true })
+        const customerData = yield select(state => state.customer.customerData)
 
-        const response = yield getRequest({
+        console.log(" url: app_api_url + get_cart_details", { url: app_api_url + get_cart_details })
+
+        const response = yield postRequest({
             url: app_api_url + get_cart_details,
+            data: {
+                customerId: customerData?._id,
+            }
         })
+
+        console.log("payload: response?.data  =====>>>>", { customerId: customerData?._id })
+        console.log("payload: response?.data  =====>>>>", { payload: response?.data })
 
         if (response?.success) {
             yield put({ type: actionTypes.GET_CART_DETAILS, payload: response?.data })
-        } 
+        }
 
         yield put({ type: actionTypes.SET_IS_LOADING, payload: false })
     } catch (e) {

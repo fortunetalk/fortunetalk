@@ -75,4 +75,10 @@ export const onGetSingleLiveClass = payload => ({
     payload
 })
 
+export const onCoursesPayment = payload => ({
+    type: actionTypes.LIVE_COURSE_PAYMENT,
+    payload
+})
+
+
 

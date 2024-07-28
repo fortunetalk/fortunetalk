@@ -17,6 +17,7 @@ import {
     get_workshop_list_without_id,
     is_registered_for_live_class,
     live_class_of_class,
+    live_course_payment,
     register_for_live_class
 } from '../../config/constants'
 import { showToastMessage } from '../../utils/services'
@@ -362,6 +363,37 @@ function* isRegisterForLiveClass(actions) {
     }
 }
 
+function* onLiveCoursePayment(actions) {
+    try {
+        const { payload } = actions
+        const customerData = yield select(state => state.customer.customerData)
+        console.log(payload, "payment")
+
+        const rayzorPayResponse = yield razorpayPayment({ amount: parseInt(payload?.amount), email: '', name: '', contact: '' })
+        console.log("rayzorPayResponse  ====>>>", rayzorPayResponse)
+
+        const response = yield postRequest({
+            url: app_api_url + live_course_payment,
+            data: {
+                customerId: customerData?._id,
+                amount: parseFloat(payload?.amount),
+                isPartial: true,
+                liveId: payload.liveClassId
+            }
+        })
+
+        if (response?.success) {
+            showToastMessage({ message: 'Payment was successfull' })
+            goBack()
+        }
+
+        yield put({ type: actionTypes.SET_IS_LOADING, payload: false })
+    } catch (e) {
+        console.log(e)
+        yield put({ type: actionTypes.SET_IS_LOADING, payload: false })
+    }
+}
+
 export default function* coursesSaga() {
     yield takeLeading(actionTypes.GET_COURSE_BANNER, getCourseBanner)
     yield takeLeading(actionTypes.GET_COURSES_LIST, getCourseList)
@@ -383,5 +415,7 @@ export default function* coursesSaga() {
     yield takeLeading(actionTypes.REGISTER_FOR_LIVE_CLASS, registerLiveClass)
     yield takeLeading(actionTypes.IS_REGISTER_FOR_LIVE_CLASS, isRegisterForLiveClass)
     yield takeLeading(actionTypes.GET_SINGLE_LIVE_CLASS, getSingleLiveClass)
+
+    yield takeLeading(actionTypes.LIVE_COURSE_PAYMENT, onLiveCoursePayment)
 
 }

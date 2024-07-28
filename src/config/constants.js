@@ -13,6 +13,8 @@ export const get_splash = 'customers/get_splash'
 export const get_astrologer_list_for_chat_call = 'customers/get_astrologer_list_for_chat_call'
 export const get_astrologer_details = 'customers/get_astrologer_details'
 export const customer_wallet_recharge = 'customers/customer_wallet_recharge'
+export const live_course_payment = 'live/create_orders'
+
 export const get_customer_wallet_history = 'customers/get_customer_wallet_history'
 export const get_customer_chat_history = 'customers/get_customer_chat_history'
 export const get_customer_call_history = 'customers/get_customer_call_history'

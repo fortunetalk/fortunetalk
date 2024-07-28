@@ -7,40 +7,42 @@ import {
   Image,
   Alert,
 } from 'react-native';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Modal } from 'react-native-paper';
 import MyHeader from '../../../components/MyHeader';
 import MyStatusBar from '../../../components/MyStatusBar';
-import { razorpayPayment } from '../../../utils/razorpay';
 import LinearGradient from 'react-native-linear-gradient';
-import { navigate } from '../../../utils/navigationServices';
 import { Colors, Fonts, Sizes, SCREEN_WIDTH } from '../../../assets/styles';
+import * as Courses from '../../../redux/actions/courseActions';
+import { connect } from 'react-redux';
 
-const CourseBookingDetails = ({ navigation, route }) => {
+const CourseBookingDetails = ({ navigation, route, dispatch }) => {
   const [state, setState] = useState({
     showPayment: false,
     successVisible: false,
     paymentData: route.params?.data,
+    gstAmount: null,
+    totalAmount: null,
+    halfAmount: null,
   });
 
-  function gst_amount() {
-    return ((parseFloat(paymentData?.price) * 18) / 100).toFixed(2);
-  }
+  const { successVisible, paymentData, gstAmount, totalAmount, halfAmount } = state;
+  console.log("payment data", paymentData)
 
-  function total_amount() {
-    return (
-      parseFloat(paymentData?.price) +
-      (parseFloat(paymentData?.price) * 18) / 100
-    );
-  }
+  useEffect(() => {
+    if (paymentData?.price) {
+      const gst = ((parseFloat(paymentData.price) * 18) / 100).toFixed(2);
+      const total = (parseFloat(paymentData.price) + parseFloat(gst)).toFixed(2);
+      const half = (parseFloat(total) / 2).toFixed(2);
 
-
-  function half_amount() {
-    return (
-      (parseFloat(paymentData?.price) +
-        (parseFloat(paymentData?.price) * 18) / 100) / 2
-    );
-  }
+      setState(prevState => ({
+        ...prevState,
+        gstAmount: gst,
+        totalAmount: total,
+        halfAmount: half,
+      }));
+    }
+  }, [paymentData]);
 
   // console.log("half_amount ===>>>" , half_amount())
   // console.log("total_amount ===>>>" , total_amount())
@@ -53,28 +55,20 @@ const CourseBookingDetails = ({ navigation, route }) => {
   };
 
   const handleFullPayment = () => {
-    if (!half_amount) {
+    if (!halfAmount) {
       Alert.alert("Amount Required")
     } else {
-      razorpayPayment({ amount: half_amount(), email: '', name: '', contact: '' })
-        .then((res) => {
-          navigate("home")
-        })
+      dispatch(Courses.onCoursesPayment({ amount: totalAmount, liveClassId: paymentData?._id }))
     }
   }
 
   const handleHalfPayment = () => {
-    if (!total_amount()) {
+    if (!halfAmount) {
       Alert.alert("Amount Required")
     } else {
-      razorpayPayment({ amount: total_amount(), email: '', name: '', contact: '' })
-        .then((res) => {
-          navigate("home")
-        })
+      dispatch(Courses.onCoursesPayment({ amount: halfAmount, liveClassId: paymentData?._id }))
     }
   }
-
-  const { showPayment, successVisible, paymentData } = state;
 
   return (
     <View style={{ flex: 1, backgroundColor: Colors.bodyColor }}>
@@ -172,7 +166,7 @@ const CourseBookingDetails = ({ navigation, route }) => {
                 borderRadius: Sizes.fixPadding,
               }}>
               <Text style={{ ...Fonts.gray16RobotoMedium }}>
-                Paid Amount - ₹ {total_amount()}
+                Paid Amount - ₹ {totalAmount}
               </Text>
             </View>
             <View
@@ -318,7 +312,7 @@ const CourseBookingDetails = ({ navigation, route }) => {
             },
           ]}>
           <Text style={{ ...Fonts.black16RobotoRegular }}>GST @ 18%</Text>
-          <Text style={{ ...Fonts.black16RobotoRegular }}>₹ {gst_amount()}</Text>
+          <Text style={{ ...Fonts.black16RobotoRegular }}>₹ {gstAmount}</Text>
         </View>
         <View
           style={[
@@ -330,7 +324,7 @@ const CourseBookingDetails = ({ navigation, route }) => {
           ]}>
           <Text style={{ ...Fonts.black16RobotoRegular }}>Total</Text>
           <Text style={{ ...Fonts.black16RobotoRegular, fontWeight: "800" }}>
-            ₹ {total_amount()}
+            ₹ {totalAmount}
           </Text>
         </View>
       </View>
@@ -380,7 +374,14 @@ const CourseBookingDetails = ({ navigation, route }) => {
 
 };
 
-export default CourseBookingDetails;
+const mapStateToProps = state => ({
+  isLoading: state.settings.isLoading,
+});
+
+const mapDispatchToProps = dispatch => ({ dispatch });
+
+export default connect(mapStateToProps, mapDispatchToProps)(CourseBookingDetails);
+
 
 const styles = StyleSheet.create({
   row: {

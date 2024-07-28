@@ -9,13 +9,15 @@ import socketServices from '../../utils/socket'
 
 function* onWalletRechage(actions) {
     try {
-        const { payload } = actions
-        const customerData = yield select(state => state.customer.customerData)
-
-        const rayzorPayResponse = yield razorpayPayment({ amount: payload?.amount, email: '', name: '', contact: '' })
-        console.log(rayzorPayResponse)
-
         yield put({ type: actionTypes.SET_IS_LOADING, payload: true })
+        const customerData = yield select(state => state.customer.customerData)
+        const { payload } = actions
+
+        console.log("payload ===>>", payload)
+
+        const rayzorPayResponse = yield razorpayPayment({ amount: payload?.amount, email: '', name: '', contact: customerData.phoneNumber })
+        console.log("rayzorPayResponse  ====>>>" , rayzorPayResponse)
+
 
         const response = yield postRequest({
             url: app_api_url + customer_wallet_recharge,
@@ -47,30 +49,8 @@ function* onWalletRechage(actions) {
     }
 }
 
-// function* onCoursePayment(actions) {
-//     try {
-//         const { payload } = actions
-//         const customerData = yield select(state => state.customer.customerData)
-
-//         console.log(payload, "payment")
-
-//         const rayzorPayResponse = yield razorpayPayment({ amount: payload?.amount, email: '', name: '', contact: '' })
-//         console.log(rayzorPayResponse)
-
-//         if (true) {
-//             showToastMessage({ message: 'Payment was successfully' })
-//             goBack()
-//         }
-
-//         yield put({ type: actionTypes.SET_IS_LOADING, payload: false })
-//     } catch (e) {
-//         console.log(e)
-//         yield put({ type: actionTypes.SET_IS_LOADING, payload: false })
-//     }
-// }
 
 
 export default function* paymentSaga() {
     yield takeLeading(actionTypes.ON_WALLET_RECHARGE, onWalletRechage)
-    // yield takeLeading(actionTypes.LIVE_COURSE_PAYMENT, onCoursePayment)
 }

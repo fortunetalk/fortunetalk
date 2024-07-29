@@ -15,12 +15,7 @@ import { Colors, Fonts, Sizes } from '../../assets/styles';
 import { check_current_day } from '../../utils/tools';
 import * as Courses from '../../redux/actions/courseActions';
 
-const CurrentCoursesDetails = ({ liveClassOfClass, dispatch, classData }) => {
-
-  useEffect(() => {
-    dispatch(Courses.liveClassOfClass({ liveClassId: classData?._id }))
-  }, [])
-
+const CurrentCoursesDetails = ({ dispatch }) => {
   return (
     <View style={{
       flex: 1,

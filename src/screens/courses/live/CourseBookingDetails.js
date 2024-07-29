@@ -7,14 +7,14 @@ import {
   Image,
   Alert,
 } from 'react-native';
-import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
 import { Modal } from 'react-native-paper';
+import React, { useEffect, useState } from 'react';
 import MyHeader from '../../../components/MyHeader';
 import MyStatusBar from '../../../components/MyStatusBar';
 import LinearGradient from 'react-native-linear-gradient';
-import { Colors, Fonts, Sizes, SCREEN_WIDTH } from '../../../assets/styles';
 import * as Courses from '../../../redux/actions/courseActions';
-import { connect } from 'react-redux';
+import { Colors, Fonts, Sizes, SCREEN_WIDTH } from '../../../assets/styles';
 
 const CourseBookingDetails = ({ navigation, route, dispatch }) => {
   const [state, setState] = useState({
@@ -27,7 +27,7 @@ const CourseBookingDetails = ({ navigation, route, dispatch }) => {
   });
 
   const { successVisible, paymentData, gstAmount, totalAmount, halfAmount } = state;
-  console.log("payment data", paymentData)
+  // console.log("payment data", paymentData)
 
   useEffect(() => {
     if (paymentData?.price) {

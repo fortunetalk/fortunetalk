@@ -406,16 +406,12 @@ function* onLiveCoursePayment(actions) {
 }
 
 
-function* getCurrentLiveCourse(actions) {
+function* getCurrentLiveCourse() {
     try {
         yield put({ type: actionTypes.SET_IS_LOADING, payload: true })
-        const { payload } = actions
 
-        console.log("payload  =====>>>>", payload)
-
-        const response = yield postRequest({
+        const response = yield getRequest({
             url: app_api_url + get_current_live_courses,
-            data: payload
         })
 
         if (response?.success) {
@@ -427,12 +423,12 @@ function* getCurrentLiveCourse(actions) {
         console.log(e)
     }
 }
-function* getCompletedLiveCourse(actions) {
+function* getCompletedLiveCourse() {
     try {
         yield put({ type: actionTypes.SET_IS_LOADING, payload: true })
-        const { payload } = actions
 
-        console.log("payload  =====>>>>", payload)
+        // console.log("payload  =====>>>>", payload)
+        // console.log("payload  =====>>>>", payload)
 
         const response = yield postRequest({
             url: app_api_url + get_current_live_courses,

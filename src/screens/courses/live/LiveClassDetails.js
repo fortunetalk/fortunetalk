@@ -28,7 +28,7 @@ const LiveClassDetails = ({
     liveClassOfClass }) => {
     const CoursePayment = singleLiveClass?.price - (singleLiveClass?.price * singleLiveClass?.discount / 100)
 
-    console.log("liveClassOfClass ====>>> indisecomponent", liveClassOfClass)
+    // console.log("liveClassOfClass ====>>> indisecomponent", liveClassOfClass)
 
     const go_to_live = () => {
     };
@@ -46,7 +46,7 @@ const LiveClassDetails = ({
         }))
     }, [])
 
-    console.log("singleLiveClass =====>>>>>", singleLiveClass)
+    // console.log("singleLiveClass =====>>>>>", singleLiveClass)
 
     return (
         <View style={{ flex: 1, backgroundColor: Colors.white }}>

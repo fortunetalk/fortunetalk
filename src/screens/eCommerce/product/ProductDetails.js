@@ -194,7 +194,7 @@ const ProductDetails = ({ navigation, route, isLoading, dispatch }) => {
           <AntDesign
             name="leftcircleo"
             color={Colors.primaryLight}
-            size={Sizes.fixPadding * 3}
+            size={Sizes.fixPadding * 2.2}
           />
         </TouchableOpacity>
         <Text

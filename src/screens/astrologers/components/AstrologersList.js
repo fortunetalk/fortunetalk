@@ -13,6 +13,7 @@ import { useNavigation } from '@react-navigation/native';
 
 const AstrologerItems = memo(({ item, index, type = 'chat', dispatch }) => {
     const navigation = useNavigation()
+
     const onSubmit = () => {
         const payload = {
             navigation,
@@ -68,7 +69,7 @@ const AstrologerItems = memo(({ item, index, type = 'chat', dispatch }) => {
                             {item?.chatCallOffer?.displayName}
                         </Text>
                     </View>
-                )} */}
+                )} 
                 <Image source={{ uri: item?.profileImage }} style={styles.imageContainer} />
                 <Image
                     source={require('../../../assets/icons/verify.png')}
@@ -190,7 +191,10 @@ const AstrologerItems = memo(({ item, index, type = 'chat', dispatch }) => {
 });
 
 const AstrologersList = ({ astroChatList, dispatch, type, astroCallList }) => {
-    const data = type === 'chat' ? astroChatList?.docs : astroCallList?.docs;
+    const data = type === 'chat' ? astroChatList : astroCallList;
+
+    console.log("astroChatList ===>>>", astroChatList?.docs)
+    console.log("data ===>>>", data)
 
     const renderItem = useCallback(({ item, index }) => {
         return <AstrologerItems item={item} index={index} type={type} dispatch={dispatch} />;

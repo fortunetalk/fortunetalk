@@ -11,6 +11,7 @@ import { useFocusEffect } from "@react-navigation/native";
 import { Colors, SCREEN_WIDTH, Sizes, Fonts } from "../../../assets/styles";
 import * as EcommerceActions from '../../../redux/actions/eCommerceActions'
 import { FlatList, Image, ImageBackground, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { navigate } from "../../../utils/navigationServices";
 
 const Product = ({
     dispatch,
@@ -225,7 +226,7 @@ const Product = ({
                     }}>
                     {screenType}
                 </Text>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => navigate("cart")} >
                     <Image
                         source={require('../../../assets/icons/cart.png')}
                         style={{ width: 22, height: 22 }}

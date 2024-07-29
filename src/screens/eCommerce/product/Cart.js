@@ -188,38 +188,38 @@ const Cart = ({ navigation, isLoading, cartDetails, dispatch }) => {
 
   async function updateItemCount({ id, type, qty }) {
     if (type == 'remove' && qty == 1) {
-      const newList = cartData.filter(item => item.id != id);
+      const newList = cartData.filter(item => item?._id != id);
       if (newList.length == 0) {
-        await AsyncStorage.removeItem('eCommerceCart');
         navigation.goBack();
       } else {
-        await AsyncStorage.setItem('eCommerceCart', JSON.stringify(newList));
         updateState({ cartData: newList });
       }
     } else {
       const newList = cartData.map(item => {
-        if (item.id === id) {
+        if (item?._id == id) {
           const updatedItem = {
             ...item,
-            qty:
+            quantity:
               type == 'remove'
-                ? item.qty > 1
-                  ? item.qty - 1
-                  : item.qty
-                : item.qty + 1,
+                ? item.quantity > 1
+                  ? item.quantity - 1
+                  : item.quantity
+                : item.quantity + 1,
           };
           return updatedItem;
         }
         return item;
       });
-
-      await AsyncStorage.setItem('eCommerceCart', JSON.stringify(newList));
       updateState({ cartData: newList });
     }
   }
 
   function cartDataInfo() {
     const renderItem = ({ item, index }) => {
+
+      // console.log("item =====>>>>" , item)
+      // console.log("item =====>>>>" , item?.quantity)
+
       return (
         <View style={[styles.row, styles.itemContainer]}>
           <View style={styles.imageContainer}>
@@ -247,7 +247,7 @@ const Cart = ({ navigation, isLoading, cartDetails, dispatch }) => {
               <TouchableOpacity
                 activeOpacity={0.8}
                 onPress={() =>
-                  updateItemCount({ id: item.id, type: 'remove', qty: item?.quantity })
+                  updateItemCount({ id: item?._id, type: 'remove', qty: item?.quantity })
                 }
                 hitSlop={{ bottom: 5, top: 5, left: 5, right: 5 }}
                 style={{
@@ -264,11 +264,11 @@ const Cart = ({ navigation, isLoading, cartDetails, dispatch }) => {
                   -
                 </Text>
               </TouchableOpacity>
-              <Text style={{ ...Fonts.black18RobotoRegular }}>{item.qty}</Text>
+              <Text style={{ ...Fonts.black18RobotoRegular, color: Colors.blackLight }}>{item?.quantity}</Text>
               <TouchableOpacity
                 activeOpacity={0.8}
                 onPress={() =>
-                  updateItemCount({ id: item.id, type: 'add', qty: item.qty })
+                  updateItemCount({ id: item?._id, type: 'add', qty: item?.quantity })
                 }
                 hitSlop={{ bottom: 5, top: 5, left: 5, right: 5 }}
                 style={{

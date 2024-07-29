@@ -1,15 +1,25 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux';
 import { Text, View } from 'react-native'
 import { FlatList } from 'react-native';
 import { Colors } from '../../assets/styles';
-import MyStatusBar from '../../components/MyStatusBar';
 import Loader from '../../components/Loader';
 import MyHeader from '../../components/MyHeader';
 import LiveClassCategory from './LiveClassCategory';
+import CompletedCourses from './CompletedCourses';
+import CurrentCourses from './CurrentCourses';
+import MyStatusBar from '../../components/MyStatusBar';
+import * as CourseActions from '../../redux/actions/courseActions'
 
-const MyCourses = ({ isLoading, route }) => {
+const MyCourses = ({ isLoading, route, dispatch, currentLiveCourse }) => {
   const [activeFilter, setActiveFilter] = useState(1);
+
+  useEffect(() => {
+    dispatch(CourseActions.onCurrentLiveCourseHistory())
+  }, [])
+
+  // console.log("currentLiveCourse =====>>>>", currentLiveCourse)
+
   const filterData = [
     { id: 1, title: 'Current Course' },
     { id: 2, title: 'Completed Course' },
@@ -39,8 +49,8 @@ const MyCourses = ({ isLoading, route }) => {
       />
       <FlatList ListHeaderComponent={
         <>
-          {activeFilter == 1 && <Text>Current Course</Text>}
-          {activeFilter == 2 && <Text>Completed Courses</Text>}
+          {activeFilter == 1 &&  <CurrentCourses/>}
+          {activeFilter == 2 && <CompletedCourses/>}
         </>
       }
       />
@@ -50,7 +60,7 @@ const MyCourses = ({ isLoading, route }) => {
 
 const mapStateToProps = state => ({
   isLoading: state.settings.isLoading,
-  courseList: state.courses.courseList,
+  currentLiveCourse: state.courses.currentLiveCourse,
 })
 
 const mapDispatchToProps = dispatch => ({ dispatch })

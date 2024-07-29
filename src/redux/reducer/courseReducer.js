@@ -15,6 +15,8 @@ const initialState = {
     isRegisterForLive:null,
     singleDemoClass : null,
     singleLiveClass : null,
+    currentLiveCourse:null,
+    completedLiveCourse:null
 }
 
 const courses = (state = initialState, actions) => {
@@ -108,6 +110,18 @@ const courses = (state = initialState, actions) => {
             return {
                 ...state,
                 singleLiveClass: payload
+            }
+        }
+        case actionTypes.GET_CURRENT_LIVE_COURSE_HISTORY: {
+            return {
+                ...state,
+                currentLiveCourse: payload
+            }
+        }
+        case actionTypes.GET_COMPLETED_LIVE_COURSE_HISTORY: {
+            return {
+                ...state,
+                completedLiveCourse: payload
             }
         }
         default: {

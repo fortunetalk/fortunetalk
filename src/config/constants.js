@@ -13,7 +13,6 @@ export const get_splash = 'customers/get_splash'
 export const get_astrologer_list_for_chat_call = 'customers/get_astrologer_list_for_chat_call'
 export const get_astrologer_details = 'customers/get_astrologer_details'
 export const customer_wallet_recharge = 'customers/customer_wallet_recharge'
-export const live_course_payment = 'live/create_orders'
 
 export const get_customer_wallet_history = 'customers/get_customer_wallet_history'
 export const get_customer_chat_history = 'customers/get_customer_chat_history'
@@ -31,41 +30,42 @@ export const get_online_astrologer = 'customers/get_online_astrologer'
 export const banner = 'banner'
 export const get_call_invoice = 'call/get_call_invoice'
 
+//pooja
 export const get_pooja_category = "ecommerce/pooja/category"
 export const get_pooja_category_waise = "ecommerce/pooja/category/"
-export const get_product_category = "ecommerce/product/category"
-export const get_product_category_waise = "ecommerce/product/category/"
+export const get_pooja_details_banner = "banner/pooja-category-detail"
+export const get_pooja_category_banner = "banner/pooja-category"
+
 
 // courses
+export const live_course_payment = 'live/create_orders'
 export const get_course_banner = "banner/course-banner"
 export const get_course_list = "course/customer"
 export const get_demo_class_list = "course/customer/demo_class_by_course_id"
 export const get_live_class_list = "course/customer/live_class_by_course_id"
 export const get_workshop_list = "course/customer/workshop_by_course_id"
 export const get_all_demo_class = "course/customer/demo_class"
+export const register_for_live_class = "course/customer/register_live_class"
+export const get_workshop_list_without_id = "course/customer/workshop"
+export const get_teachers_list = "course/customer/astrologer_by_course"
+export const book_demo_class = "course/customer/booked_demo_class"
+export const get_single_demo_class_by_id = "course/customer/demo_class_by_id"
+export const get_single_live_class_by_id = "course/customer/live_class_by_id"
+export const live_class_of_class = "course/customer/class_by_live_class_id"
+export const is_registered_for_live_class = "course/customer/check_customer_live_class_registration"
+export const check_customer_demo_class_booked = "course/customer/check_customer_demo_class_booked"
+export const get_current_live_courses = "live/get_live_course_history"
+
+// cart
 export const add_to_cart = "ecommerce/product/addToCart"
 export const get_cart_details = "ecommerce/product/get-cart"
 
-export const register_for_live_class = "course/customer/register_live_class"
-export const is_registered_for_live_class = "course/customer/check_customer_live_class_registration"
-
-export const get_workshop_list_without_id = "course/customer/workshop"
-
-export const get_teachers_list = "course/customer/astrologer_by_course"
-export const book_demo_class = "course/customer/booked_demo_class"
-
-export const get_single_demo_class_by_id = "course/customer/demo_class_by_id"
-export const get_single_live_class_by_id = "course/customer/live_class_by_id"
-
-export const live_class_of_class = "course/customer/class_by_live_class_id"
-export const check_customer_demo_class_booked = "course/customer/check_customer_demo_class_booked"
-
+// product
 export const get_product_details_banner = "banner/product-category-detail"
 export const get_product_category_banner = "banner/product-category"
-
-export const get_pooja_details_banner = "banner/pooja-category-detail"
-export const get_pooja_category_banner = "banner/pooja-category"
 export const get_product_history = "ecommerce/product/order-by-customer"
+export const get_product_category = "ecommerce/product/category"
+export const get_product_category_waise = "ecommerce/product/category/"
 
 
 export const google_map_key = 'AIzaSyBjKP15Z_-tCf5EYm5PBbgZPe4yKaRqoFQ';

@@ -54,11 +54,12 @@ const TrendingAstrologers = ({ trendingAstrologerData, dispatch }) => {
           shadowColor: Colors.black,
           backgroundColor: Colors.white,
           alignItems: 'center',
+          borderWidth: 2,
+          borderColor: Colors.primaryLight
         }}>
-        {/* <Image
-          source={require('../assets/gifs/trending.gif')}
-          style={{ width: '100%', height: Sizes.fixPadding * 2 }}
-        /> */}
+          <View style={{backgroundColor: Colors.primaryLight, width: '100%'}}>
+            <Text style={{...Fonts._13InterMedium, textAlign: 'center', color: Colors.white}}>Trending</Text>
+          </View>
         <View
           style={{
             paddingHorizontal: Sizes.fixPadding * 0.3,

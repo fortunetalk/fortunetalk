@@ -83,7 +83,7 @@ export const setRoomUserCount = payload => ({
 });
 
 export const setLiveCallsVisible = payload => ({
-  type: actionTypes.SET_LIVE_CALLS_VISIBLE, 
+  type: actionTypes.SET_LIVE_CALLS_VISIBLE,
   payload,
 });
 
@@ -182,8 +182,8 @@ export const setCallInfoVisible = payload => ({
   payload,
 })
 
-export const setLiveInvoiceVisible = payload => ({
-  type: actionTypes.SET_LIVE_INVOICE_VISIBLE,
+export const setLiveInvoiceData = payload => ({
+  type: actionTypes.SET_LIVE_INVOICE_DATA,
   payload,
 })
 
@@ -200,6 +200,11 @@ export const setLiveIsMute = payload => ({
 
 export const onAppStateChangeInLive = payload => ({
   type: actionTypes.ON_APP_STATE_CHANGE_IN_LIVE,
+  payload,
+})
+
+export const getLiveInvoiceData = payload => ({
+  type: actionTypes.GET_LIVE_INVOICE_DATA,
   payload,
 })
 

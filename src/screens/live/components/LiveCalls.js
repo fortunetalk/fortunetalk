@@ -47,8 +47,8 @@ const LiveCalls = ({ liveCallsVisible, dispatch, liveData, astroData, layout }) 
               <Text style={{ ...Fonts.white12RobotoRegular, fontSize: 13 }}>Video call @ {showNumber(liveData?.vedioCallPrice + liveData?.commissionVideoCallPrice)} <Text style={{ textDecorationLine: 'line-through' }}>{showNumber(53)}/min</Text></Text>
               <Text style={{ ...Fonts.white12RobotoRegular, fontSize: 8, color: '#F7C514' }}>Both consultant and you on video call</Text>
             </View>
-            <TouchableOpacity disabled={layout == 'VEDIO_CALL'} onPress={() => dispatch(LiveActions.addInWaitingList('VEDIO_CALL'))} activeOpacity={0.8} style={{ width: '25%', backgroundColor: layout == 'VEDIO_CALL' ? Colors.grayDark : '#F7C514', justifyContent: 'center', alignItems: 'center', paddingVertical: Sizes.fixPadding * 0.8, borderRadius: Sizes.fixPadding * 0.5 }}>
-              <Text style={{ ...Fonts.black14InterMedium, color: layout == 'VEDIO_CALL' ? Colors.white : Colors.black }}> {layout == 'VEDIO_CALL' ? 'Joined' : 'Join'}</Text>
+            <TouchableOpacity disabled={layout == 'VIDEO_CALL'} onPress={() => dispatch(LiveActions.addInWaitingList('VIDEO_CALL'))} activeOpacity={0.8} style={{ width: '25%', backgroundColor: layout == 'VIDEO_CALL' ? Colors.grayDark : '#F7C514', justifyContent: 'center', alignItems: 'center', paddingVertical: Sizes.fixPadding * 0.8, borderRadius: Sizes.fixPadding * 0.5 }}>
+              <Text style={{ ...Fonts.black14InterMedium, color: layout == 'VIDEO_CALL' ? Colors.white : Colors.black }}> {layout == 'VIDEO_CALL' ? 'Joined' : 'Join'}</Text>
             </TouchableOpacity>
           </View>
           <View style={styles.itemContainer}>

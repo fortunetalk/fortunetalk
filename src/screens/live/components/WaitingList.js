@@ -27,16 +27,16 @@ const WaitingList = ({ dispatch, waitingListVisible, waitListData, layout }) => 
         <Text style={{ ...Fonts.white11InterMedium }}>Wait Time - 5 min</Text>
         <TouchableOpacity
           activeOpacity={0.8}
-          disabled={layout == "VEDIO_CALL"}
-          onPress={() => dispatch(LiveActions.addInWaitingList())}
+          disabled={layout == "VIDEO_CALL"}
+          onPress={() => dispatch(LiveActions.addInWaitingList('VIDEO_CALL'))}
           style={{
             width: '60%',
-            backgroundColor: layout == "VEDIO_CALL" ? Colors.grayA :  '#F0DF20',
+            backgroundColor: layout == "VIDEO_CALL" ? Colors.grayA :  '#F0DF20',
             marginTop: Sizes.fixPadding,
             paddingVertical: Sizes.fixPadding * 0.8,
             borderRadius: 1000,
           }}>
-          <Text style={{ ...Fonts.black16RobotoMedium, color: layout == "VEDIO_CALL" ? Colors.white : Colors.black, textAlign: 'center' }}>
+          <Text style={{ ...Fonts.black16RobotoMedium, color: layout == "VIDEO_CALL" ? Colors.white : Colors.black, textAlign: 'center' }}>
             Join WaitList
           </Text>
         </TouchableOpacity>

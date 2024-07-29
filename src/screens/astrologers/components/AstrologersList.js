@@ -17,7 +17,7 @@ const AstrologerItems = memo(({ item, index, type = 'chat', dispatch }) => {
         const payload = {
             navigation,
             astrologerId: item?._id,
-            astrologerName: item?.name,
+            astrologerName: item?.displayName,
             astrologerImage: item?.profileImage,
         }
         if (type === 'chat') {
@@ -33,6 +33,20 @@ const AstrologerItems = memo(({ item, index, type = 'chat', dispatch }) => {
         else if (status === 'Busy') return 'red'
     }
 
+    const getPrice = (item)=>{
+        if(type === "chat"){
+            return item?.chatPrice + item?.companyChatPrice
+        }
+        return item?.callPrice + item?.companyCallPrice
+    }
+
+    const getOfferPrice = item =>{
+        if(type === "chat"){
+            return (item?.chatPrice + item?.companyChatPrice) - (item?.chatPrice + item?.companyChatPrice)*item?.chatCallOffer?.discount/100
+        }
+        return (item?.callPrice + item?.companyCallPrice) - (item?.callPrice + item?.companyCallPrice)*item?.chatCallOffer?.discount/100
+    }
+
     return (
         <TouchableOpacity
             activeOpacity={0.8}
@@ -41,7 +55,7 @@ const AstrologerItems = memo(({ item, index, type = 'chat', dispatch }) => {
             <ImageBackground
                 source={require('../../../assets/images/astro.jpg')}
                 style={{ width: '100%', height: SCREEN_WIDTH * 0.2 }}>
-                {item?.Offer_list != 0 && (
+                {item?.chatCallOffer && (
                     <View
                         style={{
                             transform: [{ rotate: '-45deg' }],
@@ -51,7 +65,7 @@ const AstrologerItems = memo(({ item, index, type = 'chat', dispatch }) => {
                             top: 15,
                         }}>
                         <Text style={{ ...Fonts.white11InterMedium, textAlign: 'center' }}>
-                            Offer
+                            {item?.chatCallOffer?.displayName}
                         </Text>
                     </View>
                 )}
@@ -100,7 +114,7 @@ const AstrologerItems = memo(({ item, index, type = 'chat', dispatch }) => {
                     // halfStar={<Icon name={'star-half'} style={[styles.myStarStyle]} />}
                     />
                     <Text numberOfLines={1} style={{ ...Fonts.black14InterMedium }}>
-                        {item?.name}
+                        {item?.displayName}
                     </Text>
                     <Text
                         numberOfLines={1}
@@ -113,24 +127,19 @@ const AstrologerItems = memo(({ item, index, type = 'chat', dispatch }) => {
                     <View style={{ ...styles.row, marginTop: Sizes.fixPadding * 0.2 }}>
                         <Ionicons
                             name={type == 'chat' ? "chatbubble-ellipses-outline" : 'call-outline'}
-                            color={item?.moa == '1' ? Colors.primaryLight : Colors.black}
+                            color={item?.moaStatus == '1' ? Colors.primaryLight : Colors.black}
                             size={16}
                         />
-                        {item?.Offer_list != 0 ? (
+                        {item?.chatCallOffer ? (
                             <Text
                                 style={{
                                     ...Fonts.black11InterMedium,
                                     marginLeft: Sizes.fixPadding * 0.5,
                                 }}>
-                                {item?.moa == '1' && (
-                                    <Text style={{ fontSize: 13, color: Colors.primaryLight }}>
-                                        {'Free '}
-                                    </Text>
-                                )}
-                                {showNumber(item?.chatPrice + item?.companyChatPrice)}
+                                {showNumber(getOfferPrice(item))}
                                 /min{' '}
-                                {item?.moa != '1' && <Text style={{ fontSize: 9, textDecorationLine: 'line-through' }}>
-                                    {showNumber(10)}
+                                {<Text style={{ fontSize: 9, textDecorationLine: 'line-through' }}>
+                                    {showNumber(getPrice(item))}
                                     /min{' '}
                                 </Text>}
 
@@ -141,7 +150,7 @@ const AstrologerItems = memo(({ item, index, type = 'chat', dispatch }) => {
                                     ...Fonts.black11InterMedium,
                                     marginLeft: Sizes.fixPadding * 0.5,
                                 }}>
-                                {item?.moa == '1' && (
+                                {item?.moaStatus && (
                                     <Text style={{ fontSize: 13, color: Colors.primaryLight }}>
                                         {'Free '}
                                     </Text>
@@ -149,9 +158,9 @@ const AstrologerItems = memo(({ item, index, type = 'chat', dispatch }) => {
                                 <Text
                                     style={{
                                         textDecorationLine:
-                                            item?.moa == '1' ? 'line-through' : 'none',
+                                            item?.moaStatus == '1' ? 'line-through' : 'none',
                                     }}>
-                                    {showNumber(10)}
+                                    {showNumber(getPrice(item))}
                                     /min{' '}
                                 </Text>
                             </Text>

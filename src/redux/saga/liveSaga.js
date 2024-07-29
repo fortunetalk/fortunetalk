@@ -23,7 +23,7 @@ import * as LiveActions from '../actions/liveActions';
 import { showToastMessage } from '../../utils/services';
 import database from '@react-native-firebase/database';
 import * as SetingActions from '../../redux/actions/settingActions'
-import { zego_live_app_id, zego_live_app_sign } from '../../config/constants';
+import { app_api_url, get_live_call_data, zego_live_app_id, zego_live_app_sign } from '../../config/constants';
 import { getRequest, postRequest } from '../../utils/apiRequests';
 import { navigate } from '../../utils/navigationServices';
 
@@ -59,7 +59,7 @@ function* createLiveProfile(actions) {
       appSign: zego_live_app_sign,
       scenario: ZegoScenario.General,
     };
-    granted.then(()=>console.log('granted'))
+    granted.then(() => console.log('granted'))
     const response = yield ZegoExpressEngine.createEngineWithProfile(profile);
     response.getVersion().then(ver => {
       console.log('Express SDK Version: ' + ver);
@@ -142,10 +142,13 @@ function* addLiveListeners(actions) {
       'IMRecvCustomCommand',
       (roomID, fromUser, command) => {
         let my_command = JSON.parse(command);
+        console.log(my_command)
         if (my_command?.command == 'heart') {
           dispatch(LiveActions.addHeartByOthers());
-        } else if (my_command?.command == 'accept_call') {
-          dispatch(LiveActions.setCoHostRequestVisible(true));
+        } else if (my_command?.command == 'ACCEPT_VOICE_CALL') {
+          dispatch(LiveActions.setCoHostRequestVisible({ visible: true, type: 'VOICE_CALL' }));
+        } else if (my_command?.command == 'ACCEPT_VIDEO_CALL') {
+          dispatch(LiveActions.setCoHostRequestVisible({ visible: true, type: 'VIDEO_CALL' }));
         } else if (my_command?.command == 'end_host') {
           dispatch(LiveActions.onEndCalling())
           // ZegoExpressEngine.instance().stopPlayingStream('333');
@@ -408,7 +411,7 @@ function* addHeartByOthers(actions) {
   }
 }
 
-function getStreamId() {
+function getStreamId(type) {
   const charset =
     'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   let code = '';
@@ -416,7 +419,12 @@ function getStreamId() {
     const randomIndex = Math.floor(Math.random() * charset.length);
     code += charset.charAt(randomIndex);
   }
-  return code;
+  return `${type}_${code}`.toUpperCase();
+}
+
+function extractCallType(str) {
+  const match = str.match(/(VOICE_CALL|VIDEO_CALL)/);
+  return match ? match[0] : '';
 }
 
 async function isItPersentInWaitingList(liveID, userID) {
@@ -443,7 +451,7 @@ async function removeFromWaitingList(liveID, userID) {
 
 function* addInWaitingList(actions) {
   try {
-    const {payload} = actions
+    const { payload } = actions
     yield put({ type: actionTypes.SET_WAITING_LIST_VISIBLE, payload: false })
     yield put({ type: actionTypes.SET_LIVE_CALLS_VISIBLE, payload: false })
     const customerData = yield select(state => state.customer.customerData);
@@ -482,20 +490,29 @@ function* addInWaitingList(actions) {
 
 function* onGoLive(actions) {
   try {
-    const streamID = getStreamId();
+    const { payload } = actions
+    console.log('payload', payload)
+    const streamID = getStreamId(payload);
     const liveID = yield select(state => state.live.liveID);
+    console.log('streamID', streamID)
+    console.log('liveID', liveID)
     ZegoExpressEngine.instance().startPublishingStream(streamID);
+    if (payload === 'VOICE_CALL') {
+      ZegoExpressEngine.instance().mutePublishStreamVideo(true)
+    } else {
+    }
+
     yield put({ type: actionTypes.SET_STREAMING_ID, payload: streamID });
-    yield put({ type: actionTypes.SET_LAYOUT, payload: 'VEDIO_CALL' });
+    yield put({ type: actionTypes.SET_LAYOUT, payload: payload });
     let command = {
       streamID: streamID,
       command: 'start_co_host',
       time: 300,
-      type: 'vedio',
+      type: payload,
     };
     ZegoExpressEngine.instance()
       .sendCustomCommand(liveID, JSON.stringify(command))
-    yield put({ type: actionTypes.SET_CO_HOST_REQUEST_VISIBLE, payload: false })
+    yield put({ type: actionTypes.SET_CO_HOST_REQUEST_VISIBLE, payload: { visible: false, type: '' } })
   } catch (e) {
     console.log(e);
   }
@@ -512,7 +529,7 @@ function* onCancelCallRequest(actions) {
       JSON.stringify({ command: 'cancel_call' }),
       [{ userID: astroData?._id, userName: astroData?.astrologerName }]
     );
-    yield put({ type: actionTypes.SET_CO_HOST_REQUEST_VISIBLE, payload: false })
+    yield put({ type: actionTypes.SET_CO_HOST_REQUEST_VISIBLE, payload: { visible: false, type: '' } })
   } catch (e) {
     console.log(e)
   }
@@ -556,7 +573,13 @@ function* onStreamUpdate(actions) {
           type: actionTypes.SET_STREAMING_ID,
           payload: foundObject?.streamID,
         });
-        yield put({ type: actionTypes.SET_LAYOUT, payload: 'CO_HOSTING' });
+
+        const callType = extractCallType(foundObject?.streamID)
+        if(callType === 'VOICE_CALL'){
+          yield put({ type: actionTypes.SET_LAYOUT, payload: 'CO_HOSTING_VOICE' });
+        }else if(callType === 'VIDEO_CALL'){
+          yield put({ type: actionTypes.SET_LAYOUT, payload: 'CO_HOSTING_VIDEO' });
+        }
 
       } else if (updateType === 1) {
         yield put({
@@ -594,11 +617,33 @@ function* onLiveMuteUnmute(actions) {
 
 function* onAppStateChangeInLive(actions) {
   try {
-    const {payload} = actions
+    const { payload } = actions
     ZegoExpressEngine.instance().mutePublishStreamVideo(payload)
 
   } catch (e) {
     console.log(e)
+  }
+}
+
+function* getLiveCallInvoiceData(actions) {
+  try {
+      const { payload } = actions
+      console.log(typeof payload)
+      const response = yield postRequest({
+          url: app_api_url + get_live_call_data,
+          data: {
+            liveCallId: payload?.callId
+          }
+      })
+
+      console.log(response)
+
+      if (response?.success) {
+          yield put({ type: actionTypes.SET_LIVE_INVOICE_DATA, payload: { visible: true, data: response?.data } })
+      }
+
+  } catch (e) {
+      console.log(e)
   }
 }
 
@@ -619,4 +664,5 @@ export default function* liveSaga() {
   yield takeLeading(actionTypes.ON_STREAM_UPDATE, onStreamUpdate);
   yield takeLeading(actionTypes.ON_LIVE_MUTE_UNMUTE, onLiveMuteUnmute);
   yield takeLeading(actionTypes.ON_APP_STATE_CHANGE_IN_LIVE, onAppStateChangeInLive);
+  yield takeLeading(actionTypes.GET_LIVE_INVOICE_DATA, getLiveCallInvoiceData);
 }

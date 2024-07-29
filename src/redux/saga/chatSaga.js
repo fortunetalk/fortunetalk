@@ -37,7 +37,7 @@ function* sendChatRequest(actions) {
             });
         } else {
             if (response?.message == 'Insufficent Balance') {
-                yield put({ type: actionTypes.SET_WALLET_ALERT_VISIBLE, payload: {visible: true, visibleFor: 'wallet_recharge'} })
+                yield put({ type: actionTypes.SET_WALLET_ALERT_VISIBLE, payload: { visible: true, visibleFor: 'wallet_recharge' } })
             }
             showToastMessage({ message: response.message })
         }
@@ -57,11 +57,6 @@ function* startChat(actions) {
         socketServices.emit('joinChatRoom', historyId)
         socketServices.emit('startChatTimer', historyId)
 
-        console.log( {
-            chatId: historyId,
-            type: 'customer'
-        })
-
         const response = yield postRequest({
             url: app_api_url + get_chat_data,
             data: {
@@ -74,7 +69,9 @@ function* startChat(actions) {
             return
         }
 
-        console.log(response)
+        const customer = yield AsyncStorage.getItem('customerData')
+        const customerData = JSON.parse(customer)
+        yield put({ type: actionTypes.SET_CUSTOMER_DATA, payload: customerData })
 
         yield AsyncStorage.setItem('chatData', JSON.stringify(response.data))
         yield put({ type: actionTypes.SET_CHAT_DATA, payload: response.data })
@@ -161,7 +158,7 @@ function* onEndChat(actions) {
 function* onCloseChat(actions) {
     try {
         const chatData = yield select(state => state.chat.chatData)
-        if(!chatData){
+        if (!chatData) {
             resetToScreen('home')
             return
         }
@@ -175,6 +172,7 @@ function* onCloseChat(actions) {
 
         if (response?.success) {
             yield AsyncStorage.removeItem('chatData')
+            database().ref(`Messages/${chatData.chatId}`).off()
             yield put({ type: actionTypes.SET_CHAT_REQUESTED_DATA, payload: null })
             yield put({ type: actionTypes.SET_CHAT_DATA, payload: null })
             yield put({ type: actionTypes.SET_CHAT_TIMER_COUNTDOWN, payload: 0 })
@@ -182,7 +180,7 @@ function* onCloseChat(actions) {
             yield put({ type: actionTypes.SET_CHAT_INVOICE_DATA, payload: response?.data })
             yield put({ type: actionTypes.SET_CHAT_INVOICE_VISIBLE, payload: true })
         }
-      
+
     } catch (e) {
         console.log(e)
     }

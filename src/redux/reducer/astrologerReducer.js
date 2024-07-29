@@ -20,6 +20,7 @@ const initialState = {
     onlineAstrologerData: null,
     offerAstrologerData: null,
     trendingAstrologerData: null,
+    isFollow: false
 }
 
 const astrologer = (state = initialState, actions) => {
@@ -83,6 +84,12 @@ const astrologer = (state = initialState, actions) => {
             return {
                 ...state,
                 trendingAstrologerData: payload
+            }
+        }
+        case actionTypes.SET_FOLLOW_STATUS: {
+            return {
+                ...state,
+                isFollow: payload
             }
         }
         default: {

@@ -21,8 +21,8 @@ function* sendCallRequest(actions) {
             const callTo = [{ userID: astrologerId, userName: astrologerName ?? 'Astrologer', }]
             console.log(callTo)
             yield call(sendCallInvitation, { navigation, callTo, customData: response?.data?.transactionId })
-        }else{
-            showToastMessage({message: response?.message})
+        } else {
+            showToastMessage({ message: response?.message })
         }
 
         console.log(response)
@@ -33,9 +33,9 @@ function* sendCallRequest(actions) {
     }
 }
 
-function* getCallInvoiceData(actions){
-    try{
-        const {payload} = actions
+function* getCallInvoiceData(actions) {
+    try {
+        const { payload } = actions
         console.log(typeof payload)
         const response = yield postRequest({
             url: app_api_url + get_call_invoice,
@@ -46,11 +46,11 @@ function* getCallInvoiceData(actions){
 
         console.log(response)
 
-        if(response?.success){
-            yield put({type: actionTypes.SET_CALL_INVOICE_DATA, payload: {visible: true, data: response?.data}})
+        if (response?.success) {
+            yield put({ type: actionTypes.SET_CALL_INVOICE_DATA, payload: { visible: true, data: response?.data } })
         }
 
-    }catch(e){
+    } catch (e) {
         console.log(e)
     }
 }

@@ -34,6 +34,20 @@ const OnlineAstrologers = ({ dispatch, onlineAstrologerData }) => {
     dispatch(CallActions.sendCallRequest(payload))
   }
 
+  const getPrice = (item)=>{
+    if(type === "chat"){
+        return item?.chatPrice + item?.companyChatPrice
+    }
+    return item?.callPrice + item?.companyCallPrice
+}
+
+const getOfferPrice = item =>{
+    if(type === "chat"){
+        return (item?.chatPrice + item?.companyChatPrice) - (item?.chatPrice + item?.companyChatPrice)*item?.chatCallOffer?.discount/100
+    }
+    return (item?.callPrice + item?.companyCallPrice) - (item?.callPrice + item?.companyCallPrice)*item?.chatCallOffer?.discount/100
+}
+
   const renderItem = ({ item, index }) => {
     return (
       <TouchableOpacity
@@ -146,7 +160,7 @@ const OnlineAstrologers = ({ dispatch, onlineAstrologerData }) => {
                 })}
               </Text>
             )} */}
-            {/* {item?.moa == '1' && (
+            {item?.moa == '1' && (
               <Text
                 style={{
                   fontSize: 12,
@@ -155,7 +169,7 @@ const OnlineAstrologers = ({ dispatch, onlineAstrologerData }) => {
                 }}>
                 {'Free 5 min'}
               </Text>
-            )} */}
+            )}
           </Text>
           <View
             style={{
@@ -197,6 +211,7 @@ const OnlineAstrologers = ({ dispatch, onlineAstrologerData }) => {
       </TouchableOpacity>
     );
   };
+
   return (
     <>
       {

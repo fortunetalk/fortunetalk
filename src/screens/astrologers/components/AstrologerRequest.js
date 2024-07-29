@@ -173,7 +173,7 @@ const AstrologerRequest = ({ dispatch, chatRequestModalData, customerData }) => 
                             textAlign: 'center',
                             paddingBottom: Sizes.fixPadding * 4,
                         }}>
-                        While you wait for {chatRequestModalData?.data?.astrologerName}, you may also Chat Chat (wait 4 min)
+                        While you wait for {chatRequestModalData?.data?.astrologerName}, you may also
                         explore other astrologers and join their waitlist.
                     </Text>
                     <TouchableOpacity

@@ -26,8 +26,11 @@ export const get_chat_details = 'chat/get_chat_details'
 export const astrologer_rating = 'customers/astrologer_rating'
 export const get_recent_astrologer = 'customers/get_recent_astrologer'
 export const get_online_astrologer = 'customers/get_online_astrologer'
+export const follow_astrologer = 'customers/follow_astrologer'
+export const check_customer_following = 'customers/check_customer_following'
 export const banner = 'banner'
 export const get_call_invoice = 'call/get_call_invoice'
+export const get_live_call_data = 'live/get_live_call_data'
 
 export const get_pooja_category = "ecommerce/pooja/category"
 export const get_pooja_category_waise = "ecommerce/pooja/category/"

@@ -10,7 +10,7 @@ import * as ChatActions from '../../../redux/actions/chatActions'
 import { connect } from 'react-redux';
 
 const ICON_SIZE = 22;
-const ATTACHMENT_ICON_SIZE = 20;
+const ATTACHMENT_ICON_SIZE = 24;
 
 
 const Items = ({ setTooltipVisible, dispatch }) => {

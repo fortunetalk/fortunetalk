@@ -8,7 +8,7 @@ import { Colors, Sizes, Fonts } from '../../../assets/styles';
 const StartLiveAlert = ({ dispatch, coHostStartVisible }) => {
   return (
     <Modal
-      visible={coHostStartVisible}
+      visible={coHostStartVisible?.visible}
     >
       <View style={styles.container}>
         <Text style={{ ...Fonts.primaryLight15RobotoMedium, fontSize: 18 }}>
@@ -16,7 +16,7 @@ const StartLiveAlert = ({ dispatch, coHostStartVisible }) => {
         </Text>
         <Text
           style={{ ...Fonts.black14RobotoRegular, marginTop: Sizes.fixPadding }}>
-          Do you want to start a video call?
+          Do you want to start a {coHostStartVisible?.type === 'VOICE_CALL' ?'audio': 'video'} call?
         </Text>
         <View style={styles.buttonContianer}>
           <TouchableOpacity
@@ -27,7 +27,7 @@ const StartLiveAlert = ({ dispatch, coHostStartVisible }) => {
             <Text style={{ ...Fonts.black14RobotoRegular }}>Cancel</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => dispatch(LiveActions.onGoLive())}
+            onPress={() => dispatch(LiveActions.onGoLive(coHostStartVisible?.type))}
             hitSlop={{ bottom: 5, top: 5 }}
             activeOpacity={0.8}
             style={styles.buttons}>

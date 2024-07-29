@@ -71,7 +71,7 @@ const RecentAstrologers = ({ recentAstrologerData, dispatch }) => {
             paddingHorizontal: Sizes.fixPadding * 0.3,
             marginLeft: Sizes.fixPadding * 1.5,
           }}>
-          <Text style={{ ...Fonts.black14InterMedium }}>Astro Acharya</Text>
+          <Text style={{ ...Fonts.black14InterMedium }}>{item?.name}</Text>
           <Text style={{ ...Fonts.gray9RobotoRegular }}>
             {moment(item?.lastInteractionDate).format('DD-MM-YYYY, HH:mm A')}
           </Text>

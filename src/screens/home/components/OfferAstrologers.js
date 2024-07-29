@@ -3,8 +3,35 @@ import React from 'react'
 import { SCREEN_WIDTH, Sizes, Colors, Fonts } from '../../../assets/styles';
 import { showNumber } from '../../../utils/services';
 import LinearGradient from 'react-native-linear-gradient';
+import { connect } from 'react-redux';
+import * as CallActions from '../../../redux/actions/callActions'
+import * as ChatActions from '../../../redux/actions/chatActions'
+import { useNavigation } from '@react-navigation/native';
 
-const OfferAstrologers = () => {
+const OfferAstrologers = ({ offerAstrologerData, dispatch }) => {
+
+  const navigation = useNavigation()
+
+  const onChat = (item) => {
+    const payload = {
+      navigation,
+      astrologerId: item?._id,
+      astrologerName: item?.name,
+      astrologerImage: item?.profileImage,
+    }
+    dispatch(ChatActions.sendChatRequest(payload))
+  }
+
+  const onCall = (item) => {
+    const payload = {
+      navigation,
+      astrologerId: item?._id,
+      astrologerName: item?.name,
+
+    }
+    dispatch(CallActions.sendCallRequest(payload))
+  }
+
   const renderItem = ({ item, index }) => {
     return (
       <View
@@ -38,7 +65,7 @@ const OfferAstrologers = () => {
               alignItems: 'center',
             }}>
             <Text style={{ ...Fonts.white16RobotoMedium }}>
-              Astro Acharya
+              {item[0]?.chatCallOffer?.displayName}
             </Text>
           </View>
           <View
@@ -56,7 +83,7 @@ const OfferAstrologers = () => {
                 alignItems: 'center',
               }}>
               <Image
-                source={require('../../../assets/images/user.png')}
+                source={{ uri: item[0]?.profileImage }}
                 style={{
                   width: SCREEN_WIDTH * 0.12,
                   height: SCREEN_WIDTH * 0.12,
@@ -66,12 +93,12 @@ const OfferAstrologers = () => {
                 }}
               />
               <Text style={{ ...Fonts.black11InterMedium }}>
-                Astro Acharya
+                {item[0]?.name}
               </Text>
               <Text
                 numberOfLines={2}
                 style={{ ...Fonts.gray9RobotoRegular, textAlign: 'center' }}>
-                Love, Palm Reading
+                {item[0]?.expertiseId?.join(', ')}
               </Text>
             </View>
             <View
@@ -82,14 +109,14 @@ const OfferAstrologers = () => {
               }}>
               <View style={{ marginBottom: Sizes.fixPadding * 0.5 }}>
                 <Text style={{ ...Fonts.primaryLight18RobotoMedium }}>
-                  {showNumber(2)}
+                  {showNumber(item[0]?.chatPrice + item[0]?.companyChatPrice - ((item[0]?.chatPrice + item[0]?.companyChatPrice) * item[0]?.chatCallOffer?.discount / 100))}
                   <Text
                     style={{
                       ...Fonts.gray12RobotoMedium,
                       textDecorationLine: 'line-through',
                     }}>
                     {' '}
-                    {showNumber(1)}
+                    {showNumber(item[0]?.chatPrice + item[0]?.companyChatPrice)}
                   </Text>
                 </Text>
               </View>
@@ -102,16 +129,15 @@ const OfferAstrologers = () => {
                   justifyContent: 'space-evenly',
                 }}>
                 <TouchableOpacity
-                // onPress={() =>
-                //   navigation.navigate('astrologerDetailes', {
-                //     data: item[0]?.astro_id,
-                //   })
-                // }
+                  activeOpacity={0.8}
+                  onPress={() =>
+                    onChat(item[0])
+                  }
                 >
                   <LinearGradient
                     colors={[Colors.primaryLight, Colors.primaryDark]}
                     style={{ borderRadius: Sizes.fixPadding * 0.3 }}>
-                    <TouchableOpacity
+                    <View
                       style={{
                         paddingHorizontal: Sizes.fixPadding * 0.5,
                         paddingVertical: Sizes.fixPadding * 0.2,
@@ -120,14 +146,19 @@ const OfferAstrologers = () => {
                         style={{ ...Fonts.white11InterMedium, fontSize: 9 }}>
                         Chat
                       </Text>
-                    </TouchableOpacity>
+                    </View>
                   </LinearGradient>
                 </TouchableOpacity>
-                <TouchableOpacity>
+                <TouchableOpacity
+                  activeOpacity={0.8}
+                  onPress={() =>
+                    onCall(item[1])
+                  }
+                >
                   <LinearGradient
                     colors={[Colors.primaryLight, Colors.primaryDark]}
                     style={{ borderRadius: Sizes.fixPadding * 0.3 }}>
-                    <TouchableOpacity
+                    <View
                       style={{
                         paddingHorizontal: Sizes.fixPadding * 0.5,
                         paddingVertical: Sizes.fixPadding * 0.2,
@@ -136,7 +167,7 @@ const OfferAstrologers = () => {
                         style={{ ...Fonts.white11InterMedium, fontSize: 9 }}>
                         Call
                       </Text>
-                    </TouchableOpacity>
+                    </View>
                   </LinearGradient>
                 </TouchableOpacity>
               </View>
@@ -162,7 +193,7 @@ const OfferAstrologers = () => {
                 alignItems: 'center',
               }}>
               <Text style={{ ...Fonts.white16RobotoMedium }}>
-                First User
+                {item[1]?.chatCallOffer?.displayName}
               </Text>
             </View>
             <View
@@ -180,7 +211,7 @@ const OfferAstrologers = () => {
                   alignItems: 'center',
                 }}>
                 <Image
-                  source={require('../../../assets/images/user.png')}
+                  source={{ uri: item[1]?.profileImage }}
                   style={{
                     width: SCREEN_WIDTH * 0.12,
                     height: SCREEN_WIDTH * 0.12,
@@ -190,12 +221,12 @@ const OfferAstrologers = () => {
                   }}
                 />
                 <Text style={{ ...Fonts.black11InterMedium }}>
-                  Acharya Ram
+                  {item[1]?.name}
                 </Text>
                 <Text
                   numberOfLines={2}
                   style={{ ...Fonts.gray9RobotoRegular, textAlign: 'center' }}>
-                  Love Guru
+                  {item[1]?.expertiseId?.join(', ')}
                 </Text>
               </View>
               <View
@@ -206,14 +237,14 @@ const OfferAstrologers = () => {
                 }}>
                 <View style={{ marginBottom: Sizes.fixPadding * 0.5 }}>
                   <Text style={{ ...Fonts.primaryLight18RobotoMedium }}>
-                    {showNumber(3)}
+                    {showNumber(item[1]?.chatPrice + item[1]?.companyChatPrice - ((item[1]?.chatPrice + item[1]?.companyChatPrice) * item[1]?.chatCallOffer?.discount / 100))}
                     <Text
                       style={{
                         ...Fonts.gray12RobotoMedium,
                         textDecorationLine: 'line-through',
                       }}>
                       {' '}
-                      {showNumber(2)}
+                      {showNumber(item[1]?.chatPrice + item[1]?.companyChatPrice)}
                     </Text>
                   </Text>
                 </View>
@@ -225,16 +256,15 @@ const OfferAstrologers = () => {
                     justifyContent: 'space-evenly',
                   }}>
                   <TouchableOpacity
-                  // onPress={() =>
-                  //   navigation.navigate('astrologerDetailes', {
-                  //     data: item[1]?.astro_id,
-                  //   })
-                  // }
+                    activeOpacity={0.8}
+                    onPress={() =>
+                      onChat(item[1])
+                    }
                   >
                     <LinearGradient
                       colors={[Colors.primaryLight, Colors.primaryDark]}
                       style={{ borderRadius: Sizes.fixPadding * 0.3 }}>
-                      <TouchableOpacity
+                      <View
                         style={{
                           paddingHorizontal: Sizes.fixPadding * 0.5,
                           paddingVertical: Sizes.fixPadding * 0.2,
@@ -243,14 +273,19 @@ const OfferAstrologers = () => {
                           style={{ ...Fonts.white11InterMedium, fontSize: 9 }}>
                           Chat
                         </Text>
-                      </TouchableOpacity>
+                      </View>
                     </LinearGradient>
                   </TouchableOpacity>
-                  <TouchableOpacity>
+                  <TouchableOpacity
+                    activeOpacity={0.8}
+                    onPress={() =>
+                      onCall(item[1])
+                    }
+                  >
                     <LinearGradient
                       colors={[Colors.primaryLight, Colors.primaryDark]}
                       style={{ borderRadius: Sizes.fixPadding * 0.3 }}>
-                      <TouchableOpacity
+                      <View
                         style={{
                           paddingHorizontal: Sizes.fixPadding * 0.5,
                           paddingVertical: Sizes.fixPadding * 0.2,
@@ -259,7 +294,7 @@ const OfferAstrologers = () => {
                           style={{ ...Fonts.white11InterMedium, fontSize: 9 }}>
                           Call
                         </Text>
-                      </TouchableOpacity>
+                      </View>
                     </LinearGradient>
                   </TouchableOpacity>
                 </View>
@@ -272,33 +307,44 @@ const OfferAstrologers = () => {
   };
 
   return (
-    <View style={{ borderBottomWidth: 1, borderBottomColor: Colors.grayLight }}>
-      <View
-        style={{
-          ...styles.row,
-          justifyContent: 'space-between',
-          paddingHorizontal: Sizes.fixPadding * 1.5,
-          paddingVertical: Sizes.fixPadding,
-        }}>
-        <Text style={{ ...Fonts.black16RobotoMedium }}>Offer Astrologers</Text>
-        <TouchableOpacity
-          activeOpacity={0.8}
-        // onPress={() => navigation.navigate('offerAstrologers')}
-        >
-          <Text style={{ ...Fonts.primaryLight15RobotoRegular }}>View all</Text>
-        </TouchableOpacity>
-      </View>
-      <FlatList
-        data={[Array.from({ length: 2 }), Array.from({ length: 2 })]}
-        renderItem={renderItem}
-        horizontal
-        contentContainerStyle={{ paddingRight: Sizes.fixPadding * 1.5 }}
-      />
-    </View>
+    <>
+      {
+        offerAstrologerData && <View style={{ borderBottomWidth: 1, borderBottomColor: Colors.grayLight }}>
+          <View
+            style={{
+              ...styles.row,
+              justifyContent: 'space-between',
+              paddingHorizontal: Sizes.fixPadding * 1.5,
+              paddingVertical: Sizes.fixPadding,
+            }}>
+            <Text style={{ ...Fonts.black16RobotoMedium }}>Offer Astrologers</Text>
+            <TouchableOpacity
+              activeOpacity={0.8}
+            // onPress={() => navigation.navigate('offerAstrologers')}
+            >
+              <Text style={{ ...Fonts.primaryLight15RobotoRegular }}>View all</Text>
+            </TouchableOpacity>
+          </View>
+          <FlatList
+            data={offerAstrologerData}
+            renderItem={renderItem}
+            horizontal
+            contentContainerStyle={{ paddingRight: Sizes.fixPadding * 1.5 }}
+          />
+        </View>
+      }
+    </>
+
   );
 }
 
-export default OfferAstrologers
+const mapStateToProps = state => ({
+  offerAstrologerData: state.astrologer.offerAstrologerData,
+})
+
+const mapDispatchToProps = dispatch => ({ dispatch })
+
+export default connect(mapStateToProps, mapDispatchToProps)(OfferAstrologers)
 
 const styles = StyleSheet.create({
   row: {

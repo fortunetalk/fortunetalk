@@ -13,7 +13,7 @@ const CallTimer = ({totalDuration, dispatch, layout}) => {
       setTimer(prev => {
         if (prev - 1 <= 0) {
           clearInterval(interval);
-          if(layout === 'VEDIO_CALL'){
+          if(layout === 'VIDEO_CALL' || layout === 'VOICE_CALL' ){
             dispatch(LiveActions.onEndCalling())
           }
           console.log('Ended');

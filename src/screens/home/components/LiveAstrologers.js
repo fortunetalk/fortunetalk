@@ -101,7 +101,7 @@ const LiveAstrologers = ({ customerData, dispatch }) => {
             }}>
             <View style={{ ...styles.row, justifyContent: 'space-between' }}>
               <Text style={{ ...Fonts.white11InterMedium }}>
-                Astro Acharya
+                {item?.astrologerName}
               </Text>
               <Ionicons name="videocam" color={Colors.white} size={18} />
             </View>

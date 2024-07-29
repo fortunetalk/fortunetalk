@@ -7,7 +7,7 @@ import HistoryTab from './components/HistoryTab'
 import LinearGradient from 'react-native-linear-gradient'
 import { connect } from 'react-redux'
 import * as HistoryActions from '../../redux/actions/historyActions'
-import { secondsToHMS } from '../../utils/services'
+import { secondsToHMS, showNumber } from '../../utils/services'
 import moment from 'moment'
 
 const ChatHistory = ({ route, chatHistory, dispatch, navigation }) => {
@@ -39,7 +39,10 @@ const ChatHistory = ({ route, chatHistory, dispatch, navigation }) => {
                     <Text style={{ ...Fonts._15InterMedium, color: Colors.grayM }}>{`Chat with ${item?.astrologerId?.name} for ${secondsToHMS(item?.durationInSeconds ?? 0)}`}</Text>
                     <View style={{ flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between' }}>
                         <View>
-                            <Text style={{ ...Fonts._13InterMedium, color: Colors.grayN, marginBottom: Sizes.fixPadding }}>{moment(item?.createdAt).format('DD MMM YY, hh:mm A')}</Text>
+                            <Text style={{ ...Fonts._13InterMedium, color: Colors.grayN,}}>{moment(item?.createdAt).format('DD MMM YY, hh:mm A')}</Text>
+                            <Text style={{ ...Fonts._13InterMedium, color: Colors.grayN}}>Chat Price: {showNumber(item?.chatPrice)}</Text>
+                            <Text style={{ ...Fonts._13InterMedium, color: Colors.grayN, }}>Deducted Price: {showNumber(item?.deductedAmount)}</Text>
+                            <Text style={{ ...Fonts._13InterMedium, color: Colors.grayN, marginBottom: Sizes.fixPadding, textTransform: 'capitalize'}}>Status: {item?.status}</Text>
                             <Text style={{ ...Fonts._15InterMedium, color: Colors.grayN, textTransform: 'uppercase' }}>#{item?.transactionId}</Text>
                         </View>
                         <View>

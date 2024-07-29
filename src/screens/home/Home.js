@@ -84,8 +84,8 @@ const Home = ({
             <LiveAstrologers />
             <FreeInsights />
             <RemedySuggestions />
-            {/* <OfferAstrologers /> */}
-            {/* <TrendingAstrologers /> */}
+            <OfferAstrologers />
+            <TrendingAstrologers />
             <OnlineAstrologers />
             <RecentAstrologers />
             {learningBanner()}

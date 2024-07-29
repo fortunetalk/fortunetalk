@@ -13,7 +13,7 @@ const initialState = {
   liveCallsVisible: false,
   waitingListVisible: false,
   waitListData: [],
-  coHostStartVisible: false,
+  coHostStartVisible: {visible: false, type: ''},
   isCoHost: false,
   layout: 'LIVE',
   coHostData: null,
@@ -22,7 +22,6 @@ const initialState = {
   liveData: null,
   callInfoVisible: false,
   liveInvoiceData: null,
-  liveInvoiceVisible: false,
   isMute: false
 };
 
@@ -147,11 +146,10 @@ const live = (state = initialState, actions) => {
         callInfoVisible: payload,
       };
 
-    case actionTypes.SET_LIVE_INVOICE_VISIBLE:
+    case actionTypes.SET_LIVE_INVOICE_DATA:
       return {
         ...state,
-        liveInvoiceData: payload?.data,
-        liveInvoiceVisible: payload?.visible
+        liveInvoiceData: payload,
       };
     case actionTypes.SET_LIVE_IS_MUTE:
       return {

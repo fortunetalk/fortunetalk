@@ -16,10 +16,11 @@ import MyHeader from '../../components/MyHeader';
 import * as CallActions from '../../redux/actions/callActions'
 import * as ChatActions from '../../redux/actions/chatActions'
 
-const AstrologerDetails = ({ navigation, dispatch, isLoading, route, astrologerData }) => {
+const AstrologerDetails = ({ navigation, dispatch, isLoading, route, astrologerData, isFollow }) => {
 
     useEffect(() => {
         dispatch(AstrologerActions.getAstrologerDetails(route?.params?._id))
+        dispatch(AstrologerActions.checkFollowStatus(route?.params?._id))
         return () => {
             dispatch(AstrologerActions.setAstrologerDetails(null))
         }
@@ -187,7 +188,7 @@ const AstrologerDetails = ({ navigation, dispatch, isLoading, route, astrologerD
                     Love, Palm Reading
                 </Text>
                 <Text style={{ ...Fonts._11RobotoMedium, color: Colors.grayC, }}>{astrologerData?.language.join(', ')}</Text>
-                <TouchableOpacity activeOpacity={0.8}>
+                <TouchableOpacity activeOpacity={0.8} onPress={()=>dispatch(AstrologerActions.onFollowUnFollowAstrologer(route.params?._id))}>
                     <LinearGradient
                         colors={[Colors.primaryLight, Colors.primaryDark]}
                         style={{
@@ -197,7 +198,7 @@ const AstrologerDetails = ({ navigation, dispatch, isLoading, route, astrologerD
                             marginVertical: Sizes.fixPadding,
                             marginBottom: Sizes.fixPadding * 2
                         }}>
-                        <Text style={{ ...Fonts.white14RobotoMedium }}>Follow</Text>
+                        <Text style={{ ...Fonts.white14RobotoMedium }}>{isFollow ? "Following" : 'Follow'}</Text>
                     </LinearGradient>
                 </TouchableOpacity>
                 <View
@@ -240,6 +241,7 @@ const AstrologerDetails = ({ navigation, dispatch, isLoading, route, astrologerD
 
 const mapStateToProps = state => ({
     astrologerData: state.astrologer.astrologerData,
+    isFollow: state.astrologer.isFollow,
     isLoading: state.settings.isLoading,
 })
 

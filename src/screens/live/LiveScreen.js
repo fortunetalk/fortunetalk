@@ -47,10 +47,13 @@ export class LiveScreen extends Component {
   componentDidUpdate() {
     if (this.props.layout == 'LIVE') {
       this.startLive();
-    } else if (this.props.layout == 'VEDIO_CALL') {
-      this.startCall();
-    } else if (this.props.layout == 'CO_HOSTING') {
-      console.log('hii124');
+    } else if (this.props.layout == 'VIDEO_CALL') {
+      this.startVideoCall();
+    } else if (this.props.layout == 'VOICE_CALL') {
+      this.startLive();
+    } else if (this.props.layout == 'CO_HOSTING_VIDEO') {
+      this.startCoHosting()
+    } else if (this.props.layout == 'CO_HOSTING_VOICE') {
       this.startCoHosting()
     }
   }
@@ -88,7 +91,7 @@ export class LiveScreen extends Component {
     });
   };
 
-  startCall = () => {
+  startVideoCall = () => {
     ZegoExpressEngine.instance().startPlayingStream(this.state.liveID, {
       reactTag: findNodeHandle(this.refs.zego_play_view),
       viewMode: 1,
@@ -96,6 +99,14 @@ export class LiveScreen extends Component {
     });
     ZegoExpressEngine.instance().startPreview({
       reactTag: findNodeHandle(this.refs.zego_preview_view),
+      viewMode: 1,
+      backgroundColor: 0,
+    });
+  };
+
+  startVoiceCall = () => {
+    ZegoExpressEngine.instance().startPlayingStream(this.state.liveID, {
+      reactTag: findNodeHandle(this.refs.zego_play_view),
       viewMode: 1,
       backgroundColor: 0,
     });
@@ -123,11 +134,11 @@ export class LiveScreen extends Component {
           height: SCREEN_HEIGHT,
         }}>
 
-        {this.props.layout == 'LIVE'
+        {this.props.layout == 'LIVE' || this.props.layout == 'VOICE_CALL'
           ? fullScreenInfo()
-          : this.props.layout == 'VEDIO_CALL'
+          : this.props.layout == 'VIDEO_CALL'
             ? vedioCallScreenInfo()
-            : coHostingInfo()}
+            : this.props.layout === 'CO_HOSTING_VIDEO' ? coHostingVidioInfo() : coHostingVoiceInfo()}
         <CallInfo />
         <GiftData />
         {componentsInfo()}
@@ -199,7 +210,7 @@ export class LiveScreen extends Component {
       );
     }
 
-    function coHostingInfo() {
+    function coHostingVidioInfo() {
       return (
         <View style={{ height: SCREEN_HEIGHT }}>
           <ZegoTextureView
@@ -209,6 +220,21 @@ export class LiveScreen extends Component {
           <ZegoTextureView
             ref={`zego_play_view_co_hosting`}
             style={{ height: SCREEN_HEIGHT / 2 }}
+          />
+        </View>
+      );
+    }
+
+    function coHostingVoiceInfo() {
+      return (
+        <View style={{ height: SCREEN_HEIGHT }}>
+          <ZegoTextureView
+            ref={`zego_play_view`}
+            style={{ height: SCREEN_HEIGHT }}
+          />
+          <ZegoTextureView
+            ref={`zego_play_view_co_hosting`}
+            style={{ height: 0 }}
           />
         </View>
       );

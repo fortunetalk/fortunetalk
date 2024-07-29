@@ -20,7 +20,6 @@ audioRecorderPlayer.setSubscriptionDuration(0.1);
 
 const SendMic = ({ message, sendProps, sendButtonProps, updateState, dispatch, customerData, attachments, }) => {
     const [startTimer, setStartTimer] = useState(null)
-    console.log(startTimer)
     useEffect(() => {
         return () => {
             audioRecorderPlayer.removeRecordBackListener();
@@ -80,33 +79,41 @@ const SendMic = ({ message, sendProps, sendButtonProps, updateState, dispatch, c
         }
     }
 
-    const onPressIn = useCallback(() => {
-        const msg = {
-            _id: getUniqueId(),
-            text: message,
-            user: {
-                _id: customerData?._id,
-                name: customerData?.customerName,
-                // avatar: base_url + userData?.image,
-            },
-            sent: false,
-            received: false,
-            pending: true,
-            delivered: false,
+    const onPressIn = ()=>{
+        try{
+            const msg = {
+                _id: getUniqueId(),
+                text: message,
+                user: {
+                    _id: customerData?._id,
+                    name: customerData?.customerName,
+                    // avatar: base_url + userData?.image,
+                },
+                sent: false,
+                received: false,
+                pending: true,
+                delivered: false,
+            }
+            if (attachments?.visible) {
+                dispatch(ChatActions.onSendAttachment(msg))
+            } else if (message) {
+                dispatch(ChatActions.sendChatMessage(msg))
+            }
+            updateState({message: ''})
+        }catch(e){
+            console.log(e)
         }
-        if (attachments?.visible) {
-            dispatch(ChatActions.onSendAttachment(msg))
-        } else if (message) {
-            dispatch(ChatActions.sendChatMessage(msg))
-        }
-        updateState({message: ''})
-    }, [message, customerData, attachments, dispatch, updateState, startTimer])
+    }
 
-    const onLongPress = useCallback(()=>{
-        updateState({ isMicPressed: true })
-        setStartTimer(new Date())
-        reuestPermissionForRecord()
-    }, [startTimer])
+    const onLongPress = ()=>{
+        try{
+            updateState({ isMicPressed: true })
+            setStartTimer(new Date())
+            reuestPermissionForRecord()
+        }catch(e){
+            console.log(e)
+        }
+    }
 
     return (
         <Send

@@ -3,6 +3,7 @@ import { showToastMessage } from './services';
 import * as AstrologerActions from '../redux/actions/astrologerActions'
 import { navigate } from './navigationServices';
 import * as CallActions from '../redux/actions/callActions'
+import * as LiveActions from '../redux/actions/liveActions'
 
 // Function to request notification permission
 export async function initializeNotifications() {
@@ -28,6 +29,9 @@ export async function handleIncomingNotification(message, dispatch = null) {
             case 'CALL_ENDED':
                 dispatch(CallActions.getCallInovoiceData(data));
                 break;
+            case 'LIVE_CALL_ENDED':
+                dispatch(LiveActions.getLiveInvoiceData(data));
+                break;
             case 'CHAT_REJECTED':
                 showToastMessage({ message: 'Chat Request Failed' })
                 if (dispatch) {
@@ -44,6 +48,7 @@ export async function handleIncomingNotification(message, dispatch = null) {
                 break;
             // Add more cases as needed
             default:
+                displayNotification(data)
                 break;
         }
     } catch (error) {
@@ -83,6 +88,10 @@ export async function displayChatNotification(data) {
                 ongoing: true,
                 category: AndroidCategory.CALL,
                 importance: AndroidImportance.HIGH,
+                pressAction: {
+                    id: 'default',
+                    launchActivity: 'com.fortunetalk.FullScreenActivity',
+                },
                 // largeIcon: 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.vecteezy.com%2Ffree-png%2Favatar&psig=AOvVaw0dwmK3GzU3tNah8OjXMZ4y&ust=1718933316095000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCJjG896D6YYDFQAAAAAdAAAAABAE',
                 actions: [
                     {
@@ -115,12 +124,29 @@ export async function displayChatNotification(data) {
 // Function to display a generic notification
 export async function displayNotification(data) {
     try {
-        const { name, message, token, type } = data;
+        const { title, body } = data || {};
+        const channelId = await notifee.createChannel({
+            id: 'default',
+            name: 'Default',
+            vibration: true,
+            vibrationPattern: [300, 500],
+            importance: AndroidImportance.HIGH,
+        })
 
         await notifee.displayNotification({
-            title: name,
-            body: message,
-            data: { name, token, type },
+            title: title,
+            body: body,
+            data: data,
+            android: {
+                channelId: channelId,
+                color: '#000000',
+                smallIcon: 'ic_launcher', // Replace with your small icon name
+                loopSound: true,
+                timeoutAfter: 1000 * 30,
+                autoCancel: false,
+                vibrationPattern: [300, 500],
+                importance: AndroidImportance.HIGH,
+            },
         });
     } catch (error) {
         console.log('Error displaying notification:', error);

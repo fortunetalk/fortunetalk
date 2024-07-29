@@ -16,7 +16,7 @@ const ChatAstrologers = ({ dispatch, tabVisible, isLoading, }) => {
   const scrollY = useRef(new Animated.Value(0)).current
 
   useEffect(() => {
-    dispatch(AstrologerActions.getChatCallAstrologerList({ type: 'chat' }))
+    dispatch(AstrologerActions.getChatCallAstrologerList({ type: 'chat',  }))
   }, [dispatch])
 
   const onScroll = (event) => {

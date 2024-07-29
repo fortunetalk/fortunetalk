@@ -52,5 +52,20 @@ export const setRecentAstrologers = payload => ({
 
 export const setOnlineAstrologers = payload => ({
     type: actionTypes.SET_ONLINE_ASTROLOGERS,
-    payload 
+    payload
+})
+
+export const onFollowUnFollowAstrologer = payload => ({
+    type: actionTypes.ON_FOLLOW_UNFOLLOW_ASTROLOGERS,
+    payload
+})
+
+export const checkFollowStatus = payload => ({
+    type: actionTypes.CHECK_FOLLOW_STATUS,
+    payload
+})
+
+export const setFollowStatus = payload => ({
+    type: actionTypes.SET_FOLLOW_STATUS,
+    payload
 })

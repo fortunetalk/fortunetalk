@@ -54,6 +54,11 @@ const OfferAstrologers = ({ offerAstrologerData, dispatch }) => {
         }}>
         <TouchableOpacity
           activeOpacity={0.8}
+          onPress={() =>
+            navigation.navigate('astrologerDetails', {
+              _id: item[0]?._id,
+            })
+          }
           style={{}}>
           <View
             style={{
@@ -177,11 +182,11 @@ const OfferAstrologers = ({ offerAstrologerData, dispatch }) => {
         {item.length == 2 && (
           <TouchableOpacity
             activeOpacity={0.8}
-            // onPress={() =>
-            //   navigation.navigate('astrologerDetailes', {
-            //     data: item[1]?.astro_id,
-            //   })
-            // }
+            onPress={() =>
+              navigation.navigate('astrologerDetails', {
+                _id: item[1]?._id,
+              })
+            }
             style={{ marginVertical: Sizes.fixPadding }}>
             <View
               style={{
@@ -309,7 +314,7 @@ const OfferAstrologers = ({ offerAstrologerData, dispatch }) => {
   return (
     <>
       {
-        offerAstrologerData && <View style={{ borderBottomWidth: 1, borderBottomColor: Colors.grayLight }}>
+        offerAstrologerData ? offerAstrologerData.length != 0 && <View style={{ borderBottomWidth: 1, borderBottomColor: Colors.grayLight }}>
           <View
             style={{
               ...styles.row,
@@ -331,7 +336,7 @@ const OfferAstrologers = ({ offerAstrologerData, dispatch }) => {
             horizontal
             contentContainerStyle={{ paddingRight: Sizes.fixPadding * 1.5 }}
           />
-        </View>
+        </View> : null
       }
     </>
 

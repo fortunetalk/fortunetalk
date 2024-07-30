@@ -23,9 +23,10 @@ import * as LiveActions from '../actions/liveActions';
 import { showToastMessage } from '../../utils/services';
 import database from '@react-native-firebase/database';
 import * as SetingActions from '../../redux/actions/settingActions'
-import { app_api_url, get_live_call_data, zego_live_app_id, zego_live_app_sign } from '../../config/constants';
+import { app_api_url, get_customer_gifts, get_live_call_data, send_gift_in_live_streaming, zego_live_app_id, zego_live_app_sign } from '../../config/constants';
 import { getRequest, postRequest } from '../../utils/apiRequests';
 import { navigate } from '../../utils/navigationServices';
+import { color } from '@rneui/base';
 
 let heartCount = 1;
 
@@ -74,10 +75,9 @@ function* createLiveProfile(actions) {
 function* addLiveListeners(actions) {
   try {
     const { startLive, dispatch, liveID, astroData, liveData } = actions.payload;
-    console.log(astroData)
     const customerData = yield select(state => state.customer.customerData);
-    yield put({ type: actionTypes.GET_GIFT_DATA, payload: null })
     yield put({ type: actionTypes.RESET_LIVE_STATE, payload: null })
+    yield put({ type: actionTypes.GET_GIFT_DATA, payload: null })
     yield put({ type: actionTypes.SET_LIVE_ID, payload: liveID });
     yield put({ type: actionTypes.SET_LIVE_ASTRO_DATA, payload: astroData })
     yield put({ type: actionTypes.SET_LIVE_DATA, payload: liveData })
@@ -124,6 +124,7 @@ function* addLiveListeners(actions) {
         const gifts = [];
         messageList.forEach((item, index) => {
           let new_gifts = {
+            ...message,
             messageID: item.messageID,
             message: item.message,
             sendTime: item.sendTime,
@@ -313,11 +314,11 @@ function* sendComments(actions) {
 function* getGiftData(actions) {
   try {
     const response = yield getRequest({
-      url: api_url + get_all_gift,
+      url: app_api_url + get_customer_gifts,
     });
 
     if (response?.success) {
-      yield put({ type: actionTypes.SET_GIFT_DATA, payload: response.gift });
+      yield put({ type: actionTypes.SET_GIFT_DATA, payload: response.data });
     }
   } catch (e) {
     console.log(e);
@@ -331,7 +332,7 @@ function* sendGiftToAstrologer(actions) {
     const liveID = yield select(state => state.live.liveID);
     const customerData = yield select(state => state.customer.customerData);
     const response = yield postRequest({
-      url: api_url + '',
+      url: app_api_url + send_gift_in_live_streaming,
       data: {
         giftId: payload,
         liveId: liveID,
@@ -575,9 +576,9 @@ function* onStreamUpdate(actions) {
         });
 
         const callType = extractCallType(foundObject?.streamID)
-        if(callType === 'VOICE_CALL'){
+        if (callType === 'VOICE_CALL') {
           yield put({ type: actionTypes.SET_LAYOUT, payload: 'CO_HOSTING_VOICE' });
-        }else if(callType === 'VIDEO_CALL'){
+        } else if (callType === 'VIDEO_CALL') {
           yield put({ type: actionTypes.SET_LAYOUT, payload: 'CO_HOSTING_VIDEO' });
         }
 
@@ -627,23 +628,23 @@ function* onAppStateChangeInLive(actions) {
 
 function* getLiveCallInvoiceData(actions) {
   try {
-      const { payload } = actions
-      console.log(typeof payload)
-      const response = yield postRequest({
-          url: app_api_url + get_live_call_data,
-          data: {
-            liveCallId: payload?.callId
-          }
-      })
-
-      console.log(response)
-
-      if (response?.success) {
-          yield put({ type: actionTypes.SET_LIVE_INVOICE_DATA, payload: { visible: true, data: response?.data } })
+    const { payload } = actions
+    console.log(typeof payload)
+    const response = yield postRequest({
+      url: app_api_url + get_live_call_data,
+      data: {
+        liveCallId: payload?.callId
       }
+    })
+
+    console.log(response)
+
+    if (response?.success) {
+      yield put({ type: actionTypes.SET_LIVE_INVOICE_DATA, payload: { visible: true, data: response?.data } })
+    }
 
   } catch (e) {
-      console.log(e)
+    console.log(e)
   }
 }
 
@@ -652,8 +653,8 @@ export default function* liveSaga() {
   yield takeLeading(actionTypes.CREATE_LIVE_PROFILE, createLiveProfile);
   yield takeLeading(actionTypes.ADD_LIVE_LISTENER, addLiveListeners);
   yield takeLeading(actionTypes.SEND_COMMENTS, sendComments);
-  // yield takeLeading(actionTypes.GET_GIFT_DATA, getGiftData);
-  // yield takeLeading(actionTypes.SEND_GIFT_TO_ASTROLOGER, sendGiftToAstrologer);
+  yield takeLeading(actionTypes.GET_GIFT_DATA, getGiftData);
+  yield takeLeading(actionTypes.SEND_GIFT_TO_ASTROLOGER, sendGiftToAstrologer);
   yield takeLeading(actionTypes.REMOVE_HEART, removeHeart);
   yield takeEvery(actionTypes.ADD_HEART, addHeart);
   yield takeLeading(actionTypes.ADD_IN_WAITING_LIST, addInWaitingList);

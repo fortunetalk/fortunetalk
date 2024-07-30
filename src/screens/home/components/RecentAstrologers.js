@@ -36,7 +36,11 @@ const RecentAstrologers = ({ recentAstrologerData, dispatch }) => {
     return (
       <TouchableOpacity
         activeOpacity={0.8}
-        disabled
+        onPress={() =>
+          navigation.navigate('astrologerDetails', {
+            _id: item?._id,
+          })
+        }
         style={{
           width: SCREEN_WIDTH * 0.6,
           marginLeft: Sizes.fixPadding * 1.5,

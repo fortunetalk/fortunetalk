@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import Stars from 'react-native-stars';
 import { connect } from 'react-redux';
 import Loader from '../../components/Loader';
@@ -46,9 +46,9 @@ const OnlineAstrologers = ({ dispatch, onlineAstrologerData, isLoading }) => {
                 //   })
                 // }
                 style={{
-                    width: SCREEN_WIDTH * 0.4,
-                    marginLeft: Sizes.fixPadding * 1.5,
-                    borderRadius: Sizes.fixPadding,
+                    width: '43.45%',
+                    marginLeft: Sizes.fixPadding * 2,
+                    borderRadius: Sizes.fixPadding * 1.5,
                     overflow: 'hidden',
                     elevation: 5,
                     shadowOffset: {
@@ -58,7 +58,7 @@ const OnlineAstrologers = ({ dispatch, onlineAstrologerData, isLoading }) => {
                     shadowOpacity: 0.2,
                     marginBottom: Sizes.fixPadding * 1.5,
                     shadowColor: Colors.black,
-                    backgroundColor: Colors.white,
+                    backgroundColor: Colors.grayLight,
                     alignItems: 'center',
                 }}>
                 <ImageBackground
@@ -187,15 +187,16 @@ const OnlineAstrologers = ({ dispatch, onlineAstrologerData, isLoading }) => {
             {onlineAstrologerData ? onlineAstrologerData.length != 0 &&
                 <View
                     style={{
-                        borderBottomWidth: 1,
-                        borderBottomColor: Colors.grayLight,
-                        paddingTop: Sizes.fixPadding * 1
+                        flex: 1,
+                        paddingTop: Sizes.fixPadding * 1,
                     }}>
                     <FlatList
                         data={onlineAstrologerData}
                         renderItem={renderItem}
-                        horizontal
-                        contentContainerStyle={{ paddingRight: Sizes.fixPadding * 1.5 }}
+                        numColumns={2}
+                        maxToRenderPerBatch={10}
+                        initialNumToRender={10}
+                        contentContainerStyle={{ paddingRight: Sizes.fixPadding * 1.5, margin: "auto" }}
                     />
                 </View> : null
             }

@@ -46,7 +46,7 @@ const Otp = ({ route, dispatch, isLoading, navigation }) => {
             <LinearGradient
                 colors={[Colors.primaryLight, Colors.primaryDark]}
                 style={{ flex: 1 }}>
-                {skipInfo()}
+                {/* {skipInfo()} */}
                 {imageInfo()}
                 <View style={styles.bottomContainer}>
                     <View style={{ flex: 1 }}>
@@ -188,31 +188,6 @@ const Otp = ({ route, dispatch, isLoading, navigation }) => {
                     color={Colors.primaryDark}
                     size={Sizes.fixPadding * 2.2}
                 />
-            </TouchableOpacity>
-        );
-    }
-
-    function imageInfo() {
-        return <View style={{ flex: 0.1 }}></View>;
-    }
-
-    function skipInfo() {
-        const on_skip = async () => {
-            // sendChatInVitation()
-            //   await AsyncStorage.setItem('isRegister', JSON.stringify({type: 'login', value: false}))
-            //   go_home()
-        };
-        return (
-            <TouchableOpacity
-                activeOpacity={0.8}
-                hitSlop={{ top: 5, right: 5, bottom: 5, left: 5 }}
-                onPress={on_skip}
-                style={{
-                    flex: 0,
-                    alignSelf: 'flex-end',
-                    margin: Sizes.fixPadding * 2,
-                }}>
-                <Text style={{ ...Fonts.white14RobotoRegular }}>Skip</Text>
             </TouchableOpacity>
         );
     }

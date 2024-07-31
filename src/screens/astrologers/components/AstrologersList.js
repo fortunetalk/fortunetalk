@@ -203,7 +203,7 @@ const AstrologersList = ({ astroChatList, dispatch, type, astroCallList }) => {
     const keyExtractor = useCallback((item, index) => index.toString(), []);
 
     const getItemLayout = useCallback((data, index) => ({
-        length: SCREEN_WIDTH * 0.65, // Height of each item
+        length: SCREEN_WIDTH * 0.65, 
         offset: SCREEN_WIDTH * 0.65 * index,
         index,
     }), []);

@@ -52,6 +52,8 @@ import BookPooja from '../screens/eCommerce/pooja/BookPooja';
 import ProductSuccessBooking from '../screens/eCommerce/product/ProductSuccessBooking';
 import ProductBookingDetails from '../screens/eCommerce/product/ProductBookingDetails';
 import AstrologyBlogs from '../screens/AstrologyBlogs';
+import CurrentCoursesDetails from '../screens/myCourses/CurrentCoursesDetails';
+import CompletedCoursesDetails from '../screens/myCourses/CompletedCoursesDetails';
 
 const Stack = createNativeStackNavigator();
 
@@ -125,6 +127,8 @@ const StackRoutes = () => {
             <Stack.Screen name='setting' component={Setting} /> 
             <Stack.Screen name='liveclassdetails' component={LiveClassDetails} /> 
             <Stack.Screen name='courseBookingDetails' component={CourseBookingDetails} /> 
+            <Stack.Screen name='currentCoursesDetails' component={CurrentCoursesDetails} /> 
+            <Stack.Screen name='completedCoursesDetails' component={CompletedCoursesDetails} /> 
 
         </Stack.Navigator>
     )

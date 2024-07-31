@@ -193,8 +193,8 @@ const AstrologerItems = memo(({ item, index, type = 'chat', dispatch }) => {
 const AstrologersList = ({ astroChatList, dispatch, type, astroCallList }) => {
     const data = type === 'chat' ? astroChatList : astroCallList;
 
-    console.log("astroChatList ===>>>", astroChatList?.docs)
-    console.log("data ===>>>", data)
+    // console.log("astroChatList ===>>>", astroChatList?.docs)
+    // console.log("data ===>>>", data)
 
     const renderItem = useCallback(({ item, index }) => {
         return <AstrologerItems item={item} index={index} type={type} dispatch={dispatch} />;

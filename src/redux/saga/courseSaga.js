@@ -6,6 +6,7 @@ import {
     book_demo_class,
     check_customer_demo_class_booked,
     get_all_demo_class,
+    get_completed_live_courses,
     get_course_banner,
     get_course_list,
     get_current_live_courses,
@@ -409,9 +410,13 @@ function* onLiveCoursePayment(actions) {
 function* getCurrentLiveCourse() {
     try {
         yield put({ type: actionTypes.SET_IS_LOADING, payload: true })
+        const customerData = yield select(state => state.customer.customerData)
 
-        const response = yield getRequest({
+        const response = yield postRequest({
             url: app_api_url + get_current_live_courses,
+            data: {
+                customerId: customerData?._id
+            }
         })
 
         if (response?.success) {
@@ -423,16 +428,17 @@ function* getCurrentLiveCourse() {
         console.log(e)
     }
 }
+
 function* getCompletedLiveCourse() {
     try {
         yield put({ type: actionTypes.SET_IS_LOADING, payload: true })
-
-        // console.log("payload  =====>>>>", payload)
-        // console.log("payload  =====>>>>", payload)
+        const customerData = yield select(state => state.customer.customerData)
 
         const response = yield postRequest({
-            url: app_api_url + get_current_live_courses,
-            data: payload
+            url: app_api_url + get_completed_live_courses,
+            data: {
+                customerId: customerData?._id
+            }
         })
 
         if (response?.success) {
@@ -442,6 +448,41 @@ function* getCompletedLiveCourse() {
     } catch (e) {
         yield put({ type: actionTypes.SET_IS_LOADING, payload: false })
         console.log(e)
+    }
+}
+
+function* onProductPayment(actions) {
+    try {
+        const { payload } = actions
+        const customerData = yield select(state => state.customer.customerData)
+        // console.log(payload, "payment")
+
+        const rayzorPayResponse = yield razorpayPayment({
+            amount: parseInt(payload?.amount),
+            email: '',
+            name: '',
+            contact: ''
+        })
+        console.log("rayzorPayResponse  ====>>>", rayzorPayResponse)
+
+        const response = yield postRequest({
+            url: app_api_url + live_course_payment,
+            data: {
+                customerId: customerData?._id,
+                amount: parseFloat(payload?.amount),
+                isPartial: true,
+                liveId: payload.liveClassId
+            }
+        })
+
+        if (response?.success) {
+            goBack()
+        }
+
+        yield put({ type: actionTypes.SET_IS_LOADING, payload: false })
+    } catch (e) {
+        console.log(e)
+        yield put({ type: actionTypes.SET_IS_LOADING, payload: false })
     }
 }
 
@@ -471,5 +512,7 @@ export default function* coursesSaga() {
     yield takeLeading(actionTypes.LIVE_COURSE_PAYMENT, onLiveCoursePayment)
     yield takeLeading(actionTypes.GET_CURRENT_LIVE_COURSE_HISTORY, getCurrentLiveCourse)
     yield takeLeading(actionTypes.GET_COMPLETED_LIVE_COURSE_HISTORY, getCompletedLiveCourse)
+
+    yield takeLeading(actionTypes.PRODUCT_PAYMENT, onProductPayment)
 
 }

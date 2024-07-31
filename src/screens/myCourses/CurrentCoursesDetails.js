@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   View,
   Text,
@@ -6,62 +7,44 @@ import {
   Linking,
 } from 'react-native';
 import moment from 'moment';
-import { connect } from 'react-redux';
-import React, { useEffect } from 'react';
+// import { connect } from 'react-redux';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
 import Video from '../../components/Courses/Video';
 import { Colors, Fonts, Sizes } from '../../assets/styles';
 import { check_current_day } from '../../utils/tools';
-import * as Courses from '../../redux/actions/courseActions';
+import MyStatusBar from '../../components/MyStatusBar';
+import MyHeader from '../../components/MyHeader';
+// import * as Courses from '../../redux/actions/courseActions';
 
-const CurrentCoursesDetails = ({ dispatch }) => {
+const CurrentCoursesDetails = ({ dispatch, route }) => {
+  const classData = route.params.course
+  console.log("classData =====>>>>>" , classData?.liveId)
+  
   return (
-    <View style={{
-      flex: 1,
-      backgroundColor: Colors.bodyColor
-    }}>
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: Colors.bodyColor
+      }}>
+      <MyStatusBar
+        backgroundColor={Colors.primaryLight}
+        barStyle={'light-content'}
+      />
+      <MyHeader title={"Course Details"} />
       <FlatList
         ListHeaderComponent={
           <>
-            <Video uri={classData?.video} />
+            <Video uri={classData?.liveId?.video} />
             {courseTitleInfo()}
             {courseDescriptionInfo()}
-            {liveClassOfClass && classInfo()}
-            {questionPaperDownloadInfo()}
+            {/* { classInfo()} */}
           </>
         }
       />
     </View>
   );
 
-  function questionPaperDownloadInfo() {
-
-    const handleNext = () => {
-
-    }
-
-    return (
-      <LinearGradient
-        colors={[Colors.primaryLight, Colors.primaryDark]}
-        style={{
-          width: '90%',
-          borderRadius: Sizes.fixPadding * 1.3,
-          alignSelf: 'center',
-          marginVertical: Sizes.fixPadding,
-          overflow: 'hidden',
-        }}>
-        <TouchableOpacity
-          onPress={() => handleNext()}
-          activeOpacity={0.8}
-          style={{ flex: 0, paddingVertical: Sizes.fixPadding * 0.8 }}>
-          <Text style={{ ...Fonts.white18RobotMedium, textAlign: 'center', fontSize: 16 }}>
-            Download Certificate
-          </Text>
-        </TouchableOpacity>
-      </LinearGradient>
-    );
-  }
 
   function classInfo() {
     const renderItem = ({ item, index }) => {
@@ -173,7 +156,7 @@ const CurrentCoursesDetails = ({ dispatch }) => {
           borderBottomColor: Colors.grayLight,
         }}>
         <Text style={{ ...Fonts.gray12RobotoRegular }}>
-          {classData?.description}
+          {classData?.liveId?.description}
         </Text>
       </View>
     );
@@ -187,19 +170,12 @@ const CurrentCoursesDetails = ({ dispatch }) => {
           marginTop: Sizes.fixPadding * 2,
         }}>
         <Text style={{ ...Fonts.primaryLight14RobotoRegular }}>
-          {classData?.className}
+          {classData?.liveId?.className}
         </Text>
       </View>
     );
   }
 
-};
+}
 
-const mapStateToProps = state => ({
-  liveClassOfClass: state.courses.liveClassOfClass
-});
-
-const mapDispatchToProps = dispatch => ({ dispatch })
-
-
-export default connect(mapStateToProps, mapDispatchToProps)(CurrentCoursesDetails);
+export default CurrentCoursesDetails

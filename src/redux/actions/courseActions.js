@@ -84,8 +84,14 @@ export const onCurrentLiveCourseHistory = payload => ({
     type: actionTypes.GET_CURRENT_LIVE_COURSE_HISTORY,
     payload
 })
+
 export const onCompletedLiveCourseHistory = payload => ({
     type: actionTypes.GET_COMPLETED_LIVE_COURSE_HISTORY,
+    payload
+})
+
+export const onByProductPaymeny = payload => ({
+    type: actionTypes.PRODUCT_PAYMENT,
     payload
 })
 

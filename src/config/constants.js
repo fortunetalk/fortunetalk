@@ -60,6 +60,7 @@ export const live_class_of_class = "course/customer/class_by_live_class_id"
 export const is_registered_for_live_class = "course/customer/check_customer_live_class_registration"
 export const check_customer_demo_class_booked = "course/customer/check_customer_demo_class_booked"
 export const get_current_live_courses = "live/get_live_course_history"
+export const get_completed_live_courses = "course/completed/course"
 
 // cart
 export const add_to_cart = "ecommerce/product/addToCart"

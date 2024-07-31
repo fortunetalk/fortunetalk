@@ -16,6 +16,7 @@ const MyCourses = ({ isLoading, route, dispatch, currentLiveCourse }) => {
 
   useEffect(() => {
     dispatch(CourseActions.onCurrentLiveCourseHistory())
+    dispatch(CourseActions.onCompletedLiveCourseHistory())
   }, [])
 
   // console.log("currentLiveCourse =====>>>>", currentLiveCourse)
@@ -49,8 +50,8 @@ const MyCourses = ({ isLoading, route, dispatch, currentLiveCourse }) => {
       />
       <FlatList ListHeaderComponent={
         <>
-          {activeFilter == 1 &&  <CurrentCourses/>}
-          {activeFilter == 2 && <CompletedCourses/>}
+          {activeFilter == 1 && <CurrentCourses />}
+          {activeFilter == 2 && <CompletedCourses />}
         </>
       }
       />

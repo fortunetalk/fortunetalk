@@ -6,24 +6,26 @@ import * as LiveActions from '../../../redux/actions/liveActions';
 import { Colors, Sizes, Fonts, SCREEN_WIDTH } from '../../../assets/styles';
 import { showNumber, showToastMessage } from '../../../utils/services';
 import { base_url } from '../../../config/constants';
+import { Modal } from 'react-native-paper';
+import { replace } from '../../../utils/navigationServices';
 
 const GiftData = ({ dispatch, giftDataVisible, customerData, giftData }) => {
-  console.log(giftDataVisible)
   const [selectedGift, setSelectedGift] = useState(null);
   const [isLowBalance, setIsLowBalance] = useState(false);
 
   return (
-    <BottomSheet
-      isVisible={giftDataVisible}
-      onBackdropPress={() => dispatch(LiveActions.setGiftVisible(false))}
-      containerStyle={{zIndex: 6}}
-      >
+    <Modal
+      visible={giftDataVisible}
+      onDismiss={() => dispatch(LiveActions.setGiftVisible(false))}
+      contentContainerStyle={{ zIndex: 6 }}
+      style={{ zIndex: 7 }}
+    >
       <View style={styles.container}>
         {headerInfo()}
         {giftData && giftsInfo()}
         {buttonsInfo()}
       </View>
-    </BottomSheet>
+    </Modal>
   );
 
   function buttonsInfo() {
@@ -52,7 +54,7 @@ const GiftData = ({ dispatch, giftDataVisible, customerData, giftData }) => {
     const onSelect = item => {
       try {
         setSelectedGift(item?._id);
-        if (customerData?.wallet_balance < item?.amount) {
+        if (customerData?.walletBalance < item?.amount) {
           setIsLowBalance(true);
         } else {
           setIsLowBalance(false);
@@ -75,23 +77,25 @@ const GiftData = ({ dispatch, giftDataVisible, customerData, giftData }) => {
             },
           ]}>
           <Image
-            source={{ uri: base_url + item?.giftIcon }}
-            style={{ width: '50%', height: '40%' }}
+            source={{ uri: item?.image }}
+            style={{ width: '40%', height: '40%' }}
           />
           <Text
             numberOfLines={2}
             style={{
               ...Fonts.black11InterMedium,
+              fontSize: 9,
               marginTop: Sizes.fixPadding * 0.5,
-              color: selectedGift == item?._id ? Colors.white : Colors.black,
+              color: selectedGift == item?._id ? Colors.white : Colors.blackLight,
             }}>
-            {item?.gift}
+            {item?.title}
           </Text>
           <Text
             numberOfLines={2}
             style={{
               ...Fonts.black11InterMedium,
-              color: selectedGift == item?._id ? Colors.white : Colors.black,
+              fontSize: 9,
+              color: selectedGift == item?._id ? Colors.white : Colors.blackLight,
             }}>
             {showNumber(item?.amount)}
           </Text>
@@ -101,9 +105,12 @@ const GiftData = ({ dispatch, giftDataVisible, customerData, giftData }) => {
 
     return (
       <View>
-        <Text style={{ ...Fonts.white18RobotMedium, textAlign: 'center' }}>
-          Send Gift
-        </Text>
+        <View style={{ borderBottomWidth: 1, borderBottomColor: Colors.grayQ, paddingVertical: Sizes.fixPadding * 0.5 }}>
+          <Text style={{ ...Fonts.white18RobotMedium, color: Colors.primaryLight, textAlign: 'center' }}>
+            Send Gift
+          </Text>
+        </View>
+
         <View style={styles.giftContainer}>
           {giftData.map((item, index) => (
             <GiftItem key={index} item={item} index={index} />
@@ -118,29 +125,23 @@ const GiftData = ({ dispatch, giftDataVisible, customerData, giftData }) => {
       <View style={styles.headerContainer}>
         <View style={styles.walletContainer}>
           <Image
-            source={require('../../../assets/icons/live_wallet.png')}
-            style={{ width: 25, height: 25 }}
+            source={require('../../../assets/icons/wallet_1.png')}
+            style={{ width: 20, height: 20, resizeMode: 'contain' }}
+            tintColor={Colors.white}
           />
           <Text
             style={{
-              ...Fonts.white18RobotBold,
-              color: Colors.black,
+              ...Fonts._13RobotoBold,
+              color: Colors.white,
               fontSize: 12,
-              marginLeft: Sizes.fixPadding * 0.5,
+              marginLeft: Sizes.fixPadding * 0.7,
             }}>
-            {showNumber(customerData?.wallet_balance)}
+            {showNumber(customerData?.walletBalance)}
           </Text>
         </View>
-        <Text style={{ ...Fonts.white11InterMedium, fontSize: 9 }}>
+        <Text style={{ ...Fonts._11InterMedium, color: Colors.red, marginBottom: Sizes.fixPadding*0.5 }}>
           {isLowBalance ? 'Low Balance!' : '   '}
         </Text>
-        <TouchableOpacity activeOpacity={0.8} onPress={() => dispatch(LiveActions.setCallInfoVisible(true))} style={{ position: 'absolute', right: 5, top: 5 }}>
-          <Image
-            source={require('../../../assets/icons/live_info.png')}
-            style={{ width: 24, height: 24 }}
-          />
-        </TouchableOpacity>
-        
       </View>
     );
   }
@@ -158,25 +159,25 @@ export default connect(mapStateToProps, mapDispatchToProps)(GiftData);
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: Colors.primaryLight,
-    borderTopRightRadius: Sizes.fixPadding * 2,
-    borderTopLeftRadius: Sizes.fixPadding * 2,
-    zIndex: 2
+    backgroundColor: Colors.grayD,
+    borderRadius: Sizes.fixPadding * 2,
+    width: SCREEN_WIDTH * 0.9,
+    alignSelf: 'center',
   },
   headerContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    marginHorizontal: Sizes.fixPadding * 1.5,
+    paddingHorizontal: Sizes.fixPadding * 1.5,
     borderBottomWidth: 1,
-    borderBlockColor: Colors.white,
-    paddingVertical: Sizes.fixPadding,
+    borderBlockColor: Colors.grayQ,
+    paddingTop: Sizes.fixPadding,
   },
   walletContainer: {
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.primaryLight,
     borderRadius: 1000,
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: Sizes.fixPadding,
+    paddingHorizontal: Sizes.fixPadding * 1.5,
     paddingVertical: Sizes.fixPadding * 0.5,
     elevation: 5,
     shadowColor: Colors.primaryDark,
@@ -190,7 +191,7 @@ const styles = StyleSheet.create({
   },
   giftItemContainer: {
     width: '20%',
-    height: SCREEN_WIDTH * 0.25,
+    height: SCREEN_WIDTH * 0.18,
     backgroundColor: Colors.white,
     justifyContent: 'center',
     alignItems: 'center',

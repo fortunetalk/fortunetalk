@@ -52,11 +52,11 @@ const getOfferPrice = item =>{
     return (
       <TouchableOpacity
         activeOpacity={0.8}
-        // onPress={() =>
-        //   navigation.navigate('astrologerDetailes', {
-        //     data: item?.id,
-        //   })
-        // }
+        onPress={() =>
+          navigation.navigate('astrologerDetails', {
+            _id: item?._id,
+          })
+        }
         style={{
           width: SCREEN_WIDTH * 0.4,
           marginLeft: Sizes.fixPadding * 1.5,

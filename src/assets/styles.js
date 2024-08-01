@@ -28,6 +28,7 @@ export const Colors = {
   grayN: '#A4A4A4',
   grayO: '#B4B4B4',
   grayP: '#D6D6D6',
+  grayQ: '#E2E1E1',
   blackLight: '#717171',
   black: '#000000',
   greenLight: '#2B8600',

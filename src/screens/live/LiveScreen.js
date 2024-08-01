@@ -22,6 +22,7 @@ import LiveLoading from './components/LiveLoading';
 import StartLiveAlert from './components/StartLiveAlert';
 import KeepAwake from 'react-native-keep-awake';
 import CallInfo from './components/CallInfo';
+import AnimatedGift from './components/AnimatedGift';
 
 export class LiveScreen extends Component {
   constructor(props) {
@@ -140,15 +141,16 @@ export class LiveScreen extends Component {
             ? vedioCallScreenInfo()
             : this.props.layout === 'CO_HOSTING_VIDEO' ? coHostingVidioInfo() : coHostingVoiceInfo()}
         <CallInfo />
-        <GiftData />
         {componentsInfo()}
         <AnimatedHeart />
+        <AnimatedGift />
         <ExitAlert />
         <LiveCalls />
         <WaitingList />
         <StartLiveAlert />
         <LiveLoading liveLoadingVisible={this.props.isLiveStart} />
         <KeepAwake />
+        <GiftData />
       </View>
     );
 
@@ -174,7 +176,7 @@ export class LiveScreen extends Component {
               justifyContent: 'space-between',
             }}>
             <View style={{ flex: 0.7 }}>
-              <Gifts />
+              {/* <Gifts /> */}
               <Comments />
             </View>
             <SideBar />

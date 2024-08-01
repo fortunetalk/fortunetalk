@@ -20,11 +20,7 @@ const CourseDetails = ({
     const customerId = customerData?._id
     const classId = previousPagedata.classdetails._id
     const courseId = previousPagedata.courseData?._id
-    const amount = previousPagedata?.classdetails?.price
     const astrologerId = previousPagedata.classdetails?.astrologerId?._id
-
-    // console.log("astrologerId ====>>>>" , astrologerId)
-    // console.log("previousPagedata.classdetails ====>>>>" , previousPagedata.classdetails)
 
     const [state, setState] = useState({
         name: "",
@@ -46,8 +42,6 @@ const CourseDetails = ({
             }))
         }
     }, [])
-
-    // console.log("isRegisterForLive ====>>>>", isRegisterForLive)
 
     const handleNext = () => {
         if (previousPagedata.title == "Demo") {

@@ -313,7 +313,7 @@ const CustomDrawerContent = ({ drawerProps, customerData }) => {
     function offerWalletInfo() {
         return (
             <View style={{ ...styles.row, justifyContent: 'space-evenly', width: '90%', alignSelf: 'center' }}>
-                <TouchableOpacity
+                {/* <TouchableOpacity
                     activeOpacity={0.8}
                     disabled
                     onPress={() => navigation.navigate('offerAstrologers')}
@@ -339,7 +339,7 @@ const CustomDrawerContent = ({ drawerProps, customerData }) => {
                             Offers
                         </Text>
                     </LinearGradient>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
                 <TouchableOpacity
                     activeOpacity={0.8}
                     onPress={() => navigation.navigate('wallet')}

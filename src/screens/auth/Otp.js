@@ -46,7 +46,6 @@ const Otp = ({ route, dispatch, isLoading, navigation }) => {
             <LinearGradient
                 colors={[Colors.primaryLight, Colors.primaryDark]}
                 style={{ flex: 1 }}>
-                {/* {skipInfo()} */}
                 {imageInfo()}
                 <View style={styles.bottomContainer}>
                     <View style={{ flex: 1 }}>
@@ -61,6 +60,10 @@ const Otp = ({ route, dispatch, isLoading, navigation }) => {
             </LinearGradient>
         </View>
     );
+
+    function imageInfo() {
+        return <View style={{ flex: 0.2 }}></View>;
+    }
 
     function submiteButtonInfo() {
         const otpHandle = () => {

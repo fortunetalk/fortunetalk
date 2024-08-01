@@ -10,7 +10,8 @@ const CourseRegistration = ({
     handleRegistration,
     updateState,
     phoneNumber,
-    name
+    name,
+    openLocation
 }) => {
     return (
         <Modal
@@ -46,6 +47,23 @@ const CourseRegistration = ({
                             maxLength={10}
                             onChangeText={text => updateState({ phoneNumber: text })}
                         />
+
+
+                        {openLocation == "Live" && (
+                            <View
+                                style={{
+                                    flexDirection: "row",
+                                    justifyContent: "space-between"
+                                }} >
+                                <Text>Pay Registration Fee</Text>
+                                <Text
+                                    style={{
+                                        color: Colors.greenDark,
+                                        fontWeight: "600"
+                                    }}>₹ 1000
+                                </Text>
+                            </View>
+                        )}
                     </View>
 
                     <LinearGradient

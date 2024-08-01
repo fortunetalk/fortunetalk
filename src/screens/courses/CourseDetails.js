@@ -133,6 +133,7 @@ const CourseDetails = ({
                 updateState={updateState}
                 name={name}
                 phoneNumber={phoneNumber}
+                openLocation = {previousPagedata.title}
             />
         </View>
     )

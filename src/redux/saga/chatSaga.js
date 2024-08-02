@@ -2,12 +2,12 @@ import { delay, put, select, takeLeading } from 'redux-saga/effects'
 import * as actionTypes from '../actionTypes'
 import { blobRequest, postRequest } from '../../utils/apiRequests'
 import { app_api_url, base_url, get_chat_data, get_chat_details, initiate_chat, upload_chat_attachments } from '../../config/constants'
-import { getUniqueId, showToastMessage } from '../../utils/services'
+import { getUniqueId, isUserRegistered, showToastMessage } from '../../utils/services'
 import * as ChatActions from '../actions/chatActions'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import socketServices from '../../utils/socket'
 import database from '@react-native-firebase/database'
-import { resetToScreen } from '../../utils/navigationServices'
+import { navigate, resetToScreen } from '../../utils/navigationServices'
 import { GiftedChat } from 'react-native-gifted-chat'
 import RNFetchBlob from 'rn-fetch-blob'
 
@@ -16,6 +16,14 @@ function* sendChatRequest(actions) {
         yield put({ type: actionTypes.SET_IS_LOADING, payload: true })
         const { astrologerId, astrologerName, astrologerImage } = actions.payload
         const customerData = yield select(state => state.customer.customerData)
+
+        const isRegistered = yield isUserRegistered(customerData)
+        if(!isRegistered){
+            navigate('profile')
+            yield put({ type: actionTypes.SET_IS_LOADING, payload: false })
+            return
+        }
+
         const response = yield postRequest({
             url: app_api_url + initiate_chat,
             data: {

@@ -98,8 +98,8 @@ function* getHomeData() {
         })
 
 
-        if(topBannerResponse?.success){
-            yield put({type: actionTypes.SET_HOME_TOP_BANNER, payload: topBannerResponse?.data})
+        if (topBannerResponse?.success) {
+            yield put({ type: actionTypes.SET_HOME_TOP_BANNER, payload: topBannerResponse?.data })
         }
 
         if (recentResponse?.success) {

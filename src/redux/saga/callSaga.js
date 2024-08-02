@@ -3,12 +3,19 @@ import * as actionTypes from "../actionTypes"
 import { sendCallInvitation } from "../../utils/zegoCall"
 import { postRequest } from "../../utils/apiRequests"
 import { app_api_url, get_call_invoice, initiate_zego_call } from "../../config/constants"
-import { showToastMessage } from "../../utils/services"
+import { isUserRegistered, showToastMessage } from "../../utils/services"
+import { navigate } from "../../utils/navigationServices"
 
 function* sendCallRequest(actions) {
     try {
         const { navigation, astrologerId, astrologerName } = actions.payload
         const customerData = yield select(state => state.customer.customerData)
+        const isRegistered = yield isUserRegistered(customerData)
+        if(!isRegistered){
+            navigate('profile')
+            yield put({ type: actionTypes.SET_IS_LOADING, payload: false })
+            return
+        }
         const response = yield postRequest({
             url: app_api_url + initiate_zego_call,
             data: {

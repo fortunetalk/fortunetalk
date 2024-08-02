@@ -10,7 +10,7 @@ import messaging from '@react-native-firebase/messaging';
 import * as ImagePicker from 'react-native-image-picker';
 import Notifications from './notifiactionManager';
 
-export const showToastMessage = ({message = ''}) => {
+export const showToastMessage = ({ message = '' }) => {
   try {
     if (Platform.OS === 'android') {
       ToastAndroid.showWithGravityAndOffset(message, 200, 20, 25, 10);
@@ -36,7 +36,7 @@ export const getFcmToken = async () => {
   }
 };
 
-export const onImagePicker = async ({type}) => {
+export const onImagePicker = async ({ type }) => {
   try {
     const options = {
       mediaType: 'photo',
@@ -81,8 +81,8 @@ export const onImagePicker = async ({type}) => {
           return cameraData();
         } else {
           Alert.alert('Alert!', 'Please give permission to Camera', [
-            {text: 'Cancel', style: 'cancel'},
-            {text: 'Ok', onPress: () => Linking.openSettings()},
+            { text: 'Cancel', style: 'cancel' },
+            { text: 'Ok', onPress: () => Linking.openSettings() },
           ]);
         }
       }
@@ -162,7 +162,7 @@ export const openGoogleMapsWithCarDirections = (
     if (supported) {
       Linking.openURL(url);
     } else {
-      showToastMessage({message: 'Please install google maps'});
+      showToastMessage({ message: 'Please install google maps' });
       console.warn('Google Maps app not found or URL scheme not supported');
     }
   });
@@ -189,4 +189,15 @@ export const getUniqueId = () => {
   const uniqueId = (timestamp + randomString).substr(0, 16);
 
   return uniqueId;
+}
+
+export const isUserRegistered = async (customerData) => {
+  try {
+    if (customerData?.customerName && customerData?.dateOfBirth && customerData?.timeOfBirth && customerData?.occupation) {
+      return true;
+    }
+    return false;
+  } catch (e) {
+    console.log(e)
+  }
 }

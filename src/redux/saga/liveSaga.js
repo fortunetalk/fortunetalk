@@ -20,7 +20,7 @@ import ZegoExpressEngine, {
 } from 'zego-express-engine-reactnative';
 import { PermissionsAndroid, Platform, findNodeHandle } from 'react-native';
 import * as LiveActions from '../actions/liveActions';
-import { showToastMessage } from '../../utils/services';
+import { isUserRegistered, showToastMessage } from '../../utils/services';
 import database from '@react-native-firebase/database';
 import * as SetingActions from '../../redux/actions/settingActions'
 import { app_api_url, get_customer_gifts, get_live_call_data, send_gift_in_live_streaming, zego_live_app_id, zego_live_app_sign } from '../../config/constants';
@@ -456,6 +456,11 @@ function* addInWaitingList(actions) {
     yield put({ type: actionTypes.SET_WAITING_LIST_VISIBLE, payload: false })
     yield put({ type: actionTypes.SET_LIVE_CALLS_VISIBLE, payload: false })
     const customerData = yield select(state => state.customer.customerData);
+    const isRegistered = yield isUserRegistered(customerData)
+        if(!isRegistered){
+            navigate('profile')
+            return
+        }
     const liveID = yield select(state => state.live.liveID);
     const liveData = yield select(state => state.live.liveData);
     if (liveData?.vedioCallPrice > customerData?.wallet_balance * 5) {
@@ -492,11 +497,8 @@ function* addInWaitingList(actions) {
 function* onGoLive(actions) {
   try {
     const { payload } = actions
-    console.log('payload', payload)
     const streamID = getStreamId(payload);
     const liveID = yield select(state => state.live.liveID);
-    console.log('streamID', streamID)
-    console.log('liveID', liveID)
     ZegoExpressEngine.instance().startPublishingStream(streamID);
     if (payload === 'VOICE_CALL') {
       ZegoExpressEngine.instance().mutePublishStreamVideo(true)

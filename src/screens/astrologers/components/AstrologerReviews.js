@@ -1,8 +1,8 @@
-import { View, Text, Image, FlatList, TouchableOpacity, StyleSheet, } from 'react-native'
 import React from 'react'
-import { Colors, Sizes, Fonts } from '../../../assets/styles';
 import Stars from 'react-native-stars';
 import Ionicons from 'react-native-vector-icons/Ionicons'
+import { Colors, Sizes, Fonts } from '../../../assets/styles';
+import { View, Text, Image, FlatList, TouchableOpacity, StyleSheet, } from 'react-native'
 
 const AstrologerReviews = () => {
     const renderItem = ({ item, index }) => {
@@ -48,7 +48,6 @@ const AstrologerReviews = () => {
                                 color={Colors.primaryLight}
                             />
                         }
-                    // halfStar={<Icon name={'star-half'} style={[styles.myStarStyle]} />}
                     />
                 </View>
                 <Text
@@ -59,10 +58,10 @@ const AstrologerReviews = () => {
                     }}>
                     It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.
                 </Text>
-                {false && (
-                    <View style={{ marginTop: Sizes.fixPadding }}>
+                {true && (
+                    <View style={{ marginTop: Sizes.fixPadding}}>
                         <Text style={{ ...Fonts.primaryLight14RobotoRegular }}>
-                            Astro Kuldeep
+                          reply  Astro Kuldeep
                         </Text>
                         <Text
                             style={{
@@ -100,7 +99,6 @@ const AstrologerReviews = () => {
             <FlatList
                 data={Array.from({ length: 10 })}
                 renderItem={renderItem}
-            //   keyExtractor={item => item.rating_id}
             />
         </View>
     );

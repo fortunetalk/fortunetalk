@@ -28,24 +28,24 @@ const AstrologerItems = memo(({ item, index, type = 'chat', dispatch }) => {
         }
     }
 
-    const getStatusColor = (status)=>{
-        if(status === 'Online') return Colors.green_a
-        else if(status === 'Offline') return Colors.gray
+    const getStatusColor = (status) => {
+        if (status === 'Online') return Colors.green_a
+        else if (status === 'Offline') return Colors.gray
         else if (status === 'Busy') return 'red'
     }
 
-    const getPrice = (item)=>{
-        if(type === "chat"){
+    const getPrice = (item) => {
+        if (type === "chat") {
             return item?.chatPrice + item?.companyChatPrice
         }
         return item?.callPrice + item?.companyCallPrice
     }
 
-    const getOfferPrice = item =>{
-        if(type === "chat"){
-            return (item?.chatPrice + item?.companyChatPrice) - (item?.chatPrice + item?.companyChatPrice)*item?.chatCallOffer?.discount/100
+    const getOfferPrice = item => {
+        if (type === "chat") {
+            return (item?.chatPrice + item?.companyChatPrice) - (item?.chatPrice + item?.companyChatPrice) * item?.chatCallOffer?.discount / 100
         }
-        return (item?.callPrice + item?.companyCallPrice) - (item?.callPrice + item?.companyCallPrice)*item?.chatCallOffer?.discount/100
+        return (item?.callPrice + item?.companyCallPrice) - (item?.callPrice + item?.companyCallPrice) * item?.chatCallOffer?.discount / 100
     }
 
     return (
@@ -69,7 +69,7 @@ const AstrologerItems = memo(({ item, index, type = 'chat', dispatch }) => {
                             {item?.chatCallOffer?.displayName}
                         </Text>
                     </View>
-                )} 
+                )}
                 <Image source={{ uri: item?.profileImage }} style={styles.imageContainer} />
                 <Image
                     source={require('../../../assets/icons/verify.png')}
@@ -181,7 +181,7 @@ const AstrologerItems = memo(({ item, index, type = 'chat', dispatch }) => {
                         backgroundColor: getStatusColor(type == 'chat' ? item?.chatStatus : item?.callStatus),
                         paddingVertical: Sizes.fixPadding * 0.5,
                     }}>
-                    <Text style={{ ...Fonts.white14RobotoMedium }}>
+                    <Text style={{ ...Fonts.white14RobotoMedium, color: Colors.primaryLight }}>
                         {type == 'chat' ? 'Chat Now' : 'Call Now'}
                     </Text>
                 </TouchableOpacity>
@@ -203,7 +203,7 @@ const AstrologersList = ({ astroChatList, dispatch, type, astroCallList }) => {
     const keyExtractor = useCallback((item, index) => index.toString(), []);
 
     const getItemLayout = useCallback((data, index) => ({
-        length: SCREEN_WIDTH * 0.65, 
+        length: SCREEN_WIDTH * 0.65,
         offset: SCREEN_WIDTH * 0.65 * index,
         index,
     }), []);

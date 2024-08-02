@@ -1,6 +1,7 @@
 export const base_url = 'http://97.74.83.200:4000/'
 // export const app_api_url = 'http://97.74.83.200:4000/api/app/customers/'
-export const app_api_url = 'https://node-backend-jcdp.onrender.com/api/app/'
+// export const app_api_url = 'https://node-backend-jcdp.onrender.com/api/app/'
+export const app_api_url = 'https://node-backend-hhzi.onrender.com/api/app/'
 // export const app_api_url = 'http://10.0.2.2:8000/api/app/'
 // export const app_api_url = 'http://97.74.83.200:4000/api/app/'
 

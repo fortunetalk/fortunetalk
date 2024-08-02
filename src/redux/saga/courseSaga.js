@@ -173,7 +173,7 @@ function* bookDemoClass(actions) {
         yield put({ type: actionTypes.SET_IS_LOADING, payload: true })
         const { payload } = actions
 
-        console.log("payload  =====>>>>", payload)
+        // console.log("payload  =====>>>>", payload)
 
         const response = yield postRequest({
             url: app_api_url + book_demo_class,
@@ -247,7 +247,7 @@ function* liveClassofClass(actions) {
         yield put({ type: actionTypes.SET_IS_LOADING, payload: true })
         const { payload } = actions
 
-        console.log("liveClassofClass ====>>>>", payload)
+        // console.log("liveClassofClass ====>>>>", payload)
 
         const response = yield postRequest({
             url: app_api_url + live_class_of_class,
@@ -312,15 +312,16 @@ function* registerLiveClass(actions) {
         const customerData = yield select(state => state.customer.customerData)
         const { payload } = actions
 
-        const rayzorPayResponse = yield razorpayPayment({
-            amount: parseInt(payload?.amount),
-            email: customerData?.email,
-            name: customerData?.name,
-            contact: customerData?.phoneNumber
-        })
-        console.log("rayzorPayResponse registerLiveClass ===>>>", rayzorPayResponse)
+        // const rayzorPayResponse = yield razorpayPayment({
+        //     amount: parseInt(payload?.amount),
+        //     email: customerData?.email,
+        //     name: customerData?.name,
+        //     contact: customerData?.phoneNumber
+        // })
+        // console.log("rayzorPayResponse registerLiveClass ===>>>", rayzorPayResponse)
         // console.log(" payload rayzorPayResponse ===>>>", payload)
 
+        console.log("payload  ====>>>>" , payload)
         const response = yield postRequest({
             url: app_api_url + register_for_live_class,
             data: payload

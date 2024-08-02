@@ -3,8 +3,8 @@ import * as actionTypes from '../actionTypes'
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import { LoginManager, Profile } from 'react-native-fbsdk-next';
 import { navigate, replace, resetToScreen } from '../../utils/navigationServices';
-import { blobRequest, postRequest } from '../../utils/apiRequests';
-import { app_api_url, customer_facebook_login, customer_google_login, customer_login, customer_otp_verify, customer_registration } from '../../config/constants';
+import { blobRequest, getRequest, postRequest } from '../../utils/apiRequests';
+import { app_api_url, customer_facebook_login, customer_google_login, customer_login, customer_otp_verify, customer_registration, get_customer_blogs, get_customer_testimonails } from '../../config/constants';
 import { getFcmToken, showToastMessage } from '../../utils/services';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { onUserLogin } from '../../utils/zegoCall';
@@ -111,15 +111,17 @@ function* onOtpVerification(actions) {
                 fcmToken: yield getFcmToken() ?? 'not_found'
             }
         })
+
         if (response?.success) {
             yield AsyncStorage.setItem('customerData', JSON.stringify(response?.data?.customer))
             yield put({ type: actionTypes.SET_CUSTOMER_DATA, payload: response?.data?.customer })
             yield onUserLogin(response?.data?.customer?._id, response?.data?.customer?.customerName ?? 'Customer')
-            if (response?.data?.type == 'home') {
-                yield call(resetToScreen, response?.data?.type)
-            } else {
-                yield call(replace, response?.data?.type)
-            }
+            // if (response?.data?.type == 'home') {
+            //     yield call(resetToScreen, response?.data?.type)
+            // }else{
+            //     yield call(resetToScreen, response?.data?.type)
+            // }
+            yield call(resetToScreen, "home")
 
         }
 
@@ -150,10 +152,48 @@ function* onCustomerRegistration(actions) {
     }
 }
 
+function* onCustomerBlogs() {
+    try {
+        yield put({ type: actionTypes.SET_IS_LOADING, payload: true })
+
+        const response = yield getRequest({
+            url: app_api_url + get_customer_blogs,
+        })
+        if (response?.success) {
+            yield put({ type: actionTypes.SET_BLOGS, payload: response?.data })
+        }
+        yield put({ type: actionTypes.SET_IS_LOADING, payload: false })
+    } catch (e) {
+        console.log(e)
+        yield put({ type: actionTypes.SET_IS_LOADING, payload: false })
+    }
+}
+
+function* onCustomerTestimonials() {
+    try {
+        yield put({ type: actionTypes.SET_IS_LOADING, payload: true })
+
+        const response = yield getRequest({
+            url: app_api_url + get_customer_testimonails,
+        })
+
+        if (response?.success) {
+            yield put({ type: actionTypes.SET_TESTIMONIALS, payload: response?.data })
+        }
+        yield put({ type: actionTypes.SET_IS_LOADING, payload: false })
+    } catch (e) {
+        console.log(e)
+        yield put({ type: actionTypes.SET_IS_LOADING, payload: false })
+    }
+}
+
 export default function* authSaga() {
     yield takeLeading(actionTypes.ON_LOGIN, onLogin);
     yield takeLeading(actionTypes.ON_FACEBOOK_LOGIN, onFacebookLogin);
     yield takeLeading(actionTypes.ON_GOOGLE_LOGIN, onGoogleLogin);
     yield takeLeading(actionTypes.ON_OTP_VERIFICATION, onOtpVerification);
     yield takeLeading(actionTypes.ON_CUSTOMER_REGISTRATION, onCustomerRegistration);
+
+    yield takeLeading(actionTypes.SET_BLOGS, onCustomerBlogs);
+    yield takeLeading(actionTypes.SET_TESTIMONIALS, onCustomerTestimonials);
 }

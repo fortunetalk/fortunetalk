@@ -1,5 +1,5 @@
-import { View, Text, TouchableOpacity, FlatList, Image } from 'react-native'
 import React from 'react'
+import { View, TouchableOpacity, FlatList, Image } from 'react-native'
 import { Colors, SCREEN_WIDTH, Sizes } from '../../../assets/styles';
 
 const Banner = () => {

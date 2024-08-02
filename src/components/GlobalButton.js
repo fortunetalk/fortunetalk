@@ -9,12 +9,16 @@ const GlobalButton = ({ handlePress, ButtonName }) => {
             onPress={handlePress}
             style={{
                 marginVertical: Sizes.fixPadding,
-                borderRadius: Sizes.fixPadding * 5,
+                borderRadius: Sizes.fixPadding * 1.5,
                 overflow: 'hidden',
             }}>
             <LinearGradient
                 colors={[Colors.primaryLight, Colors.primaryDark]}
-                style={{ paddingVertical: Sizes.fixPadding * 0.7, paddingHorizontal: Sizes.fixPadding * 1.5 }}>
+                style={{
+                    paddingVertical: Sizes.fixPadding * 1,
+                    paddingHorizontal: Sizes.fixPadding * 1.5
+                }}
+            >
                 <Text style={{ ...Fonts.white16RobotoMedium, textAlign: 'center' }}>
                     {ButtonName}
                 </Text>

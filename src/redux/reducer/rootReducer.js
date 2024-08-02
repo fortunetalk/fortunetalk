@@ -9,6 +9,7 @@ import live from './liveReducer';
 import history from './historyReducer';
 import banners from './banners';
 import call from './callReducer';
+import cart from './cartReducer';
 
 const rootReducer = combineReducers({
   settings,
@@ -20,7 +21,8 @@ const rootReducer = combineReducers({
   live,
   history,
   banners,
-  call
+  call,
+  cart
 });
 
 const appReducer = (state, action) => {

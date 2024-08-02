@@ -6,44 +6,26 @@ import {
   StyleSheet,
   Image,
 } from 'react-native';
-import Stars from 'react-native-stars';
+import { connect } from 'react-redux';
 import React, { useState } from 'react';
-import MyStatusBar from '../../components/MyStatusBar';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import GlobalButton from '../../components/GlobalButton';
+import Loader from '../../../components/Loader';
+import MyStatusBar from '../../../components/MyStatusBar';
+import GlobalButton from '../../../components/GlobalButton';
+import LinearGradient from 'react-native-linear-gradient';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import { SCREEN_WIDTH, Colors, Fonts, Sizes } from '../../assets/styles';
+import * as cartActions from '../../../redux/actions/cartActions'
+import { SCREEN_WIDTH, Colors, Fonts, Sizes } from '../../../assets/styles';
+import { navigate } from '../../../utils/navigationServices';
 
-const ProductDetails = ({ navigation, route }) => {
-  const [review, setreview] = useState([
-    {
-      id: '1',
-      customer_name: 'John Doe',
-      rating: 4.5,
-      comment: 'Great service and friendly staff!',
-    },
-    {
-      id: '2',
-      customer_name: 'Jane Smith',
-      rating: 4,
-      comment: 'Good experience, but room for improvement.',
-    },
-  ]);
-
-  const [state, setState] = useState({
-    productData: route.params?.details,
-    isLoading: false,
-  });
-
-
-  const updateState = data => {
-    setState(prevState => {
-      const newData = { ...prevState, ...data };
-      return newData;
-    });
-  };
-
-  const { productData, isLoading } = state;
+const ProductDetails = ({ navigation, route, isLoading, dispatch }) => {
+  const [productData, setProductData] = useState(route.params?.details);
+  
+  const Add_TO_Cart = () => {
+    dispatch(cartActions.onAddToCart({
+      productId: productData?._id,
+      quantity: 1
+    }))
+  }
 
   return (
     <View style={{ flex: 1, backgroundColor: Colors.bodyColor }}>
@@ -51,6 +33,7 @@ const ProductDetails = ({ navigation, route }) => {
         backgroundColor={Colors.primaryLight}
         barStyle={'light-content'}
       />
+      <Loader visible={isLoading} />
       <View style={{ flex: 1 }}>
         {header()}
         <FlatList
@@ -59,110 +42,22 @@ const ProductDetails = ({ navigation, route }) => {
               {bannerInfo()}
               {productInfo()}
               {benefitsInfo()}
-              {reviewInfo()}
-              {bookNowButtonInfo()}
             </>
           }
           contentContainerStyle={{ paddingVertical: Sizes.fixPadding }}
         />
+        {bookNowButtonInfo()}
       </View>
     </View>
   );
 
   function bookNowButtonInfo() {
     const add_product_to_cart = () => {
+      navigate("productBookingDetails", { product: route.params?.details })
     }
     return (
-      <View style={{ marginHorizontal: Sizes.fixPadding * 2}}>
+      <View style={{ marginHorizontal: Sizes.fixPadding * 2 }}>
         <GlobalButton handlePress={() => add_product_to_cart()} ButtonName={"Book Now"} />
-      </View>
-    );
-  }
-
-  function reviewInfo() {
-    const renderItem = ({ item, index }) => {
-      return (
-        <TouchableOpacity
-          activeOpacity={1}
-          style={{
-            width: '100%',
-            borderRadius: Sizes.fixPadding,
-            overflow: 'hidden',
-            borderColor: Colors.primaryLight,
-            elevation: 5,
-            shadowOffset: {
-              width: 0,
-              height: 1,
-            },
-            shadowOpacity: 0.2,
-            marginBottom: Sizes.fixPadding * 1.5,
-            shadowColor: Colors.blackLight,
-            backgroundColor: Colors.white,
-            padding: Sizes.fixPadding * 0.8,
-          }}>
-          <View style={{ ...styles.row }}>
-            <Image
-              source={require("../../assets/images/astro.jpg")}
-              style={{
-                width: 25,
-                height: 25,
-                borderRadius: 100,
-              }}
-            />
-            <Text
-              style={{
-                ...Fonts.gray11RobotoRegular,
-                marginLeft: Sizes.fixPadding * 0.5,
-              }}>
-              {item.customer_name}
-            </Text>
-            <View style={{ marginLeft: Sizes.fixPadding * 1.5 }}>
-              <Stars
-                default={4}
-                count={item.rating}
-                half={true}
-                starSize={9}
-                fullStar={
-                  <Ionicons
-                    name={'star'}
-                    size={9}
-                    color={Colors.primaryLight}
-                  />
-                }
-                emptyStar={
-                  <Ionicons
-                    name={'star-outline'}
-                    size={9}
-                    color={Colors.primaryLight}
-                  />
-                }
-              />
-            </View>
-          </View>
-          <Text numberOfLines={5} style={{ ...Fonts.gray11RobotoRegular }}>
-            {item.comment}
-          </Text>
-        </TouchableOpacity>
-      );
-    };
-    return (
-      <View
-        style={{
-          marginTop: Sizes.fixPadding * 1.5,
-          marginHorizontal: Sizes.fixPadding * 2,
-        }}>
-        <Text
-          style={{
-            ...Fonts.black18RobotoRegular,
-            marginBottom: Sizes.fixPadding,
-          }}>
-          Customer Reviews
-        </Text>
-        <FlatList
-          data={review}
-          renderItem={renderItem}
-          keyExtractor={item => item.id}
-        />
       </View>
     );
   }
@@ -197,11 +92,41 @@ const ProductDetails = ({ navigation, route }) => {
           borderBottomColor: Colors.grayLight,
           borderBottomWidth: 1,
         }}>
-        <View style={{ display: "flex", justifyContent: "space-between", flexDirection: "row", alignItems: "center" }}>
+        <View
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            flexDirection: "row",
+            alignItems: "center"
+          }}>
           <Text style={{ ...Fonts.primaryLight18RobotoMedium }}>
             {productData?.title}
           </Text>
-          <GlobalButton ButtonName={"Add to Cart"} />
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={Add_TO_Cart}
+            style={{
+              marginVertical: Sizes.fixPadding,
+              borderRadius: Sizes.fixPadding * 3,
+              overflow: 'hidden',
+            }}>
+            <LinearGradient
+              colors={[Colors.primaryLight, Colors.primaryDark]}
+              style={{
+                paddingVertical: Sizes.fixPadding * 1,
+                paddingHorizontal: Sizes.fixPadding * 1.4
+              }}
+            >
+              <Text
+                style={{
+                  ...Fonts.white16RobotoMedium,
+                  textAlign: 'center',
+                  fontSize: 12
+                }}>
+                Add to Cart
+              </Text>
+            </LinearGradient>
+          </TouchableOpacity>
         </View>
 
         <Text style={{ ...Fonts.gray14RobotoMedium, fontSize: 13 }}>
@@ -252,8 +177,6 @@ const ProductDetails = ({ navigation, route }) => {
   }
 
   function header() {
-    const on_cart_press = () => {
-    }
     return (
       <View
         style={{
@@ -283,11 +206,11 @@ const ProductDetails = ({ navigation, route }) => {
         </Text>
         <TouchableOpacity
           activeOpacity={0.8}
-          onPress={() => on_cart_press()}
+          onPress={() => navigate("cart")}
         >
           <Image
-            source={require("../../assets/images/astro.jpg")}
-            style={{ width: 22, height: 22 }}
+            source={require('../../../assets/icons/cart.png')}
+            style={{ width: 24, height: 24 }}
           />
         </TouchableOpacity>
       </View>
@@ -295,7 +218,14 @@ const ProductDetails = ({ navigation, route }) => {
   }
 };
 
-export default ProductDetails;
+const mapStateToProps = state => ({
+  isLoading: state.settings.isLoading,
+})
+
+const mapDispatchToProps = dispatch => ({ dispatch })
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProductDetails)
+
 
 const styles = StyleSheet.create({
   row: {

@@ -24,3 +24,14 @@ export const onCustomerRegistration = payload => ({
     type: actionTypes.ON_CUSTOMER_REGISTRATION,
     payload
 })
+
+export const onCustomerblogs = payload => ({
+    type: actionTypes.SET_BLOGS,
+    payload
+})
+
+export const onCustomerTestimonials = payload => ({
+    type: actionTypes.SET_TESTIMONIALS,
+    payload
+})
+

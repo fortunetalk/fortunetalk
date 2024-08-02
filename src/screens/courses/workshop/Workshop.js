@@ -33,7 +33,6 @@ const Workshops = ({ isLoading, dispatch, courseId, workshop }) => {
                     data={workshop}
                     renderItem={({ item, index }) => <DemoClassItem item={item} />}
                     keyExtractor={item => item._id}
-                    ListEmptyComponent={<NoDataFound />}
                 />
             </View>
         );

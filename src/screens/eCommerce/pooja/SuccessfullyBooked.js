@@ -8,20 +8,13 @@ import {
 } from 'react-native';
 import moment from 'moment';
 import React, { useState } from 'react';
-import MyStatusBar from '../../components/MyStatusBar';
+import MyHeader from '../../../components/MyHeader';
+import MyStatusBar from '../../../components/MyStatusBar';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import { SCREEN_WIDTH, Colors, Fonts, Sizes } from '../../assets/styles';
+import { SCREEN_WIDTH, Colors, Fonts, Sizes } from '../../../assets/styles';
 
 const SuccessfullyBooked = ({ navigation }) => {
-    const [state, setState] = useState({
-        paginationIndex: 0,
-        showPayment: false,
-        successVisible: false,
-        poojaData: [],
-        suggestedBy: '',
-        poojaType: "Booking Details"
-    });
+    const [poojaData, setPoojaData] = useState([]);
 
     function gst_amount() {
         return (
@@ -33,24 +26,19 @@ const SuccessfullyBooked = ({ navigation }) => {
             parseFloat(parseFloat(564) + (parseFloat(poojaData?.price) * 18.0) / 100).toFixed(2)
         );
     }
-
-    const updateState = data => {
-        setState(prevState => {
-            const newData = { ...prevState, ...data };
-            return newData;
-        });
-    };
-
-    const { paginationIndex, showPayment, successVisible, poojaData, suggestedBy, poojaType } = state;
-
+    
     return (
-        <View style={{ flex: 1, backgroundColor: Colors.bodyColor }}>
+        <View
+            style={{
+                flex: 1,
+                backgroundColor: Colors.bodyColor
+            }}>
             <MyStatusBar
                 backgroundColor={Colors.primaryLight}
                 barStyle={'light-content'}
             />
             <View style={{ flex: 1 }}>
-                {header()}
+                <MyHeader title={"Booking Details"} />
                 <FlatList
                     ListHeaderComponent={
                         <>
@@ -71,10 +59,10 @@ const SuccessfullyBooked = ({ navigation }) => {
     function successMsg() {
         return (
             <View style={{
-                alignItems: "center", 
+                alignItems: "center",
                 borderBottomWidth: 1,
                 borderBottomColor: Colors.grayLight,
-                paddingBottom:Sizes.fixPadding * 1
+                paddingBottom: Sizes.fixPadding * 1
             }} >
                 <Text style={{ color: Colors.greenDark, fontWeight: "600" }} >Pooja has been Successufully Booked !!</Text>
             </View>
@@ -183,7 +171,7 @@ const SuccessfullyBooked = ({ navigation }) => {
                                 shadowColor: Colors.blackLight,
                             }}>
                             <Image
-                                source={require("../../assets/images/astro.jpg")}
+                                source={require("../../../assets/images/astro.jpg")}
                                 style={{ width: '100%', height: '100%' }}
                             />
                         </View>
@@ -282,7 +270,7 @@ const SuccessfullyBooked = ({ navigation }) => {
                         marginVertical: Sizes.fixPadding * 1,
                     }}>
                     <Image
-                        source={require("../../assets/images/astro.jpg")}
+                        source={require("../../../assets/images/astro.jpg")}
                         style={{
                             width: '100%',
                             height: '100%',
@@ -291,35 +279,6 @@ const SuccessfullyBooked = ({ navigation }) => {
                     />
                 </View>
             </>
-        );
-    }
-
-    function header() {
-        return (
-            <View
-                style={{
-                    padding: Sizes.fixPadding * 1.5,
-                    ...styles.row,
-                    justifyContent: 'space-between',
-                    borderBottomWidth: 1,
-                    borderBottomColor: Colors.grayLight,
-                }}>
-                <TouchableOpacity onPress={() => navigation.goBack()}>
-                    <AntDesign
-                        name="leftcircleo"
-                        color={Colors.primaryLight}
-                        size={Sizes.fixPadding * 2.2}
-                    />
-                </TouchableOpacity>
-                <Text
-                    style={{
-                        ...Fonts.primaryLight15RobotoMedium,
-                        textAlign: 'center',
-                        flex: 1,
-                    }}>
-                    Booking Details
-                </Text>
-            </View>
         );
     }
 };

@@ -8,21 +8,24 @@ import {
 import moment from 'moment';
 import { connect } from 'react-redux';
 import React, { useEffect, useState } from 'react';
-import MyHeader from '../../../components/MyHeader';
-import CourseRegistration from '../CourseRegistration';
-import Video from '../../../components/Courses/Video';
-import { classifyTimeNoon } from '../../../utils/tools';
-import { navigate } from '../../../utils/navigationServices';
-import { Colors, Fonts, Sizes } from '../../../assets/styles';
-import * as CourseActions from '../../../redux/actions/courseActions'
+import MyHeader from '../../components/MyHeader';
+import CourseRegistration from './CourseRegistration';
+import Video from '../../components/Courses/Video';
+import { classifyTimeNoon } from '../../utils/tools';
+import { navigate } from '../../utils/navigationServices';
+import { Colors, Fonts, Sizes } from '../../assets/styles';
+import * as CourseActions from '../../redux/actions/courseActions'
+import MyStatusBar from '../../components/MyStatusBar';
 
 const ClassOverview = ({
   route,
   customerData,
   demoClassBooked,
   dispatch,
+  singleDemoClass
 }) => {
   const previousPagedata = route.params
+
   const [state, setState] = useState({
     name: "",
     phoneNumber: "",
@@ -38,8 +41,11 @@ const ClassOverview = ({
   };
 
   useEffect(() => {
+    dispatch(CourseActions.onGetSingleDemoClass({
+      classId: previousPagedata.id,
+    }))
     dispatch(CourseActions.demoClassBooked({
-      demoClassId: previousPagedata.classData?._id,
+      demoClassId: previousPagedata.id,
       customerId: customerData?._id,
     }))
   }, [])
@@ -50,13 +56,13 @@ const ClassOverview = ({
         updateState({ modalVisible: true })
       } else {
         navigate("classDetails", {
-          class: previousPagedata.classData,
+          class: singleDemoClass,
           title: previousPagedata.title,
         })
       }
     } else {
       navigate("classDetails", {
-        class: previousPagedata.classData,
+        class: singleDemoClass,
         title: previousPagedata.title,
       })
     }
@@ -72,38 +78,44 @@ const ClassOverview = ({
         dispatch(CourseActions.bookdemoClass({
           customerName: name,
           mobileNumber: phoneNumber,
-          astrologerId: previousPagedata.classData?.astrologerId?._id,
-          demoClassId: previousPagedata.classData?._id,
-          courseId: previousPagedata.classData?.courseId?._id,
+          astrologerId: singleDemoClass?.astrologerId?._id,
+          demoClassId: singleDemoClass?._id,
+          courseId: singleDemoClass?.courseId?._id,
           customerId: customerData?._id,
         }))
       }
       navigate("classDetails", {
-        class: previousPagedata.classData,
-        title: previousPagedata.title,
+        class: singleDemoClass,
+        title: previousPagedata?.title,
       })
       updateState({ modalVisible: false })
     }
   };
 
   return (
-    <View style={{
-      flex: 1,
-      backgroundColor: Colors.bodyColor
-    }}>
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: Colors.bodyColor
+      }}>
+      <MyStatusBar
+        backgroundColor={Colors.primaryLight}
+        barStyle={'light-content'}
+      />
       <MyHeader title={`Demo Class`} />
-      <FlatList
+      {singleDemoClass && <FlatList
         ListHeaderComponent={
           <>
-            <Video uri={previousPagedata.classData?.video} />
+            <Video uri={singleDemoClass?.video} />
             {courseTitleInfo()}
             {courseDescriptionInfo()}
             {demoClassDatesInfo()}
             {learningInfo()}
           </>
         }
-      />
+      />}
       {demoClassDetailsInfo()}
+
       <CourseRegistration
         visible={modalVisible}
         onClose={() => updateState({ modalVisible: false })}
@@ -144,7 +156,7 @@ const ClassOverview = ({
           }}>
           What will you learn from this Course ?
         </Text>
-        <Text>{previousPagedata.classData?.courseContent}</Text>
+        <Text style={{ color: Colors.blackLight }} >{singleDemoClass?.courseContent}</Text>
       </View>
     );
   }
@@ -161,12 +173,10 @@ const ClassOverview = ({
           alignItems: 'center',
         }}>
         <Text style={{ ...Fonts.gray14RobotoRegular }}>
-          {previousPagedata.title} will be Conducted on
+          {singleDemoClass?.className} will be Conducted on
         </Text>
         <Text style={{ ...Fonts.gray14RobotoMedium, color: Colors.red_a }}>
-          {`${moment(previousPagedata.classData?.date).format(
-            'Do MMMM YYYY',
-          )}  (${previousPagedata.classData?.time} ${classifyTimeNoon(previousPagedata.classData?.time)})`}
+          {`${moment(singleDemoClass?.date).format('Do MMMM YYYY')} (${singleDemoClass?.time || "-"} ${classifyTimeNoon(singleDemoClass?.time) || "-"})`}
         </Text>
       </View>
     );
@@ -180,7 +190,7 @@ const ClassOverview = ({
           marginTop: Sizes.fixPadding * 0.5,
         }}>
         <Text style={{ ...Fonts.gray12RobotoRegular }}>
-          {previousPagedata.classData?.description}
+          {singleDemoClass?.description}
         </Text>
       </View>
     );
@@ -194,7 +204,7 @@ const ClassOverview = ({
           marginTop: Sizes.fixPadding * 0.5,
         }}>
         <Text style={{ ...Fonts.black16RobotoRegular }}>
-          {previousPagedata.classData?.className}
+          {singleDemoClass?.className}
         </Text>
       </View>
     );
@@ -205,7 +215,8 @@ const mapStateToProps = state => ({
   isLoading: state.settings.isLoading,
   customerData: state.customer.customerData,
   demoClassBooked: state.courses.demoClassBooked,
-  registerDemoclass: state.courses.registerDemoclass
+  registerDemoclass: state.courses.registerDemoclass,
+  singleDemoClass: state.courses.singleDemoClass
 })
 
 const mapDispatchToProps = dispatch => ({ dispatch })

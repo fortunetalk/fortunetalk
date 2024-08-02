@@ -1,9 +1,11 @@
-import { View, Image } from 'react-native'
 import React from 'react'
+import { connect } from 'react-redux';
+import { View, Image } from 'react-native'
+import { TouchableOpacity } from 'react-native';
 import { Colors, SCREEN_WIDTH, Sizes } from '../../../assets/styles';
 import Carousel from 'react-native-reanimated-carousel';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { connect } from 'react-redux';
+import { navigate } from '../../../utils/navigationServices';
 
 const HomeBanner = ({ homeTopBannerData }) => {
   const baseOptions = {
@@ -12,9 +14,10 @@ const HomeBanner = ({ homeTopBannerData }) => {
     height: SCREEN_WIDTH * 0.4,
   };
 
-  const renderItem = ({item, index}) => {
+  const renderItem = ({ item, index }) => {
     return (
-      <View
+      <TouchableOpacity
+        onPress={() => navigate(item.redirectionUrl)}
         style={{
           width: SCREEN_WIDTH * 0.95,
           height: SCREEN_WIDTH * 0.35,
@@ -23,7 +26,7 @@ const HomeBanner = ({ homeTopBannerData }) => {
           padding: Sizes.fixPadding * 0.5,
         }}>
         <Image
-          source={{uri: item?.image}}
+          source={{ uri: item?.image }}
           resizeMode="cover"
           style={{
             width: '100%',
@@ -32,7 +35,7 @@ const HomeBanner = ({ homeTopBannerData }) => {
             borderRadius: Sizes.fixPadding,
           }}
         />
-      </View>
+      </TouchableOpacity>
     );
   };
 

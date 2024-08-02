@@ -9,7 +9,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import { View, Text, TouchableOpacity, Image } from 'react-native';
 import * as CourseActions from '../../redux/actions/courseActions'
 import { Colors, Fonts, SCREEN_WIDTH, Sizes } from '../../assets/styles';
-import AntDesign from 'react-native-vector-icons/AntDesign';
+import MyHeader from '../../components/MyHeader';
 
 const Learn = ({
   navigation,
@@ -31,7 +31,7 @@ const Learn = ({
         barStyle={'light-content'}
       />
       <Loader visible={isLoading} />
-      {header()}
+      <MyHeader title={"Course"} />
       <View style={{ flex: 1 }}>
         {myCoursesInfo()}
         <FlatList
@@ -44,29 +44,13 @@ const Learn = ({
         />
       </View>
     </View>
-  );
-
-  function header() {
-    return (
-      <View style={styles.container}>
-        <TouchableOpacity activeOpacity={0.8} onPress={() => navigate("home")}
-          style={{ position: 'absolute', zIndex: 99, left: Sizes.fixPadding * 1.5 }}>
-          <AntDesign
-            name="leftcircleo"
-            color={Colors.primaryLight}
-            size={Sizes.fixPadding * 2}
-          />
-        </TouchableOpacity>
-        <Text style={{ ...Fonts._15RobotMedium, color: Colors.primaryLight, textAlign: 'center' }}>Courses</Text>
-      </View>
-    )
-  }
+  )
 
   function myCoursesInfo() {
     return (
       <TouchableOpacity
         activeOpacity={0.8}
-        onPress={() => navigation.navigate('myCourses')}>
+        onPress={() => navigation.navigate('mycourse')}>
         <LinearGradient
           colors={[Colors.primaryLight, Colors.primaryDark]}
           style={[
@@ -78,7 +62,11 @@ const Learn = ({
             style={{ width: 20, height: 20 }}
           />
           <Text
-            style={{ ...Fonts.white18RobotMedium, marginLeft: Sizes.fixPadding }}>
+            style={{
+              ...Fonts.white18RobotMedium,
+              marginLeft: Sizes.fixPadding,
+              fontSize: Sizes.fixPadding * 1.4
+            }}>
             My Courses
           </Text>
         </LinearGradient>

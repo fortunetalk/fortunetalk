@@ -44,6 +44,10 @@ export const bookdemoClass = payload => ({
     type: actionTypes.BOOKED_DEMO_CLASS,
     payload
 })
+export const onGetSingleDemoClass = payload => ({
+    type: actionTypes.GET_SINGLE_DEMO_CLASS,
+    payload
+})
 
 export const liveClassOfClass = payload => ({
     type: actionTypes.LIVE_CLASS_OF_CLASS,
@@ -54,6 +58,43 @@ export const demoClassBooked = payload => ({
     type: actionTypes.CHECK_CUSTOMER_DEMO_CLASS_BOOKED,
     payload
 })
+
+export const onRegisterLiveClass = payload => ({
+    type: actionTypes.REGISTER_FOR_LIVE_CLASS,
+    payload
+})
+
+export const onIsRegisterLiveClass = payload => ({
+    type: actionTypes.IS_REGISTER_FOR_LIVE_CLASS,
+    payload
+})
+
+
+export const onGetSingleLiveClass = payload => ({
+    type: actionTypes.GET_SINGLE_LIVE_CLASS,
+    payload
+})
+
+export const onCoursesPayment = payload => ({
+    type: actionTypes.LIVE_COURSE_PAYMENT,
+    payload
+})
+
+export const onCurrentLiveCourseHistory = payload => ({
+    type: actionTypes.GET_CURRENT_LIVE_COURSE_HISTORY,
+    payload
+})
+
+export const onCompletedLiveCourseHistory = payload => ({
+    type: actionTypes.GET_COMPLETED_LIVE_COURSE_HISTORY,
+    payload
+})
+
+export const onByProductPaymeny = payload => ({
+    type: actionTypes.PRODUCT_PAYMENT,
+    payload
+})
+
 
 
 

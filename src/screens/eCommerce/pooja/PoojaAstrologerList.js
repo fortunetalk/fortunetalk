@@ -8,12 +8,12 @@ import {
 import moment from 'moment';
 import { FlatList } from 'react-native';
 import React, { useState } from 'react';
-import Loader from '../../components/Loader';
-import MyHeader from '../../components/MyHeader';
-import MyStatusBar from '../../components/MyStatusBar';
-import NoDataFound from '../../components/NoDataFound';
+import Loader from '../../../components/Loader';
+import MyHeader from '../../../components/MyHeader';
+import MyStatusBar from '../../../components/MyStatusBar';
+import NoDataFound from '../../../components/NoDataFound';
 import LinearGradient from 'react-native-linear-gradient';
-import { SCREEN_WIDTH, Colors, Fonts, Sizes } from '../../assets/styles';
+import { SCREEN_WIDTH, Colors, Fonts, Sizes } from '../../../assets/styles';
 
 const PoojaAstrologerList = ({ navigation, route }) => {
   const [state, setState] = useState({
@@ -121,7 +121,7 @@ const PoojaAstrologerList = ({ navigation, route }) => {
             shadowColor: Colors.blackLight,
           }}>
           <ImageBackground
-            source={require('../../assets/images/astro.jpg')}
+            source={require('../../../assets/images/astro.jpg')}
             style={{
               width: '100%',
               height: SCREEN_WIDTH * 0.4,
@@ -141,7 +141,7 @@ const PoojaAstrologerList = ({ navigation, route }) => {
                 <Text style={{ color: Colors.black, zIndex: 100, paddingRight: 8, paddingTop: 8 }}>Info</Text>
               </View>
               <ImageBackground
-                source={require('../../assets/images/edge_corner.png')}
+                source={require('../../../assets/images/edge_corner.png')}
                 style={{
                   width: '40%',
                   height: "100%",
@@ -197,7 +197,7 @@ const PoojaAstrologerList = ({ navigation, route }) => {
                 shadowColor: Colors.blackLight,
               }}>
               <Image
-                source={require('../../assets/images/astro.jpg')}
+                source={require('../../../assets/images/astro.jpg')}
                 style={{ width: '100%', height: '100%' }}
               />
             </View>
@@ -271,7 +271,7 @@ const PoojaAstrologerList = ({ navigation, route }) => {
             overflow: 'hidden',
           }}>
           <Image
-            source={require('../../assets/images/astro.jpg')}
+            source={require('../../../assets/images/astro.jpg')}
             style={{ width: '100%', height: 100, resizeMode: 'cover' }}
           />
         </View>

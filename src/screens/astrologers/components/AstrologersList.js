@@ -13,6 +13,7 @@ import { useNavigation } from '@react-navigation/native';
 
 const AstrologerItems = memo(({ item, index, type = 'chat', dispatch }) => {
     const navigation = useNavigation()
+
     const onSubmit = () => {
         const payload = {
             navigation,
@@ -68,7 +69,7 @@ const AstrologerItems = memo(({ item, index, type = 'chat', dispatch }) => {
                             {item?.chatCallOffer?.displayName}
                         </Text>
                     </View>
-                )}
+                )} 
                 <Image source={{ uri: item?.profileImage }} style={styles.imageContainer} />
                 <Image
                     source={require('../../../assets/icons/verify.png')}
@@ -111,7 +112,6 @@ const AstrologerItems = memo(({ item, index, type = 'chat', dispatch }) => {
                                 color={Colors.primaryLight}
                             />
                         }
-                    // halfStar={<Icon name={'star-half'} style={[styles.myStarStyle]} />}
                     />
                     <Text numberOfLines={1} style={{ ...Fonts.black14InterMedium }}>
                         {item?.displayName}
@@ -191,7 +191,10 @@ const AstrologerItems = memo(({ item, index, type = 'chat', dispatch }) => {
 });
 
 const AstrologersList = ({ astroChatList, dispatch, type, astroCallList }) => {
-    const data = type === 'chat' ? astroChatList?.docs : astroCallList?.docs;
+    const data = type === 'chat' ? astroChatList : astroCallList;
+
+    // console.log("astroChatList ===>>>", astroChatList?.docs)
+    // console.log("data ===>>>", data)
 
     const renderItem = useCallback(({ item, index }) => {
         return <AstrologerItems item={item} index={index} type={type} dispatch={dispatch} />;
@@ -200,7 +203,7 @@ const AstrologersList = ({ astroChatList, dispatch, type, astroCallList }) => {
     const keyExtractor = useCallback((item, index) => index.toString(), []);
 
     const getItemLayout = useCallback((data, index) => ({
-        length: SCREEN_WIDTH * 0.65, // Height of each item
+        length: SCREEN_WIDTH * 0.65, 
         offset: SCREEN_WIDTH * 0.65 * index,
         index,
     }), []);
@@ -214,7 +217,6 @@ const AstrologersList = ({ astroChatList, dispatch, type, astroCallList }) => {
                 data={data}
                 renderItem={renderItem}
                 keyExtractor={keyExtractor}
-                // ListEmptyComponent={<NoDataFound />}
                 numColumns={2}
                 maxToRenderPerBatch={10}
                 initialNumToRender={10}

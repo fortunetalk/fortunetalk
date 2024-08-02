@@ -10,7 +10,8 @@ import {
     get_product_details_banner,
     get_product_category_banner,
     get_pooja_category_banner,
-    get_pooja_details_banner
+    get_pooja_details_banner,
+    get_product_history
 } from '../../config/constants'
 
 function* getPoojaCategoryList(actions) {
@@ -172,6 +173,7 @@ function* getPoojaCategoryBanner() {
 }
 
 
+
 export default function* eCommerceSaga() {
     yield takeLeading(actionTypes.GET_POOJA_CATEGORY_DATA, getPoojaCategoryList)
     yield takeLeading(actionTypes.GET_CATEGORY_WAISE_POOJA_DATA, getPoojaCategoryWaiseList)
@@ -184,4 +186,5 @@ export default function* eCommerceSaga() {
 
     yield takeLeading(actionTypes.GET_POOJA_DETAILS_BANNER, getPoojaDetailsBanner)
     yield takeLeading(actionTypes.GET_POOJA_CATEGORY_BANNER, getPoojaCategoryBanner)
+
 }

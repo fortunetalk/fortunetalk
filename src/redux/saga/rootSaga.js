@@ -9,6 +9,7 @@ import paymentSaga from './paymentSaga';
 import chatSaga from './chatSaga';
 import liveSaga from './liveSaga';
 import historySaga from './historySaga';
+import cartSaga from './cartSaga';
 
 export default function* rootSaga() {
   yield all([
@@ -21,6 +22,7 @@ export default function* rootSaga() {
     historySaga(),
     liveSaga(),
     callSaga(), 
-    coursesSaga()
+    coursesSaga(),
+    cartSaga(),
   ]);
 }

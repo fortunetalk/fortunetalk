@@ -125,7 +125,6 @@ const getOfferPrice = item =>{
                 color={Colors.primaryLight}
               />
             }
-          // halfStar={<Icon name={'star-half'} style={[styles.myStarStyle]} />}
           />
           <Text numberOfLines={1} style={{ ...Fonts.black14InterMedium }}>
             {item?.name}
@@ -230,7 +229,8 @@ const getOfferPrice = item =>{
             <Text style={{ ...Fonts.black16RobotoMedium }}>Online Astrologers</Text>
             <TouchableOpacity
               activeOpacity={0.8}
-              onPress={() => navigation.navigate('onlineAstrologers')}>
+              onPress={() => navigation.navigate('onlineastrologers')}
+              >
               <Text style={{ ...Fonts.primaryLight15RobotoRegular }}>View all</Text>
             </TouchableOpacity>
           </View>

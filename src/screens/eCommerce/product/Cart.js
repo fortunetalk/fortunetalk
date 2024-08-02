@@ -6,39 +6,34 @@ import {
   FlatList,
   Image,
 } from 'react-native';
-import React, { useState } from 'react';
-import MyStatusBar from '../../components/MyStatusBar';
-import AntDesign from 'react-native-vector-icons/AntDesign';
+import { connect } from 'react-redux';
+import Loader from '../../../components/Loader';
+import React, { useEffect, useState } from 'react';
+import MyHeader from '../../../components/MyHeader';
+import MyStatusBar from '../../../components/MyStatusBar';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
+import * as CartActions from '../../../redux/actions/cartActions'
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { SCREEN_WIDTH, Colors, Fonts, Sizes } from '../../assets/styles';
+import { SCREEN_WIDTH, Colors, Fonts, Sizes } from '../../../assets/styles';
 
-const Cart = ({ navigation }) => {
+const Cart = ({ navigation, isLoading, cartDetails, dispatch }) => {
   const [state, setState] = useState({
-    cartData: [
-      {
-        id: '1',
-        title: 'Astro Product 1',
-        star: 4.5,
-        number_of_review: 10,
-        dicount_price: 299,
-        qty: 1,
-      },
-      {
-        id: '2',
-        title: 'Astro Product 2',
-        star: 4.0,
-        number_of_review: 8,
-        dicount_price: 399,
-        qty: 2,
-      },
-    ],
+    cartData: null,
   });
+  const { cartData } = state;
+
+  useEffect(() => {
+    updateState({ cartData: cartDetails?.items })
+  }, [cartDetails])
+
+  useEffect(() => {
+    dispatch(CartActions.onCartDetails())
+  }, [])
 
   const updateState = data => setState({ ...state, ...data });
 
-  const { cartData } = state;
+  console.log("cartData", cartData)
 
   return (
     <View style={{ flex: 1, backgroundColor: Colors.bodyColor }}>
@@ -46,7 +41,8 @@ const Cart = ({ navigation }) => {
         backgroundColor={Colors.primaryLight}
         barStyle={'light-content'}
       />
-      {header()}
+      <MyHeader title={"Your Cart"} />
+      <Loader visible={isLoading} />
       <View style={{ flex: 1 }}>
         <FlatList
           ListHeaderComponent={
@@ -174,7 +170,7 @@ const Cart = ({ navigation }) => {
             <Ionicons
               name="pencil-outline"
               color={Colors.primaryDark}
-              size={14}
+              size={25}
             />
           </TouchableOpacity>
         </View>
@@ -192,43 +188,43 @@ const Cart = ({ navigation }) => {
 
   async function updateItemCount({ id, type, qty }) {
     if (type == 'remove' && qty == 1) {
-      const newList = cartData.filter(item => item.id != id);
+      const newList = cartData.filter(item => item?._id != id);
       if (newList.length == 0) {
-        await AsyncStorage.removeItem('eCommerceCart');
         navigation.goBack();
       } else {
-        await AsyncStorage.setItem('eCommerceCart', JSON.stringify(newList));
         updateState({ cartData: newList });
       }
     } else {
       const newList = cartData.map(item => {
-        if (item.id === id) {
+        if (item?._id == id) {
           const updatedItem = {
             ...item,
-            qty:
+            quantity:
               type == 'remove'
-                ? item.qty > 1
-                  ? item.qty - 1
-                  : item.qty
-                : item.qty + 1,
+                ? item.quantity > 1
+                  ? item.quantity - 1
+                  : item.quantity
+                : item.quantity + 1,
           };
           return updatedItem;
         }
         return item;
       });
-
-      await AsyncStorage.setItem('eCommerceCart', JSON.stringify(newList));
       updateState({ cartData: newList });
     }
   }
 
   function cartDataInfo() {
     const renderItem = ({ item, index }) => {
+
+      // console.log("item =====>>>>" , item)
+      // console.log("item =====>>>>" , item?.quantity)
+
       return (
         <View style={[styles.row, styles.itemContainer]}>
           <View style={styles.imageContainer}>
             <Image
-              source={require("../../assets/images/astro.jpg")}
+              source={{ uri: item?.productId?.image }}
               style={{ width: '100%', height: '100%' }}
             />
           </View>
@@ -236,20 +232,13 @@ const Cart = ({ navigation }) => {
             style={{
               marginLeft: Sizes.fixPadding,
               flexDirection: 'column',
-              height: SCREEN_WIDTH * 0.32,
               justifyContent: 'space-between',
             }}>
             <Text
               style={{ ...Fonts.black16RobotoRegular, color: Colors.blackLight }}>
-              {item.title}
+              {item?.productId.title}
             </Text>
-            <View style={[styles.row]}>
-              <Ionicons name="star" color={Colors.primaryDark} size={14} />
-              <Text style={{ ...Fonts.gray12RobotoRegular }}>
-                {item.star} ({item?.number_of_review} Reviews)
-              </Text>
-            </View>
-            <Text style={{ ...Fonts.black18RobotoRegular }}>₹{item.dicount_price}</Text>
+            <Text style={{ ...Fonts.black18RobotoRegular }}>₹{item.productId.price}</Text>
             <View
               style={[
                 styles.row,
@@ -258,7 +247,7 @@ const Cart = ({ navigation }) => {
               <TouchableOpacity
                 activeOpacity={0.8}
                 onPress={() =>
-                  updateItemCount({ id: item.id, type: 'remove', qty: item.qty })
+                  updateItemCount({ id: item?._id, type: 'remove', qty: item?.quantity })
                 }
                 hitSlop={{ bottom: 5, top: 5, left: 5, right: 5 }}
                 style={{
@@ -268,15 +257,18 @@ const Cart = ({ navigation }) => {
                   borderRadius: Sizes.fixPadding,
                   ...styles.center,
                 }}>
-                <Text style={{ ...Fonts.white16RobotoMedium, lineHeight: 20 }}>
+                <Text style={{
+                  ...Fonts.white16RobotoMedium,
+                  lineHeight: 16
+                }}>
                   -
                 </Text>
               </TouchableOpacity>
-              <Text style={{ ...Fonts.black18RobotoRegular }}>{item.qty}</Text>
+              <Text style={{ ...Fonts.black18RobotoRegular, color: Colors.blackLight }}>{item?.quantity}</Text>
               <TouchableOpacity
                 activeOpacity={0.8}
                 onPress={() =>
-                  updateItemCount({ id: item.id, type: 'add', qty: item.qty })
+                  updateItemCount({ id: item?._id, type: 'add', qty: item?.quantity })
                 }
                 hitSlop={{ bottom: 5, top: 5, left: 5, right: 5 }}
                 style={{
@@ -286,7 +278,10 @@ const Cart = ({ navigation }) => {
                   borderRadius: Sizes.fixPadding,
                   ...styles.center,
                 }}>
-                <Text style={{ ...Fonts.white16RobotoMedium, lineHeight: 20 }}>
+                <Text style={{
+                  ...Fonts.white16RobotoMedium,
+                  lineHeight: 17
+                }}>
                   +
                 </Text>
               </TouchableOpacity>
@@ -312,40 +307,17 @@ const Cart = ({ navigation }) => {
       </View>
     );
   }
-
-  function header() {
-    return (
-      <View
-        style={{
-          padding: Sizes.fixPadding * 1.5,
-          ...styles.row,
-          justifyContent: 'space-between',
-          borderBottomWidth: 1,
-          borderBottomColor: Colors.grayLight,
-        }}>
-        <TouchableOpacity
-          onPress={() => navigation.goBack()}
-          style={{ position: 'absolute', zIndex: 99, padding: Sizes.fixPadding * 1.5 }}>
-          <AntDesign
-            name="leftcircleo"
-            color={Colors.primaryLight}
-            size={Sizes.fixPadding * 2.2}
-          />
-        </TouchableOpacity>
-        <Text
-          style={{
-            ...Fonts.primaryLight15RobotoMedium,
-            textAlign: 'center',
-            flex: 1,
-          }}>
-          Your Cart
-        </Text>
-      </View>
-    );
-  }
 };
 
-export default Cart;
+
+const mapStateToProps = state => ({
+  isLoading: state.settings.isLoading,
+  cartDetails: state.cart.cartDetails,
+})
+
+const mapDispatchToProps = dispatch => ({ dispatch })
+
+export default connect(mapStateToProps, mapDispatchToProps)(Cart)
 
 const styles = StyleSheet.create({
   row: {

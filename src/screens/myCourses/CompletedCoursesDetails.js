@@ -6,9 +6,10 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import React from 'react';
+import Video from '../../components/Courses/Video';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import { Colors, SCREEN_WIDTH, Fonts, Sizes } from '../../../assets/styles';
+import { Colors, SCREEN_WIDTH, Fonts, Sizes } from '../../assets/styles';
 
 const classData = [
   {
@@ -46,13 +47,20 @@ const classData = [
   },
 ];
 
-const CompletedCoursesDetails = () => {
+const CompletedCoursesDetails = ({ route }) => {
+  console.log("CompletedCoursesDetails ===>>>", route.params.course)
+
   return (
-    <View style={{ flex: 1, backgroundColor: Colors.bodyColor }}>
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: Colors.bodyColor
+      }}>
       <FlatList
         ListHeaderComponent={
           <>
-            {liveVedioInfo()}
+            {/* {liveVedioInfo()} */}
+            <Video uri={classData?.liveId?.video} />
             {courseTitleInfo()}
             {courseDescriptionInfo()}
             {classInfo()}
@@ -212,7 +220,7 @@ const CompletedCoursesDetails = () => {
           overflow: 'hidden',
         }}>
         <ImageBackground
-          source={require('../../../assets/images/user4.jpg')}
+          source={require('../../assets/images/user.png')}
           style={{
             width: '100%',
             height: SCREEN_WIDTH * 0.55,

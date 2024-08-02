@@ -10,9 +10,13 @@ import MyHeader from '../../../components/MyHeader';
 import Video from '../../../components/Courses/Video';
 import { Colors, Fonts, Sizes } from '../../../assets/styles';
 import LinearGradient from 'react-native-linear-gradient';
+import moment from 'moment';
 
 const ClassDetails = ({ route }) => {
   const previousPagedata = route.params
+  const currentDate = moment().format('YYYY-MM-DD');
+  const classDate = moment(previousPagedata.class.date).format('YYYY-MM-DD');
+  const isToday = currentDate === classDate;
   return (
     <View
       style={{
@@ -74,9 +78,10 @@ const ClassDetails = ({ route }) => {
         activeOpacity={0.8}
         onPress={() => Linking.openURL(previousPagedata.class?.googleMeet)}
         style={{ marginVertical: Sizes.fixPadding }}
+        disabled={!isToday}
       >
         <LinearGradient
-          colors={previousPagedata.class?.classStatus == 0 ? [Colors.grayLight, Colors.grayDark] : [Colors.primaryLight, Colors.primaryDark]}
+          colors={!isToday ? [Colors.grayLight, Colors.grayDark] : [Colors.primaryLight, Colors.primaryDark]}
           style={{ paddingVertical: Sizes.fixPadding * 1.5 }}>
           <Text style={{ ...Fonts.white16RobotoMedium, textAlign: 'center' }}>
             Join the Live {previousPagedata.title} Class Now

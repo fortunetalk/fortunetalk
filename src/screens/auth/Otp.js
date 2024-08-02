@@ -26,7 +26,7 @@ const Otp = ({ route, dispatch, isLoading, navigation }) => {
         value,
         setValue,
     });
- 
+
     useEffect(() => {
         Alert.alert('Alert', `Your otp is ${otpData?.otp}`)
     }, [])
@@ -46,7 +46,6 @@ const Otp = ({ route, dispatch, isLoading, navigation }) => {
             <LinearGradient
                 colors={[Colors.primaryLight, Colors.primaryDark]}
                 style={{ flex: 1 }}>
-                {skipInfo()}
                 {imageInfo()}
                 <View style={styles.bottomContainer}>
                     <View style={{ flex: 1 }}>
@@ -62,11 +61,14 @@ const Otp = ({ route, dispatch, isLoading, navigation }) => {
         </View>
     );
 
+    function imageInfo() {
+        return <View style={{ flex: 0.2 }}></View>;
+    }
+
     function submiteButtonInfo() {
         const otpHandle = () => {
             if (otpData?.otp === value) {
                 dispatch(AuthActions.onOtpVerification({ otpData, dispatch }));
-                // onLogin()
             } else {
                 showToastMessage({ message: 'Invalid OTP!' })
             }
@@ -129,7 +131,6 @@ const Otp = ({ route, dispatch, isLoading, navigation }) => {
             <CodeField
                 ref={inputRef}
                 {...otpprops}
-                // Use `caretHidden={false}` when users can't paste a text value, because context menu doesn't appear
                 value={value}
                 onChangeText={setValue}
                 cellCount={CELL_COUNT}
@@ -190,31 +191,6 @@ const Otp = ({ route, dispatch, isLoading, navigation }) => {
                     color={Colors.primaryDark}
                     size={Sizes.fixPadding * 2.2}
                 />
-            </TouchableOpacity>
-        );
-    }
-
-    function imageInfo() {
-        return <View style={{ flex: 0.1 }}></View>;
-    }
-
-    function skipInfo() {
-        const on_skip = async () => {
-            // sendChatInVitation()
-            //   await AsyncStorage.setItem('isRegister', JSON.stringify({type: 'login', value: false}))
-            //   go_home()
-        };
-        return (
-            <TouchableOpacity
-                activeOpacity={0.8}
-                hitSlop={{ top: 5, right: 5, bottom: 5, left: 5 }}
-                onPress={on_skip}
-                style={{
-                    flex: 0,
-                    alignSelf: 'flex-end',
-                    margin: Sizes.fixPadding * 2,
-                }}>
-                <Text style={{ ...Fonts.white14RobotoRegular }}>Skip</Text>
             </TouchableOpacity>
         );
     }

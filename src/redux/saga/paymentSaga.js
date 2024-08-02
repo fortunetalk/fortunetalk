@@ -1,25 +1,23 @@
-import { call, put, select, takeLeading } from 'redux-saga/effects'
 import * as actionTypes from '../actionTypes'
 import { postRequest } from '../../utils/apiRequests'
-import { app_api_url, customer_wallet_recharge } from '../../config/constants'
 import { showToastMessage } from '../../utils/services'
-import { onPop, resetToScreen } from '../../utils/navigationServices'
 import { razorpayPayment } from '../../utils/razorpay'
+import { call, put, select, takeLeading } from 'redux-saga/effects'
+import { goBack, onPop, resetToScreen } from '../../utils/navigationServices'
+import { app_api_url, customer_wallet_recharge } from '../../config/constants'
 import socketServices from '../../utils/socket'
 
 function* onWalletRechage(actions) {
     try {
-     
-        const { payload } = actions
-        const customerData = yield select(state => state.customer.customerData)
-
-        const rayzorPayResponse = yield razorpayPayment({amount: payload?.amount, email: '', name: '', contact: ''})
-        console.log(rayzorPayResponse)
-        // if(!rayzorPayResponse){
-        //     return
-        // }
-
         yield put({ type: actionTypes.SET_IS_LOADING, payload: true })
+        const customerData = yield select(state => state.customer.customerData)
+        const { payload } = actions
+
+        console.log("payload ===>>", payload)
+
+        const rayzorPayResponse = yield razorpayPayment({ amount: payload?.amount, email: '', name: '', contact: customerData.phoneNumber })
+        console.log("rayzorPayResponse  ====>>>" , rayzorPayResponse)
+
 
         const response = yield postRequest({
             url: app_api_url + customer_wallet_recharge,
@@ -50,6 +48,8 @@ function* onWalletRechage(actions) {
         yield put({ type: actionTypes.SET_IS_LOADING, payload: false })
     }
 }
+
+
 
 export default function* paymentSaga() {
     yield takeLeading(actionTypes.ON_WALLET_RECHARGE, onWalletRechage)

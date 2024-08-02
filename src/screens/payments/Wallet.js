@@ -1,20 +1,29 @@
-import { View, Text, FlatList, StyleSheet, TouchableOpacity, TextInput, SafeAreaView } from 'react-native'
-import React, { useEffect, useState } from 'react'
-import { Colors, Sizes, Fonts, SCREEN_WIDTH } from '../../assets/styles';
+import React, { useState } from 'react'
 import MyStatusBar from '../../components/MyStatusBar';
-import { showNumber, showToastMessage } from '../../utils/services';
+import { Colors, Sizes, Fonts, SCREEN_WIDTH } from '../../assets/styles';
+import { View, Text, FlatList, StyleSheet, TouchableOpacity, TextInput, SafeAreaView } from 'react-native'
+import { showToastMessage } from '../../utils/services';
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import WalletBanner from './components/WalletBanner';
 import { regex } from '../../config/data';
 import { connect } from 'react-redux';
 
 const Wallet = ({ navigation, route }) => {
-    console.log('hii');
-    const [amount, setAmount] = useState('');
-
-    useEffect(()=>{
-
-    }, [])
+    const [amount, setAmount] = useState(30);
+    const amounts = [
+        { amount: 25, id: 1 },
+        { amount: 30, id: 2 },
+        { amount: 35, id: 3 },
+        { amount: 40, id: 4 },
+        { amount: 45, id: 5 },
+        { amount: 50, id: 6 },
+        { amount: 55, id: 7 },
+        { amount: 60, id: 8 },
+        { amount: 65, id: 9 },
+        { amount: 70, id: 10 },
+        { amount: 75, id: 11 },
+        { amount: 80, id: 12 },
+    ]
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: Colors.bodyColor }}>
@@ -43,11 +52,11 @@ const Wallet = ({ navigation, route }) => {
 
     function proceedButtonInfo() {
         const onPayment = () => {
-            if(amount.length == 0){
-                showToastMessage({message: 'Please enter an amount.'})
+            if (amount.length == 0) {
+                showToastMessage({ message: 'Please enter an amount.' })
                 return
-            }else if(!regex.amount.test(amount)){
-                showToastMessage({message: 'Please enter a valid amount.'})
+            } else if (!regex.amount.test(amount)) {
+                showToastMessage({ message: 'Please enter a valid amount.' })
                 return
             }
             navigation.navigate('payment', { amount, type: route?.params ? route?.params?.type : 'wallet', data: route?.params?.data })
@@ -55,7 +64,7 @@ const Wallet = ({ navigation, route }) => {
         return (
             <TouchableOpacity
                 activeOpacity={0.8}
-                onPress={()=>onPayment()}
+                onPress={() => onPayment()}
                 style={{
                     backgroundColor: Colors.primaryLight,
                     paddingVertical: Sizes.fixPadding,
@@ -72,17 +81,17 @@ const Wallet = ({ navigation, route }) => {
         const renderItem = ({ item, index }) => {
             return (
                 <TouchableOpacity
-                    // onPress={() => setAmount(item.recharge_plan_amount)}
+                    onPress={() => setAmount(item?.amount)}
                     activeOpacity={0.8}
-                    style={[styles.priceBox, { backgroundColor: index == 1 ? Colors.primaryLight : Colors.grayF }]}>
-                    <Text style={{ ...Fonts._15RobotMedium, color: index == 1 ? Colors.white : Colors.gray }}>{showNumber(25 + index * 5)}</Text>
+                    style={[styles.priceBox, { backgroundColor: amount == item.amount ? Colors.primaryLight : Colors.grayF }]}>
+                    <Text style={{ ...Fonts._15RobotMedium, color: amount == item.amount ? Colors.white : Colors.gray }}>₹{item.amount}</Text>
                 </TouchableOpacity>
             );
         };
         return (
             <View style={{ marginVertical: Sizes.fixPadding * 2, marginBottom: Sizes.fixPadding * 3 }}>
                 <FlatList
-                    data={Array.from({ length: 12 })}
+                    data={amounts}
                     renderItem={renderItem}
                     numColumns={3}
                 />
@@ -170,7 +179,7 @@ const mapStateToProps = state => ({
 
 })
 
-const mapDispatchToProps = dispatch =>({dispatch})
+const mapDispatchToProps = dispatch => ({ dispatch })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Wallet)
 

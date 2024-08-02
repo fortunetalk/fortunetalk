@@ -6,18 +6,18 @@ import {
   Image,
   ImageBackground,
 } from 'react-native';
-import React, { useEffect, useState } from 'react';
-import { FlatList } from 'react-native';
-import Loader from '../../components/Loader';
-import Filter from '../../components/Filter';
-import SearchInfo from './components/SearchInfo';
-import MyStatusBar from '../../components/MyStatusBar';
-import LinearGradient from 'react-native-linear-gradient';
-import CustomCrousel from '../../components/CustomCrousel';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import { SCREEN_WIDTH, Colors, Fonts, Sizes } from '../../assets/styles';
-import * as EcommerceActions from '../../redux/actions/eCommerceActions'
 import { connect } from 'react-redux';
+import { FlatList } from 'react-native';
+import Loader from '../../../components/Loader';
+import Filter from '../../../components/Filter';
+import SearchInfo from '../components/SearchInfo';
+import React, { useEffect, useState } from 'react';
+import MyStatusBar from '../../../components/MyStatusBar';
+import LinearGradient from 'react-native-linear-gradient';
+import CustomCrousel from '../../../components/CustomCrousel';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import { SCREEN_WIDTH, Colors, Fonts, Sizes } from '../../../assets/styles';
+import * as EcommerceActions from '../../../redux/actions/eCommerceActions'
 
 const BookPooja = ({ dispatch, navigation, route, poojaCategoryWaiseList, poojaDetailsBanner }) => {
   const id = route.params.categoryId
@@ -222,7 +222,7 @@ const BookPooja = ({ dispatch, navigation, route, poojaCategoryWaiseList, poojaD
         </Text>
         <TouchableOpacity>
           <Image
-            source={require('../../assets/icons/cart.png')}
+            source={require('../../../assets/icons/cart.png')}
             style={{ width: 22, height: 22 }}
           />
         </TouchableOpacity>

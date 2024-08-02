@@ -11,13 +11,17 @@ import { Text, TouchableOpacity, View, FlatList, Alert } from 'react-native'
 
 const CourseDetails = ({
     route,
-    isLoading,
     dispatch,
     customerData,
     demoClassBooked,
-    registerDemoclass
+    isRegisterForLive
 }) => {
     const previousPagedata = route.params
+    const customerId = customerData?._id
+    const classId = previousPagedata.classdetails._id
+    const courseId = previousPagedata.courseData?._id
+    const astrologerId = previousPagedata.classdetails?.astrologerId?._id
+
     const [state, setState] = useState({
         name: "",
         phoneNumber: "",
@@ -25,23 +29,40 @@ const CourseDetails = ({
     })
     const { name, phoneNumber, modalVisible } = state
 
-    console.log("registerDemoclass =====>>>>", registerDemoclass)
-
     useEffect(() => {
-        dispatch(CourseActions.demoClassBooked({
-            demoClassId: previousPagedata.classdetails?._id,
-            customerId: customerData?._id,
-        }))
+        if (previousPagedata.title == "Demo") {
+            dispatch(CourseActions.demoClassBooked({
+                demoClassId: classId,
+                customerId,
+            }))
+        } else {
+            dispatch(CourseActions.onIsRegisterLiveClass({
+                liveClassId: classId,
+                customerId,
+            }))
+        }
     }, [])
 
     const handleNext = () => {
-        if (!demoClassBooked) {
-            updateState({ modalVisible: true })
-        } else {
-            navigate("classOverview", {
-                classData: previousPagedata.classdetails,
-                title: previousPagedata.title
-            })
+        if (previousPagedata.title == "Demo") {
+            if (demoClassBooked) {
+                navigate("classOverview", {
+                    id: classId,
+                    title: previousPagedata.title
+                })
+            } else {
+                updateState({ modalVisible: true })
+            }
+        }
+        else {
+            if (isRegisterForLive == true) {
+                navigate("liveclassdetails", {
+                    id: classId,
+                    title: previousPagedata.title
+                })
+            } else {
+                updateState({ modalVisible: true })
+            }
         }
     };
 
@@ -59,29 +80,27 @@ const CourseDetails = ({
             Alert.alert("Phone Number Required")
         } else {
             if (previousPagedata.title == "Demo") {
-                if (!demoClassBooked) {
-                    dispatch(CourseActions.bookdemoClass({
-                        customerName: name,
-                        mobileNumber: phoneNumber,
-                        astrologerId: previousPagedata.classdetails?.astrologerId?._id,
-                        demoClassId: previousPagedata.classdetails?._id,
-                        courseId: previousPagedata.courseData?._id,
-                        customerId: customerData?._id,
-                    }))
-                }
-                navigate("classOverview", {
-                    classData: previousPagedata.classdetails,
-                    title: previousPagedata.title,
-                    isRegister:false
-                })
+                dispatch(CourseActions.bookdemoClass({
+                    customerName: name,
+                    mobileNumber: phoneNumber,
+                    astrologerId,
+                    demoClassId: classId,
+                    courseId,
+                    customerId,
+                }))
             } else if (previousPagedata.title == "Live") {
-                navigate("mycourse", {
-                    classData: previousPagedata.classdetails,
-                    title: previousPagedata.title
-                })
+                dispatch(CourseActions.onRegisterLiveClass({
+                    courseId,
+                    liveClassId: classId,
+                    astrologerId,
+                    customerId,
+                    customerName: name,
+                    mobileNumber: phoneNumber,
+                    amount:"1000"
+                }))
             }
-            updateState({ modalVisible: false })
         }
+        updateState({ modalVisible: false })
     };
 
     return (
@@ -91,8 +110,7 @@ const CourseDetails = ({
                 barStyle={'light-content'}
             />
             <MyHeader
-                title={previousPagedata.courseData?.title ||
-                    previousPagedata?.courseData?.workShopName}
+                title={previousPagedata.courseData?.title}
             />
             <FlatList
                 ListHeaderComponent={
@@ -109,6 +127,7 @@ const CourseDetails = ({
                 updateState={updateState}
                 name={name}
                 phoneNumber={phoneNumber}
+                openLocation = {previousPagedata.title}
             />
         </View>
     )
@@ -163,7 +182,8 @@ const mapStateToProps = state => ({
     isLoading: state.settings.isLoading,
     customerData: state.customer.customerData,
     demoClassBooked: state.courses.demoClassBooked,
-    registerDemoclass: state.courses.registerDemoclass
+    registerDemoclass: state.courses.registerDemoclass,
+    isRegisterForLive: state.courses.isRegisterForLive
 })
 
 const mapDispatchToProps = dispatch => ({ dispatch })

@@ -11,7 +11,12 @@ const initialState = {
     demoClassBooked:null,
     workshopWithoutId:null,
     allDemoClass:null,
-    registerDemoclass:null
+    registerDemoclass:null,
+    isRegisterForLive:null,
+    singleDemoClass : null,
+    singleLiveClass : null,
+    currentLiveCourse:null,
+    completedLiveCourse:null
 }
 
 const courses = (state = initialState, actions) => {
@@ -87,6 +92,36 @@ const courses = (state = initialState, actions) => {
             return {
                 ...state,
                 registerDemoclass: payload
+            }
+        }
+        case actionTypes.IS_REGISTER_FOR_LIVE_CLASS: {
+            return {
+                ...state,
+                isRegisterForLive: payload
+            }
+        }
+        case actionTypes.GET_SINGLE_DEMO_CLASS: {
+            return {
+                ...state,
+                singleDemoClass: payload
+            }
+        }
+        case actionTypes.GET_SINGLE_LIVE_CLASS: {
+            return {
+                ...state,
+                singleLiveClass: payload
+            }
+        }
+        case actionTypes.GET_CURRENT_LIVE_COURSE_HISTORY: {
+            return {
+                ...state,
+                currentLiveCourse: payload
+            }
+        }
+        case actionTypes.GET_COMPLETED_LIVE_COURSE_HISTORY: {
+            return {
+                ...state,
+                completedLiveCourse: payload
             }
         }
         default: {

@@ -1,47 +1,113 @@
-import { View, Text, FlatList, TouchableOpacity, Image, StyleSheet, ImageBackground } from 'react-native'
-import React from 'react'
-import { Colors, SCREEN_HEIGHT, SCREEN_WIDTH, Sizes } from '../assets/styles'
-import MyStatusBar from '../components/MyStatusBar'
+import React, { useState } from 'react';
+import {
+    StyleSheet,
+    View,
+    FlatList,
+    Image,
+    TouchableOpacity,
+    Modal,
+    Text,
+} from 'react-native';
+import { Colors } from '../assets/styles';
 
-const ImageView = ({ route }) => {
+const ImageView = ({ modalVisible, setModalVisible, images, showImage }) => {
+    const [selectedImageIndex, setSelectedImageIndex] = useState(showImage);
 
-    const { data, index } = route.params
+    const openModal = (index) => {
+        setSelectedImageIndex(index);
+        setModalVisible(true);
+    };
 
-    const renderItem = ({ item, index }) => {
-        return (
-            <ImageBackground source={{ uri: item }} activeOpacity={0.8} style={styles.imageContainer} resizeMode='contain'>
+    const closeModal = () => {
+        setModalVisible(false);
+    };
 
-            </ImageBackground>
-        )
-    }
+    const handleNext = () => {
+        setSelectedImageIndex((prevIndex) =>
+            prevIndex === images.length - 1 ? 0 : prevIndex + 1
+        );
+    };
+
+    const handlePrevious = () => {
+        setSelectedImageIndex((prevIndex) =>
+            prevIndex === 0 ? images.length - 1 : prevIndex - 1
+        );
+    };
 
     return (
-        <View style={{ flex: 1, backgroundColor: Colors.bodyColor }}>
-            <MyStatusBar backgroundColor={Colors.primaryLight} barStyle={'light-content'} />
-            <FlatList
-                data={data}
-                horizontal
-                renderItem={renderItem}
-                initialNumToRender={10}
-                initialScrollIndex={index}
-                getItemLayout={(data, index) => (
-                    { length: SCREEN_WIDTH, offset: SCREEN_WIDTH * index, index }
-                )}
-                pagingEnabled={true}
-                // snapToAlignment="center"
-                // decelerationRate="fast"
-                showsHorizontalScrollIndicator={false}
-            />
+        <View style={styles.container}>
+            <Modal
+                visible={modalVisible}
+                transparent={true}
+                animationType="slide"
+                onRequestClose={closeModal}
+            >
+                <TouchableOpacity style={styles.modalContainer} activeOpacity={1} onPress={closeModal}>
+                    <View style={styles.modalContent}>
+                        <TouchableOpacity style={styles.arrowLeft} onPress={handlePrevious}>
+                            <Text style={styles.arrowText}>{'<'}</Text>
+                        </TouchableOpacity>
+                        <Image
+                            source={{ uri: images[selectedImageIndex] }}
+                            style={styles.modalImage}
+                        />
+                        <TouchableOpacity style={styles.arrowRight} onPress={handleNext}>
+                            <Text style={styles.arrowText}>{'>'}</Text>
+                        </TouchableOpacity>
+                    </View>
+                </TouchableOpacity>
+            </Modal>
         </View>
-    )
-}
-
-export default ImageView
+    );
+};
 
 const styles = StyleSheet.create({
-    imageContainer: {
-        width: SCREEN_WIDTH,
-        height: SCREEN_HEIGHT,
-        backgroundColor: Colors.black
-    }
-})
+    container: {
+        flex: 1,
+        backgroundColor: '#fff',
+        justifyContent: 'center',
+        padding: 10,
+    },
+    image: {
+        width: "100%",
+        height: 100,
+        margin: 10,
+    },
+    modalContainer: {
+        flex: 1,
+        backgroundColor: 'rgba(0,0,0,0.6)',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    modalContent: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        // zIndex: 2,
+    },
+    modalImage: {
+        width: 350,
+        height: 300,
+        borderRadius:15,
+    },
+    arrowLeft: {
+        position: 'absolute',
+        left: 0,
+        top: "50%",
+        transform: [{ translateY: -15 }],
+        padding: 10,
+        zIndex:1
+    },
+    arrowRight: {
+        position: 'absolute',
+        right: 0,
+        top: '50%',
+        transform: [{ translateY: -15 }],
+        padding: 10,
+    },
+    arrowText: {
+        color: Colors.black,
+        fontSize: 50,
+    },
+});
+
+export default ImageView;

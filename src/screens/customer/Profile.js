@@ -595,8 +595,8 @@ const Profile = ({ navigation, locationData, customerData, dispatch, isLoading }
                 leftIcon={
                     <View style={styles.flagContainer}>
                         <CountryPicker
-                            disable
-                            countryCode={customerData?.countryCode}
+                            // disable
+                            countryCode={callingCode}
                             pickerTitleStyle={styles.pickerTitleStyle}
                             pickerContainerStyle={styles.pickerStyle}
                             dropDownIconStyle={{ width: 0 }}
@@ -606,6 +606,10 @@ const Profile = ({ navigation, locationData, customerData, dispatch, isLoading }
                                 height: 20,
                                 resizeMode: 'cover',
                                 overflow: 'hidden'
+                            }}
+
+                            selectedValue={text => {
+                                updateState({ callingCode: text.callingCode, cca2: text.cca2 })
                             }}
                         />
                     </View>
@@ -652,9 +656,10 @@ const Profile = ({ navigation, locationData, customerData, dispatch, isLoading }
                     inputContainerStyle={{ height: 30, borderBottomColor: Colors.grayDark }}
                     inputStyle={{ ...Fonts._15RobotoRegular, color: Colors.blackLight }}
                 />
+
                 <Input
                     value={lastName}
-                    placeholder="Last Name (optional)"
+                    placeholder="Last Name"
                     placeholderTextColor={Colors.grayDark}
                     onChangeText={text => updateState({ lastName: text })}
                     containerStyle={{ flex: 0.45, borderBottomColor: Colors.primaryDark }}
@@ -673,8 +678,8 @@ const Profile = ({ navigation, locationData, customerData, dispatch, isLoading }
                 style={styles.imageContainer}>
                 <Image
                     source={
-                        profileImage
-                            ? { uri: profileImage }
+                        !profileImage
+                            ? require('../../assets/images/user.png')
                             : { uri: base_url + customerData?.profileImage }
                     }
                     style={{ width: '100%', height: '100%' }}

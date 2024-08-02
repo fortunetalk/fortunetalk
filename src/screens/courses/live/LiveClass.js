@@ -14,6 +14,11 @@ const LiveClass = ({ isLoading, liveClass, dispatch, courseId, courseData }) => 
         dispatch(Courses.getLiveClass({ courseId }));
     }, [courseId, dispatch]);
 
+
+    if (liveClass && liveClass.length == 0) {
+        return <NoDataFound />
+    }
+
     return (
         <View style={{ flex: 1, backgroundColor: Colors.bodyColor }}>
             <Loader visible={isLoading} />
@@ -34,12 +39,12 @@ const LiveClass = ({ isLoading, liveClass, dispatch, courseId, courseData }) => 
                     data={liveClass}
                     renderItem={({ item, index }) => <LiveClassItem item={item} courseData={courseData} />}
                     keyExtractor={item => item.id}
-                    ListEmptyComponent={<NoDataFound />}
                 />
             </View>
         );
     }
 };
+
 const LiveClassItem = ({ item, courseData }) => {
     const [countdown, setCountdown] = useState(null);
     useEffect(() => {
@@ -78,11 +83,11 @@ const LiveClassItem = ({ item, courseData }) => {
     return (
         <TouchableOpacity
             activeOpacity={1}
-            onPress={() => navigate("courseDetails", { 
+            onPress={() => navigate("courseDetails", {
                 classdetails: item,
-                 courseData,
-                 title: "Live"
-                 })}
+                courseData,
+                title: "Live"
+            })}
             style={{
                 borderRadius: Sizes.fixPadding,
                 backgroundColor: Colors.whiteDark,

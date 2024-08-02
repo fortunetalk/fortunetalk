@@ -2,7 +2,7 @@ import React from 'react';
 import { TouchableOpacity } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { View, Text, FlatList, StyleSheet } from 'react-native';
-import { Colors, Fonts, Sizes } from '../../../assets/styles';
+import { Colors, Fonts, Sizes } from '../../assets/styles';
 
 const LiveClassCategory = ({
   filterData,

@@ -17,7 +17,7 @@ import * as CallActions from '../../redux/actions/callActions'
 import * as ChatActions from '../../redux/actions/chatActions'
 
 const AstrologerDetails = ({ navigation, dispatch, isLoading, route, astrologerData, isFollow }) => {
-    console.log(route?.params)
+    console.log(astrologerData?.chatCallOffer);
     useEffect(() => {
         dispatch(AstrologerActions.getAstrologerDetails(route?.params?._id))
         dispatch(AstrologerActions.checkFollowStatus(route?.params?._id))
@@ -62,7 +62,7 @@ const AstrologerDetails = ({ navigation, dispatch, isLoading, route, astrologerD
             }
             dispatch(CallActions.sendCallRequest(payload))
         }
-        
+
         const on_chat = () => {
             const payload = {
                 navigation,
@@ -71,6 +71,26 @@ const AstrologerDetails = ({ navigation, dispatch, isLoading, route, astrologerD
                 astrologerImage: astrologerData?.profileImage,
             }
             dispatch(ChatActions.sendChatRequest(payload))
+        }
+
+        const getChatPrice = ()=>{
+            if(astrologerData){
+                if(astrologerData?.chatCallOffer){
+                    return (astrologerData?.chatPrice + astrologerData?.companyChatPrice) - (astrologerData?.chatCallOffer?.discount * (astrologerData?.chatPrice + astrologerData?.companyChatPrice)/100);
+                }
+                return astrologerData?.chatPrice + astrologerData?.companyChatPrice;
+            }
+            return 0
+        }
+
+        const getCallPrice = ()=>{
+            if(astrologerData){
+                if(astrologerData?.chatCallOffer){
+                    return (astrologerData?.callPrice + astrologerData?.companyCallPrice) - (astrologerData?.chatCallOffer?.discount * (astrologerData?.callPrice + astrologerData?.companyCallPrice)/100);
+                }
+                return astrologerData?.callPrice + astrologerData?.companyCallPrice;
+            }
+            return 0
         }
 
         return (
@@ -104,7 +124,7 @@ const AstrologerDetails = ({ navigation, dispatch, isLoading, route, astrologerD
                                 ...Fonts.white14RobotoMedium,
                                 marginLeft: Sizes.fixPadding,
                             }}>
-                            Chat @ {showNumber(astrologerData?.chatPrice + astrologerData?.companyChatPrice)}/min
+                            Chat @ {showNumber(getChatPrice())}/min
                         </Text>
                     </LinearGradient>
                 </TouchableOpacity>
@@ -127,7 +147,7 @@ const AstrologerDetails = ({ navigation, dispatch, isLoading, route, astrologerD
                             ...Fonts.primaryLight14RobotoMedium,
                             marginLeft: Sizes.fixPadding,
                         }}>
-                        Call @ {showNumber(astrologerData?.callPrice + astrologerData?.companyCallPrice)}/min
+                        Call @ {showNumber(getCallPrice())}/min
                     </Text>
                 </TouchableOpacity>
             </View>
@@ -188,7 +208,7 @@ const AstrologerDetails = ({ navigation, dispatch, isLoading, route, astrologerD
                     Love, Palm Reading
                 </Text>
                 <Text style={{ ...Fonts._11RobotoMedium, color: Colors.grayC, }}>{astrologerData?.language.join(', ')}</Text>
-                <TouchableOpacity activeOpacity={0.8} onPress={()=>dispatch(AstrologerActions.onFollowUnFollowAstrologer(route.params?._id))}>
+                <TouchableOpacity activeOpacity={0.8} onPress={() => dispatch(AstrologerActions.onFollowUnFollowAstrologer(route.params?._id))}>
                     <LinearGradient
                         colors={[Colors.primaryLight, Colors.primaryDark]}
                         style={{

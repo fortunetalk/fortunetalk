@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Modal } from 'react-native-paper'
 import { Colors, Fonts, SCREEN_HEIGHT, SCREEN_WIDTH, Sizes } from '../../../assets/styles'
 import { BlurView } from '@react-native-community/blur'
@@ -8,10 +8,32 @@ import LinearGradient from 'react-native-linear-gradient'
 import { connect } from 'react-redux'
 import { navigate } from '../../../utils/navigationServices'
 import * as ChatActions from '../../../redux/actions/chatActions'
+var Sound = require('react-native-sound');
 
-const ChatWalletAlert = ({chatWalletAlert, dispatch}) => {
+var whoosh = new Sound('low_balance.m4a', Sound.MAIN_BUNDLE, error => {
+    if (error) {
+        console.log('failed to load the sound', error);
+        return;
+    }
+});
+
+whoosh.setNumberOfLoops(0);
+
+const ChatWalletAlert = ({ chatWalletAlert, dispatch }) => {
+    useEffect(() => {
+        if (chatWalletAlert?.visible) {
+            whoosh.play(success => {
+                if (success) {
+                    console.log('successfully finished playing');
+                } else {
+                    console.log('playback failed due to audio decoding errors');
+                }
+            });
+        }
+    }, [chatWalletAlert?.visible])
+    
     const onRecharge = () => {
-        dispatch(ChatActions.setChatWalletAlert({visible: false, }))
+        dispatch(ChatActions.setChatWalletAlert({ visible: false, }))
         navigate('wallet', { type: 'wallet_recharge' })
     }
     return (
@@ -53,31 +75,31 @@ const ChatWalletAlert = ({chatWalletAlert, dispatch}) => {
 
 const mapStateToProps = state => ({
     chatWalletAlert: state.chat.chatWalletAlert
-  })
-  
-  const mapDispatchToProps = dispatch => ({ dispatch })
+})
+
+const mapDispatchToProps = dispatch => ({ dispatch })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ChatWalletAlert)
 
 const styles = StyleSheet.create({
     absolute: {
-      position: "absolute",
-      top: 0,
-      left: 0,
-      bottom: 0,
-      right: 0
+        position: "absolute",
+        top: 0,
+        left: 0,
+        bottom: 0,
+        right: 0
     },
-  
+
     buttonContainer: {
-      width: '40%',
-      paddingVertical: Sizes.fixPadding,
-      borderRadius: 1000,
-      backgroundColor: Colors.grayMedium
+        width: '40%',
+        paddingVertical: Sizes.fixPadding,
+        borderRadius: 1000,
+        backgroundColor: Colors.grayMedium
     },
     buttonText: {
-      ...Fonts._15RobotMedium,
-      textAlign: 'center',
-      color: Colors.white
+        ...Fonts._15RobotMedium,
+        textAlign: 'center',
+        color: Colors.white
     }
-  
-  })
+
+})

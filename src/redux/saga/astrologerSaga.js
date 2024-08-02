@@ -39,11 +39,11 @@ function* getAstrologerDetails(actions) {
         yield put({ type: actionTypes.SET_IS_LOADING, payload: true })
 
         const { payload } = actions
-
+        const customerData = yield select(state => state.customer.customerData)
         const response = yield postRequest({
             url: app_api_url + get_astrologer_details,
             data: {
-                astrologerId: payload
+                astrologerId: payload,
             }
         })
 

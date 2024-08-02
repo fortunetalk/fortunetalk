@@ -96,7 +96,7 @@ const CourseDetails = ({
                     customerId,
                     customerName: name,
                     mobileNumber: phoneNumber,
-                    amount:"1000"
+                    amount: 1000
                 }))
             }
         }
@@ -127,7 +127,7 @@ const CourseDetails = ({
                 updateState={updateState}
                 name={name}
                 phoneNumber={phoneNumber}
-                openLocation = {previousPagedata.title}
+                openLocation={previousPagedata.title}
             />
         </View>
     )

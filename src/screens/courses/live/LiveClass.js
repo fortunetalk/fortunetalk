@@ -10,6 +10,7 @@ import { Colors, Fonts, SCREEN_WIDTH, Sizes } from '../../../assets/styles';
 import { navigate } from '../../../utils/navigationServices';
 
 const LiveClass = ({ isLoading, liveClass, dispatch, courseId, courseData }) => {
+    
     useEffect(() => {
         dispatch(Courses.getLiveClass({ courseId }));
     }, [courseId, dispatch]);

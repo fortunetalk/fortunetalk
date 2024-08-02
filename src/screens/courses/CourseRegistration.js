@@ -48,14 +48,13 @@ const CourseRegistration = ({
                             onChangeText={text => updateState({ phoneNumber: text })}
                         />
 
-
                         {openLocation == "Live" && (
                             <View
                                 style={{
                                     flexDirection: "row",
                                     justifyContent: "space-between"
                                 }} >
-                                <Text>Pay Registration Fee</Text>
+                                <Text style={{ color: Colors.primaryLight }} >Pay Registration Fee:</Text>
                                 <Text
                                     style={{
                                         color: Colors.greenDark,

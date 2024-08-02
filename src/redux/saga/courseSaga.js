@@ -12,6 +12,7 @@ import {
     get_current_live_courses,
     get_demo_class_list,
     get_live_class_list,
+    get_registered_live_class,
     get_single_demo_class_by_id,
     get_single_live_class_by_id,
     get_teachers_list,
@@ -321,7 +322,7 @@ function* registerLiveClass(actions) {
         // console.log("rayzorPayResponse registerLiveClass ===>>>", rayzorPayResponse)
         // console.log(" payload rayzorPayResponse ===>>>", payload)
 
-        console.log("payload  ====>>>>" , payload)
+        console.log("payload  ====>>>>", payload)
         const response = yield postRequest({
             url: app_api_url + register_for_live_class,
             data: payload
@@ -376,28 +377,31 @@ function* onLiveCoursePayment(actions) {
     try {
         const { payload } = actions
         const customerData = yield select(state => state.customer.customerData)
-        // console.log(payload, "payment")
+        console.log(payload, "payment onLiveCoursePayment")
 
-        const rayzorPayResponse = yield razorpayPayment({
-            amount: parseInt(payload?.amount),
-            email: '',
-            name: '',
-            contact: ''
-        })
-        console.log("rayzorPayResponse  ====>>>", rayzorPayResponse)
+        // const rayzorPayResponse = yield razorpayPayment({
+        //     amount: parseInt(payload?.amount),
+        //     email: '',
+        //     name: '',
+        //     contact: ''
+        // })
+        // console.log("rayzorPayResponse  ====>>>", rayzorPayResponse)
 
         const response = yield postRequest({
             url: app_api_url + live_course_payment,
             data: {
                 customerId: customerData?._id,
-                amount: parseFloat(payload?.amount),
+                liveId: payload.liveClassId,
+                amount: parseInt(payload?.amount),
                 isPartial: true,
-                liveId: payload.liveClassId
+                isCompleted: false
             }
         })
 
         if (response?.success) {
-            goBack()
+            // goBack()
+            yield call(showToastMessage, { message: "Class Registered Successfully" })
+            navigate("mycourse")
         }
 
         yield put({ type: actionTypes.SET_IS_LOADING, payload: false })
@@ -406,7 +410,6 @@ function* onLiveCoursePayment(actions) {
         yield put({ type: actionTypes.SET_IS_LOADING, payload: false })
     }
 }
-
 
 function* getCurrentLiveCourse() {
     try {
@@ -444,6 +447,32 @@ function* getCompletedLiveCourse() {
 
         if (response?.success) {
             yield put({ type: actionTypes.GET_COMPLETED_LIVE_COURSE_HISTORY, payload: response?.data })
+        }
+        yield put({ type: actionTypes.SET_IS_LOADING, payload: false })
+    } catch (e) {
+        yield put({ type: actionTypes.SET_IS_LOADING, payload: false })
+        console.log(e)
+    }
+}
+
+function* getRegisterdLiveClass(actions) {
+    try {
+        yield put({ type: actionTypes.SET_IS_LOADING, payload: true })
+        const customerData = yield select(state => state.customer.customerData)
+        const { payload } = actions
+
+        // console.log("payload  ====>>" , payload)
+
+        const response = yield postRequest({
+            url: app_api_url + get_registered_live_class,
+            data: {
+                customerId: customerData?._id,
+                liveClassId: payload.liveClassId,
+            }
+        })
+
+        if (response?.success) {
+            yield put({ type: actionTypes.GET_REGISTERED_LIVE_CLASS, payload: response?.data })
         }
         yield put({ type: actionTypes.SET_IS_LOADING, payload: false })
     } catch (e) {
@@ -515,5 +544,7 @@ export default function* coursesSaga() {
     yield takeLeading(actionTypes.GET_COMPLETED_LIVE_COURSE_HISTORY, getCompletedLiveCourse)
 
     yield takeLeading(actionTypes.PRODUCT_PAYMENT, onProductPayment)
+
+    yield takeLeading(actionTypes.GET_REGISTERED_LIVE_CLASS, getRegisterdLiveClass)
 
 }

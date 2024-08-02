@@ -22,24 +22,19 @@ import { navigate } from '../../../utils/navigationServices';
 const LiveClassDetails = ({
     navigation,
     route,
-    singleLiveClass,
     dispatch,
     isLoading,
-    liveClassOfClass }) => {
-    const CoursePayment = singleLiveClass?.price - (singleLiveClass?.price * singleLiveClass?.discount / 100)
-
-    // console.log("liveClassOfClass ====>>> indisecomponent", liveClassOfClass)
+    liveClassOfClass,
+    registeredLiveClass
+}) => {
+    console.log("registeredLiveClass ====>>> indisecomponent", registeredLiveClass)
 
     const go_to_live = () => {
     };
 
-    const handlePress = () => {
-        navigate("courseBookingDetails", { data: singleLiveClass })
-    }
-
     useEffect(() => {
-        dispatch(CourseActions.onGetSingleLiveClass({
-            classId: route.params.id
+        dispatch(CourseActions.onGetRegisteredLiveClass({
+            liveClassId: route.params.id
         }))
         dispatch(CourseActions.liveClassOfClass({
             liveClassId: route.params.id
@@ -57,10 +52,10 @@ const LiveClassDetails = ({
             <Loader visible={isLoading} />
             <MyHeader title={'Live Class'} navigation={navigation} />
             <View style={{ flex: 1, backgroundColor: Colors.white }}>
-                {singleLiveClass && <FlatList
+                {registeredLiveClass && <FlatList
                     ListHeaderComponent={
                         <>
-                            <Video uri={singleLiveClass?.video} />
+                            <Video uri={registeredLiveClass?.liveClassId?.video} />
                             {courseDetails()}
                             <View
                                 style={{
@@ -68,7 +63,10 @@ const LiveClassDetails = ({
                                     borderBottomWidth: 1,
                                     borderBottomColor: Colors.grayLight,
                                 }} >
-                                <GlobalButton handlePress={handlePress} ButtonName={"Book Now"} />
+                                <GlobalButton
+                                    handlePress={() => navigate("courseBookingDetails", { data: registeredLiveClass })}
+                                    ButtonName={"Book Now"}
+                                />
                             </View>
                             {liveClassOfClass && classesList()}
                         </>
@@ -94,7 +92,7 @@ const LiveClassDetails = ({
                                 },
                             ]}
                         >
-                            ₹ {CoursePayment || "-"}
+                            ₹ {registeredLiveClass?.payableAmount || "-"}
                         </Text>
                         <Text
                             style={[
@@ -106,7 +104,7 @@ const LiveClassDetails = ({
                                 },
                             ]}
                         >
-                            ₹ {singleLiveClass?.price || "-"}
+                            ₹ {registeredLiveClass?.liveClassId?.price || "-"}
                         </Text>
                     </View>
                 </View>
@@ -284,7 +282,7 @@ const LiveClassDetails = ({
 };
 
 const mapStateToProps = state => ({
-    singleLiveClass: state.courses.singleLiveClass,
+    registeredLiveClass: state.courses.registeredLiveClass,
     liveClassOfClass: state.courses.liveClassOfClass,
     isLoading: state.settings.isLoading,
 });

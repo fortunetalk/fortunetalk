@@ -2,15 +2,15 @@ import { connect } from 'react-redux';
 import Loader from '../../../components/Loader';
 import { classifyTime } from '../../../utils/tools';
 import React, { useEffect, useState } from 'react';
-import { Text, View, Image, ImageBackground, FlatList, TouchableOpacity } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
 import NoDataFound from '../../../components/NoDataFound';
+import LinearGradient from 'react-native-linear-gradient';
+import { navigate } from '../../../utils/navigationServices';
 import * as Courses from '../../../redux/actions/courseActions';
 import { Colors, Fonts, SCREEN_WIDTH, Sizes } from '../../../assets/styles';
-import { navigate } from '../../../utils/navigationServices';
+import { Text, View, Image, ImageBackground, FlatList, TouchableOpacity } from 'react-native';
 
 const LiveClass = ({ isLoading, liveClass, dispatch, courseId, courseData }) => {
-    
+
     useEffect(() => {
         dispatch(Courses.getLiveClass({ courseId }));
     }, [courseId, dispatch]);
@@ -153,7 +153,8 @@ const LiveClassItem = ({ item, courseData }) => {
                         justifyContent: "flex-start",
                         alignItems: "center",
                         backgroundColor: Colors.primaryLight,
-                        gap: 5
+                        gap: 5,
+                        flex: 1
                     }}>
                     <Image source={{ uri: item?.astrologerId?.profileImage }}
                         style={{ width: 50, height: 50, borderRadius: 1000 }}
@@ -162,8 +163,8 @@ const LiveClassItem = ({ item, courseData }) => {
                         <Text numberOfLines={2} style={{ ...Fonts.black14InterMedium, color: Colors.white, fontSize: 12 }}>
                             {item?.astrologerId?.displayName}
                         </Text>
-                        <Text numberOfLines={4} style={{ ...Fonts.gray12RobotoRegular, marginBottom: Sizes.fixPadding, color: Colors.white }}>
-                            {item?.description}
+                        <Text numberOfLines={4} style={{ ...Fonts.gray12RobotoRegular, marginBottom: Sizes.fixPadding, color: Colors.white, flex: 1 }}>
+                            {item?.description.substring(0, 20) + '...'}
                         </Text>
                     </View>
                 </View>

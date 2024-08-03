@@ -24,9 +24,10 @@ const CurrentCourses = ({ dispatch, currentLiveCourse }) => {
         updateState({ courseData: currentLiveCourse })
     }, [currentLiveCourse])
 
-    // console.log("currentLiveCourse", currentLiveCourse)
+    // console.log("currentLiveCourse =======>>>>>", currentLiveCourse)
 
     const renderItem = ({ item, index }) => {
+        // console.log("currentLiveCourse item =======>>>>>", item)
         return (
             <TouchableOpacity
                 activeOpacity={1}
@@ -41,7 +42,7 @@ const CurrentCourses = ({ dispatch, currentLiveCourse }) => {
                         ...Fonts.black16RobotoMedium,
                         fontSize: 14,
                         color: Colors.blackLight,
-                    }}>{item?.liveId?.courseId?.title}</Text>
+                    }}>{item?.liveId?.className}</Text>
                 </View>
             </TouchableOpacity>
         );

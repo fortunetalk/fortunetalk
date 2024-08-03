@@ -1,7 +1,9 @@
 export const base_url = 'http://97.74.83.200:4000/'
 // export const app_api_url = 'http://97.74.83.200:4000/api/app/customers/'
-// export const app_api_url = 'https://node-backend-jcdp.onrender.com/api/app/'
-export const app_api_url = 'https://node-backend-hhzi.onrender.com/api/app/'
+export const app_api_url = 'https://node-backend-jcdp.onrender.com/api/app/'
+
+// export const app_api_url = 'https://node-backend-hhzi.onrender.com/api/app/'
+
 // export const app_api_url = 'http://10.0.2.2:8000/api/app/'
 // export const app_api_url = 'http://97.74.83.200:4000/api/app/'
 
@@ -64,8 +66,8 @@ export const get_single_live_class_by_id = "course/customer/live_class_by_id"
 export const live_class_of_class = "course/customer/class_by_live_class_id"
 export const is_registered_for_live_class = "course/customer/check_customer_live_class_registration"
 export const check_customer_demo_class_booked = "course/customer/check_customer_demo_class_booked"
-export const get_current_live_courses = "live/get_live_course_history"
-export const get_completed_live_courses = "course/completed/course"
+export const get_current_live_courses = "course/current/course"
+export const get_completed_live_courses = "course/completed/live-class"
 export const get_registered_live_class = "course/customer/get_registered_live_class"
 
 // cart

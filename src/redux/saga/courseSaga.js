@@ -375,9 +375,18 @@ function* IsRegisterForLiveClass(actions) {
 
 function* onLiveCoursePayment(actions) {
     try {
+        yield put({ type: actionTypes.SET_IS_LOADING, payload: true })
         const { payload } = actions
         const customerData = yield select(state => state.customer.customerData)
-        console.log(payload, "payment onLiveCoursePayment")
+
+        // console.log("payment onLiveCoursePayment =========>>>>>.", {
+        //     customerId: customerData?._id,
+        //     liveId: payload.liveClassId,
+        //     amount: parseInt(payload?.amount),
+        //     isPartial: true,
+        //     isCompleted: false,
+        //     paymentType: payload.type
+        // })
 
         // const rayzorPayResponse = yield razorpayPayment({
         //     amount: parseInt(payload?.amount),
@@ -393,14 +402,17 @@ function* onLiveCoursePayment(actions) {
                 customerId: customerData?._id,
                 liveId: payload.liveClassId,
                 amount: parseInt(payload?.amount),
-                isPartial: true,
-                isCompleted: false
+                isPartial: payload?.isPartial,
+                isCompleted: false,
+                paymentType: payload.type
             }
         })
 
+        // console.log("onLiveCoursePayment ==========>>>>>>>", response)
+
         if (response?.success) {
             // goBack()
-            yield call(showToastMessage, { message: "Class Registered Successfully" })
+            yield call(showToastMessage, { message: "Payment Successfull" })
             navigate("mycourse")
         }
 
@@ -416,12 +428,18 @@ function* getCurrentLiveCourse() {
         yield put({ type: actionTypes.SET_IS_LOADING, payload: true })
         const customerData = yield select(state => state.customer.customerData)
 
+        // console.log("customerData =====>>>" , customerData)
+        // console.log(" url: app_api_url + get_current_live_courses, =====>>>" , { url: app_api_url + get_current_live_courses,})
+
         const response = yield postRequest({
             url: app_api_url + get_current_live_courses,
             data: {
                 customerId: customerData?._id
             }
         })
+
+        // console.log("customerId: customerData?._id ====>>>", {customerId: customerData?._id})
+        // console.log("resp getCurrentLiveCourse ====>>>", response)
 
         if (response?.success) {
             yield put({ type: actionTypes.GET_CURRENT_LIVE_COURSE_HISTORY, payload: response?.data })
@@ -444,6 +462,8 @@ function* getCompletedLiveCourse() {
                 customerId: customerData?._id
             }
         })
+
+        console.log("getCompletedLiveCourse ==========>>>>>>>", response)
 
         if (response?.success) {
             yield put({ type: actionTypes.GET_COMPLETED_LIVE_COURSE_HISTORY, payload: response?.data })

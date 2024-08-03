@@ -2,53 +2,25 @@ import {
   View,
   Text,
   FlatList,
-  ImageBackground,
   TouchableOpacity,
 } from 'react-native';
-import React from 'react';
+import React, { useEffect } from 'react';
 import Video from '../../components/Courses/Video';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import { Colors, SCREEN_WIDTH, Fonts, Sizes } from '../../assets/styles';
+import { Colors, Fonts, Sizes } from '../../assets/styles';
+import MyStatusBar from '../../components/MyStatusBar';
+import MyHeader from '../../components/MyHeader';
+import { connect } from 'react-redux';
+import * as CourseActions from '../../redux/actions/courseActions'
 
-const classData = [
-  {
-    id: 1,
-    class_name: 'Class 1',
-    title: 'History and The Minor Arcana',
-    description:
-      'In this module, you will be introduced to the history of tarot, from its origins in ancient Egypt to its most recent adaptations in the 1400s en Europa. Then you will learn about',
-    status: 1,
-    time: '35',
-    next_sessiom: new Date(),
-    conected: false,
-  },
-  {
-    id: 2,
-    class_name: 'Class 2',
-    title: 'History and The Minor Arcana',
-    description:
-      'In this module, you will be introduced to the history of tarot, from its origins in ancient Egypt to its most recent adaptations in the 1400s en Europa. Then you will learn about',
-    status: 1,
-    time: '30 - 45',
-    next_sessiom: new Date(),
-    conected: true,
-  },
-  {
-    id: 3,
-    class_name: 'Class 3',
-    title: 'History and The Minor Arcana',
-    description:
-      'In this module, you will be introduced to the history of tarot, from its origins in ancient Egypt to its most recent adaptations in the 1400s en Europa. Then you will learn about',
-    status: 1,
-    time: '30 - 45',
-    next_sessiom: new Date(),
-    conected: false,
-  },
-];
+const CompletedCoursesDetails = ({ route, liveClassOfClass, dispatch }) => {
+  // console.log("CompletedCoursesDetails ===>>>", route.params.course)
+  const classData = route.params.course
 
-const CompletedCoursesDetails = ({ route }) => {
-  console.log("CompletedCoursesDetails ===>>>", route.params.course)
+  useEffect(() => {
+    dispatch(CourseActions.liveClassOfClass({ liveClassId: classData?._id }));
+  }, [])
 
   return (
     <View
@@ -56,11 +28,15 @@ const CompletedCoursesDetails = ({ route }) => {
         flex: 1,
         backgroundColor: Colors.bodyColor
       }}>
+      <MyStatusBar
+        backgroundColor={Colors.primaryLight}
+        barStyle={'light-content'}
+      />
+      <MyHeader title={"Course Details"} />
       <FlatList
         ListHeaderComponent={
           <>
-            {/* {liveVedioInfo()} */}
-            <Video uri={classData?.liveId?.video} />
+            <Video uri={classData?.video} />
             {courseTitleInfo()}
             {courseDescriptionInfo()}
             {classInfo()}
@@ -171,7 +147,7 @@ const CompletedCoursesDetails = ({ route }) => {
     };
     return (
       <FlatList
-        data={classData}
+        data={liveClassOfClass}
         renderItem={renderItem}
         keyExtractor={item => item.id}
       />
@@ -188,9 +164,7 @@ const CompletedCoursesDetails = ({ route }) => {
           borderBottomColor: Colors.grayLight,
         }}>
         <Text style={{ ...Fonts.gray12RobotoRegular }}>
-          Comes with sal jade CERTIFICATE OF COMPLETION FROM THE ACCREDITED
-          COLLEGE: THE PSYCHIC HEALING ACADEMY Also features free monthly bonus
-          Tarot seminars educational announcements tarot readings
+          {classData?.description}
         </Text>
       </View>
     );
@@ -204,37 +178,18 @@ const CompletedCoursesDetails = ({ route }) => {
           marginTop: Sizes.fixPadding * 2,
         }}>
         <Text style={{ ...Fonts.primaryLight14RobotoRegular }}>
-          Master your Psychic Ability and Learn to Give Accurate{' '}
+          {classData?.className}
         </Text>
-      </View>
-    );
-  }
-
-  function liveVedioInfo() {
-    return (
-      <View
-        style={{
-          marginHorizontal: Sizes.fixPadding * 2,
-          marginTop: Sizes.fixPadding,
-          borderRadius: Sizes.fixPadding,
-          overflow: 'hidden',
-        }}>
-        <ImageBackground
-          source={require('../../assets/images/user.png')}
-          style={{
-            width: '100%',
-            height: SCREEN_WIDTH * 0.55,
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
-          {/* <Image
-            source={require('../../../assets/icons/vedio_play.png')}
-            style={{ width: 40, height: 40 }}
-          /> */}
-        </ImageBackground>
       </View>
     );
   }
 }
 
-export default CompletedCoursesDetails
+const mapStateToProps = state => ({
+  liveClassOfClass: state.courses.liveClassOfClass,
+});
+
+const mapDispatchToProps = dispatch => ({ dispatch })
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(CompletedCoursesDetails);

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   View,
   Text,
@@ -7,7 +7,6 @@ import {
   Linking,
 } from 'react-native';
 import moment from 'moment';
-// import { connect } from 'react-redux';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
 import Video from '../../components/Courses/Video';
@@ -15,12 +14,14 @@ import { Colors, Fonts, Sizes } from '../../assets/styles';
 import { check_current_day } from '../../utils/tools';
 import MyStatusBar from '../../components/MyStatusBar';
 import MyHeader from '../../components/MyHeader';
-// import * as Courses from '../../redux/actions/courseActions';
+import { connect } from 'react-redux';
+import * as CourseActions from '../../redux/actions/courseActions'
 
-const CurrentCoursesDetails = ({ dispatch, route }) => {
+const CurrentCoursesDetails = ({ dispatch, route, liveClassOfClass }) => {
   const classData = route.params.course
-  console.log("classData =====>>>>>" , classData?.liveId)
-  
+  useEffect(() => {
+    dispatch(CourseActions.liveClassOfClass({ liveClassId: classData?.liveId?._id }));
+  }, [])
   return (
     <View
       style={{
@@ -38,7 +39,7 @@ const CurrentCoursesDetails = ({ dispatch, route }) => {
             <Video uri={classData?.liveId?.video} />
             {courseTitleInfo()}
             {courseDescriptionInfo()}
-            {/* { classInfo()} */}
+            {classInfo()}
           </>
         }
       />
@@ -175,7 +176,15 @@ const CurrentCoursesDetails = ({ dispatch, route }) => {
       </View>
     );
   }
-
 }
 
-export default CurrentCoursesDetails
+const mapStateToProps = state => ({
+  currentLiveCourse: state.courses.currentLiveCourse,
+  liveClassOfClass: state.courses.liveClassOfClass,
+});
+
+const mapDispatchToProps = dispatch => ({ dispatch })
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(CurrentCoursesDetails);
+

@@ -15,8 +15,9 @@ import MyStatusBar from '../../../components/MyStatusBar';
 import LinearGradient from 'react-native-linear-gradient';
 import * as Courses from '../../../redux/actions/courseActions';
 import { Colors, Fonts, Sizes, SCREEN_WIDTH } from '../../../assets/styles';
+import Loader from '../../../components/Loader';
 
-const CourseBookingDetails = ({ navigation, route, dispatch }) => {
+const CourseBookingDetails = ({ navigation, route, dispatch, isLoading }) => {
   const [state, setState] = useState({
     showPayment: false,
     successVisible: false,
@@ -30,9 +31,9 @@ const CourseBookingDetails = ({ navigation, route, dispatch }) => {
   // console.log("payment data", paymentData)
 
   useEffect(() => {
-    if (paymentData?.price) {
-      const gst = ((parseFloat(paymentData.price) * 18) / 100).toFixed(2);
-      const total = (parseFloat(paymentData.price) + parseFloat(gst)).toFixed(2);
+    if (paymentData?.liveClassId?.price) {
+      const gst = ((parseFloat(paymentData?.payableAmount) * 18) / 100).toFixed(2);
+      const total = (parseFloat(paymentData?.payableAmount) + parseFloat(gst)).toFixed(2);
       const half = (parseFloat(total) / 2).toFixed(2);
 
       setState(prevState => ({
@@ -58,7 +59,13 @@ const CourseBookingDetails = ({ navigation, route, dispatch }) => {
     if (!halfAmount) {
       Alert.alert("Amount Required")
     } else {
-      dispatch(Courses.onCoursesPayment({ amount: totalAmount, liveClassId: paymentData?._id }))
+      dispatch(Courses.onCoursesPayment({
+        amount: paymentData?.payableAmount,
+        liveClassId: paymentData?.liveClassId?._id,
+        type: "full",
+        isPartial: false,
+        isCompleted: true,
+      }))
     }
   }
 
@@ -66,9 +73,35 @@ const CourseBookingDetails = ({ navigation, route, dispatch }) => {
     if (!halfAmount) {
       Alert.alert("Amount Required")
     } else {
-      dispatch(Courses.onCoursesPayment({ amount: halfAmount, liveClassId: paymentData?._id }))
+      dispatch(Courses.onCoursesPayment({
+        amount: halfAmount,
+        liveClassId: paymentData?.liveClassId?._id,
+        type: "half",
+        isPartial: true,
+        isCompleted: true,
+      }))
     }
   }
+
+  const handleRemainingAmount = () => {
+    if (!halfAmount) {
+      Alert.alert("Amount Required")
+    } else {
+      dispatch(Courses.onCoursesPayment({
+        amount: paymentData?.payableAmount,
+        liveClassId: paymentData?.liveClassId?._id,
+        type: "full",
+        isPartial: false,
+        isCompleted: true,
+      }))
+    }
+  }
+
+  // useEffect(() => {
+  //   if (paymentData.paymentType == "full") {
+  //     updateState({ successVisible: true })
+  //   }
+  // }, paymentData)
 
   return (
     <View style={{ flex: 1, backgroundColor: Colors.bodyColor }}>
@@ -78,14 +111,26 @@ const CourseBookingDetails = ({ navigation, route, dispatch }) => {
       />
       <View style={{ flex: 1 }}>
         <MyHeader title={"Booking Details"} />
+        <Loader visible={isLoading} />
         <FlatList
           ListHeaderComponent={
             <>
-              {paymentData?.image && bannerInfo()}
+              {paymentData?.liveClassId?.image && bannerInfo()}
               {remediesInfo()}
               {billDetailsInfo()}
-              {continueHalfPaymentButtonInfo()}
-              {continueFullPaymentButtonInfo()}
+
+              {paymentData.paymentType == "pending" && (
+                <>
+                  {continueHalfPaymentButtonInfo()}
+                  {continueFullPaymentButtonInfo()}
+                </>
+              )}
+
+              {paymentData.paymentType == "half" && (
+                <>
+                  {payRemainingAmount()}
+                </>
+              )}
             </>
           }
           contentContainerStyle={{ paddingVertical: Sizes.fixPadding }}
@@ -284,6 +329,28 @@ const CourseBookingDetails = ({ navigation, route, dispatch }) => {
     );
   }
 
+  function payRemainingAmount() {
+    return (
+      <TouchableOpacity
+        activeOpacity={0.8}
+        onPress={() => handleRemainingAmount()}
+        style={{
+          marginHorizontal: Sizes.fixPadding * 2,
+          marginVertical: Sizes.fixPadding,
+          borderRadius: Sizes.fixPadding * 1.4,
+          overflow: 'hidden',
+        }}>
+        <LinearGradient
+          colors={[Colors.primaryLight, Colors.primaryDark]}
+          style={{ paddingVertical: Sizes.fixPadding }}>
+          <Text style={{ ...Fonts.white18RobotMedium, textAlign: 'center', fontSize: 14 }}>
+            Pay Remaining Amount
+          </Text>
+        </LinearGradient>
+      </TouchableOpacity>
+    );
+  }
+
   function billDetailsInfo() {
     return (
       <View
@@ -296,24 +363,27 @@ const CourseBookingDetails = ({ navigation, route, dispatch }) => {
             { justifyContent: 'space-between', marginBottom: Sizes.fixPadding },
           ]}>
           <Text style={{ ...Fonts.black16RobotoRegular }}>Subtotal</Text>
-          <Text style={{ ...Fonts.black16RobotoMedium, fontWeight: "800" }}>
-            ₹ {parseFloat(paymentData?.price).toFixed(2)}
+          <Text style={{ ...Fonts.black16RobotoMedium }}>
+            ₹ {parseFloat(paymentData?.payableAmount).toFixed(2)}
           </Text>
         </View>
-        <View
-          style={[
-            styles.row,
-            {
-              justifyContent: 'space-between',
-              paddingBottom: Sizes.fixPadding,
-              marginBottom: Sizes.fixPadding,
-              borderBottomWidth: 1,
-              borderColor: Colors.grayLight,
-            },
-          ]}>
-          <Text style={{ ...Fonts.black16RobotoRegular }}>GST @ 18%</Text>
-          <Text style={{ ...Fonts.black16RobotoRegular }}>₹ {gstAmount}</Text>
-        </View>
+        {
+          paymentData.paymentType != "half" &&
+          <View
+            style={[
+              styles.row,
+              {
+                justifyContent: 'space-between',
+                paddingBottom: Sizes.fixPadding,
+                marginBottom: Sizes.fixPadding,
+                borderBottomWidth: 1,
+                borderColor: Colors.grayLight,
+              },
+            ]}>
+            <Text style={{ ...Fonts.black16RobotoRegular }}>GST @ 18%</Text>
+            <Text style={{ ...Fonts.black16RobotoRegular }}>₹ {gstAmount}</Text>
+          </View>
+        }
         <View
           style={[
             styles.row,
@@ -324,7 +394,7 @@ const CourseBookingDetails = ({ navigation, route, dispatch }) => {
           ]}>
           <Text style={{ ...Fonts.black16RobotoRegular }}>Total</Text>
           <Text style={{ ...Fonts.black16RobotoRegular, fontWeight: "800" }}>
-            ₹ {totalAmount}
+            ₹ {paymentData.paymentType != "half" ? totalAmount : paymentData?.payableAmount}
           </Text>
         </View>
       </View>
@@ -340,7 +410,7 @@ const CourseBookingDetails = ({ navigation, route, dispatch }) => {
           borderBottomColor: Colors.grayLight,
         }}>
         <Text style={{ ...Fonts.primaryLight18RobotoMedium }}>
-          {paymentData?.className}
+          {paymentData?.liveClassId?.className}
         </Text>
         <Text
           style={{
@@ -348,7 +418,7 @@ const CourseBookingDetails = ({ navigation, route, dispatch }) => {
             fontSize: 13,
             marginVertical: Sizes.fixPadding * 0.7,
           }}>
-          {paymentData?.description}
+          {paymentData?.liveClassId?.description}
         </Text>
       </View>
     );
@@ -365,7 +435,7 @@ const CourseBookingDetails = ({ navigation, route, dispatch }) => {
           marginVertical: Sizes.fixPadding * 1,
         }}>
         <Image
-          source={{ uri: paymentData?.image }}
+          source={{ uri: paymentData?.liveClassId?.image }}
           style={{ width: '100%', height: '100%' }}
         />
       </View>
@@ -381,7 +451,6 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({ dispatch });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CourseBookingDetails);
-
 
 const styles = StyleSheet.create({
   row: {

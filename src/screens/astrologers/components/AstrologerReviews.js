@@ -1,15 +1,14 @@
-import { View, Text, Image, FlatList, TouchableOpacity, StyleSheet, } from 'react-native'
 import React from 'react'
-import { Colors, Sizes, Fonts } from '../../../assets/styles';
 import Stars from 'react-native-stars';
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import { connect } from 'react-redux';
 import { base_url } from '../../../config/constants';
 import * as AstrologerActions from '../../../redux/actions/astrologerActions'
+import { StyleSheet, View, Text, TouchableOpacity, FlatList, Image } from 'react-native';
+import { Sizes, Fonts, Colors } from '../../../assets/styles';
 
 const AstrologerReviews = ({ astrolgoerReviewData, dispatch, astrologerId }) => {
     const renderItem = ({ item, index }) => {
-        console.log(item)
         return (
             <View
                 style={{
@@ -52,7 +51,6 @@ const AstrologerReviews = ({ astrolgoerReviewData, dispatch, astrologerId }) => 
                                 color={Colors.primaryLight}
                             />
                         }
-                    // halfStar={<Icon name={'star-half'} style={[styles.myStarStyle]} />}
                     />
                 </View>
                 <Text
@@ -64,9 +62,9 @@ const AstrologerReviews = ({ astrolgoerReviewData, dispatch, astrologerId }) => 
                     {item?.comments}
                 </Text>
                 {false && (
-                    <View style={{ marginTop: Sizes.fixPadding }}>
+                    <View style={{ marginTop: Sizes.fixPadding}}>
                         <Text style={{ ...Fonts.primaryLight14RobotoRegular }}>
-                            Astro Kuldeep
+                          reply  Astro Kuldeep
                         </Text>
                         <Text
                             style={{

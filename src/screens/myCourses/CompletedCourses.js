@@ -25,12 +25,10 @@ const CompletedCourses = ({ completedLiveCourse }) => {
 
   const { isLoading, courseData } = state;
 
-  // console.log("courseData  ====>>>", courseData)
+  // console.log("getCompletedLiveCourse  ====>>>", courseData)
 
   const renderItem = ({ item, index }) => {
-
     // console.log("item ====>>>>", item)
-
     return (
       <TouchableOpacity
         activeOpacity={1}
@@ -45,7 +43,7 @@ const CompletedCourses = ({ completedLiveCourse }) => {
             ...Fonts.black16RobotoMedium,
             fontSize: 14,
             color: Colors.blackLight,
-          }}>{item?.liveId?.className}</Text>
+          }}>{item?.className}</Text>
         </View>
         <TouchableOpacity
           activeOpacity={0.8}

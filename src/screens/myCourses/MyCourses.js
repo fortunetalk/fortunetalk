@@ -18,9 +18,7 @@ const MyCourses = ({ isLoading, route, dispatch, currentLiveCourse }) => {
     dispatch(CourseActions.onCurrentLiveCourseHistory())
     dispatch(CourseActions.onCompletedLiveCourseHistory())
   }, [])
-
-  // console.log("currentLiveCourse =====>>>>", currentLiveCourse)
-
+  
   const filterData = [
     { id: 1, title: 'Current Course' },
     { id: 2, title: 'Completed Course' },

@@ -59,7 +59,9 @@ export const get_demo_class_list = "course/customer/demo_class_by_course_id"
 export const get_live_class_list = "course/customer/live_class_by_course_id"
 export const get_workshop_list = "course/customer/workshop_by_course_id"
 export const get_all_demo_class = "course/customer/demo_class"
+
 export const register_for_live_class = "course/customer/register_live_class"
+
 export const get_workshop_list_without_id = "course/customer/workshop"
 export const get_teachers_list = "course/customer/astrologer_by_course"
 export const book_demo_class = "course/customer/booked_demo_class"
@@ -68,8 +70,9 @@ export const get_single_live_class_by_id = "course/customer/live_class_by_id"
 export const live_class_of_class = "course/customer/class_by_live_class_id"
 export const is_registered_for_live_class = "course/customer/check_customer_live_class_registration"
 export const check_customer_demo_class_booked = "course/customer/check_customer_demo_class_booked"
-export const get_current_live_courses = "live/get_live_course_history"
-export const get_completed_live_courses = "course/completed/course"
+export const get_current_live_courses = "course/current/course"
+export const get_completed_live_courses = "course/completed/live-class"
+export const get_registered_live_class = "course/customer/get_registered_live_class"
 
 // cart
 export const add_to_cart = "ecommerce/product/addToCart"

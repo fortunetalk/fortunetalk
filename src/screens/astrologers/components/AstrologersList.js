@@ -48,6 +48,7 @@ const AstrologerItems = memo(({ item, index, type = 'chat', dispatch }) => {
             return (item?.chatPrice + item?.companyChatPrice) - (item?.chatPrice + item?.companyChatPrice) * item?.chatCallOffer?.discount / 100
         }
         return (item?.callPrice + item?.companyCallPrice) - (item?.callPrice + item?.companyCallPrice) * item?.chatCallOffer?.discount / 100
+
     }
 
     return (
@@ -202,6 +203,7 @@ const AstrologersList = ({ astroChatList, dispatch, type, astroCallList, searche
     const keyExtractor = useCallback((item, index) => index.toString(), []);
 
     const getItemLayout = useCallback((data, index) => ({
+        length: SCREEN_WIDTH * 0.65,
         length: SCREEN_WIDTH * 0.65,
         offset: SCREEN_WIDTH * 0.65 * index,
         index,

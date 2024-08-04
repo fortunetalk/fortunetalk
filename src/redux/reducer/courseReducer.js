@@ -16,7 +16,8 @@ const initialState = {
     singleDemoClass : null,
     singleLiveClass : null,
     currentLiveCourse:null,
-    completedLiveCourse:null
+    completedLiveCourse:null,
+    registeredLiveClass: null
 }
 
 const courses = (state = initialState, actions) => {
@@ -122,6 +123,12 @@ const courses = (state = initialState, actions) => {
             return {
                 ...state,
                 completedLiveCourse: payload
+            }
+        }
+        case actionTypes.GET_REGISTERED_LIVE_CLASS: {
+            return {
+                ...state,
+                registeredLiveClass: payload
             }
         }
         default: {

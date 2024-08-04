@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import MyStatusBar from '../../components/MyStatusBar';
 import { Colors, Sizes, Fonts, SCREEN_WIDTH } from '../../assets/styles';
 import { View, Text, FlatList, StyleSheet, TouchableOpacity, TextInput, SafeAreaView } from 'react-native'
@@ -7,23 +7,14 @@ import AntDesign from 'react-native-vector-icons/AntDesign'
 import WalletBanner from './components/WalletBanner';
 import { regex } from '../../config/data';
 import { connect } from 'react-redux';
+import * as PaymentActions from '../../redux/actions/paymentActions'
 
-const Wallet = ({ navigation, route }) => {
+const Wallet = ({ navigation, route, dispatch, rechargePlanData }) => {
     const [amount, setAmount] = useState(30);
-    const amounts = [
-        { amount: 25, id: 1 },
-        { amount: 30, id: 2 },
-        { amount: 35, id: 3 },
-        { amount: 40, id: 4 },
-        { amount: 45, id: 5 },
-        { amount: 50, id: 6 },
-        { amount: 55, id: 7 },
-        { amount: 60, id: 8 },
-        { amount: 65, id: 9 },
-        { amount: 70, id: 10 },
-        { amount: 75, id: 11 },
-        { amount: 80, id: 12 },
-    ]
+    const [selectedPlan, setSelectedPlan] = useState(null)
+    useEffect(()=>{
+        dispatch(PaymentActions.getWalletRechargePlans())
+    }, [])
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: Colors.bodyColor }}>
@@ -40,7 +31,7 @@ const Wallet = ({ navigation, route }) => {
                             <View style={styles.boxContainer}>
                                 {titleInfo()}
                                 {inputFieldInfo()}
-                                {pricesInfo()}
+                                {rechargePlanData && pricesInfo()}
                                 {proceedButtonInfo()}
                             </View>
                         </>
@@ -59,7 +50,7 @@ const Wallet = ({ navigation, route }) => {
                 showToastMessage({ message: 'Please enter a valid amount.' })
                 return
             }
-            navigation.navigate('payment', { amount, type: route?.params ? route?.params?.type : 'wallet', data: route?.params?.data })
+            navigation.navigate('payment', { amount, type: route?.params ? route?.params?.type : 'wallet', data: route?.params?.data, planId: selectedPlan?._id })
         }
         return (
             <TouchableOpacity
@@ -78,20 +69,27 @@ const Wallet = ({ navigation, route }) => {
     }
 
     function pricesInfo() {
+
+        const onSelectPayment = (item)=>{
+            setSelectedPlan(item)
+            setAmount(item?.amount)
+        }
+
         const renderItem = ({ item, index }) => {
             return (
                 <TouchableOpacity
-                    onPress={() => setAmount(item?.amount)}
+                    onPress={() => onSelectPayment(item)}
                     activeOpacity={0.8}
-                    style={[styles.priceBox, { backgroundColor: amount == item.amount ? Colors.primaryLight : Colors.grayF }]}>
-                    <Text style={{ ...Fonts._15RobotMedium, color: amount == item.amount ? Colors.white : Colors.gray }}>₹{item.amount}</Text>
+                    style={[styles.priceBox, { backgroundColor: selectedPlan?._id == item._id ? Colors.primaryLight : Colors.grayF }]}>
+                    <Text style={{ ...Fonts._15RobotMedium, color: selectedPlan?._id == item._id ? Colors.white : Colors.gray }}>₹{item.amount}</Text>
+                    <Text style={{...Fonts._11InterRegular,  color: selectedPlan?._id == item._id ? Colors.white : Colors.gray, textAlign: 'center'}}>Exta {item?.percentage}%</Text>
                 </TouchableOpacity>
             );
         };
         return (
             <View style={{ marginVertical: Sizes.fixPadding * 2, marginBottom: Sizes.fixPadding * 3 }}>
                 <FlatList
-                    data={amounts}
+                    data={rechargePlanData}
                     renderItem={renderItem}
                     numColumns={3}
                 />
@@ -101,6 +99,10 @@ const Wallet = ({ navigation, route }) => {
     }
 
     function inputFieldInfo() {
+        const onChangeText = text =>{
+            setAmount(text)
+           setSelectedPlan(null)
+        }
         return (
             <TextInput
                 value={amount}
@@ -108,7 +110,8 @@ const Wallet = ({ navigation, route }) => {
                 maxLength={5}
                 placeholderTextColor={Colors.gray}
                 keyboardType="number-pad"
-                onChangeText={setAmount}
+                onFocus={()=>setSelectedPlan(null)}
+                onChangeText={onChangeText}
                 style={{
                     ...Fonts._15RobotMedium,
                     color: Colors.primaryLight,
@@ -176,7 +179,7 @@ const Wallet = ({ navigation, route }) => {
 }
 
 const mapStateToProps = state => ({
-
+    rechargePlanData: state.payment.rechargePlanData
 })
 
 const mapDispatchToProps = dispatch => ({ dispatch })

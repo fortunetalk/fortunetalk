@@ -1,42 +1,41 @@
 import React, { useState } from 'react';
-import {
-    StyleSheet,
-    View,
-    FlatList,
-    Image,
-    TouchableOpacity,
-    Modal,
-    Text,
-} from 'react-native';
-import { Colors } from '../assets/styles';
+import { View, Text, FlatList, TouchableOpacity, Image, StyleSheet, ImageBackground, } from 'react-native'
+import { Colors, SCREEN_HEIGHT, SCREEN_WIDTH, Sizes } from '../assets/styles'
+import MyStatusBar from '../components/MyStatusBar'
 
-const ImageView = ({ modalVisible, setModalVisible, images, showImage }) => {
-    const [selectedImageIndex, setSelectedImageIndex] = useState(showImage);
+const ImageView = ({ route }) => {
+    const { data, index } = route.params
+    console.log(data)
 
-    const openModal = (index) => {
-        setSelectedImageIndex(index);
-        setModalVisible(true);
-    };
+    const renderItem = ({ item, index }) => {
+        return (
+            <ImageBackground source={{ uri: item }} activeOpacity={0.8} style={[styles.imageContainer]} resizeMode='contain'>
 
-    const closeModal = () => {
-        setModalVisible(false);
-    };
 
-    const handleNext = () => {
-        setSelectedImageIndex((prevIndex) =>
-            prevIndex === images.length - 1 ? 0 : prevIndex + 1
-        );
-    };
+            </ImageBackground>
+        )
+    }
 
-    const handlePrevious = () => {
-        setSelectedImageIndex((prevIndex) =>
-            prevIndex === 0 ? images.length - 1 : prevIndex - 1
-        );
-    };
+
 
     return (
-        <View style={styles.container}>
-            <Modal
+        <View style={{ flex: 1, backgroundColor: Colors.bodyColor }}>
+        <MyStatusBar backgroundColor={Colors.primaryLight} barStyle={'light-content'} />
+        <FlatList
+            data={data}
+            horizontal
+            renderItem={renderItem}
+            initialNumToRender={10}
+            initialScrollIndex={index}
+            getItemLayout={(data, index) => (
+                { length: SCREEN_WIDTH, offset: SCREEN_WIDTH * index, index }
+            )}
+            pagingEnabled={true}
+            // snapToAlignment="center"
+            // decelerationRate="fast"
+            showsHorizontalScrollIndicator={false}
+        />
+            {/* <Modal
                 visible={modalVisible}
                 transparent={true}
                 animationType="slide"
@@ -56,12 +55,17 @@ const ImageView = ({ modalVisible, setModalVisible, images, showImage }) => {
                         </TouchableOpacity>
                     </View>
                 </TouchableOpacity>
-            </Modal>
+            </Modal> */}
         </View>
     );
 };
 
 const styles = StyleSheet.create({
+    imageContainer: {
+        width: SCREEN_WIDTH,
+        height: SCREEN_HEIGHT,
+        backgroundColor: Colors.black
+    },
     container: {
         flex: 1,
         backgroundColor: '#fff',
@@ -84,30 +88,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         // zIndex: 2,
     },
-    modalImage: {
-        width: 350,
-        height: 300,
-        borderRadius:15,
-    },
-    arrowLeft: {
-        position: 'absolute',
-        left: 0,
-        top: "50%",
-        transform: [{ translateY: -15 }],
-        padding: 10,
-        zIndex:1
-    },
-    arrowRight: {
-        position: 'absolute',
-        right: 0,
-        top: '50%',
-        transform: [{ translateY: -15 }],
-        padding: 10,
-    },
-    arrowText: {
-        color: Colors.black,
-        fontSize: 50,
-    },
+
 });
 
 export default ImageView;

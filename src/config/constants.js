@@ -1,8 +1,8 @@
 export const base_url = 'http://97.74.83.200:4000/'
 // export const app_api_url = 'http://97.74.83.200:4000/api/app/customers/'
-export const app_api_url = 'https://node-backend-jcdp.onrender.com/api/app/'
-// export const app_api_url = 'http://10.0.2.2:8000/api/app/'
-// export const app_api_url = 'http://97.74.83.200:4000/api/app/'
+// export const app_api_url = 'https://node-backend-jcdp.onrender.com/api/app/'
+// export const app_api_url = 'https://10.0.2.2:8000/api/app/'
+export const app_api_url = 'http://97.74.83.200:4000/api/app/'
 
 export const customer_login = 'customers/customer_login'
 export const customer_otp_verify = 'customers/customer_otp_verify'
@@ -11,8 +11,15 @@ export const customer_facebook_login = 'customers/customer_facebook_login'
 export const customer_registration = 'customers/customer_registration'
 export const get_splash = 'customers/get_splash'
 export const get_astrologer_list_for_chat_call = 'customers/get_astrologer_list_for_chat_call'
+export const search_astrolgoer_for_chat_call = 'customers/search_astrolgoer_for_chat_call'
 export const get_astrologer_details = 'customers/get_astrologer_details'
+export const get_astrologer_remedies = 'customers/get_astrologer_remedies'
+export const get_astrologer_skills = 'customers/get_astrologer_skills'
+export const get_astrologer_offers = 'astrologer/get_astrologer_offers'
+export const get_astrologer_reviews = 'customers/get_astrologer_reviews'
 export const customer_wallet_recharge = 'customers/customer_wallet_recharge'
+export const get_customer_recharge_plans = 'customers/get_customer_recharge_plans'
+export const create_razorpay_order = 'customers/create_razorpay_order'
 
 export const get_customer_wallet_history = 'customers/get_customer_wallet_history'
 export const get_customer_chat_history = 'customers/get_customer_chat_history'
@@ -77,7 +84,7 @@ export const get_product_category_waise = "ecommerce/product/category/"
 
 
 export const google_map_key = 'AIzaSyBjKP15Z_-tCf5EYm5PBbgZPe4yKaRqoFQ';
-export const razorpay_key = 'rzp_live_UFbPKfqmnZCHLo'
+export const razorpay_key = 'rzp_live_X53W4ZL3ZwqaIA'
 
 export const zego_live_app_id = 587173410
 export const zego_live_app_sign = '011d0941bcf41787bd3754dcc449dcbf45898eb89aa26dddf276f58592d6efdd'

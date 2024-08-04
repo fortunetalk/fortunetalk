@@ -10,6 +10,11 @@ export const setIsReferecing = payload => ({
     payload
 })
 
+export const setIsLoadingMore = payload => ({
+    type: actionTypes.SET_IS_LOADING_MORE,
+    payload
+})
+
 export const getSplash = payload => ({
     type: actionTypes.GET_SPLASH,
     payload

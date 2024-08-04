@@ -54,6 +54,7 @@ import ProductBookingDetails from '../screens/eCommerce/product/ProductBookingDe
 import AstrologyBlogs from '../screens/AstrologyBlogs';
 import CurrentCoursesDetails from '../screens/myCourses/CurrentCoursesDetails';
 import CompletedCoursesDetails from '../screens/myCourses/CompletedCoursesDetails';
+import SearchAstrologer from '../screens/astrologers/SearchAstrologer';
 
 const Stack = createNativeStackNavigator();
 
@@ -72,6 +73,7 @@ const StackRoutes = () => {
             <Stack.Screen name="searchLocation" component={SearchLocation} />
             <Stack.Screen name='home' component={DrawerRoutes} />
             <Stack.Screen name='astrologerDetails' component={AstrologerDetails} />
+            <Stack.Screen name='searchAstrologer' component={SearchAstrologer} />
             <Stack.Screen name='imageGallary' component={ImageGallary} />
             <Stack.Screen name='imageView' component={ImageView} options={{ animation: 'fade_from_bottom' }} />
             <Stack.Screen name='wallet' component={Wallet} />

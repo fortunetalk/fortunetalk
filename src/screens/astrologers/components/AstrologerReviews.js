@@ -3,9 +3,13 @@ import React from 'react'
 import { Colors, Sizes, Fonts } from '../../../assets/styles';
 import Stars from 'react-native-stars';
 import Ionicons from 'react-native-vector-icons/Ionicons'
+import { connect } from 'react-redux';
+import { base_url } from '../../../config/constants';
+import * as AstrologerActions from '../../../redux/actions/astrologerActions'
 
-const AstrologerReviews = () => {
+const AstrologerReviews = ({ astrolgoerReviewData, dispatch, astrologerId }) => {
     const renderItem = ({ item, index }) => {
+        console.log(item)
         return (
             <View
                 style={{
@@ -23,7 +27,7 @@ const AstrologerReviews = () => {
                 }}>
                 <View style={[styles.row]}>
                     <Image
-                        source={require('../../../assets/images/user.png')}
+                        source={{ uri: base_url + item?.customerId?.profileImage }}
                         style={{ width: 25, height: 25, borderRadius: 100 }}
                     />
                     <Text
@@ -31,10 +35,10 @@ const AstrologerReviews = () => {
                             ...Fonts.gray12RobotoMedium,
                             marginHorizontal: Sizes.fixPadding,
                         }}>
-                        Ranjeet Kumar
+                        {item?.customerId?.customerName}
                     </Text>
                     <Stars
-                        default={4}
+                        default={item?.rating}
                         count={5}
                         half={true}
                         starSize={12}
@@ -57,7 +61,7 @@ const AstrologerReviews = () => {
                         marginTop: Sizes.fixPadding,
                         color: Colors.blackLight,
                     }}>
-                    It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.
+                    {item?.comments}
                 </Text>
                 {false && (
                     <View style={{ marginTop: Sizes.fixPadding }}>
@@ -77,6 +81,8 @@ const AstrologerReviews = () => {
             </View>
         );
     };
+    if (!astrolgoerReviewData) return
+    if (astrolgoerReviewData?.reviews.length == 0) return
     return (
         <View
             style={{
@@ -98,15 +104,22 @@ const AstrologerReviews = () => {
                 </TouchableOpacity>
             </View>
             <FlatList
-                data={Array.from({ length: 10 })}
+                data={astrolgoerReviewData?.reviews}
                 renderItem={renderItem}
+                onEndReached={() => dispatch(AstrologerActions.getAstrologerReviews({astrologerId, page: astrolgoerReviewData?.currentPage + 1, limit: 10}))}
             //   keyExtractor={item => item.rating_id}
             />
         </View>
     );
 }
 
-export default AstrologerReviews
+const mapStateToProps = state => ({
+    astrolgoerReviewData: state.astrologer.astrolgoerReviewData
+})
+
+const mapDispatchToProps = dispatch => ({ dispatch })
+
+export default connect(mapStateToProps, mapDispatchToProps)(AstrologerReviews)
 
 const styles = StyleSheet.create({
     row: {

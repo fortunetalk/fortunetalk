@@ -25,6 +25,16 @@ export const setAstrologerDetails = payload => ({
     payload
 })
 
+export const getAstrologerReviews = payload => ({
+    type: actionTypes.GET_ASTROLOGER_REVIEWS,
+    payload
+})
+
+export const setAstrologerReviews = payload => ({
+    type: actionTypes.SET_ASTROLOGER_REVIEWS,
+    payload
+})
+
 export const setChatRequestModalData = payload => ({
     type: actionTypes.SET_CHAT_REQUEST_MODAL_DATA,
     payload
@@ -67,5 +77,55 @@ export const checkFollowStatus = payload => ({
 
 export const setFollowStatus = payload => ({
     type: actionTypes.SET_FOLLOW_STATUS,
+    payload
+})
+
+export const setAstrologerFiltersVisible = payload => ({
+    type: actionTypes.SET_ASTROLOGER_FILTERS_VISIBLE,
+    payload
+})
+
+export const setAstrologerFilters = payload => ({
+    type: actionTypes.SET_ASTROLOGER_FILTERS,
+    payload
+})
+
+export const clearAstrologerFilters = payload => ({
+    type: actionTypes.CLEAR_ASTROLOGER_FILTERS,
+    payload
+})
+
+export const setAstrologerSkills = payload => ({
+    type: actionTypes.SET_ASTROLOGER_SKILLS,
+    payload
+})
+
+export const setAstrologerRemedies = payload => ({
+    type: actionTypes.SET_ASTROLOGER_REMEDIES,
+    payload
+})
+
+export const setActiveRemedies = payload => ({
+    type: actionTypes.SET_ACTIVE_REMEDIES,
+    payload
+})
+
+export const setAstrologerOffers = payload => ({
+    type: actionTypes.SET_ASTROLOGER_OFFERS,
+    payload
+})
+
+export const onAstrologerSearch = payload => ({
+    type: actionTypes.ON_ASTROLOGER_SEARCH,
+    payload
+})
+
+export const setAstrologerSearchedData = payload => ({
+    type: actionTypes.SET_ASTROLOGER_SEARCHED_DATA,
+    payload
+})
+
+export const setAstrolgoerSearchText = payload => ({
+    type: actionTypes.SET_ASTROLOGER_SEARCH_TEXT,
     payload
 })

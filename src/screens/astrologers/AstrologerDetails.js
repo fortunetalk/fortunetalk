@@ -1,7 +1,7 @@
 import { View, Text, FlatList, TouchableOpacity, Image, StyleSheet } from 'react-native';
 import React, { useEffect } from 'react';
 import MyStatusBar from '../../components/MyStatusBar';
-import { Colors, Sizes, Fonts, SCREEN_WIDTH } from '../../assets/styles';
+import { Colors, Sizes, Fonts, SCREEN_WIDTH, SCREEN_HEIGHT } from '../../assets/styles';
 import LinearGradient from 'react-native-linear-gradient';
 import Stars from 'react-native-stars';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -17,12 +17,13 @@ import * as CallActions from '../../redux/actions/callActions'
 import * as ChatActions from '../../redux/actions/chatActions'
 
 const AstrologerDetails = ({ navigation, dispatch, isLoading, route, astrologerData, isFollow }) => {
-    console.log(astrologerData?.chatCallOffer);
     useEffect(() => {
         dispatch(AstrologerActions.getAstrologerDetails(route?.params?._id))
         dispatch(AstrologerActions.checkFollowStatus(route?.params?._id))
+        dispatch(AstrologerActions.getAstrologerReviews({astrologerId: route?.params?._id, page: 1, limit: 10}))
         return () => {
             dispatch(AstrologerActions.setAstrologerDetails(null))
+            dispatch(AstrologerActions.setAstrologerReviews(null))
         }
     }, [])
 
@@ -41,7 +42,7 @@ const AstrologerDetails = ({ navigation, dispatch, isLoading, route, astrologerD
                             {astrologerData && profileInfo()}
                             {abuoutMeInfo()}
                             {astrologerData && <Gallary data={astrologerData?.galleryImage} />}
-                            <AstrologerReviews />
+                            <AstrologerReviews astrologerId={route?.params?._id} />
                         </>
                     }
                 />
@@ -270,6 +271,11 @@ const mapDispatchToProps = dispatch => ({ dispatch })
 export default connect(mapStateToProps, mapDispatchToProps)(AstrologerDetails);
 
 const styles = StyleSheet.create({
+    imageContainer: {
+        width: SCREEN_WIDTH,
+        height: SCREEN_HEIGHT,
+        backgroundColor: Colors.black
+    },
     row: {
         flex: 0,
         flexDirection: 'row',

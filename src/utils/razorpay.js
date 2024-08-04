@@ -1,25 +1,29 @@
 import RazorpayCheckout from 'react-native-razorpay';
 import { Colors } from '../assets/styles';
-import { razorpay_key } from '../config/constants';
+import { app_api_url, create_razorpay_order, razorpay_key } from '../config/constants';
+import { postRequest } from './apiRequests';
+import { showToastMessage } from './services';
 
 
 export const razorpayPayment = async ({ amount = 0, email = '', contact = '', name = '' }) => {
     try {
 
-        // console.log(app_api_url + create_razorpay_order)
+        console.log(app_api_url + create_razorpay_order)
 
-        // const orderResponse = await postRequest({
-        //     url: app_api_url + create_razorpay_order,
-        //     data: {
-        //         amount
-        //     }
-        // })
+        const orderResponse = await postRequest({
+            url: app_api_url + create_razorpay_order,
+            data: {
+                amount: amount
+            }
+        })
+
+        console.log("rayzorPayResponse  ====>>>", orderResponse)
 
 
-        // if (!orderResponse?.status) {
-        //     showToastMessage({ message: 'Payment Failed' })
-        //     return
-        // }
+        if (!orderResponse?.success) {
+            showToastMessage({ message: 'Payment Failed' })
+            return
+        }
 
         var options = {
             description: 'Credits towards consultation',
@@ -27,8 +31,8 @@ export const razorpayPayment = async ({ amount = 0, email = '', contact = '', na
             currency: 'INR',
             key: razorpay_key, // Your api key
             // amount: orderResponse?.data?.amount,
-            amount: amount*100,
-            // order_id: orderResponse?.data?.id,
+            amount: orderResponse?.data?.amount*100,
+            order_id: orderResponse?.data?.id,
             name: name,
             prefill: {
                 email: email,
@@ -37,6 +41,8 @@ export const razorpayPayment = async ({ amount = 0, email = '', contact = '', na
             },
             theme: { color: Colors.primaryLight }
         }
+
+        console.log(options)
 
         const response = await RazorpayCheckout.open(options)
         // console.log('sdfsdf', response)

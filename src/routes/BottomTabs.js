@@ -23,6 +23,7 @@ const BottomTabs = ({ tabVisible }) => {
     return (
         <Tab.Navigator
             initialRouteName={'home3'}
+            backBehavior='history'
             tabBar={props => <View style={{  bottom: tabVisible ? 0 : -92, position: 'absolute' }}><CustomBottomTab {...props} /></View>}
             screenOptions={{tabBarStyle: {backgroundColor: 'red'}}}
         >

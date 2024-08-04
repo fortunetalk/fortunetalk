@@ -10,6 +10,8 @@ import { connect } from 'react-redux';
 import * as CallActions from '../../../redux/actions/callActions'
 import * as ChatActions from '../../../redux/actions/chatActions'
 import { useNavigation } from '@react-navigation/native';
+import * as AstrologerActions from '../../../redux/actions/astrologerActions'
+import LoadMore from '../../../components/LoadMore';
 
 const AstrologerItems = memo(({ item, index, type = 'chat', dispatch }) => {
     const navigation = useNavigation()
@@ -21,31 +23,31 @@ const AstrologerItems = memo(({ item, index, type = 'chat', dispatch }) => {
             astrologerName: item?.displayName,
             astrologerImage: item?.profileImage,
         }
-        if (type === 'chat') {
+        if (type === 'chat' || type === 'searched') {
             dispatch(ChatActions.sendChatRequest(payload))
         } else {
             dispatch(CallActions.sendCallRequest(payload))
         }
     }
 
-    const getStatusColor = (status)=>{
-        if(status === 'Online') return Colors.green_a
-        else if(status === 'Offline') return Colors.gray
+    const getStatusColor = (status) => {
+        if (status === 'Online') return Colors.green_a
+        else if (status === 'Offline') return Colors.gray
         else if (status === 'Busy') return 'red'
     }
 
-    const getPrice = (item)=>{
-        if(type === "chat"){
+    const getPrice = (item) => {
+        if (type === "chat" || type == 'searched') {
             return item?.chatPrice + item?.companyChatPrice
         }
         return item?.callPrice + item?.companyCallPrice
     }
 
-    const getOfferPrice = item =>{
-        if(type === "chat"){
-            return (item?.chatPrice + item?.companyChatPrice) - (item?.chatPrice + item?.companyChatPrice)*item?.chatCallOffer?.discount/100
+    const getOfferPrice = item => {
+        if (type === "chat" || type === 'searched') {
+            return (item?.chatPrice + item?.companyChatPrice) - (item?.chatPrice + item?.companyChatPrice) * item?.chatCallOffer?.discount / 100
         }
-        return (item?.callPrice + item?.companyCallPrice) - (item?.callPrice + item?.companyCallPrice)*item?.chatCallOffer?.discount/100
+        return (item?.callPrice + item?.companyCallPrice) - (item?.callPrice + item?.companyCallPrice) * item?.chatCallOffer?.discount / 100
     }
 
     return (
@@ -69,7 +71,7 @@ const AstrologerItems = memo(({ item, index, type = 'chat', dispatch }) => {
                             {item?.chatCallOffer?.displayName}
                         </Text>
                     </View>
-                )} 
+                )}
                 <Image source={{ uri: item?.profileImage }} style={styles.imageContainer} />
                 <Image
                     source={require('../../../assets/icons/verify.png')}
@@ -182,7 +184,7 @@ const AstrologerItems = memo(({ item, index, type = 'chat', dispatch }) => {
                         paddingVertical: Sizes.fixPadding * 0.5,
                     }}>
                     <Text style={{ ...Fonts.white14RobotoMedium }}>
-                        {type == 'chat' ? 'Chat Now' : 'Call Now'}
+                        {type == 'chat' || type === 'searched' ? 'Chat Now' : 'Call Now'}
                     </Text>
                 </TouchableOpacity>
             </View>
@@ -190,11 +192,8 @@ const AstrologerItems = memo(({ item, index, type = 'chat', dispatch }) => {
     );
 });
 
-const AstrologersList = ({ astroChatList, dispatch, type, astroCallList }) => {
-    const data = type === 'chat' ? astroChatList : astroCallList;
-
-    // console.log("astroChatList ===>>>", astroChatList?.docs)
-    // console.log("data ===>>>", data)
+const AstrologersList = ({ astroChatList, dispatch, type, astroCallList, searchedAstrologerData }) => {
+    const data = type === 'chat' ? astroChatList : type == 'call' ? astroCallList : searchedAstrologerData;
 
     const renderItem = useCallback(({ item, index }) => {
         return <AstrologerItems item={item} index={index} type={type} dispatch={dispatch} />;
@@ -203,7 +202,7 @@ const AstrologersList = ({ astroChatList, dispatch, type, astroCallList }) => {
     const keyExtractor = useCallback((item, index) => index.toString(), []);
 
     const getItemLayout = useCallback((data, index) => ({
-        length: SCREEN_WIDTH * 0.65, 
+        length: SCREEN_WIDTH * 0.65,
         offset: SCREEN_WIDTH * 0.65 * index,
         index,
     }), []);
@@ -214,7 +213,7 @@ const AstrologersList = ({ astroChatList, dispatch, type, astroCallList }) => {
                 marginTop: Sizes.fixPadding,
             }}>
             {data && <FlatList
-                data={data}
+                data={data?.docs}
                 renderItem={renderItem}
                 keyExtractor={keyExtractor}
                 numColumns={2}
@@ -223,8 +222,14 @@ const AstrologersList = ({ astroChatList, dispatch, type, astroCallList }) => {
                 getItemLayout={getItemLayout}
                 onEndReachedThreshold={0.1}
                 contentContainerStyle={{ paddingRight: Sizes.fixPadding * 1.5 }}
+                ListFooterComponent={() => <LoadMore />}
                 onEndReached={() => {
-                    // get_astrologer_on_end_reach(activeFilter, currentIndex + 1);
+                    if (type === 'searched') {
+                        dispatch(AstrologerActions.onAstrologerSearch({isLoadingMore: true, page: data?.nextPage}))
+                    } else {
+                        dispatch(AstrologerActions.getChatCallAstrologerList({ type, remediesId: 'All', page: data?.nextPage, isLoadingMore: true }))
+                    }
+
                 }}
             />}
         </View>
@@ -234,6 +239,7 @@ const AstrologersList = ({ astroChatList, dispatch, type, astroCallList }) => {
 const mapStateToProps = state => ({
     astroChatList: state.astrologer.astroChatList,
     astroCallList: state.astrologer.astroCallList,
+    searchedAstrologerData: state.astrologer.searchedAstrologerData
 })
 
 const mapDispatchToProps = dispatch => ({ dispatch })

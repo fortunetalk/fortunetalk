@@ -3,6 +3,7 @@ import * as actionTypes from '../actionTypes'
 const initialState = {
     isLoading: false,
     isRefreshing: false,
+    isLoadingMore: false,
     locationData: null,
     tabVisible: true
 }
@@ -20,6 +21,12 @@ const settings = (state = initialState, actions) => {
             return {
                 ...state,
                 isRefreshing: payload
+            }
+        }
+        case actionTypes.SET_IS_LOADING_MORE: {
+            return {
+                ...state,
+                isLoadingMore: payload
             }
         }
         case actionTypes.SET_LOCATION_DATA: {

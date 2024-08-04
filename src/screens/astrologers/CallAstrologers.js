@@ -9,13 +9,13 @@ import ChatCallHeader from './components/ChatCallHeader'
 import AstrologersList from './components/AstrologersList'
 import * as SettingActions from '../../redux/actions/settingActions'
 import * as AstrologerActions from '../../redux/actions/astrologerActions'
-import { View, FlatList, LayoutAnimation, Animated } from 'react-native'
+import { View, FlatList, LayoutAnimation, Animated, RefreshControl } from 'react-native'
 
-const CallAstrologers = ({ dispatch, tabVisible, isLoading, }) => {
+const CallAstrologers = ({ dispatch, tabVisible, isLoading, isRefreshing }) => {
   const scrollY = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
-    dispatch(AstrologerActions.getChatCallAstrologerList({ type: 'call' }))
+    dispatch(AstrologerActions.getChatCallAstrologerList({ page: 1, type: 'call', remediesId: 'All' }))
   }, [dispatch])
 
   const onScroll = (event) => {
@@ -41,10 +41,11 @@ const CallAstrologers = ({ dispatch, tabVisible, isLoading, }) => {
       <MyStatusBar backgroundColor={Colors.primaryLight} barStyle={'light-content'} />
       <Loader visible={isLoading} />
       <ChatCallHeader title={'Call'} />
-      <Category />
+      <Category type={'call'} />
       <View style={{ flex: 1 }}>
         <FlatList
           onScroll={onScroll}
+          refreshControl={<RefreshControl refreshing={isRefreshing} onRefresh={() => dispatch(AstrologerActions.getChatCallAstrologerList({ page: 1, type: 'call', remediesId: 'All' }))} />}
           ListHeaderComponent={<>
             <Banner />
             <AstrologersList type={'call'} />
@@ -58,6 +59,7 @@ const CallAstrologers = ({ dispatch, tabVisible, isLoading, }) => {
 const mapStateToProps = state => ({
   tabVisible: state.settings.tabVisible,
   isLoading: state.settings.isLoading,
+  isRefreshing: state.settings.isRefreshing,
 })
 
 const mapDispatchToProps = dispatch => ({ dispatch })

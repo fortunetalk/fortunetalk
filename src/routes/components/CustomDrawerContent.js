@@ -78,7 +78,7 @@ const CustomDrawerContent = ({ drawerProps, customerData }) => {
     function editButtonInfo() {
         return (
             <TouchableOpacity
-                onPress={() => navigation.navigate('register')}
+                onPress={() => navigation.navigate('profile')}
                 style={{
                     position: 'absolute',
                     top: Sizes.fixPadding,

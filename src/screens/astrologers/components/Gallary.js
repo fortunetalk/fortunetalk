@@ -25,7 +25,7 @@ const Gallary = ({ data }) => {
 
 
     const renderItem = ({ item, index }) => {
-        if (index === 7) {
+        if (index === 5) {
             return (
                 <TouchableOpacity
                     activeOpacity={0.8}
@@ -39,7 +39,7 @@ const Gallary = ({ data }) => {
         return (
             <TouchableOpacity
                 activeOpacity={0.8}
-                onPress={() => { setModalVisible(true), setShowImage(index) }}
+                onPress={() => navigate('imageView', { data, index })}
                 style={styles.imageContainer}
             >
                 <Image
@@ -71,10 +71,10 @@ const Gallary = ({ data }) => {
             </Text>
             {gallaryData && <FlatList
                 data={gallaryData}
-                renderItem={renderItem} numColumns={4}
+                renderItem={renderItem} numColumns={3}
             />}
 
-            {modalVisible && <ImageView showImage={showImage} images={data} modalVisible={modalVisible} setModalVisible={setModalVisible} />}
+            {/* {modalVisible && <ImageView showImage={showImage} images={data} modalVisible={modalVisible} setModalVisible={setModalVisible} />} */}
 
         </View>
     );
@@ -84,8 +84,8 @@ export default Gallary
 
 const styles = StyleSheet.create({
     imageContainer: {
-        width: SCREEN_WIDTH * 0.35,
-        height: SCREEN_WIDTH * 0.35,
+        width: SCREEN_WIDTH * 0.3,
+        height: SCREEN_WIDTH * 0.3,
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: Colors.white,

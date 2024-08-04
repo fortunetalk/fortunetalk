@@ -4,6 +4,7 @@ const initialState = {
     astroChatList: null,
     astroCallList: null,
     astrologerData: null,
+    astrolgoerReviewData: null,
     chatRequestModalData: {
         visible: false,
         data: null
@@ -18,9 +19,30 @@ const initialState = {
     },
     recentAstrologerData: null,
     onlineAstrologerData: null,
+    searchedAstrologerData: null,
+    astrologerSearchText: '',
     offerAstrologerData: null,
     trendingAstrologerData: null,
-    isFollow: false
+    isFollow: false,
+    astrologerFilterVisible: false,
+    astrologerFilters: {
+        gender: '',
+        language: [],
+        callPriceHighToLow: false,
+        callPriceLowToHigh: false,
+        chatPriceHighToLow: false,
+        chatPriceLowToHigh: false,
+        experienceHighToLow: false,
+        experienceLowToHigh: false,
+        followersHighToLow: false,
+        followersLowToHigh: false,
+        skillId: [],
+        chatCallOfferIds: [],
+    },
+    activeRemedies: 'All',
+    remediesData: null,
+    skillData: null,
+    offersData: null
 }
 
 const astrologer = (state = initialState, actions) => {
@@ -38,10 +60,28 @@ const astrologer = (state = initialState, actions) => {
                 astroCallList: payload
             }
         }
+        case actionTypes.SET_ASTROLOGER_SEARCHED_DATA: {
+            return {
+                ...state,
+                searchedAstrologerData: payload
+            }
+        }
+        case actionTypes.SET_ASTROLOGER_SEARCH_TEXT: {
+            return {
+                ...state,
+                astrologerSearchText: payload
+            }
+        }
         case actionTypes.SET_ASTROLOGER_DETAILS: {
             return {
                 ...state,
                 astrologerData: payload
+            }
+        }
+        case actionTypes.SET_ASTROLOGER_REVIEWS: {
+            return {
+                ...state,
+                astrolgoerReviewData: payload
             }
         }
         case actionTypes.SET_CHAT_REQUEST_MODAL_DATA: {
@@ -92,6 +132,50 @@ const astrologer = (state = initialState, actions) => {
                 isFollow: payload
             }
         }
+        case actionTypes.SET_ASTROLOGER_FILTERS_VISIBLE: {
+            return {
+                ...state,
+                astrologerFilterVisible: payload
+            }
+        }
+        case actionTypes.SET_ASTROLOGER_FILTERS: {
+            return {
+                ...state,
+                astrologerFilters: { ...state.astrologerFilters, ...payload }
+            }
+        }
+        case actionTypes.CLEAR_ASTROLOGER_FILTERS: {
+            return {
+                ...state,
+                astrologerFilters: initialState.astrologerFilters
+            }
+        }
+        case actionTypes.SET_ASTROLOGER_SKILLS: {
+            return {
+                ...state,
+                skillData: payload
+            }
+        }
+
+        case actionTypes.SET_ASTROLOGER_REMEDIES: {
+            return {
+                ...state,
+                remediesData: payload
+            }
+        }
+        case actionTypes.SET_ACTIVE_REMEDIES: {
+            return {
+                ...state,
+                activeRemedies: payload
+            }
+        }
+        case actionTypes.SET_ASTROLOGER_OFFERS: {
+            return {
+                ...state,
+                offersData: payload
+            }
+        }
+
         default: {
             return state
         }

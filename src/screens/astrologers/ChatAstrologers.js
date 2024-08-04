@@ -1,4 +1,4 @@
-import { View, Text, FlatList, LayoutAnimation, Animated } from 'react-native'
+import { View, Text, FlatList, LayoutAnimation, Animated, RefreshControl } from 'react-native'
 import React, { useEffect, useRef } from 'react'
 import { Colors } from '../../assets/styles'
 import MyStatusBar from '../../components/MyStatusBar'
@@ -11,12 +11,14 @@ import { connect } from 'react-redux'
 import Filters from './components/Filters'
 import * as AstrologerActions from '../../redux/actions/astrologerActions'
 import Loader from '../../components/Loader'
+import RefreshView from '../../components/RefreshView'
 
-const ChatAstrologers = ({ dispatch, tabVisible, isLoading, }) => {
+const ChatAstrologers = ({ dispatch, tabVisible, isLoading, isRefreshing }) => {
+  console.log(isLoading);
   const scrollY = useRef(new Animated.Value(0)).current
 
   useEffect(() => {
-    dispatch(AstrologerActions.getChatCallAstrologerList({ type: 'chat', }))
+    dispatch(AstrologerActions.getChatCallAstrologerList({ page: 1, type: 'chat', remediesId: 'All' }))
   }, [dispatch])
 
   const onScroll = (event) => {
@@ -42,17 +44,18 @@ const ChatAstrologers = ({ dispatch, tabVisible, isLoading, }) => {
       <MyStatusBar backgroundColor={Colors.primaryLight} barStyle={'light-content'} />
       <Loader visible={isLoading} />
       <ChatCallHeader title={'Chat'} />
-      <Category />
+      <Category type={'chat'} />
       <View style={{ flex: 1 }}>
         <FlatList
           onScroll={onScroll}
+          refreshControl={<RefreshControl refreshing={isRefreshing} onRefresh={() => dispatch(AstrologerActions.getChatCallAstrologerList({ page: 1, type: 'chat', remediesId: 'All' }))} />}
           ListHeaderComponent={<>
             <Banner />
             <AstrologersList type={'chat'} />
           </>}
         />
       </View>
-      {/* <Filters /> */}
+      <Filters filterFor={'chat'} />
     </View>
   )
 
@@ -61,6 +64,7 @@ const ChatAstrologers = ({ dispatch, tabVisible, isLoading, }) => {
 const mapStateToProps = state => ({
   tabVisible: state.settings.tabVisible,
   isLoading: state.settings.isLoading,
+  isRefreshing: state.settings.isRefreshing,
 })
 
 const mapDispatchToProps = dispatch => ({ dispatch })

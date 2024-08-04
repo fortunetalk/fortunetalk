@@ -10,6 +10,7 @@ import history from './historyReducer';
 import banners from './banners';
 import call from './callReducer';
 import cart from './cartReducer';
+import payment from './paymentReducer';
 
 const rootReducer = combineReducers({
   settings,
@@ -22,7 +23,8 @@ const rootReducer = combineReducers({
   history,
   banners,
   call,
-  cart
+  cart,
+  payment
 });
 
 const appReducer = (state, action) => {

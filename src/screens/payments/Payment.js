@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import * as PaymentActions from '../../redux/actions/paymentActions'
 
 const Payment = ({ route, navigation, dispatch }) => {
-    const { amount, type } = route?.params || {}
+    const { amount, type, planId } = route?.params || {}
     return (
         <View style={{ flex: 1, backgroundColor: Colors.bodyColor }}>
             <MyStatusBar
@@ -54,7 +54,7 @@ const Payment = ({ route, navigation, dispatch }) => {
                 </View> */}
                 <TouchableOpacity
                     activeOpacity={0.8}
-                    onPress={()=>dispatch(PaymentActions.onWalletRechage({amount, type: route?.params?.type}))}
+                    onPress={()=>dispatch(PaymentActions.onWalletRechage({amount, type: route?.params?.type, planId}))}
                     style={{
                         flex: 0.6,
                         backgroundColor: Colors.primaryLight,

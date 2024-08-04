@@ -2,8 +2,11 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
 import React from 'react'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import { Colors, Sizes, Fonts } from '../../../assets/styles'
+import { connect } from 'react-redux'
+import * as AstrologerActions from '../../../redux/actions/astrologerActions'
+import { goBack, navigate } from '../../../utils/navigationServices'
 
-const ChatCallHeader = ({title}) => {
+const ChatCallHeader = ({ title, dispatch }) => {
     return (
         <View
             style={{
@@ -12,7 +15,7 @@ const ChatCallHeader = ({title}) => {
                 justifyContent: 'space-between',
             }}>
             <TouchableOpacity
-                // onPress={() => go_home()}
+                onPress={() => goBack()}
                 style={{
                     alignSelf: 'flex-start',
                     flex: 0.2,
@@ -36,12 +39,10 @@ const ChatCallHeader = ({title}) => {
             <View style={{ ...styles.row }}>
                 <TouchableOpacity
                     activeOpacity={0.8}
-                    // onPress={() =>
-                    //     navigation.navigate('searchAstrologers', {
-                    //         astrologerData: searchableData,
-                    //     })
-                    // }
-                    >
+                    onPress={() =>
+                        navigate('searchAstrologer')
+                    }
+                >
                     <AntDesign
                         name="search1"
                         color={Colors.primaryLight}
@@ -50,7 +51,7 @@ const ChatCallHeader = ({title}) => {
                 </TouchableOpacity>
                 <TouchableOpacity
                     activeOpacity={0.8}
-                    // onPress={() => updateState({ filterVisible: true })}
+                    onPress={() => dispatch(AstrologerActions.setAstrologerFiltersVisible(true))}
                     style={{ marginLeft: Sizes.fixPadding * 1 }}>
                     <AntDesign
                         name="filter"
@@ -63,12 +64,18 @@ const ChatCallHeader = ({title}) => {
     )
 }
 
-export default ChatCallHeader
+const mapStateToProps = (state) => ({
+    astrologerFilterVisible: state.astrologer.astrologerFilterVisible
+})
+
+const mapDispatchToProps = (dispatch) => ({ dispatch })
+
+export default connect(mapStateToProps, mapDispatchToProps)(ChatCallHeader)
 
 const styles = StyleSheet.create({
     row: {
         flex: 0,
         flexDirection: 'row',
         alignItems: 'center',
-      },
+    },
 })

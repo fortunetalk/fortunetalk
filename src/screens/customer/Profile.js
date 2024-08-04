@@ -28,7 +28,7 @@ import { base_url } from '../../config/constants';
 import * as SettingActions from '../../redux/actions/settingActions'
 
 const Profile = ({ navigation, locationData, customerData, dispatch, isLoading }) => {
-    console.log(locationData)
+    console.log(customerData)
     const [state, setState] = useState({
         firstName: customerData?.firstName ?? '',
         lastName: customerData?.lastName ?? '',

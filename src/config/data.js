@@ -4,6 +4,11 @@ export const genderData = [
   { label: 'Other', value: 'Other' },
 ];
 
+export const languageData = [
+  { label: 'Hindi', value: 'Hindi' },
+  { label: 'English', value: 'English' },
+];
+
 export const occupationData = [
   { label: 'Student', value: 'Student' },
   { label: 'Employee', value: 'Employee' },
@@ -56,7 +61,7 @@ export const filtersTypes = [
   { id: 2, name: 'Skill', value: 'skill' },
   { id: 3, name: 'Language', value: 'language' },
   { id: 4, name: 'Gender', value: 'gender' },
-  { id: 5, name: 'Country', value: 'country' },
+  // { id: 5, name: 'Country', value: 'country' },
   { id: 6, name: 'Offer', value: 'offer' },
 ];
 

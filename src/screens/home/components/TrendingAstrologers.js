@@ -57,9 +57,10 @@ const TrendingAstrologers = ({ trendingAstrologerData, dispatch }) => {
           borderWidth: 2,
           borderColor: Colors.primaryLight
         }}>
-          <View style={{backgroundColor: Colors.primaryLight, width: '100%'}}>
-            <Text style={{...Fonts._13InterMedium, textAlign: 'center', color: Colors.white}}>Trending</Text>
-          </View>
+        <Image
+          source={require('../../../assets/gifs/trending.gif')}
+          style={{ width: '100%', height: Sizes.fixPadding * 2 }}
+        />
         <View
           style={{
             paddingHorizontal: Sizes.fixPadding * 0.3,
@@ -94,15 +95,14 @@ const TrendingAstrologers = ({ trendingAstrologerData, dispatch }) => {
                 color={Colors.primaryLight}
               />
             }
-          // halfStar={<Icon name={'star-half'} style={[styles.myStarStyle]} />}
           />
           <Text numberOfLines={1} style={{ ...Fonts.black14InterMedium }}>
             {item?.name}
           </Text>
-          <Text numberOfLines={1} style={{ ...Fonts.gray9RobotoRegular }}>
+          <Text numberOfLines={1} style={{ ...Fonts.gray9RobotoRegular, color: Colors.black }}>
             {item?.experties?.join(', ')}
           </Text>
-          <Text numberOfLines={1} style={{ ...Fonts.gray9RobotoRegular }}>
+          <Text numberOfLines={1} style={{ ...Fonts.gray9RobotoRegular, color: Colors.black  }}>
             {item?.languages?.join(', ')}
           </Text>
           <Text
@@ -154,20 +154,19 @@ const TrendingAstrologers = ({ trendingAstrologerData, dispatch }) => {
   };
   return (
     <>
-      {
-        trendingAstrologerData && <View
-          style={{
-            borderBottomWidth: 1,
-            borderBottomColor: Colors.grayLight,
-            marginTop: Sizes.fixPadding * 1.5,
-          }}>
-          <FlatList
-            data={trendingAstrologerData}
-            renderItem={renderItem}
-            horizontal
-            contentContainerStyle={{ paddingRight: Sizes.fixPadding * 1.5 }}
-          />
-        </View>
+      {trendingAstrologerData && <View
+        style={{
+          borderBottomWidth: 1,
+          borderBottomColor: Colors.grayLight,
+          marginTop: Sizes.fixPadding * 1.5,
+        }}>
+        <FlatList
+          data={trendingAstrologerData}
+          renderItem={renderItem}
+          horizontal
+          contentContainerStyle={{ paddingRight: Sizes.fixPadding * 1.5 }}
+        />
+      </View>
       }
     </>
 

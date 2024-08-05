@@ -1,9 +1,8 @@
+import { app_api_url, create_razorpay_order, razorpay_key } from '../config/constants';
 import RazorpayCheckout from 'react-native-razorpay';
 import { Colors } from '../assets/styles';
-import { app_api_url, create_razorpay_order, razorpay_key } from '../config/constants';
 import { postRequest } from './apiRequests';
 import { showToastMessage } from './services';
-
 
 export const razorpayPayment = async ({ amount = 0, email = '', contact = '', name = '' }) => {
     try {
@@ -18,7 +17,6 @@ export const razorpayPayment = async ({ amount = 0, email = '', contact = '', na
         })
 
         console.log("rayzorPayResponse  ====>>>", orderResponse)
-
 
         if (!orderResponse?.success) {
             showToastMessage({ message: 'Payment Failed' })

@@ -11,6 +11,7 @@ import banners from './banners';
 import call from './callReducer';
 import cart from './cartReducer';
 import payment from './paymentReducer';
+import Mcq from './McqReducer';
 
 const rootReducer = combineReducers({
   settings,
@@ -24,7 +25,8 @@ const rootReducer = combineReducers({
   banners,
   call,
   cart,
-  payment
+  payment,
+  Mcq
 });
 
 const appReducer = (state, action) => {

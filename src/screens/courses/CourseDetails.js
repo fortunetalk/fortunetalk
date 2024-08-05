@@ -97,7 +97,7 @@ const CourseDetails = ({
                     customerName: name,
                     mobileNumber: phoneNumber,
                     amount: 1000,
-                    // paymentType: "pending"
+                    paymentType: "pending"
                 }))
             }
         }

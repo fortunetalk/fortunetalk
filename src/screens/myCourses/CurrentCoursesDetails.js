@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -7,21 +7,29 @@ import {
   Linking,
 } from 'react-native';
 import moment from 'moment';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import LinearGradient from 'react-native-linear-gradient';
+import { connect } from 'react-redux';
+import MyHeader from '../../components/MyHeader';
 import Video from '../../components/Courses/Video';
-import { Colors, Fonts, Sizes } from '../../assets/styles';
 import { check_current_day } from '../../utils/tools';
 import MyStatusBar from '../../components/MyStatusBar';
-import MyHeader from '../../components/MyHeader';
-import { connect } from 'react-redux';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import LinearGradient from 'react-native-linear-gradient';
+import { Colors, Fonts, Sizes } from '../../assets/styles';
 import * as CourseActions from '../../redux/actions/courseActions'
+import McqInstruction from './McqInstruction';
 
 const CurrentCoursesDetails = ({ dispatch, route, liveClassOfClass }) => {
   const classData = route.params.course
+  const [modal, setModal] = useState(false)
+
   useEffect(() => {
     dispatch(CourseActions.liveClassOfClass({ liveClassId: classData?.liveId?._id }));
   }, [])
+
+  const handleContinue = () => {
+    
+  }
+
   return (
     <View
       style={{
@@ -43,9 +51,32 @@ const CurrentCoursesDetails = ({ dispatch, route, liveClassOfClass }) => {
           </>
         }
       />
+      {mcq()}
+      <McqInstruction handleContinue={handleContinue} visible={modal} onClose={() => setModal(false)} />
     </View>
   );
 
+  function mcq() {
+    return (
+      <TouchableOpacity
+        activeOpacity={0.8}
+        onPress={() => setModal(true)}
+        style={{
+          marginHorizontal: Sizes.fixPadding * 3,
+          marginVertical: Sizes.fixPadding * 2,
+          borderRadius: Sizes.fixPadding * 4,
+          overflow: 'hidden',
+        }}>
+        <LinearGradient
+          colors={[Colors.primaryLight, Colors.primaryDark]}
+          style={{ paddingVertical: Sizes.fixPadding }}>
+          <Text style={{ ...Fonts.white18RobotMedium, textAlign: 'center', fontSize: 14 }}>
+            Click Here for MCQ's Test
+          </Text>
+        </LinearGradient>
+      </TouchableOpacity>
+    );
+  }
 
   function classInfo() {
     const renderItem = ({ item, index }) => {

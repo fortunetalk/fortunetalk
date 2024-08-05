@@ -1,8 +1,8 @@
 export const base_url = 'http://97.74.83.200:4000/'
 // export const app_api_url = 'http://97.74.83.200:4000/api/app/customers/'
-// export const app_api_url = 'https://node-backend-jcdp.onrender.com/api/app/'
+export const app_api_url = 'https://node-backend-jcdp.onrender.com/api/app/'
 // export const app_api_url = 'https://10.0.2.2:8000/api/app/'
-export const app_api_url = 'http://97.74.83.200:4000/api/app/'
+// export const app_api_url = 'http://97.74.83.200:4000/api/app/'
 
 export const customer_login = 'customers/customer_login'
 export const customer_otp_verify = 'customers/customer_otp_verify'
@@ -19,6 +19,11 @@ export const get_astrologer_offers = 'astrologer/get_astrologer_offers'
 export const get_astrologer_reviews = 'customers/get_astrologer_reviews'
 export const customer_wallet_recharge = 'customers/customer_wallet_recharge'
 export const get_customer_recharge_plans = 'customers/get_customer_recharge_plans'
+
+// mcq 
+// get_mcq
+export const get_mcq = 'customers/get_customer_recharge_plans'
+
 export const create_razorpay_order = 'customers/create_razorpay_order'
 
 export const get_customer_wallet_history = 'customers/get_customer_wallet_history'

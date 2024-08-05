@@ -15,6 +15,8 @@ function* getWalletHistory() {
             }
         })
 
+        console.log(response)
+
         if (response?.success) {
             yield put({ type: actionTypes.SET_WALLET_HISTORY, payload: response.data })
         }

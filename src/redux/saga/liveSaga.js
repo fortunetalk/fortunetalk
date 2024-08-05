@@ -457,10 +457,10 @@ function* addInWaitingList(actions) {
     yield put({ type: actionTypes.SET_LIVE_CALLS_VISIBLE, payload: false })
     const customerData = yield select(state => state.customer.customerData);
     const isRegistered = yield isUserRegistered(customerData)
-        if(!isRegistered){
-            navigate('profile')
-            return
-        }
+    if (!isRegistered) {
+      navigate('profile')
+      return
+    }
     const liveID = yield select(state => state.live.liveID);
     const liveData = yield select(state => state.live.liveData);
     if (liveData?.vedioCallPrice > customerData?.wallet_balance * 5) {

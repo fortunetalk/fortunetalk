@@ -26,6 +26,7 @@ const AstrologerItems = memo(({ item, index, type = 'chat', dispatch }) => {
         if (type === 'chat' || type === 'searched') {
             dispatch(ChatActions.sendChatRequest(payload))
         } else {
+            console.log('hii')
             dispatch(CallActions.sendCallRequest(payload))
         }
     }
@@ -227,7 +228,7 @@ const AstrologersList = ({ astroChatList, dispatch, type, astroCallList, searche
                 ListFooterComponent={() => <LoadMore />}
                 onEndReached={() => {
                     if (type === 'searched') {
-                        dispatch(AstrologerActions.onAstrologerSearch({isLoadingMore: true, page: data?.nextPage}))
+                        dispatch(AstrologerActions.onAstrologerSearch({ isLoadingMore: true, page: data?.nextPage }))
                     } else {
                         dispatch(AstrologerActions.getChatCallAstrologerList({ type, remediesId: 'All', page: data?.nextPage, isLoadingMore: true }))
                     }

@@ -36,14 +36,16 @@ const WalletHistory = ({ route, navigation, customerData, dispatch, walletHistor
             switch (item.type) {
                 case 'WALLET_RECHARGE':
                     return 'Wallet Recharged'
-                case 'LIVE_VEDIO_CALL':
-                    return 'Withdrawal'
+                case 'LIVE_VIDEO_CALL':
+                    return `Live Video Call with ${item?.astrologerId?.name} for ${secondsToHMS(item?.referenceId?.durationInSeconds)}`
+                case 'LIVE_VOICE_CALL':
+                    return `Live Voice Call with ${item?.astrologerId?.name} for ${secondsToHMS(item?.referenceId?.durationInSeconds)}`
                 case 'GIFT':
-                    return 'Transfer'
+                    return `Gift send to ${item?.astrologerId?.name}`
                 case 'CALL':
-                    return 'Transfer'
+                    return `Call with ${item?.astrologerId?.name} for ${secondsToHMS(item?.referenceId?.durationInSeconds)}`
                 case 'CHAT':
-                    return `Chat with ${item?.referenceId?.astrologerId?.name} for ${secondsToHMS(item?.referenceId?.durationInSeconds)}`
+                    return `Chat with ${item?.astrologerId?.name} for ${secondsToHMS(item?.referenceId?.durationInSeconds)}`
                 default:
                     return ''
             }

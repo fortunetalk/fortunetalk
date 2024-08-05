@@ -6,15 +6,13 @@ import LottieView from "lottie-react-native";
 import { showNumber } from '../../utils/services';
 import MyHeader from '../../components/MyHeader';
 import Ionicons from 'react-native-vector-icons/Ionicons'
-import { useNavigation } from '@react-navigation/native';
 import * as CallActions from '../../redux/actions/callActions'
 import * as ChatActions from '../../redux/actions/chatActions'
 import { SCREEN_WIDTH, Sizes, Fonts, Colors } from '../../assets/styles';
 import { View, Text, StyleSheet, TouchableOpacity, Image, FlatList, ImageBackground } from 'react-native'
 import { Input } from 'react-native-elements';
 
-const OnlineAstrologers = ({ dispatch, onlineAstrologerData, isLoading }) => {
-    const navigation = useNavigation()
+const OnlineAstrologers = ({ dispatch, onlineAstrologerData, isLoading, navigation }) => {
 
     const onChat = (item) => {
         const payload = {
@@ -40,11 +38,11 @@ const OnlineAstrologers = ({ dispatch, onlineAstrologerData, isLoading }) => {
         return (
             <TouchableOpacity
                 activeOpacity={0.8}
-                // onPress={() =>
-                //   navigation.navigate('astrologerDetailes', {
-                //     data: item?.id,
-                //   })
-                // }
+                onPress={() =>
+                  navigation.navigate('astrologerDetails', {
+                    _id: item?._id,
+                  })
+                }
                 style={{
                     width: '43.45%',
                     marginLeft: Sizes.fixPadding * 2,

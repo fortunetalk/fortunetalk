@@ -16,6 +16,7 @@ function* sendCallRequest(actions) {
             yield put({ type: actionTypes.SET_IS_LOADING, payload: false })
             return
         }
+        yield put({type: actionTypes.SET_IS_LOADING, payload: true})
         const response = yield postRequest({
             url: app_api_url + initiate_zego_call,
             data: {
@@ -32,11 +33,12 @@ function* sendCallRequest(actions) {
             showToastMessage({ message: response?.message })
         }
 
-        console.log(response)
+        yield put({type: actionTypes.SET_IS_LOADING, payload: false})
 
 
     } catch (e) {
         console.log(e)
+        yield put({type: actionTypes.SET_IS_LOADING, payload: false})
     }
 }
 

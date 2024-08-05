@@ -8,7 +8,7 @@ import LinearGradient from 'react-native-linear-gradient'
 import * as HistoryActions from '../../redux/actions/historyActions'
 import { connect } from 'react-redux'
 import moment from 'moment'
-import { secondsToHMS } from '../../utils/services'
+import { secondsToHMS, showNumber } from '../../utils/services'
 
 const CallHistory = ({ route, callHistory, dispatch }) => {
 
@@ -51,7 +51,7 @@ const CallHistory = ({ route, callHistory, dispatch }) => {
 
                     <View style={{ flexDirection: "row", alignItems: "center", gap: 5 }} >
                         <Text style={{ ...Fonts._13InterMedium, color: Colors.black, }}>Deducted Amount:</Text>
-                        <Text style={{ ...Fonts._15InterMedium, color: Colors.black }}>{item?.deductedAmount ? `₹${item?.deductedAmount}` : "₹ 0"}</Text>
+                        <Text style={{ ...Fonts._15InterMedium, color: Colors.black }}>{showNumber(item?.deductedAmount ?? 0) }</Text>
                     </View>
                 </View>
             )

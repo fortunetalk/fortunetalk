@@ -229,9 +229,9 @@ const AstrologerDetails = ({ navigation, dispatch, isLoading, route, astrologerD
                         justifyContent: 'space-evenly',
                     }}>
                     <View style={[styles.boxContainer, styles.center]}>
-                        <Text style={{ ...Fonts._11RobotoMedium, color: Colors.grayC }}>({astrologerData?.avgRating ?? 1})</Text>
+                        <Text style={{ ...Fonts._11RobotoMedium, color: Colors.grayC }}>({astrologerData?.rating ?? 1})</Text>
                         <Stars
-                            default={astrologerData?.avgRating}
+                            default={astrologerData?.rating}
                             count={5}
                             half={false}
                             starSize={14}

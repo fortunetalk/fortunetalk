@@ -313,31 +313,27 @@ function* registerLiveClass(actions) {
         const customerData = yield select(state => state.customer.customerData)
         const { payload } = actions
 
-        // const rayzorPayResponse = yield razorpayPayment({
-        //     amount: parseInt(payload?.amount),
-        //     email: customerData?.email,
-        //     name: customerData?.name,
-        //     contact: customerData?.phoneNumber
-        // })
-        // console.log("rayzorPayResponse registerLiveClass ===>>>", rayzorPayResponse)
-        // console.log(" payload rayzorPayResponse ===>>>", payload)
+        const rayzorPayResponse = yield razorpayPayment({ amount: payload?.amount, email: '', contact: payload?.mobileNumber, name: payload?.customerName })
 
-        console.log("payload  ====>>>>", payload)
-        const response = yield postRequest({
-            url: app_api_url + register_for_live_class,
-            data: payload
-        })
-
-        // console.log("resp dmd registerLiveClass", response?.data)
-
-        if (response?.success) {
-            yield put({ type: actionTypes.REGISTER_FOR_LIVE_CLASS, payload: response?.data })
-            yield call(showToastMessage, { message: "Class Registered Successfully" })
-            navigate("liveclassdetails", {
-                id: response?.data?.liveClassId,
-                title: "Live"
+        if (rayzorPayResponse) {
+            const response = yield postRequest({
+                url: app_api_url + register_for_live_class,
+                data: payload
             })
+
+            // console.log("resp dmd registerLiveClass", response?.data)
+
+            if (response?.success) {
+                yield put({ type: actionTypes.REGISTER_FOR_LIVE_CLASS, payload: response?.data })
+                yield call(showToastMessage, { message: "Class Registered Successfully" })
+                navigate("liveclassdetails", {
+                    id: response?.data?.liveClassId,
+                    title: "Live"
+                })
+            }
         }
+
+
 
         yield put({ type: actionTypes.SET_IS_LOADING, payload: false })
     } catch (e) {

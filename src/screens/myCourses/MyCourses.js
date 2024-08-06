@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux';
-import { Text, View } from 'react-native'
+import { View } from 'react-native'
 import { FlatList } from 'react-native';
 import { Colors } from '../../assets/styles';
 import Loader from '../../components/Loader';
@@ -11,7 +11,7 @@ import CurrentCourses from './CurrentCourses';
 import MyStatusBar from '../../components/MyStatusBar';
 import * as CourseActions from '../../redux/actions/courseActions'
 
-const MyCourses = ({ isLoading, route, dispatch, currentLiveCourse }) => {
+const MyCourses = ({ isLoading, route, dispatch }) => {
   const [activeFilter, setActiveFilter] = useState(1);
 
   useEffect(() => {

@@ -1,8 +1,8 @@
 import * as actionTypes from "../actionTypes"
 import { postRequest } from "../../utils/apiRequests"
-import { put, takeLeading } from "redux-saga/effects"
-import { app_api_url, get_mcq, submit_mcq } from "../../config/constants"
 import { showToastMessage } from "../../utils/services"
+import { call, put, takeLeading } from "redux-saga/effects"
+import { app_api_url, get_mcq, submit_mcq } from "../../config/constants"
 
 function* getMCQ(actions) {
     try {
@@ -18,6 +18,7 @@ function* getMCQ(actions) {
 
         if (response?.success) {
             yield put({ type: actionTypes.GET_MCQ, payload: response?.data })
+            yield put({ type: actionTypes.SUBMIT_MCQ, payload: null })
         }
 
         yield put({ type: actionTypes.SET_IS_LOADING, payload: false })
@@ -32,15 +33,19 @@ function* submitMCQ(actions) {
         yield put({ type: actionTypes.SET_IS_LOADING, payload: true })
         const { payload } = actions
 
+        console.log("payload submitMCQ ====>>>>>", payload)
+        // console.log("app_api_url + submit_mcq", app_api_url + submit_mcq)
+
         const response = yield postRequest({
             url: app_api_url + submit_mcq,
             data: payload
         })
 
-        console.log(" response?.data  =====>>>>",  response?.data)
+        console.log("response =====>>>>", response)
 
         if (response?.success) {
-            // yield put({ type: actionTypes.SUBMIT_MCQ, payload: response?.data })
+            yield put({ type: actionTypes.SUBMIT_MCQ, payload: response })
+            yield put({ type: actionTypes.SUCCESS_MCQ, payload: true })
             yield call(showToastMessage, { message: response?.message })
         }
 

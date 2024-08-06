@@ -27,7 +27,6 @@ function* sendCallRequest(actions) {
 
         if (response?.success) {
             const callTo = [{ userID: astrologerId, userName: astrologerName ?? 'Astrologer', }]
-            console.log(callTo)
             yield call(sendCallInvitation, { navigation, callTo, customData: response?.data?.transactionId })
         } else {
             showToastMessage({ message: response?.message })

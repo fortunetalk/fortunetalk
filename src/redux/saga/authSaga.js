@@ -68,10 +68,10 @@ function* onFacebookLogin(actions) {
         if (result.isCancelled) {
             console.log('Login cancelled');
         } else {
-            console.log(
-                'Login success with permissions: ' +
-                result.grantedPermissions.toString()
-            );
+            // console.log(
+            //     'Login success with permissions: ' +
+            //     result.grantedPermissions.toString()
+            // );
             const currentProfile = yield Profile.getCurrentProfile();
             if (currentProfile) {
                 yield put({ type: actionTypes.SET_IS_LOADING, payload: true })

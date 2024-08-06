@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import moment from 'moment';
 import { connect } from 'react-redux';
+import McqInstruction from './McqInstruction';
 import MyHeader from '../../components/MyHeader';
 import Video from '../../components/Courses/Video';
 import { check_current_day } from '../../utils/tools';
@@ -16,18 +17,21 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
 import { Colors, Fonts, Sizes } from '../../assets/styles';
 import * as CourseActions from '../../redux/actions/courseActions'
-import McqInstruction from './McqInstruction';
+import * as MCQActions from '../../redux/actions/McqActions'
+import { navigate } from '../../utils/navigationServices';
 
-const CurrentCoursesDetails = ({ dispatch, route, liveClassOfClass }) => {
+const CurrentCoursesDetails = ({ dispatch, route, liveClassOfClass, getMCQ }) => {
   const classData = route.params.course
   const [modal, setModal] = useState(false)
 
   useEffect(() => {
     dispatch(CourseActions.liveClassOfClass({ liveClassId: classData?.liveId?._id }));
+    dispatch(MCQActions.onGetMCQ({ liveClassId: classData?.liveId?._id }));
   }, [])
 
   const handleContinue = () => {
-    
+    setModal(false)
+    navigate("mcqtest")
   }
 
   return (
@@ -52,7 +56,14 @@ const CurrentCoursesDetails = ({ dispatch, route, liveClassOfClass }) => {
         }
       />
       {mcq()}
-      <McqInstruction handleContinue={handleContinue} visible={modal} onClose={() => setModal(false)} />
+      <McqInstruction
+        handleContinue={handleContinue}
+        visible={modal}
+        onClose={() => setModal(false)}
+        questions={getMCQ?.totalQuestions}
+        time={getMCQ?.totalTime}
+        marks={getMCQ?.totalMarks}
+      />
     </View>
   );
 
@@ -212,6 +223,8 @@ const CurrentCoursesDetails = ({ dispatch, route, liveClassOfClass }) => {
 const mapStateToProps = state => ({
   currentLiveCourse: state.courses.currentLiveCourse,
   liveClassOfClass: state.courses.liveClassOfClass,
+  isLoading: state.settings.isLoading,
+  getMCQ: state.Mcq.getMCQ
 });
 
 const mapDispatchToProps = dispatch => ({ dispatch })

@@ -5,4 +5,9 @@ export const onGetMCQ = (payload) => ({
     payload
 })
 
+export const onSubmitMCQ = (payload) => ({
+    type: actionTypes.SUBMIT_MCQ,
+    payload
+})
+
 

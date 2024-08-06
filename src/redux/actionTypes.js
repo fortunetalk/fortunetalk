@@ -101,6 +101,7 @@ export const GET_COMPLETED_LIVE_COURSE_HISTORY = "GET_COMPLETED_LIVE_COURSE_HIST
 
 //mcq
 export const GET_MCQ = "GET_MCQ"
+export const SUBMIT_MCQ = "SUBMIT_MCQ"
 
 //Chat
 export const SEND_CHAT_REQUEST = 'SEND_CHAT_REQUEST';

@@ -21,8 +21,8 @@ export const customer_wallet_recharge = 'customers/customer_wallet_recharge'
 export const get_customer_recharge_plans = 'customers/get_customer_recharge_plans'
 
 // mcq 
-// get_mcq
-export const get_mcq = 'customers/get_customer_recharge_plans'
+export const get_mcq = 'mcq/mcqsByLiveClassId'
+export const submit_mcq = 'mcq/mcqsByLiveClassId'
 
 export const create_razorpay_order = 'customers/create_razorpay_order'
 

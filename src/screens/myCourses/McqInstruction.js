@@ -6,7 +6,10 @@ import { Modal, Text, TouchableOpacity, View, StyleSheet } from 'react-native';
 const McqInstruction = ({
     visible,
     onClose,
-    handleContinue
+    handleContinue,
+    questions,
+    time,
+    marks
 }) => {
     return (
         <Modal
@@ -27,8 +30,9 @@ const McqInstruction = ({
                         }}
                     >
                         <Text style={{ padding: 3, color: Colors.gray }}>• Welcome to Online Exam for General Aptitude Exam</Text>
-                        <Text style={{ padding: 3, color: Colors.gray }}>• Exam has Total 10 </Text>
-                        <Text style={{ padding: 3, color: Colors.gray }}>• Total Time for Exam is 30 Minutes</Text>
+                        <Text style={{ padding: 3, color: Colors.gray }}>• Exam has Total {questions} Questions</Text>
+                        <Text style={{ padding: 3, color: Colors.gray }}>• Total Marks {marks}</Text>
+                        <Text style={{ padding: 3, color: Colors.gray }}>• Total Time for Exam is {time} Minutes</Text>
                     </View>
 
                     <View style={{
@@ -81,10 +85,11 @@ const styles = StyleSheet.create({
         width: '80%'
     },
     modalTitle: {
-        fontSize: 16,
+        fontSize: 20,
         marginBottom: 10,
         textAlign: 'center',
-        color: Colors.red
+        color: Colors.primaryDark,
+        fontWeight:"700"
     },
 });
 

@@ -55,6 +55,7 @@ import AstrologyBlogs from '../screens/AstrologyBlogs';
 import CurrentCoursesDetails from '../screens/myCourses/CurrentCoursesDetails';
 import CompletedCoursesDetails from '../screens/myCourses/CompletedCoursesDetails';
 import SearchAstrologer from '../screens/astrologers/SearchAstrologer';
+import MCQTest from '../screens/myCourses/MCQTest';
 
 const Stack = createNativeStackNavigator();
 
@@ -99,7 +100,7 @@ const StackRoutes = () => {
             <Stack.Screen name="workshopDetails" component={WorkshopDetails} />
             <Stack.Screen name="onlineastrologers" component={OnlineAstrologers} />
             <Stack.Screen name="astrologyBlogs" component={AstrologyBlogs} />
-
+            <Stack.Screen name="mcqtest" component={MCQTest} />
 
             <Stack.Screen name="payment" component={Payment} options={{ animation: 'fade_from_bottom' }} />
             <Stack.Screen name="chatScreen" component={ChatScreen} />

@@ -56,3 +56,15 @@ export const check_current_day = ({ date = new Date(), type = 'equal' }) => {
   }
 };
 
+export const formatMCQData = (data) => {
+  return data.map(item => ({
+    _id: item._id,
+    question: item.question,
+    liveClassId: item.liveClassId,
+    choices: item.choices.map(mcq => ({
+      text: mcq.text,
+      isCorrect: false,
+      _id: mcq?._id
+    }))
+  }));
+};

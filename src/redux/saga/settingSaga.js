@@ -60,7 +60,7 @@ function* getCustomerData() {
 function* getHomeData() {
     try {
         const customer = yield select(state => state.customer.customerData)
-        yield put({ type: actionTypes.SET_IS_LOADING, payload: true })
+        yield put({ type: actionTypes.SET_HOME_SIMMER_VISIBLE, payload: true })
 
         const topBannerResponse = yield getRequest({
             url: app_api_url + banner,
@@ -118,13 +118,13 @@ function* getHomeData() {
             yield put({ type: actionTypes.SET_TRENDING_ASTROLOGERS, payload: trendingAstrologer?.data?.docs })
         }
 
-        yield put({ type: actionTypes.SET_IS_LOADING, payload: false })
+        yield put({ type: actionTypes.SET_HOME_SIMMER_VISIBLE, payload: false })
 
 
 
     } catch (e) {
         console.log(e)
-        yield put({ type: actionTypes.SET_IS_LOADING, payload: false })
+        yield put({ type: actionTypes.SET_HOME_SIMMER_VISIBLE, payload: false })
     }
 }
 

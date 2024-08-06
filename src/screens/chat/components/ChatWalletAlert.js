@@ -10,7 +10,7 @@ import { navigate } from '../../../utils/navigationServices'
 import * as ChatActions from '../../../redux/actions/chatActions'
 var Sound = require('react-native-sound');
 
-var whoosh = new Sound('low_balance.m4a', Sound.MAIN_BUNDLE, error => {
+var whoosh = new Sound('low_balance.mp4', Sound.MAIN_BUNDLE, error => {
     if (error) {
         console.log('failed to load the sound', error);
         return;

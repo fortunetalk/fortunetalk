@@ -91,14 +91,14 @@ const SideBar = ({ dispatch, liveData, coHostData, customerData, isMute }) => {
               style={{ width: 18, height: 18 }}
             />
           </View>
-          <Text
+          {/* <Text
             style={{
               ...Fonts.white11InterMedium,
               fontSize: 9,
               textAlign: 'center',
             }}>
             {showNumber(liveData?.vedioCallPrice)}/min
-          </Text>
+          </Text> */}
         </View>
       </TouchableOpacity>
     </View>

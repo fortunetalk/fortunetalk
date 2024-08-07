@@ -583,7 +583,7 @@ const Profile = ({ navigation, locationData, customerData, dispatch, isLoading }
     function phoneInput() {
         return (
             <Input
-                editable={false}
+                editable={customerData?.phoneNumber.length == 0}
                 value={customerData?.phoneNumber}
                 placeholder="Enter Mobile No."
                 placeholderTextColor={Colors.grayDark}
@@ -677,11 +677,7 @@ const Profile = ({ navigation, locationData, customerData, dispatch, isLoading }
                 activeOpacity={0.8}
                 style={styles.imageContainer}>
                 <Image
-                    source={
-                        !profileImage
-                            ? require('../../assets/images/user.png')
-                            : { uri: base_url + customerData?.profileImage }
-                    }
+                    source={{ uri: profileImage ? profileImage : base_url + customerData?.profileImage }}
                     style={{ width: '100%', height: '100%' }}
                 />
             </TouchableOpacity>

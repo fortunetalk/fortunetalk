@@ -14,7 +14,7 @@ function* onWalletRechage(actions) {
         const { payload } = actions
 
         const rayzorPayResponse = yield razorpayPayment({ amount: payload?.amount, email: '', name: '', contact: customerData.phoneNumber })
-        if(rayzorPayResponse){
+        if(!rayzorPayResponse){
             const response = yield postRequest({
                 url: app_api_url + customer_wallet_recharge,
                 data: {

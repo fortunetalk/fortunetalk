@@ -4,7 +4,6 @@ import Splash from '../screens/Splash';
 import Setting from '../screens/app/Setting';
 import Login from '../screens/auth/Login';
 import Otp from '../screens/auth/Otp';
-import Register from '../screens/auth/Register';
 import SearchLocation from '../screens/locations/SearchLocation';
 import DrawerRoutes from './DrawerRoutes';
 import AstrologerDetails from '../screens/astrologers/AstrologerDetails';
@@ -69,7 +68,6 @@ const StackRoutes = () => {
             <Stack.Screen name="splash" component={Splash} />
             <Stack.Screen name="login" component={Login} />
             <Stack.Screen name="otp" component={Otp} />
-            <Stack.Screen name="register" component={Register} />
             <Stack.Screen name="profile" component={Profile} />
             <Stack.Screen name="searchLocation" component={SearchLocation} />
             <Stack.Screen name='home' component={DrawerRoutes} />

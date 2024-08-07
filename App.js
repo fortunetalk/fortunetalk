@@ -1,4 +1,4 @@
-import { View, Text, LogBox, Platform, PermissionsAndroid } from 'react-native';
+import { Text, LogBox, Linking } from 'react-native';
 import React, { useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -16,6 +16,11 @@ import AstrologerRating from './src/screens/astrologers/components/AstrologerRat
 import WalletAlert from './src/screens/payments/components/WalletAlert.js';
 import CallInvoice from './src/screens/call/components/CallInvoice.js';
 import LiveInvoice from './src/screens/live/components/LiveInvoice.js';
+import SpInAppUpdates from 'sp-react-native-in-app-updates';
+
+const inAppUpdates = new SpInAppUpdates(
+  false, // isDebug
+);
 
 LogBox.ignoreLogs(["Warning: ..."]);
 LogBox.ignoreAllLogs();
@@ -24,7 +29,6 @@ const App = ({ dispatch }) => {
 
   const getToken = async () => {
     const token = await messaging().getToken()
-    console.log(token)
   }
 
   const onNotification = async (message) => {
@@ -36,7 +40,24 @@ const App = ({ dispatch }) => {
     messaging().onMessage(onNotification);
     getToken()
     socketServices.initializeSocket(dispatch);
+    checkForUpdates()
   }, []);
+
+
+  const checkForUpdates = () => {
+    inAppUpdates
+      .checkNeedsUpdate({ curVersion: '1.0' })
+      .then(result => {
+        if (result.shouldUpdate) {
+          Linking.openURL(
+            'https://play.google.com/store/apps/details?id=com.fortunetalk',
+          );
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
 
   const linking = {
     prefixes: ['fortunetalk://'],

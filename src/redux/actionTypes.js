@@ -6,6 +6,7 @@ export const GET_SPLASH = 'GET_SPLASH';
 export const SET_LOCATION_DATA = 'SET_LOCATION_DATA';
 export const SET_TAB_VISIBLE = 'SET_TAB_VISIBLE';
 export const GET_HOME_DATA = 'GET_HOME_DATA'
+export const SET_HOME_SIMMER_VISIBLE = 'SET_HOME_SIMMER_VISIBLE'
 
 //Auth
 export const ON_LOGIN = 'ON_LOGIN';

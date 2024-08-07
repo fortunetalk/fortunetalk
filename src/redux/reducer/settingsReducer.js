@@ -5,7 +5,8 @@ const initialState = {
     isRefreshing: false,
     isLoadingMore: false,
     locationData: null,
-    tabVisible: true
+    tabVisible: true,
+    homeSimmerVisible: false
 }
 
 const settings = (state = initialState, actions) => {
@@ -39,6 +40,12 @@ const settings = (state = initialState, actions) => {
             return {
                 ...state,
                 tabVisible: payload
+            }
+        }
+        case actionTypes.SET_HOME_SIMMER_VISIBLE: {
+            return {
+                ...state,
+                homeSimmerVisible: payload
             }
         }
         default: {

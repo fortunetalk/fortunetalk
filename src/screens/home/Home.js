@@ -33,6 +33,7 @@ import * as CustomerAction from '../../redux/actions/authActions'
 import WorkshopClass from './components/WorkshopClass'
 import { navigate } from '../../utils/navigationServices'
 import { Colors, Sizes, Fonts, SCREEN_WIDTH } from '../../assets/styles'
+import HomeSimmer from './components/HomeSimmer'
 
 const Home = ({
   dispatch,
@@ -41,7 +42,8 @@ const Home = ({
   workshopWithoutId,
   testimonials,
   blogs,
-  allDemoClass
+  allDemoClass,
+  homeSimmerVisible
 }) => {
   useEffect(() => {
     dispatch(CourseActions.getCourseBanner())
@@ -84,23 +86,28 @@ const Home = ({
         <FlatList
           ListHeaderComponent={<>
             <Search />
-            <HomeBanner />
-            <LiveAstrologers />
-            <FreeInsights />
-            <RemedySuggestions />
-            <OfferAstrologers />
-            <TrendingAstrologers />
-            <OnlineAstrologers />
-            <RecentAstrologers />
-            {learningBanner()}
-            {(workshopWithoutId && workshopWithoutId.length > 0) && <WorkshopClass />}
-            {(allDemoClass && allDemoClass.length > 0) && <LearningSections />}
-            <PoojaCategory />
-            <ProductCategory />
-            {blogs && latestBlogInfo()}
-            {testimonials && <ClientTestimonials />}
-          </>
-          }
+            {
+              homeSimmerVisible ?
+                <HomeSimmer /> : <>
+                  <HomeBanner />
+                  <LiveAstrologers />
+                  <FreeInsights />
+                  {/* <RemedySuggestions /> */}
+                  <OfferAstrologers />
+                  <TrendingAstrologers />
+                  <OnlineAstrologers />
+                  <RecentAstrologers />
+                  {learningBanner()}
+                  {(workshopWithoutId && workshopWithoutId.length > 0) && <WorkshopClass />}
+                  {(allDemoClass && allDemoClass.length > 0) && <LearningSections />}
+                  <PoojaCategory />
+                  <ProductCategory />
+                  {blogs && latestBlogInfo()}
+                  {testimonials && <ClientTestimonials />}
+                </>
+            }
+
+          </>}
           onScroll={onScroll}
         />
       </View>
@@ -207,6 +214,7 @@ const mapStateToProps = state => ({
   testimonials: state.customer.testimonials,
   blogs: state.customer.blogs,
   allDemoClass: state.courses.allDemoClass,
+  homeSimmerVisible: state.settings.homeSimmerVisible
 })
 
 const mapDispatchToProps = dispatch => ({ dispatch })

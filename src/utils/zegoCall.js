@@ -28,16 +28,20 @@ export const onUserLogin = async (userID, userName) => {
         outgoingCallFileName: 'zego_outgoing.mp3',
       },
       requireConfig: data => {
-        const callConfig =
-          data.invitees.length > 1
-            ? ZegoInvitationType.videoCall === data.type
-              ? GROUP_VIDEO_CALL_CONFIG
-              : GROUP_VOICE_CALL_CONFIG
-            : ZegoInvitationType.videoCall === data.type
-              ? ONE_ON_ONE_VIDEO_CALL_CONFIG
-              : ONE_ON_ONE_VOICE_CALL_CONFIG;
+        console.log(data)
+        let numbersBeforeFortunetalk = data?.callID?.match(/^\d+(?=fortunetalk)/i);
         return {
-          ...callConfig,
+          ...ONE_ON_ONE_VOICE_CALL_CONFIG,
+          durationConfig: {
+            isVisible: true,
+            onDurationUpdate: duration => {
+              // dispatch(CallActions.setCallTimer(duration))
+              if (duration == numbersBeforeFortunetalk[0]) {
+                ZegoUIKitPrebuiltCallService.hangUp();
+              }
+            },
+          },
+
           foregroundBuilder: () => {
             return (<MyForegroundView />);
           },

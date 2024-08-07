@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react'
-import { connect } from 'react-redux';
 import { View } from 'react-native'
+import { connect } from 'react-redux';
 import { FlatList } from 'react-native';
 import { Colors } from '../../assets/styles';
 import Loader from '../../components/Loader';
 import MyHeader from '../../components/MyHeader';
-import LiveClassCategory from './LiveClassCategory';
 import CompletedCourses from './CompletedCourses';
 import CurrentCourses from './CurrentCourses';
+import MyCourseCategory from './MyCourseCategory';
 import MyStatusBar from '../../components/MyStatusBar';
 import * as CourseActions from '../../redux/actions/courseActions'
 
-const MyCourses = ({ isLoading, route, dispatch }) => {
+const MyCourses = ({ isLoading, dispatch }) => {
   const [activeFilter, setActiveFilter] = useState(1);
 
   useEffect(() => {
@@ -41,7 +41,7 @@ const MyCourses = ({ isLoading, route, dispatch }) => {
       <Loader visible={isLoading} />
       <MyHeader title={`My Courses`} />
 
-      <LiveClassCategory
+      <MyCourseCategory
         filterData={filterData}
         updateState={updateState}
         activeFilter={activeFilter}

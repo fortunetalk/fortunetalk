@@ -10,4 +10,9 @@ export const onSubmitMCQ = (payload) => ({
     payload
 })
 
+export const onAttemptedTimesMCQc= (payload) => ({
+    type: actionTypes.ATTEMPTED_MCQ_TIMES,
+    payload
+})
+
 

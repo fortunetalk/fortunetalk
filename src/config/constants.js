@@ -23,6 +23,8 @@ export const get_customer_recharge_plans = 'customers/get_customer_recharge_plan
 // mcq 
 export const get_mcq = 'mcq/mcqsByLiveClassId'
 export const submit_mcq = 'mcq/submitMcqAnswers'
+export const total_attempted_time_mcq = 'mcq/submitMcqAnswers'
+
 
 export const create_razorpay_order = 'customers/create_razorpay_order'
 

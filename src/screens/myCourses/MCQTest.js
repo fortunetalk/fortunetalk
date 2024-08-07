@@ -12,7 +12,7 @@ import { formatAndShuffleMCQData, formateMCQForSubmit } from '../../utils/tools'
 import { View, Text, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
 import { navigate } from '../../utils/navigationServices';
 
-const MCQTest = ({ isLoading, getMCQ, dispatch, customerData, submittedMcq}) => {
+const MCQTest = ({ isLoading, getMCQ, dispatch, customerData, submittedMcq }) => {
     const [isTimerActive, setIsTimerActive] = useState(true);
     const [modal, setModal] = useState(false)
     const [mcqs, setMcqs] = useState([]);
@@ -24,7 +24,7 @@ const MCQTest = ({ isLoading, getMCQ, dispatch, customerData, submittedMcq}) => 
         }
     }, [getMCQ]);
 
-    console.log("submittedMcq ====>>>" , submittedMcq)
+    console.log("submittedMcq ====>>>", submittedMcq)
 
     const handleAnswerSelect = (questionId, selectedChoiceId) => {
         const updatedMcqs = mcqs.map(mcq => {
@@ -74,7 +74,7 @@ const MCQTest = ({ isLoading, getMCQ, dispatch, customerData, submittedMcq}) => 
     const handleSubmit = () => {
         dispatch(MCQActions.onSubmitMCQ(formateMCQForSubmit(mcqs, customerData?._id)))
         setIsTimerActive(false);
-}
+    }
 
     console.log("mcq state ======>>>>>.", mcqs && mcqs)
 

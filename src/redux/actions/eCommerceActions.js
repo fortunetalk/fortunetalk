@@ -35,3 +35,7 @@ export const getProductCategoryBanner = payload => ({
     payload
 })
 
+export const onProductPayment = payload => ({
+    type: actionTypes.PRODUCT_PAYMENT,
+    payload
+})

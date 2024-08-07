@@ -4,7 +4,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import { View, Text, FlatList, StyleSheet } from 'react-native';
 import { Colors, Fonts, Sizes } from '../../assets/styles';
 
-const LiveClassCategory = ({
+const MyCourseCategory = ({
   filterData,
   updateState,
   activeFilter,
@@ -39,7 +39,7 @@ const LiveClassCategory = ({
   );
 };
 
-export default LiveClassCategory;
+export default MyCourseCategory;
 
 const styles = StyleSheet.create({
   container: {

@@ -2,8 +2,9 @@ import * as  actionTypes from '../actionTypes'
 
 const initialState = {
     getMCQ: null,
-    submittedMcq:null,
-    successModal:null
+    submittedMcq: null,
+    successModal: null,
+    attemptedMCQ: null
 }
 
 const Mcq = (state = initialState, actions) => {
@@ -23,6 +24,11 @@ const Mcq = (state = initialState, actions) => {
             return {
                 ...state,
                 successModal: payload
+            }
+        case actionTypes.ATTEMPTED_MCQ_TIMES:
+            return {
+                ...state,
+                attemptedMCQ: payload
             }
         default:
             return state

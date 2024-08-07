@@ -14,7 +14,7 @@ import {
     get_product_history
 } from '../../config/constants'
 
-function* getPoojaCategoryList(actions) {
+function* getPoojaCategoryList() {
     try {
         yield put({ type: actionTypes.SET_IS_LOADING, payload: true })
 
@@ -58,7 +58,7 @@ function* getPoojaCategoryWaiseList(actions) {
     }
 }
 
-function* getProductCategoryList(actions) {
+function* getProductCategoryList() {
     try {
         yield put({ type: actionTypes.SET_IS_LOADING, payload: true })
 
@@ -172,7 +172,40 @@ function* getPoojaCategoryBanner() {
     }
 }
 
+function* onProductPayment(actions) {
+    try {
+        const { payload } = actions
+        const customerData = yield select(state => state.customer.customerData)
+        // console.log(payload, "payment")
 
+        const rayzorPayResponse = yield razorpayPayment({
+            amount: parseInt(payload?.amount),
+            email: '',
+            name: '',
+            contact: ''
+        })
+        console.log("rayzorPayResponse  ====>>>", rayzorPayResponse)
+
+        const response = yield postRequest({
+            url: app_api_url + live_course_payment,
+            data: {
+                customerId: customerData?._id,
+                amount: parseFloat(payload?.amount),
+                isPartial: true,
+                liveId: payload.liveClassId
+            }
+        })
+
+        if (response?.success) {
+            goBack()
+        }
+
+        yield put({ type: actionTypes.SET_IS_LOADING, payload: false })
+    } catch (e) {
+        console.log(e)
+        yield put({ type: actionTypes.SET_IS_LOADING, payload: false })
+    }
+}
 
 export default function* eCommerceSaga() {
     yield takeLeading(actionTypes.GET_POOJA_CATEGORY_DATA, getPoojaCategoryList)
@@ -186,5 +219,6 @@ export default function* eCommerceSaga() {
 
     yield takeLeading(actionTypes.GET_POOJA_DETAILS_BANNER, getPoojaDetailsBanner)
     yield takeLeading(actionTypes.GET_POOJA_CATEGORY_BANNER, getPoojaCategoryBanner)
+    yield takeLeading(actionTypes.PRODUCT_PAYMENT, onProductPayment)
 
 }

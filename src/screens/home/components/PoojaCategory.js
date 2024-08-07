@@ -71,7 +71,7 @@ const PoojaCategory = ({ dispatch, PoojaCategoryList }) => {
                     paddingHorizontal: Sizes.fixPadding * 1.5,
                     paddingVertical: Sizes.fixPadding,
                 }}>
-                <Text style={{ ...Fonts.black16RobotoMedium }}>Pooja Section</Text>
+                <Text style={{ ...Fonts.black16RobotoMedium }}>Pooja</Text>
                 <TouchableOpacity
                     activeOpacity={0.8}
                     onPress={() => navigate("viewPooja")}

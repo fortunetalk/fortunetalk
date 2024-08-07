@@ -11,17 +11,13 @@ import { Colors, Fonts, Sizes, SCREEN_WIDTH } from '../assets/styles';
 
 const BlogDetails = ({ route }) => {
   const [blogData] = useState(route.params.blogData);
-
-
-  console.log("blogData ====>>>>" , blogData)
-
   return (
     <View style={{ flex: 1, backgroundColor: Colors.bodyColor }}>
       <MyStatusBar
         backgroundColor={Colors.primaryLight}
         barStyle={'light-content'}
       />
-      <MyHeader title={`${blogData?.title}`} />
+      <MyHeader title={"Blog Details"} />
       <ScrollView contentContainerStyle={{ alignItems: 'center' }}>
         <Image
           source={{ uri: blogData?.image }}

@@ -6,17 +6,17 @@ import {
     Image,
     FlatList,
 } from 'react-native';
-import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
+import { Input } from '@rneui/themed';
+import React, { useEffect, useState } from 'react';
 import MyStatusBar from '../../components/MyStatusBar';
-import { Colors, Sizes, Fonts, SCREEN_WIDTH, SCREEN_HEIGHT } from '../../assets/styles';
 import ImagePicker from '../../components/ImagePicker';
 import LinearGradient from 'react-native-linear-gradient';
 import { Dropdown } from 'react-native-element-dropdown';
-import { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
 import AntDesign from 'react-native-vector-icons/AntDesign'
-import { Input } from '@rneui/themed';
+import { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
 import CountryPicker from 'rn-country-picker';
+import { Colors, Sizes, Fonts, SCREEN_WIDTH, SCREEN_HEIGHT } from '../../assets/styles';
 import { genderData, occupationData, problemData, regex } from '../../config/data';
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import moment from 'moment';
@@ -28,7 +28,6 @@ import { base_url } from '../../config/constants';
 import * as SettingActions from '../../redux/actions/settingActions'
 
 const Profile = ({ navigation, locationData, customerData, dispatch, isLoading }) => {
-    console.log(customerData)
     const [state, setState] = useState({
         firstName: customerData?.firstName ?? '',
         lastName: customerData?.lastName ?? '',
@@ -43,8 +42,8 @@ const Profile = ({ navigation, locationData, customerData, dispatch, isLoading }
         timeVisible: false,
         time: customerData?.timeOfBirth ?? null,
         address: null,
-        currentAddress: customerData?.currentAddress?.city ?? '',
-        profileImage: null,
+        currentAddress: null,
+        profileImage:null,
         baseSixtyFour: null,
         bottomSheetVisible: false,
         selectedOccupation: customerData?.occupation ?? null,
@@ -52,6 +51,8 @@ const Profile = ({ navigation, locationData, customerData, dispatch, isLoading }
         selectedProblem: customerData?.problem ?? null,
         problemFocus: false,
     });
+
+    console.log("customerData ===>>>>>>" , customerData)
 
     useEffect(() => {
         if (customerData && customerData?.birthPlaceAddress) {
@@ -137,17 +138,21 @@ const Profile = ({ navigation, locationData, customerData, dispatch, isLoading }
     }
 
     function proceedButton() {
+
+        console.log("firstName" , firstName)
+        console.log("currentAddress ===>>>" , currentAddress)
+
         const onUpdate = () => {
             if (firstName.length == 0) {
                 showToastMessage({ message: 'Please enter your first name' })
                 return
-            } else if (!regex.name.test(firstName) && firstName.length >= 2 && firstName.length <= 50) {
+            } else if (regex.name.test(firstName) && firstName.length >= 2 && firstName.length <= 50) {
                 showToastMessage({ message: 'Please enter valid first name' })
                 return
             } else if (lastName.length == 0) {
                 showToastMessage({ message: 'Please enter your last name' })
                 return
-            } else if (!regex.name.test(lastName) && lastName.length >= 2 && lastName.length <= 50) {
+            } else if (regex.name.test(lastName) && lastName.length >= 2 && lastName.length <= 50) {
                 showToastMessage({ message: 'Please enter valid last name' })
                 return
             } else if (!gender) {
@@ -361,7 +366,6 @@ const Profile = ({ navigation, locationData, customerData, dispatch, isLoading }
                     marginVertical: Sizes.fixPadding,
                 }}>
                 <Input
-                    // disabled
                     value={currentAddress}
                     placeholder="Current City"
                     numberOfLines={2}
@@ -370,9 +374,6 @@ const Profile = ({ navigation, locationData, customerData, dispatch, isLoading }
                     containerStyle={{ flex: 0.45, padding: 0 }}
                     inputContainerStyle={{ height: 30, borderBottomColor: Colors.gray }}
                     inputStyle={{ ...Fonts._13RobotoMedium, fontSize: 14, color: Colors.blackLight, }}
-                // rightIcon={
-                //   <Ionicons name="location-sharp" color={Colors.gray} size={25} />
-                // }
                 />
             </View>
         );
@@ -456,7 +457,6 @@ const Profile = ({ navigation, locationData, customerData, dispatch, isLoading }
                                 ? 'Birth Place'
                                 : locationData?.address}
                         </Text>
-                        {/* <Ionicons name="chevron-down" color={Colors.black + '90'} size={16} /> */}
                     </TouchableOpacity>
                 </View>
             </View>
@@ -677,7 +677,7 @@ const Profile = ({ navigation, locationData, customerData, dispatch, isLoading }
                 activeOpacity={0.8}
                 style={styles.imageContainer}>
                 <Image
-                    source={{ uri: profileImage ? profileImage : base_url + customerData?.profileImage }}
+                    source={{ uri: !profileImage ? profileImage : base_url + customerData?.profileImage }}
                     style={{ width: '100%', height: '100%' }}
                 />
             </TouchableOpacity>

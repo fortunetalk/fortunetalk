@@ -1,8 +1,8 @@
 export const base_url = 'http://97.74.83.200:4000/'
 // export const app_api_url = 'http://97.74.83.200:4000/api/app/customers/'
-// export const app_api_url = 'https://node-backend-jcdp.onrender.com/api/app/'
+export const app_api_url = 'https://node-backend-jcdp.onrender.com/api/app/'
 // export const app_api_url = 'https://10.0.2.2:8000/api/app/'
-export const app_api_url = 'http://97.74.83.200:4000/api/app/'
+// export const app_api_url = 'http://97.74.83.200:4000/api/app/'
 
 export const customer_login = 'customers/customer_login'
 export const customer_otp_verify = 'customers/customer_otp_verify'
@@ -19,6 +19,13 @@ export const get_astrologer_offers = 'astrologer/get_astrologer_offers'
 export const get_astrologer_reviews = 'customers/get_astrologer_reviews'
 export const customer_wallet_recharge = 'customers/customer_wallet_recharge'
 export const get_customer_recharge_plans = 'customers/get_customer_recharge_plans'
+
+// mcq 
+export const get_mcq = 'mcq/mcqsByLiveClassId'
+export const submit_mcq = 'mcq/submitMcqAnswers'
+export const total_attempted_time_mcq = 'mcq/checkPassingStatus'
+
+
 export const create_razorpay_order = 'customers/create_razorpay_order'
 
 export const get_customer_wallet_history = 'customers/get_customer_wallet_history'
@@ -81,7 +88,10 @@ export const get_cart_details = "ecommerce/product/get-cart"
 // product
 export const get_product_details_banner = "banner/product-category-detail"
 export const get_product_category_banner = "banner/product-category"
+
 export const get_product_history = "ecommerce/product/order-by-customer"
+export const get_course_history = "live/get_live_course_history"
+
 export const get_product_category = "ecommerce/product/category"
 export const get_product_category_waise = "ecommerce/product/category/"
 

@@ -19,6 +19,7 @@ import { SCREEN_WIDTH, Colors, Fonts, Sizes } from '../../../assets/styles';
 
 const PoojaDetails = ({ navigation, route }) => {
   const progressValue = useSharedValue(0);
+  
   const [state, setState] = useState({
     paginationIndex: 0,
     poojaData: {
@@ -35,6 +36,7 @@ const PoojaDetails = ({ navigation, route }) => {
     poojaType: "Pooja Details",
     suggestedBy: "I dont Know"
   });
+
   useEffect(() => { }, [paginationIndex]);
   const updateState = data => {
     setState(prevState => {

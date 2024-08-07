@@ -2,7 +2,7 @@ import { call, put, takeLeading } from 'redux-saga/effects'
 import * as actionTypes from '../actionTypes'
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import { LoginManager, Profile } from 'react-native-fbsdk-next';
-import { navigate, replace, resetToScreen } from '../../utils/navigationServices';
+import { navigate, resetToScreen } from '../../utils/navigationServices';
 import { blobRequest, getRequest, postRequest } from '../../utils/apiRequests';
 import { app_api_url, customer_facebook_login, customer_google_login, customer_login, customer_otp_verify, customer_registration, get_customer_blogs, get_customer_testimonails } from '../../config/constants';
 import { getFcmToken, showToastMessage } from '../../utils/services';
@@ -68,10 +68,10 @@ function* onFacebookLogin(actions) {
         if (result.isCancelled) {
             console.log('Login cancelled');
         } else {
-            console.log(
-                'Login success with permissions: ' +
-                result.grantedPermissions.toString()
-            );
+            // console.log(
+            //     'Login success with permissions: ' +
+            //     result.grantedPermissions.toString()
+            // );
             const currentProfile = yield Profile.getCurrentProfile();
             if (currentProfile) {
                 yield put({ type: actionTypes.SET_IS_LOADING, payload: true })

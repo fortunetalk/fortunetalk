@@ -11,6 +11,7 @@ import { base_url } from '../../config/constants';
 const ChatRequest = () => {
   const [notificationData, setNotificationData] = useState(null)
   let timeout;
+  
   useEffect(() => {
     getNotificationData()
     timeout = setTimeout(async () => {

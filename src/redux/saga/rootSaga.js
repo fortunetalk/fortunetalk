@@ -10,6 +10,7 @@ import chatSaga from './chatSaga';
 import liveSaga from './liveSaga';
 import historySaga from './historySaga';
 import cartSaga from './cartSaga';
+import McqSaga from './McqSaga';
 
 export default function* rootSaga() {
   yield all([
@@ -24,5 +25,6 @@ export default function* rootSaga() {
     callSaga(), 
     coursesSaga(),
     cartSaga(),
+    McqSaga()
   ]);
 }

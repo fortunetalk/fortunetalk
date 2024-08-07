@@ -25,15 +25,17 @@ const CourseBookingDetails = ({ navigation, route, dispatch, isLoading }) => {
     gstAmount: null,
     totalAmount: null,
     halfAmount: null,
+    withDiscount: null
   });
 
-  const { successVisible, paymentData, gstAmount, totalAmount, halfAmount } = state;
-  // console.log("payment data", paymentData)
+  const { successVisible, paymentData, gstAmount, totalAmount, halfAmount, withDiscount } = state;
+  console.log("payment data ======>>>>", paymentData)
 
   useEffect(() => {
     if (paymentData?.liveClassId?.price) {
-      const gst = ((parseFloat(paymentData?.payableAmount) * 18) / 100).toFixed(2);
-      const total = (parseFloat(paymentData?.payableAmount) + parseFloat(gst)).toFixed(2);
+      const withDiscount = parseInt(paymentData?.payableAmount - (parseInt(paymentData?.payableAmount) * (parseInt(paymentData?.liveClassId?.discount) / 100))).toFixed(2)
+      const gst = ((parseInt(paymentData?.payableAmount) * 18) / 100).toFixed(2);
+      const total = parseInt(withDiscount) + parseInt(gst)
       const half = (parseFloat(total) / 2).toFixed(2);
 
       setState(prevState => ({
@@ -41,6 +43,7 @@ const CourseBookingDetails = ({ navigation, route, dispatch, isLoading }) => {
         gstAmount: gst,
         totalAmount: total,
         halfAmount: half,
+        withDiscount: withDiscount
       }));
     }
   }, [paymentData]);
@@ -96,12 +99,6 @@ const CourseBookingDetails = ({ navigation, route, dispatch, isLoading }) => {
       }))
     }
   }
-
-  // useEffect(() => {
-  //   if (paymentData.paymentType == "full") {
-  //     updateState({ successVisible: true })
-  //   }
-  // }, paymentData)
 
   return (
     <View style={{ flex: 1, backgroundColor: Colors.bodyColor }}>
@@ -357,32 +354,55 @@ const CourseBookingDetails = ({ navigation, route, dispatch, isLoading }) => {
         style={{
           margin: Sizes.fixPadding * 1.5,
         }}>
-        <View
-          style={[
-            styles.row,
-            { justifyContent: 'space-between', marginBottom: Sizes.fixPadding },
-          ]}>
-          <Text style={{ ...Fonts.black16RobotoRegular }}>Subtotal</Text>
-          <Text style={{ ...Fonts.black16RobotoMedium }}>
-            ₹ {parseFloat(paymentData?.payableAmount).toFixed(2)}
-          </Text>
-        </View>
-        {
-          paymentData.paymentType != "half" &&
-          <View
-            style={[
-              styles.row,
-              {
-                justifyContent: 'space-between',
-                paddingBottom: Sizes.fixPadding,
-                marginBottom: Sizes.fixPadding,
-                borderBottomWidth: 1,
-                borderColor: Colors.grayLight,
-              },
-            ]}>
-            <Text style={{ ...Fonts.black16RobotoRegular }}>GST @ 18%</Text>
-            <Text style={{ ...Fonts.black16RobotoRegular }}>₹ {gstAmount}</Text>
-          </View>
+        {paymentData.paymentType != "half" &&
+          <>
+            <View
+              style={[
+                styles.row,
+                {
+                  justifyContent: 'space-between',
+                  paddingBottom: Sizes.fixPadding,
+                },
+              ]}>
+              <Text style={{ ...Fonts.black16RobotoRegular }}>Price</Text>
+              <Text style={{ ...Fonts.black16RobotoRegular }}>₹{paymentData?.payableAmount}</Text>
+            </View>
+            <View
+              style={[
+                styles.row,
+                {
+                  justifyContent: 'space-between',
+                  marginBottom: Sizes.fixPadding,
+                },
+              ]}>
+              <Text style={{ ...Fonts.black16RobotoRegular }}>Discount</Text>
+              <Text style={{ ...Fonts.black16RobotoRegular }}>{paymentData?.liveClassId?.discount}%</Text>
+            </View>
+            <View
+              style={[
+                styles.row,
+                { justifyContent: 'space-between', marginBottom: Sizes.fixPadding },
+              ]}>
+              <Text style={{ ...Fonts.black16RobotoRegular }}>Subtotal</Text>
+              <Text style={{ ...Fonts.black16RobotoMedium }}>
+                ₹ {withDiscount}
+              </Text>
+            </View>
+            <View
+              style={[
+                styles.row,
+                {
+                  justifyContent: 'space-between',
+                  paddingBottom: Sizes.fixPadding,
+                  marginBottom: Sizes.fixPadding,
+                  borderBottomWidth: 1,
+                  borderColor: Colors.grayLight,
+                },
+              ]}>
+              <Text style={{ ...Fonts.black16RobotoRegular }}>GST @ 18%</Text>
+              <Text style={{ ...Fonts.black16RobotoRegular }}>₹ {gstAmount}</Text>
+            </View>
+          </>
         }
         <View
           style={[
@@ -390,6 +410,9 @@ const CourseBookingDetails = ({ navigation, route, dispatch, isLoading }) => {
             {
               justifyContent: 'space-between',
               marginBottom: Sizes.fixPadding,
+              borderBottomWidth: 1,
+              borderColor: Colors.grayLight,
+              paddingBottom: Sizes.fixPadding,
             },
           ]}>
           <Text style={{ ...Fonts.black16RobotoRegular }}>Total</Text>

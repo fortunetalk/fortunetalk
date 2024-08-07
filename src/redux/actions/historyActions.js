@@ -34,3 +34,9 @@ export const onProductHistory = payload => ({
     type: actionTypes.GET_PRODUCT_HISTORY,
     payload
 })
+
+export const onCourseHistory = payload => ({
+    type: actionTypes.GET_COURSE_HISTORY,
+    payload
+})
+

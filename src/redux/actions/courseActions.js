@@ -95,10 +95,7 @@ export const onCompletedLiveCourseHistory = payload => ({
     payload
 })
 
-export const onByProductPaymeny = payload => ({
-    type: actionTypes.PRODUCT_PAYMENT,
-    payload
-})
+
 
 
 

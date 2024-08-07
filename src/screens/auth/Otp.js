@@ -27,9 +27,9 @@ const Otp = ({ route, dispatch, isLoading, navigation }) => {
         setValue,
     });
 
-    useEffect(() => {
-        Alert.alert('Alert', `Your otp is ${otpData?.otp}`)
-    }, [])
+    // useEffect(() => {
+    //     Alert.alert('Alert', `Your otp is ${otpData?.otp}`)
+    // }, [])
 
     const onTimeout = useCallback(() => {
         setDuration(0);

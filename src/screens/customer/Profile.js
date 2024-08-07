@@ -7,16 +7,16 @@ import {
     FlatList,
 } from 'react-native';
 import { connect } from 'react-redux';
+import { Input } from '@rneui/themed';
 import React, { useEffect, useState } from 'react';
 import MyStatusBar from '../../components/MyStatusBar';
-import { Colors, Sizes, Fonts, SCREEN_WIDTH, SCREEN_HEIGHT } from '../../assets/styles';
 import ImagePicker from '../../components/ImagePicker';
 import LinearGradient from 'react-native-linear-gradient';
 import { Dropdown } from 'react-native-element-dropdown';
-import { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
 import AntDesign from 'react-native-vector-icons/AntDesign'
-import { Input } from '@rneui/themed';
+import { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
 import CountryPicker from 'rn-country-picker';
+import { Colors, Sizes, Fonts, SCREEN_WIDTH, SCREEN_HEIGHT } from '../../assets/styles';
 import { genderData, occupationData, problemData, regex } from '../../config/data';
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import moment from 'moment';
@@ -43,7 +43,7 @@ const Profile = ({ navigation, locationData, customerData, dispatch, isLoading }
         time: customerData?.timeOfBirth ?? null,
         address: null,
         currentAddress: null,
-        profileImage: require("../../assets/images/user.png"),
+        profileImage:null,
         baseSixtyFour: null,
         bottomSheetVisible: false,
         selectedOccupation: customerData?.occupation ?? null,
@@ -51,6 +51,8 @@ const Profile = ({ navigation, locationData, customerData, dispatch, isLoading }
         selectedProblem: customerData?.problem ?? null,
         problemFocus: false,
     });
+
+    console.log("customerData ===>>>>>>" , customerData)
 
     useEffect(() => {
         if (customerData && customerData?.birthPlaceAddress) {
@@ -92,8 +94,6 @@ const Profile = ({ navigation, locationData, customerData, dispatch, isLoading }
         callingCode,
         cca2,
     } = state;
-
-    console.log("locationData" , locationData)
 
     return (
         <View style={{ flex: 1, backgroundColor: Colors.white }}>
@@ -677,7 +677,7 @@ const Profile = ({ navigation, locationData, customerData, dispatch, isLoading }
                 activeOpacity={0.8}
                 style={styles.imageContainer}>
                 <Image
-                    source={{ uri: profileImage ? profileImage : base_url + customerData?.profileImage }}
+                    source={{ uri: !profileImage ? profileImage : base_url + customerData?.profileImage }}
                     style={{ width: '100%', height: '100%' }}
                 />
             </TouchableOpacity>

@@ -88,7 +88,10 @@ export const get_cart_details = "ecommerce/product/get-cart"
 // product
 export const get_product_details_banner = "banner/product-category-detail"
 export const get_product_category_banner = "banner/product-category"
+
 export const get_product_history = "ecommerce/product/order-by-customer"
+export const get_course_history = "live/get_live_course_history"
+
 export const get_product_category = "ecommerce/product/category"
 export const get_product_category_waise = "ecommerce/product/category/"
 

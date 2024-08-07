@@ -22,7 +22,7 @@ import * as EcommerceActions from '../../../redux/actions/eCommerceActions'
 const BookPooja = ({ dispatch, navigation, route, poojaCategoryWaiseList, poojaDetailsBanner }) => {
   const id = route.params.categoryId
   const [state, setState] = useState({
-    categoryData: poojaCategoryWaiseList?.pooja,
+    categoryData: null,
     screenType: route.params.screenType,
     poojaData: null,
     isLoading: false,
@@ -37,6 +37,10 @@ const BookPooja = ({ dispatch, navigation, route, poojaCategoryWaiseList, poojaD
     selectedGenderFilters: null,
     activeFilter: 3,
   });
+
+  useEffect(() => {
+    updateState({ categoryData: poojaCategoryWaiseList?.pooja })
+  }, [poojaCategoryWaiseList])
 
   useEffect(() => {
     dispatch(EcommerceActions.getPoojaCategoryWaiseList({ id }))
@@ -151,7 +155,8 @@ const BookPooja = ({ dispatch, navigation, route, poojaCategoryWaiseList, poojaD
               width: '100%',
               height: '100%',
             }}
-            resizeMode="cover">
+            resizeMode="cover"
+          >
             <LinearGradient
               colors={[Colors.black + '00', Colors.black]}
               style={{
@@ -171,10 +176,9 @@ const BookPooja = ({ dispatch, navigation, route, poojaCategoryWaiseList, poojaD
                 <View>
                   <Text style={{ ...Fonts.white18RobotMedium, fontSize: 14 }}>{item?.title}</Text>
                   <Text style={{ ...Fonts.white14RobotoMedium, fontSize: 10 }}>
-                    {item.sub_title}
+                    {item?.shortDescription}
                   </Text>
                 </View>
-                <Text style={{ ...Fonts.white18RobotMedium, fontSize: 14 }}>{item.price}</Text>
               </View>
             </LinearGradient>
           </ImageBackground>
@@ -231,11 +235,10 @@ const BookPooja = ({ dispatch, navigation, route, poojaCategoryWaiseList, poojaD
   }
 };
 
-// export default BookPooja;
 const mapStateToProps = state => ({
   poojaCategoryWaiseList: state.eCommerce.poojaCategoryWaiseList,
-  poojaDetailsBanner: state.eCommerce.poojaDetailsBanner,
   isLoading: state.settings.isLoading,
+  poojaDetailsBanner: state.eCommerce.poojaDetailsBanner,
 })
 
 const mapDispatchToProps = dispatch => ({ dispatch })

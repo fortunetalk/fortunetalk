@@ -4,7 +4,8 @@ const initialState = {
     walletHistory: null,
     chatHistory: null,
     callHistory: null,
-    fortuneHistory: null
+    fortuneHistory: null,
+    courseHistory:null
 }
 
 const history = (state = initialState, actions) => {
@@ -29,6 +30,12 @@ const history = (state = initialState, actions) => {
             return {
                 ...state,
                 fortuneHistory: payload
+            }
+        }
+        case actionTypes.GET_COURSE_HISTORY: {
+            return {
+                ...state,
+                courseHistory: payload
             }
         }
         default:

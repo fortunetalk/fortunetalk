@@ -15,7 +15,6 @@ const ChatHistory = ({ route, chatHistory, dispatch, navigation }) => {
         dispatch(HistoryActions.getChatHistory())
     }, [])
 
-
     return (
         <View style={{ flex: 1, backgroundColor: Colors.white }}>
             <MyStatusBar backgroundColor={Colors.primaryLight} barStyle={'light-content'} />

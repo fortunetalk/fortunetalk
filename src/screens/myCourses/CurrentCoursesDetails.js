@@ -20,13 +20,22 @@ import * as CourseActions from '../../redux/actions/courseActions'
 import * as MCQActions from '../../redux/actions/McqActions'
 import { navigate } from '../../utils/navigationServices';
 
-const CurrentCoursesDetails = ({ dispatch, route, liveClassOfClass, getMCQ }) => {
+const CurrentCoursesDetails = ({
+  dispatch,
+  route,
+  liveClassOfClass,
+  getMCQ,
+  customerData,
+  attemptedMCQ }) => {
   const classData = route.params.course
   const [modal, setModal] = useState(false)
+
+  console.log("attemptedMCQ =====>>>", attemptedMCQ)
 
   useEffect(() => {
     dispatch(CourseActions.liveClassOfClass({ liveClassId: classData?.liveId?._id }));
     dispatch(MCQActions.onGetMCQ({ liveClassId: classData?.liveId?._id }));
+    dispatch(MCQActions.onAttemptedTimesMCQc({ liveClassId: classData?.liveId?._id, customerId: customerData?._id }));
   }, [])
 
   const handleContinue = () => {
@@ -55,7 +64,7 @@ const CurrentCoursesDetails = ({ dispatch, route, liveClassOfClass, getMCQ }) =>
           </>
         }
       />
-      {mcq()}
+      {(attemptedMCQ?.entryCount && (attemptedMCQ?.entryCount < 3) ) && mcq()}
       <McqInstruction
         handleContinue={handleContinue}
         visible={modal}
@@ -221,10 +230,13 @@ const CurrentCoursesDetails = ({ dispatch, route, liveClassOfClass, getMCQ }) =>
 }
 
 const mapStateToProps = state => ({
-  currentLiveCourse: state.courses.currentLiveCourse,
-  liveClassOfClass: state.courses.liveClassOfClass,
   isLoading: state.settings.isLoading,
-  getMCQ: state.Mcq.getMCQ
+  currentLiveCourse: state.courses.currentLiveCourse,
+  getMCQ: state.Mcq.getMCQ,
+  attemptedMCQ: state.Mcq.attemptedMCQ,
+  liveClassOfClass: state.courses.liveClassOfClass,
+  customerData: state.customer.customerData,
+
 });
 
 const mapDispatchToProps = dispatch => ({ dispatch })

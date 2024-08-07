@@ -71,7 +71,7 @@ const ProductCategory = ({ dispatch, ProductCategoryList }) => {
           paddingHorizontal: Sizes.fixPadding * 1.5,
           paddingVertical: Sizes.fixPadding,
         }}>
-        <Text style={{ ...Fonts.black16RobotoMedium }}>Product Section</Text>
+        <Text style={{ ...Fonts.black16RobotoMedium }}>Product Remedy</Text>
         <TouchableOpacity
           activeOpacity={0.8}
           onPress={() => navigate("viewProduct")}
@@ -92,7 +92,6 @@ const ProductCategory = ({ dispatch, ProductCategoryList }) => {
     </View>
   );
 }
-
 
 const mapStateToProps = state => ({
   isLoading: state.settings.isLoading,

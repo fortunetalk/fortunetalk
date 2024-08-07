@@ -40,7 +40,8 @@ const Home = ({
   courseBanner,
   workshopWithoutId,
   testimonials,
-  blogs
+  blogs,
+  allDemoClass
 }) => {
   useEffect(() => {
     dispatch(CourseActions.getCourseBanner())
@@ -71,6 +72,9 @@ const Home = ({
       });
     }
   }
+
+  // console.log("allDemoClass", allDemoClass)
+
   return (
     <View style={{ flex: 1, backgroundColor: Colors.white }}>
       <MyStatusBar backgroundColor={Colors.primaryLight} barStyle={'light-content'} />
@@ -89,15 +93,14 @@ const Home = ({
             <OnlineAstrologers />
             <RecentAstrologers />
             {learningBanner()}
-            {(workshopWithoutId && workshopWithoutId.length > 0) &&
-              <WorkshopClass />
-            }
-            <LearningSections />
+            {(workshopWithoutId && workshopWithoutId.length > 0) && <WorkshopClass />}
+            {(allDemoClass && allDemoClass.length > 0) && <LearningSections />}
             <PoojaCategory />
             <ProductCategory />
             {blogs && latestBlogInfo()}
             {testimonials && <ClientTestimonials />}
-          </>}
+          </>
+          }
           onScroll={onScroll}
         />
       </View>
@@ -106,7 +109,6 @@ const Home = ({
 
 
   function latestBlogInfo() {
-
     const renderItem = ({ item }) => {
       return (
         <TouchableOpacity
@@ -204,7 +206,7 @@ const mapStateToProps = state => ({
   courseBanner: state.courses.courseBanner,
   testimonials: state.customer.testimonials,
   blogs: state.customer.blogs,
-
+  allDemoClass: state.courses.allDemoClass,
 })
 
 const mapDispatchToProps = dispatch => ({ dispatch })

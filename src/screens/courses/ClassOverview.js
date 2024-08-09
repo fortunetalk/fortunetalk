@@ -27,9 +27,6 @@ const ClassOverview = ({
   isLoading
 }) => {
   const previousPagedata = route.params
-
-  console.log("singleDemoClass =========>>>>", singleDemoClass)
-
   const [state, setState] = useState({
     name: customerData?.customerName,
     phoneNumber: customerData?.phoneNumber,

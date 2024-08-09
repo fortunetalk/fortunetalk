@@ -7,6 +7,7 @@ import HistoryTab from './components/HistoryTab'
 import LinearGradient from 'react-native-linear-gradient'
 import { connect } from 'react-redux'
 import * as HistoryActions from '../../redux/actions/historyActions'
+import * as ChatActions from '../../redux/actions/chatActions'
 import { secondsToHMS, showNumber } from '../../utils/services'
 import moment from 'moment'
 
@@ -32,6 +33,15 @@ const ChatHistory = ({ route, chatHistory, dispatch, navigation }) => {
     )
 
     function historyInfo() {
+        const onChat = (item) => {
+            const payload = {
+              navigation,
+              astrologerId: item?.astrologerId?._id,
+              astrologerName: item?.astrologerId?.name,
+              astrologerImage: item?.astrologerId?.profileImage,
+            }
+            dispatch(ChatActions.sendChatRequest(payload))
+          }
         const renderItem = ({ item, index }) => {
             return (
                 <View style={{ backgroundColor: Colors.grayL, marginBottom: Sizes.fixPadding, padding: Sizes.fixPadding, borderRadius: Sizes.fixPadding, elevation: 5, shadowColor: Colors.blackLight }}>
@@ -50,7 +60,7 @@ const ChatHistory = ({ route, chatHistory, dispatch, navigation }) => {
                                     <Text style={{ ...Fonts._11RobotoMedium, color: Colors.white, fontSize: 12 }}>View Chat</Text>
                                 </LinearGradient>
                             </TouchableOpacity>
-                            <TouchableOpacity>
+                            <TouchableOpacity activeOpacity={0.8} onPress={()=>onChat(item)}>
                                 <LinearGradient colors={[Colors.primaryLight, Colors.primaryDark]} style={{ paddingHorizontal: Sizes.fixPadding * 1.5, paddingVertical: Sizes.fixPadding * 0.5, borderRadius: 1000 }} >
                                     <Text style={{ ...Fonts._11RobotoMedium, color: Colors.white, fontSize: 12 }}>Chat Again</Text>
                                 </LinearGradient>

@@ -1,8 +1,8 @@
 export const base_url = 'http://97.74.83.200:4000/'
 // export const app_api_url = 'http://97.74.83.200:4000/api/app/customers/'
-export const app_api_url = 'https://node-backend-jcdp.onrender.com/api/app/'
+// export const app_api_url = 'https://node-backend-jcdp.onrender.com/api/app/'
 // export const app_api_url = 'https://10.0.2.2:8000/api/app/'
-// export const app_api_url = 'http://97.74.83.200:4000/api/app/'
+export const app_api_url = 'http://97.74.83.200:4000/api/app/'
 
 export const customer_login = 'customers/customer_login'
 export const customer_otp_verify = 'customers/customer_otp_verify'
@@ -50,6 +50,9 @@ export const banner = 'banner'
 export const get_call_invoice = 'call/get_call_invoice'
 export const get_live_call_data = 'live/get_live_call_data'
 export const send_gift_in_live_streaming = 'live/send_gift_in_live_streaming'
+export const call_banner = 'banner/call'
+export const chat_banner = 'banner/chat'
+
 
 //pooja
 export const get_pooja_category = "ecommerce/pooja/category"

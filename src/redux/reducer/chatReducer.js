@@ -1,6 +1,7 @@
 import * as actionTypes from '../actionTypes'
 
 const initialState = {
+    chatBannerData: null,
     chatRequestVisible: false,
     chatMessages: null,
     chatData: null,
@@ -21,10 +22,10 @@ const initialState = {
 const chat = (state = initialState, actions) => {
     const { type, payload } = actions
     switch (type) {
-        case actionTypes.SET_CHAT_REQUEST_VISIBLE: {
+        case actionTypes.SET_CHAT_BANNER_DATA: {
             return {
                 ...state,
-                chatRequestVisible: payload
+                chatBannerData: payload
             }
         }
         case actionTypes.SET_CHAT_MESSAGES: {

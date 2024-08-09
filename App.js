@@ -46,7 +46,7 @@ const App = ({ dispatch }) => {
 
   const checkForUpdates = () => {
     inAppUpdates
-      .checkNeedsUpdate({ curVersion: '1.0' })
+      .checkNeedsUpdate({ curVersion: '1.1.0' })
       .then(result => {
         if (result.shouldUpdate) {
           Linking.openURL(

@@ -1,12 +1,12 @@
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
-import React, {useState} from 'react';
-import {Input} from '@rneui/themed';
-import {Colors, Fonts, Sizes} from '../../../assets/styles';
+import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import React, { useState } from 'react';
+import { Input } from '@rneui/themed';
+import { Colors, Fonts, Sizes } from '../../../assets/styles';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import * as LiveActions from '../../../redux/actions/liveActions';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
-const Footer = ({dispatch}) => {
+const Footer = ({ dispatch }) => {
   const [message, setMessage] = useState('');
 
   const send = () => {
@@ -15,7 +15,7 @@ const Footer = ({dispatch}) => {
   };
 
   return (
-    <View>
+    <View style={{ flex: 0, flexDirection: 'row', alignItems: 'center' }}>
       <Input
         value={message}
         placeholder="Say Hii..."
@@ -30,56 +30,54 @@ const Footer = ({dispatch}) => {
         rightIcon={() => {
           return (
             <View
-              style={{flexDirection: 'row', height: 40, alignItems: 'center'}}>
+              style={{ flexDirection: 'row', height: 40, alignItems: 'center' }}>
               <TouchableOpacity
                 activeOpacity={0.8}
                 disabled={message.length == 0}
                 onPress={send}
-                style={{marginHorizontal: Sizes.fixPadding}}>
-                <Ionicons
-                  name="send-sharp"
-                  color={Colors.primaryLight}
-                  size={36}
-                />
+                style={{ marginHorizontal: Sizes.fixPadding, width: 28, height: 28, }}>
+                <Image source={require('../../../assets/icons/live_send.png')} style={{ width: '100%', height: '100%', resizeMode: 'contain' }} />
               </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => dispatch(LiveActions.addHeart())}
-                activeOpacity={0.8}
-                style={{
-                  width: 36,
-                  height: 36,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  borderRadius: 1000,
-                  backgroundColor: '#e86252',
-                }}>
-                <Ionicons name="heart" color={Colors.white} size={22} />
-              </TouchableOpacity>
+
             </View>
           );
         }}
       />
+      <TouchableOpacity
+        onPress={() => dispatch(LiveActions.addHeart())}
+        activeOpacity={0.8}
+        style={{
+          width: 36,
+          height: 36,
+          justifyContent: 'center',
+          alignItems: 'center',
+          borderRadius: 1000,
+        }}>
+        <Image source={require('../../../assets/icons/live_heart.png')} style={{ width: '100%', height: '100%', resizeMode: 'contain' }} />
+      </TouchableOpacity>
     </View>
   );
 };
 
-const mapDispatchToProps = dispatch => ({dispatch});
+const mapDispatchToProps = dispatch => ({ dispatch });
 
 export default connect(null, mapDispatchToProps)(Footer);
 
 const styles = StyleSheet.create({
   container: {},
   inputStyle: {
-    backgroundColor: '#2e2e2e',
-    borderRadius: 1000,
+
     ...Fonts.white14RobotoMedium,
     paddingHorizontal: Sizes.fixPadding,
   },
   containerStyle: {
     height: 60,
+    width: '85%'
   },
   inputContainerStyle: {
     borderBottomWidth: 0,
+    backgroundColor: '#2e2e2e',
+    borderRadius: 1000,
   },
   rightIconContainerStyle: {
     backgroundColor: 'transparent',

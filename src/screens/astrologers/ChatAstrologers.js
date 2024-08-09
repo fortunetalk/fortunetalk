@@ -50,7 +50,7 @@ const ChatAstrologers = ({ dispatch, tabVisible, isLoading, isRefreshing }) => {
           onScroll={onScroll}
           refreshControl={<RefreshControl refreshing={isRefreshing} onRefresh={() => dispatch(AstrologerActions.getChatCallAstrologerList({ page: 1, type: 'chat', remediesId: 'All' }))} />}
           ListHeaderComponent={<>
-            <Banner />
+            <Banner type={'chat'} />
             <AstrologersList type={'chat'} />
           </>}
         />

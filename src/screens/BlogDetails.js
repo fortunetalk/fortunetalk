@@ -8,6 +8,7 @@ import React, { useState } from 'react';
 import MyHeader from '../components/MyHeader';
 import MyStatusBar from '../components/MyStatusBar';
 import { Colors, Fonts, Sizes, SCREEN_WIDTH } from '../assets/styles';
+import HtmlView from '../components/HtmlView';
 
 const BlogDetails = ({ route }) => {
   const [blogData] = useState(route.params.blogData);
@@ -39,9 +40,10 @@ const BlogDetails = ({ route }) => {
             marginHorizontal: Sizes.fixPadding,
             marginBottom: Sizes.fixPadding * 2,
           }}>
-          <Text style={{color:Colors.black}} >
+            <HtmlView html={blogData?.description} />
+          {/* <Text style={{color:Colors.black}} >
             {blogData?.description}
-          </Text>
+          </Text> */}
         </View>
       </ScrollView>
     </View>

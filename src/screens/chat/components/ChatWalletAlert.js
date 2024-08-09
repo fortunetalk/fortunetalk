@@ -20,6 +20,7 @@ var whoosh = new Sound('low_balance.mp4', Sound.MAIN_BUNDLE, error => {
 whoosh.setNumberOfLoops(0);
 
 const ChatWalletAlert = ({ chatWalletAlert, dispatch }) => {
+    console.log('hii')
     useEffect(() => {
         if (chatWalletAlert?.visible) {
             whoosh.play(success => {

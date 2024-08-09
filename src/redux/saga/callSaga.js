@@ -11,12 +11,12 @@ function* sendCallRequest(actions) {
         const { navigation, astrologerId, astrologerName } = actions.payload
         const customerData = yield select(state => state.customer.customerData)
         const isRegistered = yield isUserRegistered(customerData)
-        if(!isRegistered){
+        if (!isRegistered) {
             navigate('profile')
             yield put({ type: actionTypes.SET_IS_LOADING, payload: false })
             return
         }
-        yield put({type: actionTypes.SET_IS_LOADING, payload: true})
+        yield put({ type: actionTypes.SET_IS_LOADING, payload: true })
         const response = yield postRequest({
             url: app_api_url + initiate_zego_call,
             data: {
@@ -29,15 +29,18 @@ function* sendCallRequest(actions) {
             const callTo = [{ userID: astrologerId, userName: astrologerName ?? 'Astrologer', }]
             yield call(sendCallInvitation, { navigation, callTo, customData: response?.data?.transactionId })
         } else {
+            if (response?.message == 'Insufficent Balance') {
+                yield put({ type: actionTypes.SET_WALLET_ALERT_VISIBLE, payload: { visible: true, visibleFor: 'wallet_recharge' } })
+            }
             showToastMessage({ message: response?.message })
         }
 
-        yield put({type: actionTypes.SET_IS_LOADING, payload: false})
+        yield put({ type: actionTypes.SET_IS_LOADING, payload: false })
 
 
     } catch (e) {
         console.log(e)
-        yield put({type: actionTypes.SET_IS_LOADING, payload: false})
+        yield put({ type: actionTypes.SET_IS_LOADING, payload: false })
     }
 }
 
@@ -51,8 +54,6 @@ function* getCallInvoiceData(actions) {
                 callId: payload?.callId
             }
         })
-
-        console.log(response)
 
         if (response?.success) {
             yield put({ type: actionTypes.SET_CALL_INVOICE_DATA, payload: { visible: true, data: response?.data } })

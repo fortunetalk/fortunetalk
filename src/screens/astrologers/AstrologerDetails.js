@@ -20,7 +20,7 @@ const AstrologerDetails = ({ navigation, dispatch, isLoading, route, astrologerD
     useEffect(() => {
         dispatch(AstrologerActions.getAstrologerDetails(route?.params?._id))
         dispatch(AstrologerActions.checkFollowStatus(route?.params?._id))
-        dispatch(AstrologerActions.getAstrologerReviews({astrologerId: route?.params?._id, page: 1, limit: 10}))
+        dispatch(AstrologerActions.getAstrologerReviews({ astrologerId: route?.params?._id, page: 1, limit: 10 }))
         return () => {
             dispatch(AstrologerActions.setAstrologerDetails(null))
             dispatch(AstrologerActions.setAstrologerReviews(null))
@@ -74,20 +74,26 @@ const AstrologerDetails = ({ navigation, dispatch, isLoading, route, astrologerD
             dispatch(ChatActions.sendChatRequest(payload))
         }
 
-        const getChatPrice = ()=>{
-            if(astrologerData){
-                if(astrologerData?.chatCallOffer){
-                    return (astrologerData?.chatPrice + astrologerData?.companyChatPrice) - (astrologerData?.chatCallOffer?.discount * (astrologerData?.chatPrice + astrologerData?.companyChatPrice)/100);
+        const getStatusColor = (status) => {
+            if (status === 'Online') return Colors.green_a
+            else if (status === 'Offline') return Colors.gray
+            else if (status === 'Busy') return 'red'
+        }
+
+        const getChatPrice = () => {
+            if (astrologerData) {
+                if (astrologerData?.chatCallOffer) {
+                    return (astrologerData?.chatPrice + astrologerData?.companyChatPrice) - (astrologerData?.chatCallOffer?.discount * (astrologerData?.chatPrice + astrologerData?.companyChatPrice) / 100);
                 }
                 return astrologerData?.chatPrice + astrologerData?.companyChatPrice;
             }
             return 0
         }
 
-        const getCallPrice = ()=>{
-            if(astrologerData){
-                if(astrologerData?.chatCallOffer){
-                    return (astrologerData?.callPrice + astrologerData?.companyCallPrice) - (astrologerData?.chatCallOffer?.discount * (astrologerData?.callPrice + astrologerData?.companyCallPrice)/100);
+        const getCallPrice = () => {
+            if (astrologerData) {
+                if (astrologerData?.chatCallOffer) {
+                    return (astrologerData?.callPrice + astrologerData?.companyCallPrice) - (astrologerData?.chatCallOffer?.discount * (astrologerData?.callPrice + astrologerData?.companyCallPrice) / 100);
                 }
                 return astrologerData?.callPrice + astrologerData?.companyCallPrice;
             }
@@ -103,49 +109,29 @@ const AstrologerDetails = ({ navigation, dispatch, isLoading, route, astrologerD
                 <TouchableOpacity
                     onPress={on_chat}
                     activeOpacity={0.8}
-                    style={{ width: '45%', overflow: 'hidden' }}>
-                    <LinearGradient
-                        colors={[Colors.primaryLight, Colors.primaryDark]}
-                        style={[
-                            styles.row,
-                            styles.center,
-                            {
-                                width: '100%',
-                                paddingVertical: Sizes.fixPadding * 0.5,
-                                borderRadius: Sizes.fixPadding * 1.5,
-                            },
-                        ]}>
-                        <Ionicons
-                            name="chatbubble-ellipses-outline"
-                            color={Colors.white}
-                            size={22}
-                        />
-                        <Text
-                            style={{
-                                ...Fonts.white14RobotoMedium,
-                                marginLeft: Sizes.fixPadding,
-                            }}>
-                            Chat @ {showNumber(getChatPrice())}/min
-                        </Text>
-                    </LinearGradient>
+                    style={[{ width: '45%', overflow: 'hidden', borderRadius: 100, paddingVertical: Sizes.fixPadding * 0.4, backgroundColor: getStatusColor(astrologerData?.chatStatus) }, styles.row,
+                    styles.center,]}>
+                    <Ionicons
+                        name="chatbubble-ellipses-outline"
+                        color={Colors.white}
+                        size={22}
+                    />
+                    <Text
+                        style={{
+                            ...Fonts.white14RobotoMedium,
+                            marginLeft: Sizes.fixPadding,
+                        }}>
+                        Chat @ {showNumber(getChatPrice())}/min
+                    </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                     onPress={on_call}
-                    style={[
-                        styles.row,
-                        styles.center,
-                        {
-                            borderWidth: 2,
-                            width: '45%',
-                            borderRadius: Sizes.fixPadding * 1.5,
-                            paddingVertical: Sizes.fixPadding * 0.4,
-                            borderColor: Colors.primaryDark,
-                        },
-                    ]}>
-                    <Feather name="phone-call" color={Colors.primaryLight} size={20} />
+                    style={[{ width: '45%', overflow: 'hidden', borderRadius: 100, paddingVertical: Sizes.fixPadding * 0.5, backgroundColor: getStatusColor(astrologerData?.callStatus) }, styles.row,
+                    styles.center,]}>
+                    <Feather name="phone-call" color={Colors.white} size={20} />
                     <Text
                         style={{
-                            ...Fonts.primaryLight14RobotoMedium,
+                            ...Fonts.white14RobotoMedium,
                             marginLeft: Sizes.fixPadding,
                         }}>
                         Call @ {showNumber(getCallPrice())}/min

@@ -6,11 +6,12 @@ import MyHeader from '../../components/MyHeader'
 import HistoryTab from './components/HistoryTab'
 import LinearGradient from 'react-native-linear-gradient'
 import * as HistoryActions from '../../redux/actions/historyActions'
+import * as CallActions from '../../redux/actions/callActions'
 import { connect } from 'react-redux'
 import moment from 'moment'
 import { secondsToHMS, showNumber } from '../../utils/services'
 
-const CallHistory = ({ route, callHistory, dispatch }) => {
+const CallHistory = ({ route, callHistory, dispatch, navigation }) => {
 
     useEffect(() => {
         dispatch(HistoryActions.getCallHistory())
@@ -33,6 +34,17 @@ const CallHistory = ({ route, callHistory, dispatch }) => {
     )
 
     function historyInfo() {
+
+        const onCall = (item) => {
+            const payload = {
+                navigation,
+                astrologerId: item?.astrologerId?._id,
+                astrologerName: item?.astrologerId?.name,
+
+            }
+            dispatch(CallActions.sendCallRequest(payload))
+        }
+
         const renderItem = ({ item, index }) => {
             return (
                 <View style={{ backgroundColor: Colors.grayL, marginBottom: Sizes.fixPadding, padding: Sizes.fixPadding, borderRadius: Sizes.fixPadding, elevation: 5, shadowColor: Colors.blackLight }}>
@@ -42,7 +54,7 @@ const CallHistory = ({ route, callHistory, dispatch }) => {
                             <Text style={{ ...Fonts._13InterMedium, color: Colors.grayN, marginBottom: Sizes.fixPadding }}>{moment(item?.createdAt).format('DD MMM YY, hh:mm A')}</Text>
                             <Text style={{ ...Fonts._15InterMedium, color: Colors.grayN, textTransform: 'uppercase' }}>#{item?.transactionId}</Text>
                         </View>
-                        <TouchableOpacity>
+                        <TouchableOpacity activeOpacity={0.8} onPress={()=>onCall(item)}>
                             <LinearGradient colors={[Colors.primaryLight, Colors.primaryDark]} style={{ paddingHorizontal: Sizes.fixPadding * 1.5, paddingVertical: Sizes.fixPadding * 0.5, borderRadius: 1000 }} >
                                 <Text style={{ ...Fonts._11RobotoMedium, color: Colors.white, fontSize: 12 }}>Call Again</Text>
                             </LinearGradient>
@@ -51,7 +63,7 @@ const CallHistory = ({ route, callHistory, dispatch }) => {
 
                     <View style={{ flexDirection: "row", alignItems: "center", gap: 5 }} >
                         <Text style={{ ...Fonts._13InterMedium, color: Colors.black, }}>Deducted Amount:</Text>
-                        <Text style={{ ...Fonts._15InterMedium, color: Colors.black }}>{showNumber(item?.deductedAmount ?? 0) }</Text>
+                        <Text style={{ ...Fonts._15InterMedium, color: Colors.black }}>{showNumber(item?.deductedAmount ?? 0)}</Text>
                     </View>
                 </View>
             )

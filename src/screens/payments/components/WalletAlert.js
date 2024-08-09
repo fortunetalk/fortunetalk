@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Modal } from 'react-native-paper'
 import { Colors, Fonts, SCREEN_HEIGHT, SCREEN_WIDTH, Sizes } from '../../../assets/styles'
 import { BlurView } from '@react-native-community/blur'
@@ -8,9 +8,41 @@ import LinearGradient from 'react-native-linear-gradient'
 import * as AstrologerActions from '../../../redux/actions/astrologerActions'
 import { connect } from 'react-redux'
 import { navigate } from '../../../utils/navigationServices'
+var Sound = require('react-native-sound');
+
+var whoosh = new Sound('low_balance.mp4', Sound.MAIN_BUNDLE, error => {
+  if (error) {
+      console.log('failed to load the sound', error);
+      return;
+  }
+});
+
+whoosh.setNumberOfLoops(-1);
 
 const WalletAlert = ({ dispatch, walletAlertVisible }) => {
   const [showBlur, setShowBlur] = useState(true);
+
+  useEffect(()=>{
+    try{
+    
+      if (walletAlertVisible?.visible && walletAlertVisible?.visibleFor === 'chat_wallet_recharge') {
+        console.log('hii');
+        whoosh.play(success => {
+            if (success) {
+                console.log('successfully finished playing');
+            } else {
+                console.log('playback failed due to audio decoding errors');
+            }
+        });
+    }
+    }catch(e){
+      console.log(e)
+    }
+    return ()=>{
+      whoosh.stop()
+    }
+  }, [walletAlertVisible?.visible, walletAlertVisible])
+
   const onRecharge = () => {
     setShowBlur(false);
     navigate('wallet', { type: walletAlertVisible?.visibleFor })

@@ -41,42 +41,54 @@ const Header = ({ roomUserCount, dispatch, coHostData, astroData, customerData }
             style={{ width: '100%', height: '100%', borderRadius: 100 }}
           />
         </View>}
+        <View style={{ marginLeft: Sizes.fixPadding }}>
+          <Text
+            numberOfLines={2}
+            style={{
+              ...Fonts._13InterSemiBold,
+              color: Colors.white,
+              fontSize: 12,
+            }}>
+            {astroData?.name}
+          </Text>
+          <View style={styles.countContainer}>
+          <Text
+            numberOfLines={2}
+            style={{
+              ...Fonts._13InterSemiBold,
+              color: Colors.white,
+              fontSize: 12,
+            }}>
+            {coHostData ? `${coHostData?.userName}` : null}
+          </Text>
+          <View style={styles.countContainer}>
+            <Ionicons name="eye-outline" color={Colors.white} size={14} />
+            <Text
+              style={{
+                ...Fonts.white12RobotoMedium,
+                marginHorizontal: Sizes.fixPadding * 0.2,
+              }}>
+              {roomUserCount}
+            </Text>
+          </View>
+          </View>
+   
+        </View>
 
-        <Text
-          numberOfLines={2}
-          style={{
-            ...Fonts.black14InterMedium,
-            fontSize: 9,
-            flex: 1,
-            marginLeft: Sizes.fixPadding * 0.5,
-          }}>
-          {coHostData ? `${astroData?.name}\n&${coHostData?.userName}` : astroData?.name}
-
-        </Text>
         {duration && <CallTimer totalDuration={duration} />}
         <View style={styles.liveIndicator} />
       </View>
       <View style={styles.col2}>
-        <View style={styles.countContainer}>
-          <Ionicons name="eye-outline" color={Colors.white} size={16} />
-          <Text
-            style={{
-              ...Fonts.white12RobotoMedium,
-              marginHorizontal: Sizes.fixPadding * 0.2,
-            }}>
-            {roomUserCount}
-          </Text>
-        </View>
         <TouchableOpacity
           onPress={() => {
             Alert.alert('Are you sure!', 'You want to leave?', [
               { text: 'Cancel', style: 'cancel' },
               {
-                  text: 'Yes',
-                  style: 'destructive',
-                  onPress: () => goBack()
+                text: 'Yes',
+                style: 'destructive',
+                onPress: () => goBack()
               }
-          ])
+            ])
           }}
           activeOpacity={0.8}
           style={[styles.countContainer,
@@ -119,12 +131,11 @@ const styles = StyleSheet.create({
     margin: Sizes.fixPadding,
   },
   col1: {
-    flex: 0.4,
+    flex: 0.5,
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: Colors.white,
-    paddingVertical: Sizes.fixPadding * 0.5,
-    paddingHorizontal: Sizes.fixPadding * 0.5,
+    backgroundColor: Colors.gray + '80',
+    // paddingHorizontal: Sizes.fixPadding * 0.5,
     borderRadius: 10000,
   },
   col2: {
@@ -135,11 +146,11 @@ const styles = StyleSheet.create({
   },
 
   imageContainer: {
-    width: 30,
-    height: 30,
+    width: 34,
+    height: 34,
     borderRadius: 1000,
-    borderWidth: 1,
-    borderColor: Colors.primaryLight,
+    borderWidth: 2,
+    borderColor: Colors.white,
   },
   coHostImageContainer: {
     width: 20,
@@ -162,10 +173,6 @@ const styles = StyleSheet.create({
   },
   followContainer: {},
   countContainer: {
-    backgroundColor: Colors.primaryLight,
     flexDirection: 'row',
-    paddingVertical: Sizes.fixPadding * 0.5,
-    paddingHorizontal: Sizes.fixPadding * 0.7,
-    borderRadius: 1000,
   },
 });

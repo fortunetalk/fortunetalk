@@ -1,7 +1,7 @@
 import { put, select, takeLeading } from 'redux-saga/effects'
 import * as actionTypes from '../actionTypes'
 import { getRequest, postRequest } from '../../utils/apiRequests'
-import { app_api_url, astrologer_rating, check_customer_following, follow_astrologer, get_astrologer_details, get_astrologer_list_for_chat_call, get_astrologer_offers, get_astrologer_remedies, get_astrologer_reviews, get_astrologer_skills, search_astrolgoer_for_chat_call } from '../../config/constants'
+import { app_api_url, astrologer_rating, call_banner, chat_banner, check_customer_following, follow_astrologer, get_astrologer_details, get_astrologer_list_for_chat_call, get_astrologer_offers, get_astrologer_remedies, get_astrologer_reviews, get_astrologer_skills, search_astrolgoer_for_chat_call } from '../../config/constants'
 import { resetToScreen } from '../../utils/navigationServices'
 import { showToastMessage } from '../../utils/services'
 
@@ -18,6 +18,8 @@ function* getAstrologerChatCallList(actions) {
         const remediesData = yield select(state => state.astrologer.remediesData)
         const astrologerFilters = yield select(state => state.astrologer.astrologerFilters)
         const activeRemedies = yield select(state => state.astrologer.activeRemedies)
+        const chatBannerData = yield select(state => state.chat.chatBannerData)
+        const callBannerData = yield select(state => state.call.callBannerData)
 
         if (!remediesData) {
             const response = yield getRequest({
@@ -59,6 +61,9 @@ function* getAstrologerChatCallList(actions) {
             }
         }
 
+        yield put({ type: actionTypes.SET_IS_LOADING_MORE, payload: false })
+        yield put({ type: actionTypes.SET_IS_REFRECING, payload: false })
+
         if (!skillData) {
             const response = yield getRequest({
                 url: app_api_url + get_astrologer_skills,
@@ -81,9 +86,27 @@ function* getAstrologerChatCallList(actions) {
 
         }
 
+        if (!callBannerData) {
+            const response = yield getRequest({
+                url: app_api_url + call_banner,
+            })
+
+            if (response?.success) {
+                yield put({ type: actionTypes.SET_CALL_BANNER_DATA, payload: response?.data })
+            }
+        }
+        if (!chatBannerData) {
+            const response = yield getRequest({
+                url: app_api_url + chat_banner,
+            })
+
+            if (response?.success) {
+                yield put({ type: actionTypes.SET_CHAT_BANNER_DATA, payload: response?.data })
+            }
+        }
+
         yield put({ type: actionTypes.SET_IS_LOADING, payload: false })
-        yield put({ type: actionTypes.SET_IS_LOADING_MORE, payload: false })
-        yield put({ type: actionTypes.SET_IS_REFRECING, payload: false })
+
     } catch (e) {
         yield put({ type: actionTypes.SET_IS_LOADING, payload: false })
         yield put({ type: actionTypes.SET_IS_LOADING_MORE, payload: false })

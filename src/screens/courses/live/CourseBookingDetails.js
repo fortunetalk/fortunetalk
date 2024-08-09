@@ -29,7 +29,6 @@ const CourseBookingDetails = ({ navigation, route, dispatch, isLoading }) => {
   });
 
   const { successVisible, paymentData, gstAmount, totalAmount, halfAmount, withDiscount } = state;
-  console.log("payment data ======>>>>", paymentData)
 
   useEffect(() => {
     if (paymentData?.liveClassId?.price) {
@@ -47,9 +46,6 @@ const CourseBookingDetails = ({ navigation, route, dispatch, isLoading }) => {
       }));
     }
   }, [paymentData]);
-
-  // console.log("half_amount ===>>>" , half_amount())
-  // console.log("total_amount ===>>>" , total_amount())
 
   const updateState = data => {
     setState(prevState => {

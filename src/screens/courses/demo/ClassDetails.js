@@ -5,18 +5,28 @@ import {
   TouchableOpacity,
   Linking,
 } from 'react-native';
-import React from 'react';
+import moment from 'moment';
+import { connect } from 'react-redux';
+import React, { useEffect } from 'react';
 import MyHeader from '../../../components/MyHeader';
 import Video from '../../../components/Courses/Video';
-import { Colors, Fonts, Sizes } from '../../../assets/styles';
 import LinearGradient from 'react-native-linear-gradient';
-import moment from 'moment';
+import { Colors, Fonts, Sizes } from '../../../assets/styles';
+import * as CourseActions from '../../../redux/actions/courseActions'
 
-const ClassDetails = ({ route }) => {
+const ClassDetails = ({ route, singleDemoClass, customerData, dispatch }) => {
   const previousPagedata = route.params
+
   const currentDate = moment().format('YYYY-MM-DD');
-  const classDate = moment(previousPagedata.class.date).format('YYYY-MM-DD');
+  const classDate = moment(singleDemoClass?.date).format('YYYY-MM-DD');
   const isToday = currentDate === classDate;
+
+  useEffect(() => {
+    dispatch(CourseActions.onGetSingleDemoClass({
+      classId: previousPagedata.id,
+    }))
+  }, [])
+
   return (
     <View
       style={{
@@ -27,14 +37,14 @@ const ClassDetails = ({ route }) => {
       <FlatList
         ListHeaderComponent={
           <>
-            <Video uri={previousPagedata.class?.video} />
+            <Video uri={singleDemoClass?.video} />
             <View
               style={{
                 marginHorizontal: Sizes.fixPadding * 2,
                 marginTop: Sizes.fixPadding * 0.5,
               }}>
               <Text style={{ ...Fonts.black16RobotoRegular }}>
-                {previousPagedata.class?.className}
+                {singleDemoClass?.className}
               </Text>
             </View>
             <View
@@ -43,7 +53,7 @@ const ClassDetails = ({ route }) => {
                 marginTop: Sizes.fixPadding * 0.5,
               }}>
               <Text style={{ ...Fonts.gray12RobotoRegular }}>
-                {previousPagedata.class?.description}
+                {singleDemoClass?.description}
               </Text>
             </View>
             {classInfo()}
@@ -66,7 +76,7 @@ const ClassDetails = ({ route }) => {
             ...Fonts.gray12RobotoMedium,
             flex: 1,
           }}>
-          {previousPagedata.class.courseContent}
+          {singleDemoClass.courseContent}
         </Text>
       </View>
     );
@@ -76,7 +86,7 @@ const ClassDetails = ({ route }) => {
     return (
       <TouchableOpacity
         activeOpacity={0.8}
-        onPress={() => Linking.openURL(previousPagedata.class?.googleMeet)}
+        onPress={() => Linking.openURL(singleDemoClass?.googleMeet)}
         style={{ marginVertical: Sizes.fixPadding }}
         disabled={!isToday}
       >
@@ -92,4 +102,12 @@ const ClassDetails = ({ route }) => {
   }
 }
 
-export default ClassDetails
+const mapStateToProps = state => ({
+  isLoading: state.settings.isLoading,
+  customerData: state.customer.customerData,
+  singleDemoClass: state.courses.singleDemoClass
+})
+
+const mapDispatchToProps = dispatch => ({ dispatch })
+
+export default connect(mapStateToProps, mapDispatchToProps)(ClassDetails)

@@ -1,8 +1,8 @@
 export const base_url = 'http://97.74.83.200:4000/'
 // export const app_api_url = 'http://97.74.83.200:4000/api/app/customers/'
-// export const app_api_url = 'https://node-backend-jcdp.onrender.com/api/app/'
+export const app_api_url = 'https://node-backend-jcdp.onrender.com/api/app/'
 // export const app_api_url = 'https://10.0.2.2:8000/api/app/'
-export const app_api_url = 'http://97.74.83.200:4000/api/app/'
+// export const app_api_url = 'http://97.74.83.200:4000/api/app/'
 
 export const customer_login = 'customers/customer_login'
 export const customer_otp_verify = 'customers/customer_otp_verify'
@@ -91,12 +91,11 @@ export const get_cart_details = "ecommerce/product/get-cart"
 // product
 export const get_product_details_banner = "banner/product-category-detail"
 export const get_product_category_banner = "banner/product-category"
-
 export const get_product_history = "ecommerce/product/order-by-customer"
 export const get_course_history = "live/get_live_course_history"
-
 export const get_product_category = "ecommerce/product/category"
 export const get_product_category_waise = "ecommerce/product/category/"
+export const add_product_customer_address = "ecommerce/product/category/"
 
 
 export const google_map_key = 'AIzaSyBjKP15Z_-tCf5EYm5PBbgZPe4yKaRqoFQ';

@@ -1,11 +1,11 @@
-import { View, Text, Image } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import { View } from 'react-native'
+import { connect } from 'react-redux'
+import React, { useEffect } from 'react'
+import { Colors } from '../assets/styles'
+import LottieView from "lottie-react-native";
 import MyStatusBar from '../components/MyStatusBar'
 import LinearGradient from 'react-native-linear-gradient'
-import { Colors, SCREEN_WIDTH } from '../assets/styles'
-import { connect } from 'react-redux'
 import * as SettingActions from '../redux/actions/settingActions'
-import LottieView from "lottie-react-native";
 
 const Splash = ({ dispatch }) => {
     useEffect(() => {

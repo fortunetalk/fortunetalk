@@ -23,8 +23,8 @@ const CourseDetails = ({
     const astrologerId = previousPagedata.classdetails?.astrologerId?._id
 
     const [state, setState] = useState({
-        name: "",
-        phoneNumber: "",
+        name: customerData?.customerName,
+        phoneNumber: customerData?.phoneNumber,
         modalVisible: false,
     })
     const { name, phoneNumber, modalVisible } = state
@@ -87,6 +87,7 @@ const CourseDetails = ({
                     demoClassId: classId,
                     courseId,
                     customerId,
+                    navigateUrl: "classOverview"
                 }))
             } else if (previousPagedata.title == "Live") {
                 dispatch(CourseActions.onRegisterLiveClass({

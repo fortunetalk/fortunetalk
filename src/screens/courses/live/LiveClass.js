@@ -106,13 +106,7 @@ const LiveClassItem = ({ item, courseData }) => {
                 source={{ uri: item?.image }}
             >
                 <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
-                    <Text style={{ color: Colors.white, paddingLeft: 10, flex: 1 }}>{item?.className}</Text>
-                    <LinearGradient
-                        colors={["#FFFFFF", "#D9D9D9"]}
-                        style={{ backgroundColor: Colors.white, borderBottomLeftRadius: 100, width: 55, height: 45 }}
-                    >
-                        <Text style={{ paddingTop: 10, paddingLeft: 20 }} >Info</Text>
-                    </LinearGradient>
+                    <Text style={{ color: Colors.white, paddingLeft: 10, flex: 1, fontWeight:"700" }}>{item?.className}</Text>
                 </View>
             </ImageBackground>
 

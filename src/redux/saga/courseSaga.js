@@ -174,17 +174,24 @@ function* bookDemoClass(actions) {
         yield put({ type: actionTypes.SET_IS_LOADING, payload: true })
         const { payload } = actions
 
-        // console.log("payload  =====>>>>", payload)
+        console.log("payload  =====>>>>", payload)
 
         const response = yield postRequest({
             url: app_api_url + book_demo_class,
-            data: payload
+            data: {
+                customerName: payload.customerName,
+                mobileNumber: payload.mobileNumber,
+                astrologerId: payload.astrologerId,
+                demoClassId: payload.demoClassId,
+                courseId: payload.courseId,
+                customerId: payload.customerId,
+            }
         })
 
         if (response?.success) {
             yield put({ type: actionTypes.BOOKED_DEMO_CLASS, payload: response?.data })
             yield call(showToastMessage, { message: "Class Registered Successfully" })
-            navigate("classOverview", {
+            navigate(payload.navigateUrl, {
                 id: response?.data?.demoClassId,
                 title: "Demo",
                 isRegister: false

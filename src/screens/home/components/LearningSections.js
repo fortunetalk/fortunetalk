@@ -10,9 +10,9 @@ const LearningSections = ({ allDemoClass }) => {
       <TouchableOpacity
         activeOpacity={0.8}
         onPress={() => navigate("classOverview", {
-          classData: item,
+          id: item?._id,
           title: "Demo",
-          isRegister:true
+          isRegister: true
         })}
         style={{
           width: SCREEN_WIDTH * 0.55,

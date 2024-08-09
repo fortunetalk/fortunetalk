@@ -17,6 +17,7 @@ import * as CallActions from '../../redux/actions/callActions'
 import * as ChatActions from '../../redux/actions/chatActions'
 
 const AstrologerDetails = ({ navigation, dispatch, isLoading, route, astrologerData, isFollow }) => {
+    
     useEffect(() => {
         dispatch(AstrologerActions.getAstrologerDetails(route?.params?._id))
         dispatch(AstrologerActions.checkFollowStatus(route?.params?._id))

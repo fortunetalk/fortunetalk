@@ -12,23 +12,27 @@ import MyHeader from '../../components/MyHeader';
 import CourseRegistration from './CourseRegistration';
 import Video from '../../components/Courses/Video';
 import { classifyTimeNoon } from '../../utils/tools';
+import MyStatusBar from '../../components/MyStatusBar';
 import { navigate } from '../../utils/navigationServices';
 import { Colors, Fonts, Sizes } from '../../assets/styles';
 import * as CourseActions from '../../redux/actions/courseActions'
-import MyStatusBar from '../../components/MyStatusBar';
+import Loader from '../../components/Loader';
 
 const ClassOverview = ({
   route,
   customerData,
   demoClassBooked,
   dispatch,
-  singleDemoClass
+  singleDemoClass,
+  isLoading
 }) => {
   const previousPagedata = route.params
 
+  console.log("singleDemoClass =========>>>>", singleDemoClass)
+
   const [state, setState] = useState({
-    name: "",
-    phoneNumber: "",
+    name: customerData?.customerName,
+    phoneNumber: customerData?.phoneNumber,
     modalVisible: false,
   })
   const { name, phoneNumber, modalVisible } = state
@@ -56,13 +60,13 @@ const ClassOverview = ({
         updateState({ modalVisible: true })
       } else {
         navigate("classDetails", {
-          class: singleDemoClass,
+          id: singleDemoClass?._id,
           title: previousPagedata.title,
         })
       }
     } else {
       navigate("classDetails", {
-        class: singleDemoClass,
+        id: singleDemoClass?._id,
         title: previousPagedata.title,
       })
     }
@@ -82,13 +86,9 @@ const ClassOverview = ({
           demoClassId: singleDemoClass?._id,
           courseId: singleDemoClass?.courseId?._id,
           customerId: customerData?._id,
+          navigateUrl: "classDetails"
         }))
       }
-      navigate("classDetails", {
-        class: singleDemoClass,
-        title: previousPagedata?.title,
-      })
-      updateState({ modalVisible: false })
     }
   };
 
@@ -102,6 +102,7 @@ const ClassOverview = ({
         backgroundColor={Colors.primaryLight}
         barStyle={'light-content'}
       />
+      <Loader visible={isLoading} />
       <MyHeader title={`Demo Class`} />
       {singleDemoClass && <FlatList
         ListHeaderComponent={

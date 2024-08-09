@@ -39,3 +39,8 @@ export const onProductPayment = payload => ({
     type: actionTypes.PRODUCT_PAYMENT,
     payload
 })
+
+export const onProductAddressAdd = payload => ({
+    type: actionTypes.PRODUCT_CUSTOMER_ADD_ADDRESS,
+    payload
+})
